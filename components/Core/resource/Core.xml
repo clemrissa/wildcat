@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context>
+  <dll path="Core"/>
+  <beans>
+    <bean name="Core.MainWindow" class="Geo::Core::Private::BasicMainWindow">
+      <method name="toBottomDock"/>
+    </bean>
+  </beans>
+</context>

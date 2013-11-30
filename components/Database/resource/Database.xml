@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context>
+  <dll path="Database"/>
+  <beans>
+    <call bean="Core.MainWindow" method="toBottomDock">
+      <bean name="Database.ConnectionListView"/>
+    </call>
+
+    <bean name="Database.ConnectionListModel" class="Geo::Database::Private::ConnectionListModel">
+      <bean name="Core.MainWindow"/>
+    </bean>
+
+    <bean name="Database.ConnectionListView" bean="Database.DatabaseUiFactory" method="createConnectionListView">
+      <bean name="Database.ConnectionListModel"/>
+    </bean>
+
+    <bean name="Database.DatabaseUiFactory" class="Geo::Database::Private::DatabaseUiFactory">
+      <method name="createConnectionListView" type="factory"/>
+    </bean>
+  </beans>
+</context>

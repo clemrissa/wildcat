@@ -1,0 +1,55 @@
+/*
+/*/
+!cmake
+!components
+!CMakeLists.txt
+
+~*
+*~
+.*
+
+!.gitignore
+!.uncrustify
+
+# Archives
+*.7z
+*.zip
+*.tar.*
+
+# Executables
+*.exe
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.pyd
+*.dll
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Python
+*.py[cod]
+
+# CMake
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+# Logging
+*.log
+
+# Database Files
+*.db
+
+# PDFs
+*.pdf
