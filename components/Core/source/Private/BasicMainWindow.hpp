@@ -5,11 +5,12 @@
 
 #include <QDockWidget>
 
+class QMdiArea;
+
 namespace Geo {
 namespace Core {
 namespace Private {
-class BasicMainWindow: public Geo::Core::MainWindow
-{
+class BasicMainWindow : public Geo::Core::MainWindow {
   Q_OBJECT
 
 public:
@@ -28,8 +29,11 @@ public:
   Q_INVOKABLE void
   toRightDock(QDockWidget* dockWidget);
 
-  // private:
-  // QDockWidget* _bottomDockWidget;
+  Q_INVOKABLE void
+  toCentralWidget(QWidget* widget);
+
+private:
+  QMdiArea* _mdiArea;
 };
 }
 }
