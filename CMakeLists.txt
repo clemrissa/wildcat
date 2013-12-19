@@ -148,6 +148,7 @@ set(Boost_USE_MULTITHREADED  ON)
 add_subdirectory("${CMAKE_SOURCE_DIR}/components/Domain" ./Domain)
 add_subdirectory("${CMAKE_SOURCE_DIR}/components/Core" ./Core)
 add_subdirectory("${CMAKE_SOURCE_DIR}/components/Database" ./Database)
+add_subdirectory("${CMAKE_SOURCE_DIR}/components/LogViewer" ./LogViewer)
 add_subdirectory("${CMAKE_SOURCE_DIR}/components/Application" ./Application)
 # ==============================================================================
 # }}} Components

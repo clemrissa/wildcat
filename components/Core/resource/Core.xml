@@ -4,6 +4,9 @@
   <beans>
     <bean name="Core.MainWindow" class="Geo::Core::Private::BasicMainWindow">
       <method name="toBottomDock"/>
+      <method name="toLeftDock"/>
+      <method name="toRightDock"/>
+      <method name="toCentralWidget"/>
     </bean>
   </beans>
 </context>

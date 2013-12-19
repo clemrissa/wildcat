@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context>
+  <dll path="LogViewer"/>
+  <beans>
+    <call bean="Core.MainWindow" method="toCentralWidget">
+      <bean name="LogViewer.Widget"/>
+    </call>
+
+    <!--<bean name="LogViewer.ConnectionListModel" class="Geo::LogViewer::Private::ConnectionListModel">-->
+      <!--<bean name="Core.MainWindow"/>-->
+    <!--</bean>-->
+
+    <bean name="LogViewer.Widget" bean="LogViewer.LogViewerWidgetFactory" method="createLogViewerWidget">
+      <!--<bean name="LogViewer.ConnectionListModel"/>-->
+    </bean>
+
+    <bean name="LogViewer.LogViewerWidgetFactory" class="Geo::LogViewer::LogViewerWidgetFactory">
+      <method name="createLogViewerWidget" type="factory"/>
+    </bean>
+  </beans>
+</context>
