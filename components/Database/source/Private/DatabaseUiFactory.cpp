@@ -23,7 +23,8 @@ DatabaseUiFactory::
 createConnectionListView(QObject* value) const {
   qmlRegisterType<Connection>("Connection", 1, 0, "Connection");
 
-  QQuickView*  view    = new QQuickView();
+  QQuickView* view = new
+                     QQuickView();
   QQmlContext* context = view->engine()->rootContext();
 
   context->setContextProperty("ConnectionListModel", value);
@@ -35,8 +36,10 @@ createConnectionListView(QObject* value) const {
 
   QWidget* widget = QWidget::createWindowContainer(view);
   widget->setFocusPolicy(Qt::TabFocus);
+  widget->setMinimumSize(200, 200);
 
-  auto dockWidget = new QDockWidget(tr("Database Connections"));
+  auto dockWidget = new
+                    QDockWidget(tr("Database Connections"));
   dockWidget->setWidget(widget);
 
   return dockWidget;
