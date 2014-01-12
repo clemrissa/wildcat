@@ -18,10 +18,7 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       DependencyManager
                       Core
                       Database
-                      ${GTEST_LIBRARY})
-
-message("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-message(${GTEST_LIBRARY})
+                      GTest)
 
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_DIR}/source")
 target_include_directories(${TARGET_NAME} PUBLIC ${GTEST_INCLUDE_DIR})
