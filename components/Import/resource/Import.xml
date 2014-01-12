@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context>
+  <dll path="Import"/>
+  <beans>
+    <call bean="Core.MainWindow" method="toCentralWidget">
+      <bean name="Import.ImportDialog"/>
+    </call>
+
+    <bean name="Import.ImportDialog" class="Geo::Import::ImportDialog">
+      <!--<bean name="Core.MainWindow"/>-->
+    </bean>
+  </beans>
+</context>
