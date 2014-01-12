@@ -16,8 +16,8 @@ add_library(${TARGET_NAME} SHARED ${CPP_FILES})
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
 target_link_libraries(${TARGET_NAME} PRIVATE
-  Uni
-  DependencyManager)
+                      Uni
+                      DependencyManager)
 
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")

@@ -14,10 +14,10 @@ file(GLOB_RECURSE CPP_FILES source/*.cpp)
 add_executable(${TARGET_NAME} ${CPP_FILES})
 
 target_link_libraries(${TARGET_NAME} PRIVATE
-  Uni
-  DependencyManager
-  Core
-  Database)
+                      Uni
+                      DependencyManager
+                      Core
+                      Database)
 
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_DIR}/source")
 

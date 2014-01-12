@@ -16,15 +16,15 @@ add_library(${TARGET_NAME} SHARED ${CPP_FILES})
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
 target_link_libraries(${TARGET_NAME} PRIVATE
-  Uni
-  DependencyManager
-  Domain)
+                      Uni
+                      DependencyManager
+                      Domain)
 
 target_link_libraries(${TARGET_NAME} PUBLIC
-  ${SQLITE_LIBRARY}
-  ${ODB_LIBRARY}
-  ${ODBSQLITE_LIBRARY}
-  ${ODBQT_LIBRARY})
+                      ${SQLITE_LIBRARY}
+                      ${ODB_LIBRARY}
+                      ${ODBSQLITE_LIBRARY}
+                      ${ODBQT_LIBRARY})
 
 target_include_directories(${TARGET_NAME} PUBLIC "${SQLite_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "${ODB_INCLUDE_DIR}")

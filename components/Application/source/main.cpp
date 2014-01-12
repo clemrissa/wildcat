@@ -14,12 +14,14 @@ main(int argc, char* argv[]) {
   Application application(argc, argv);
 
   QStringList nameFilter("*.xml");
-  QDir        directory(QString("%1/../components")
-                        .arg(QCoreApplication::applicationDirPath()));
+
+  QDir directory(QString("%1/../components")
+                 .arg(QCoreApplication::applicationDirPath()));
+
   QStringList xmlFiles = directory.entryList(nameFilter);
 
   using DependencyManager::ApplicationContext;
-  using  DependencyManager::XmlApplicationContextLoader;
+  using DependencyManager::XmlApplicationContextLoader;
 
   XmlApplicationContextLoader applicationContextLoader;
 
