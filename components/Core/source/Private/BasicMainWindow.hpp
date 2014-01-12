@@ -4,13 +4,16 @@
 #include <MainWindow.hpp>
 
 #include <QDockWidget>
+#include <QMenu>
 
 class QMdiArea;
+class QMenu;
+class QToolBar;
 
 namespace Geo {
 namespace Core {
 namespace Private {
-class BasicMainWindow : public Geo::Core::MainWindow {
+class BasicMainWindow: public Geo::Core::MainWindow {
   Q_OBJECT
 
 public:
@@ -31,6 +34,14 @@ public:
 
   Q_INVOKABLE void
   toCentralWidget(QWidget* widget);
+
+  // -----
+
+  Q_INVOKABLE void
+  addMenu(QMenu* menu);
+
+  Q_INVOKABLE void
+  addToolBar(QToolBar* toolBar);
 
 private:
   QMdiArea* _mdiArea;

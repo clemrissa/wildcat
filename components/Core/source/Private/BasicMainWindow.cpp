@@ -6,13 +6,16 @@
 
 #include <QMdiArea>
 #include <QMdiSubWindow>
+#include <QMenu>
+#include <QMenuBar>
+#include <QToolBar>
 // --
 
 using Geo::Core::Private::BasicMainWindow;
 
 BasicMainWindow::
-BasicMainWindow()
-  : _mdiArea(new QMdiArea(this)) {
+BasicMainWindow():
+  _mdiArea(new QMdiArea(this)) {
   INFO << "BasicMainWindow is being created";
 
   setCentralWidget(_mdiArea);
@@ -60,4 +63,18 @@ toCentralWidget(QWidget* widget) {
 
   QMdiSubWindow* subWindow = _mdiArea->addSubWindow(widget);
   subWindow->show();
+}
+
+Q_INVOKABLE void
+BasicMainWindow::
+addMenu(QMenu* menu) {
+  DEBUG << "BasicMainWindow::addMenu(QMenu* menu) is invoked";
+  menuBar()->addMenu(menu);
+}
+
+Q_INVOKABLE void
+BasicMainWindow::
+addToolBar(QToolBar* toolBar) {
+  DEBUG << "BasicMainWindow::addToolBar(QToolBar* toolBar) is invoked";
+  QMainWindow::addToolBar(toolBar);
 }
