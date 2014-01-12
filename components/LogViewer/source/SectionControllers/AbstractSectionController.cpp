@@ -8,8 +8,8 @@ namespace Geo {
 namespace LogViewer {
 namespace SectionControllers {
 AbstractSectionController::
-AbstractSectionController(AbstractSectionController* parent)
-  : _parent(parent)
+AbstractSectionController(AbstractSectionController* parent):
+  _parent(parent)
 {}
 
 AbstractSectionController::
@@ -19,7 +19,8 @@ AbstractSectionController::
 
 void
 AbstractSectionController::
-addChildLogViewerSection(AbstractSectionController* AbstractSectionController) {
+addChildLogViewerSection(AbstractSectionController* AbstractSectionController)
+{
   sectionControllersList.append(AbstractSectionController);
 
   recalculateSize();
@@ -43,9 +44,8 @@ recalculateSize() {
   recalculateWidth();
   recalculateDepths();
 
-  if (_parent) {
+  if (_parent)
     _parent->recalculateSize();
-  }
 }
 
 QListIterator<AbstractSectionController*>
@@ -68,13 +68,11 @@ recalculateDepths() {
     if (section->hasDepthLimits()) {
       ++n;
 
-      if (section->topDepth() < min) {
+      if (section->topDepth() < min)
         min = section->topDepth();
-      }
 
-      if (section->bottomDepth() > max) {
+      if (section->bottomDepth() > max)
         max = section->bottomDepth();
-      }
     }
   }
 
@@ -93,10 +91,6 @@ AbstractSectionController::
 customEvent(QEvent* event) {
   Q_UNUSED(event);
 }
-
-#ifdef MOC
-#  include "moc_AbstractSectionController.moc.cpp"
-#endif
 }
 }
 }

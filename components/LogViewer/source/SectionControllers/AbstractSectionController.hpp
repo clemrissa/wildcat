@@ -16,7 +16,7 @@ class QPaintEvent;
 namespace Geo {
 namespace LogViewer {
 namespace SectionControllers {
-class AbstractSectionController : public QObject {
+class AbstractSectionController: public QObject {
   Q_OBJECT
   Q_PROPERTY(double topDepth \
              READ topDepth)

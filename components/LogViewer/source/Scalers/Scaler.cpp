@@ -3,16 +3,16 @@
 #include <QPaintDevice>
 #include <QProcess>
 
-#include "AxisScaler"
+#include "AxisScaler.hpp"
 
 namespace Geo {
 namespace LogViewer {
 namespace Scalers {
 Scaler::
 Scaler(AxisScaler::Pointer xScaler,
-       AxisScaler::Pointer yScaler)
-  : _xScaler(xScaler),
-    _yScaler(yScaler) {
+       AxisScaler::Pointer yScaler):
+  _xScaler(xScaler),
+  _yScaler(yScaler) {
   //
 }
 
@@ -194,10 +194,6 @@ Scaler::
 yOffset() {
   return _yScaler->getOffset();
 }
-
-#ifdef MOC
-#  include "moc_Scaler.moc.cpp"
-#endif
 }
 }
 }
