@@ -54,6 +54,7 @@ public:
   QList<QAction*> _actionList;
 };
 
+Q_INVOKABLE
 UIFactory::
 UIFactory():
   _pimpl(new UIFactoryImplementation()) {
@@ -62,14 +63,14 @@ UIFactory():
   _pimpl->constructToolBar();
 }
 
-QMenu*
+Q_INVOKABLE QMenu*
 UIFactory::
 getImportMenu() {
   return _pimpl->_menu;
   INFO << "getImportMenu is invoked";
 }
 
-QToolBar*
+Q_INVOKABLE QToolBar*
 UIFactory::
 getImportToolBar() {
   return _pimpl->_toolBar;

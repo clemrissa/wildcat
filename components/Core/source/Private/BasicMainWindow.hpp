@@ -33,8 +33,6 @@ public:
   Q_INVOKABLE void
   toCentralWidget(QWidget* widget);
 
-  // -----
-
   Q_INVOKABLE void
   addMenu(QMenu* menu);
 

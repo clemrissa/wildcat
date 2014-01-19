@@ -11,6 +11,11 @@
     </bean>
 
 <!--==============-->
+    <bean name="Import.Menu" bean="Import.UIFactory" method="getImportMenu"/>
+
+    <bean name="Import.UIFactory" class="Geo::Import::UIFactory">
+      <method name="getImportMenu" type="factory"/>
+    </bean>
 
     <call bean="Core.MainWindow" method="addMenu">
       <bean name="Import.Menu"/>
@@ -19,11 +24,5 @@
     <!--<call bean="Core.MainWindow" method="toBottomDock">-->
       <!--<bean name="Import.Menu"/>-->
     <!--</call>-->
-
-    <bean name="Import.UIConstructor" class="Geo::Import::UIConstructor">
-      <method name="getImportMenu" type="factory"/>
-    </bean>
-
-    <bean name="Import.Menu" bean="Import.UIConstructor" method="getImportMenu"/>
   </beans>
 </context>
