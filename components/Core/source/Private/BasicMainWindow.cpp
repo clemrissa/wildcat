@@ -4,6 +4,7 @@
 
 #include <QDebug>
 
+#include <QDockWidget>
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include <QMenu>

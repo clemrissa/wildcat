@@ -9,5 +9,21 @@
     <bean name="Import.ImportDialog" class="Geo::Import::ImportDialog">
       <!--<bean name="Core.MainWindow"/>-->
     </bean>
+
+<!--==============-->
+
+    <call bean="Core.MainWindow" method="addMenu">
+      <bean name="Import.Menu"/>
+    </call>
+
+    <!--<call bean="Core.MainWindow" method="toBottomDock">-->
+      <!--<bean name="Import.Menu"/>-->
+    <!--</call>-->
+
+    <bean name="Import.UIConstructor" class="Geo::Import::UIConstructor">
+      <method name="getImportMenu" type="factory"/>
+    </bean>
+
+    <bean name="Import.Menu" bean="Import.UIConstructor" method="getImportMenu"/>
   </beans>
 </context>

@@ -3,12 +3,10 @@
 
 #include <MainWindow.hpp>
 
-#include <QDockWidget>
-#include <QMenu>
-
+class QDockWidget;
 class QMdiArea;
-class QMenu;
 class QToolBar;
+class QMenu;
 
 namespace Geo {
 namespace Core {

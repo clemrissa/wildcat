@@ -2,7 +2,7 @@
 <context>
   <dll path="Core"/>
   <beans>
-    <bean name="Core.MainWindow" class="Geo::Core::Private::BasicMainWindow">
+    <bean name="Core.MainWindow" class="Geo::Core::Private::BasicMainWindow" type="singleton">
       <method name="toBottomDock"/>
       <method name="toLeftDock"/>
       <method name="toRightDock"/>

@@ -17,8 +17,7 @@ class QDockWidget;
 namespace Geo {
 namespace Database {
 namespace Private {
-class DatabaseUiFactory: public QObject
-{
+class DatabaseUiFactory: public QObject {
   Q_OBJECT
 
 public:
