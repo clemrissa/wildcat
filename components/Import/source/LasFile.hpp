@@ -18,9 +18,8 @@ public:
   LASFile(): valid(false) {}
 
   struct WellInformationEntry {
-    QString mnem;
-    QString units;
     QString name;
+    QString units;
     QString value;
   };
 
@@ -32,11 +31,10 @@ public:
     double  nullValue;
     QString units;
 
-    QVector<WellInformationEntry> entries;
+    QMap<QString, WellInformationEntry> entries;
   };
 
   struct CurveInformationEntry {
-    QString mnem;
     QString units;
     QString code;
     QString description;
@@ -54,11 +52,11 @@ public:
   QString
   getText() const;
 
-  WellInformation                    wellInformation;
-  QVector<CurveInformationEntry>     curveInformation;
-  QVector<ParameterInformationEntry> parameterInformation;
+  WellInformation                      wellInformation;
+  QMap<QString, CurveInformationEntry> curveInformation;
+  QVector<ParameterInformationEntry>   parameterInformation;
 
-  QList<QPair<QString, QVector<double> > > data;
+  QMap<QString, QVector<double> > data;
 
   bool valid;
 };

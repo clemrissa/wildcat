@@ -12,6 +12,8 @@
 
 int
 main(int argc, char* argv[]) {
+  QApplication application(argc, argv);
+
   testing::InitGoogleTest(&argc, argv);
 
   QStringList nameFilter("*.xml");

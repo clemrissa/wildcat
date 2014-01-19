@@ -20,14 +20,17 @@ getText() const {
   list << "stop:   " + QString::number(wellInformation.stop);
 
   for (auto entry : wellInformation.entries)
-    list << entry.mnem + "   " + entry.value;
+    list << entry.name + "   " + entry.value;
 
   list << "";
   list << "------";
   list << "curves";
 
-  for (auto entry : data)
-    list << entry.first + "   " + QString::number(entry.second.size());
+  for (auto entryKey : data.keys())
+    list << entryKey
+      + " has "
+      + QString::number(data[entryKey].size())
+      + " numbers.";
 
   return list.join("\n");
 }

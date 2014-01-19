@@ -8,6 +8,8 @@
 
 #include "LasFileParser.hpp"
 
+#include "Auxiliary/ExecutionControl.hpp"
+
 namespace Geo {
 namespace Import {
 LASFile
@@ -125,20 +127,21 @@ parseWellInformationSection(int& lineNumber) {
   lasFile.wellInformation.entries.clear();
 
   // STRT.M        583.0:
-  QRegExp reStart("(STRT)(\\..+ )(-?\\d+\\.\\d+)(:)( *.*$)");
+  QRegExp reStart("(STRT)(\\..+ )(-?\\d+\\.\\d+)( *:)( *.*$)");
 
-  QRegExp reStop("(STOP)(\\..+ )(-?\\d+\\.\\d+)(:)( *.*$)");
+  QRegExp reStop("(STOP)(\\..+ )(-?\\d+\\.\\d+)( *:)( *.*$)");
 
-  QRegExp reStep("(STEP)(\\..+ )(-?\\d+\\.\\d+)(:)( *.*$)");
+  QRegExp reStep("(STEP)(\\..+ )(-?\\d+\\.\\d+)( *:)( *.*$)");
 
-  QRegExp reNULL("(NULL)(\\..+ )(-?\\d+\\.\\d+)(:)( *.*$)");
+  QRegExp reNULL("(NULL)(\\..+ )(-?\\d+\\.\\d+)( *:)( *.*$)");
 
   //  WELL.                WELL:   4832/116
-  QRegExp reWell("(WELL *:)( *.*$)");
+  // QRegExp reWell("(WELL *)(:)( *.*$)");
+  QRegExp reWell("(WELL)(\\. )(.+)(:)(.*$)");
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //  name .units   name:value
-  QRegExp reRestEntries("(^.+)(\\.[^ ]*)(.+)(:)( *.*$)");
+  QRegExp reRestEntries("(^.+)(\\.[^ ]*)(.+)( *:)( *.*$)");
 
   // next line
   ++i;
@@ -190,11 +193,15 @@ parseWellInformationSection(int& lineNumber) {
       bool ok;
       lasFile.wellInformation.nullValue = value.toDouble(&ok);
     } else if (reWell.indexIn(line) >= 0) {
-      QString all   = reWell.cap(0);
-      QString well  = reWell.cap(1);
-      QString value = reWell.cap(2).trimmed();
+      QString all = reWell.cap(0);
 
-      lasFile.wellInformation.wellName = value;
+      QString well  = reWell.cap(3).trimmed();
+      QString value = reWell.cap(5).trimmed();
+
+      if (_version == "1.2")
+        lasFile.wellInformation.wellName = value;
+      else if (_version == "2.0")
+        lasFile.wellInformation.wellName = well;
     }
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {
@@ -203,12 +210,20 @@ parseWellInformationSection(int& lineNumber) {
 
       QString all = reRestEntries.cap(0);
 
-      entry.mnem  = reRestEntries.cap(1);
+      QString mnem = reRestEntries.cap(1).trimmed();
       entry.units = reRestEntries.cap(2).trimmed().remove(0, 1);
-      entry.name  = reRestEntries.cap(3).trimmed();
-      entry.value = reRestEntries.cap(5).trimmed();
 
-      lasFile.wellInformation.entries.append(entry);
+      if (_version == "1.2") {
+        entry.name  = reRestEntries.cap(3).trimmed();
+        entry.value = reRestEntries.cap(5).trimmed();
+      } else if (_version == "2.0") {
+        entry.name  = reRestEntries.cap(5).trimmed();
+        entry.value = reRestEntries.cap(3).trimmed();
+      }
+
+      // lasFile.wellInformation.wellName = well;
+
+      lasFile.wellInformation.entries[mnem] = entry;
     }
 
     ++i;
@@ -221,11 +236,11 @@ parseCurveInformationSection(int& lineNumber) {
   int& i = lineNumber;
 
   // clear old values
-  lasFile.wellInformation.entries.clear();
+  lasFile.curveInformation.clear();
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //                     name .units   name:value
-  QRegExp reRestEntries("(^.+)(\\.[^ ]*)(.+)(:)( *.*$)");
+  QRegExp reCurveInfoEntries("(^.+)(\\.[^ ]*)(.+)( *:)( *.*$)");
 
   // next line
   ++i;
@@ -239,18 +254,19 @@ parseCurveInformationSection(int& lineNumber) {
     }
 
     // all the rest fields
-    if (reRestEntries.indexIn(line) >= 0) {
+    if (reCurveInfoEntries.indexIn(line) >= 0) {
       // name .units   name:value
       LASFile::CurveInformationEntry entry;
 
-      QString all = reRestEntries.cap(0);
+      QString all = reCurveInfoEntries.cap(0);
 
-      entry.mnem        = reRestEntries.cap(1);
-      entry.units       = reRestEntries.cap(2).trimmed().remove(0, 1);
-      entry.code        = reRestEntries.cap(3).trimmed();
-      entry.description = reRestEntries.cap(5).trimmed();
+      QString mnem = reCurveInfoEntries.cap(1).trimmed();
+      entry.units = reCurveInfoEntries.cap(2).trimmed().remove(0, 1);
+      entry.code  = reCurveInfoEntries.cap(3).trimmed();
+      // cap(4) == ":"
+      entry.description = reCurveInfoEntries.cap(5).trimmed();
 
-      lasFile.curveInformation.append(entry);
+      lasFile.curveInformation[mnem] = entry;
     }
 
     ++i;
@@ -279,11 +295,8 @@ parseAsciiLogDataSection(int& lineNumber) {
   // clear old values
   lasFile.data.clear();
 
-  for (auto entry : lasFile.curveInformation) {
-    QPair<QString, QVector<double> > pair(entry.mnem, QVector<double>());
-
-    lasFile.data.append(pair);
-  }
+  for (auto entryKey : lasFile.curveInformation.keys())
+    lasFile.data[entryKey] = QVector<double>();
 
   // corresponds to any number of form [-]333.566
   QRegExp reNumValue("(-?\\d+\\.\\d+)");
@@ -307,11 +320,14 @@ parseAsciiLogDataSection(int& lineNumber) {
 
     while ((pos = reNumValue.indexIn(line, pos)) != -1) {
       {
+        // select next key
+        QString key = lasFile.data.keys()[currentMnemonicNum];
+
         QString value = reNumValue.cap(1);
         double  valueDouble; bool ok;
         valueDouble = value.toDouble(&ok);
 
-        lasFile.data[currentMnemonicNum].second.append(valueDouble);
+        lasFile.data[key].append(valueDouble);
 
         currentMnemonicNum = (currentMnemonicNum + 1) % numberOfMnemonics;
       }
