@@ -1,5 +1,5 @@
-#ifndef _Geo_Import_UIFactory_h_
-#define _Geo_Import_UIFactory_h_
+#ifndef _Geo_Import_ImportUiFactory_h_
+#define _Geo_Import_ImportUiFactory_h_
 
 #include <QObject>
 
@@ -9,15 +9,15 @@ class QToolBar;
 namespace Geo {
 namespace Import {
 // Creates menu and tool bar for using import component
-class UIFactory: public QObject {
+class ImportUiFactory: public QObject {
   Q_OBJECT
 
 public:
   Q_INVOKABLE
-  UIFactory();
+  ImportUiFactory();
 
   virtual
-  ~UIFactory() {}
+  ~ImportUiFactory();
 
   Q_INVOKABLE
   QMenu*
@@ -32,10 +32,10 @@ public slots:
   showImportWindow();
 
 private:
-  class UIFactoryImplementation;
-  UIFactoryImplementation* _pimpl;
+  class ImportUiFactoryImplementation;
+  ImportUiFactoryImplementation* _pimpl;
 };
 }
 }
 
-#endif // _Geo_Import_UIFactory_h_
+#endif // _Geo_Import_ImportUiFactory_h_

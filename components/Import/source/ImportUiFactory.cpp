@@ -1,4 +1,4 @@
-#include "UIFactory.hpp"
+#include "ImportUiFactory.hpp"
 
 #include <QAction>
 #include <QIcon>
@@ -8,25 +8,27 @@
 
 #include "Auxiliary/ExecutionControl.hpp"
 
+#include "ImportController.hpp"
+
 namespace Geo {
 namespace Import {
-class UIFactory::UIFactoryImplementation {
+class ImportUiFactory::ImportUiFactoryImplementation {
 public:
-  UIFactoryImplementation():
+  ImportUiFactoryImplementation():
     _menu(new QMenu()),
     _toolBar(new QToolBar()) {
     //
   }
 
   void
-  fillActionList(UIFactory* uiFactory) {
+  fillActionList(ImportUiFactory* uiFactory) {
     QAction* action = nullptr;
 
-    action = new QAction(QIcon(),
-                         tr("Import..."),
-                         uiFactory);
+    action = new QAction(QIcon(), tr("Import..."), uiFactory);
 
-    // QObject::connect(action, &QAction::changed, this, )
+    connect(action, &QAction::changed,
+            ImportController::instance(),
+            &ImportController::selectFilesAndImport);
 
     _actionList.append(action);
   }
@@ -54,32 +56,40 @@ public:
   QList<QAction*> _actionList;
 };
 
+// --------------------------------------------------
+
 Q_INVOKABLE
-UIFactory::
-UIFactory():
-  _pimpl(new UIFactoryImplementation()) {
+ImportUiFactory::
+ImportUiFactory():
+  _pimpl(new ImportUiFactoryImplementation()) {
   _pimpl->fillActionList(this);
   _pimpl->constructMenu();
   _pimpl->constructToolBar();
 }
 
+ImportUiFactory::~ImportUiFactory() {
+  delete _pimpl;
+}
+
 Q_INVOKABLE QMenu*
-UIFactory::
+ImportUiFactory::
 getImportMenu() {
-  return _pimpl->_menu;
+  // return _pimpl->_menu;
+  return 0;
   INFO << "getImportMenu is invoked";
 }
 
 Q_INVOKABLE QToolBar*
-UIFactory::
+ImportUiFactory::
 getImportToolBar() {
-  return _pimpl->_toolBar;
+  // return _pimpl->_toolBar;
+  return 0;
 }
 
 // implementation of slots
 
 void
-UIFactory::
+ImportUiFactory::
 showImportWindow() {
   //
 }

@@ -7,6 +7,9 @@ namespace Geo {
 namespace Core {
 class MainWindow: public QMainWindow {
 public:
+  virtual
+  void
+  toCentralWidget(QWidget* widget) = 0;
 
 private:
 };

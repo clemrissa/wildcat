@@ -1,5 +1,5 @@
-#ifndef Geo_Import_LASFileParser_hpp
-#define Geo_Import_LASFileParser_hpp
+#ifndef Geo_Import_LasFileParser_hpp
+#define Geo_Import_LasFileParser_hpp
 
 #include <QtCore/QDateTime>
 #include <QtCore/QMap>
@@ -10,9 +10,9 @@
 
 namespace Geo {
 namespace Import {
-class LASFileParser {
+class LasFileParser {
 public:
-  LASFile
+  LasFile
   parse(const QString fileName);
 
 private:
@@ -43,9 +43,9 @@ private:
   QString _version;
   bool    _wrap;
 
-  //  LASFile::WellInformation wellInformation;
+  //  LasFile::WellInformation wellInformation;
 
-  LASFile lasFile;
+  LasFile lasFile;
 };
 }
 }

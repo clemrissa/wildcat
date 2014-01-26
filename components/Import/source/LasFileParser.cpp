@@ -12,11 +12,11 @@
 
 namespace Geo {
 namespace Import {
-LASFile
-LASFileParser::
+LasFile
+LasFileParser::
 parse(const QString fileName) {
   if (!QFile::exists(fileName))
-    return LASFile();
+    return LasFile();
 
   QFile inputFile(fileName);
 
@@ -41,7 +41,7 @@ parse(const QString fileName) {
 }
 
 void
-LASFileParser::
+LasFileParser::
 parseLines() {
   int i = 0;
 
@@ -66,7 +66,7 @@ parseLines() {
 }
 
 bool
-LASFileParser::
+LasFileParser::
 parseVersionSection(int& lineNumber) {
   int& i = lineNumber;
 
@@ -74,7 +74,7 @@ parseVersionSection(int& lineNumber) {
    *  this section must contain following information:
    *  VERS. 2.0 : CWLS LOG ASCII STANDARD - VERSION 2.0
    *
-   *  Refers to which version of LAS is used.
+   *  Refers to which version of Las is used.
    *
    *  and
    *
@@ -119,7 +119,7 @@ parseVersionSection(int& lineNumber) {
 }
 
 void
-LASFileParser::
+LasFileParser::
 parseWellInformationSection(int& lineNumber) {
   int& i = lineNumber;
 
@@ -206,7 +206,7 @@ parseWellInformationSection(int& lineNumber) {
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {
       // name .units   name:value
-      LASFile::WellInformationEntry entry;
+      LasFile::WellInformationEntry entry;
 
       QString all = reRestEntries.cap(0);
 
@@ -231,7 +231,7 @@ parseWellInformationSection(int& lineNumber) {
 }
 
 void
-LASFileParser::
+LasFileParser::
 parseCurveInformationSection(int& lineNumber) {
   int& i = lineNumber;
 
@@ -256,7 +256,7 @@ parseCurveInformationSection(int& lineNumber) {
     // all the rest fields
     if (reCurveInfoEntries.indexIn(line) >= 0) {
       // name .units   name:value
-      LASFile::CurveInformationEntry entry;
+      LasFile::CurveInformationEntry entry;
 
       QString all = reCurveInfoEntries.cap(0);
 
@@ -274,21 +274,21 @@ parseCurveInformationSection(int& lineNumber) {
 }
 
 void
-LASFileParser::
+LasFileParser::
 parseParameterInformationSection(int& lineNumber) {
   //
   Q_UNUSED(lineNumber);
 }
 
 void
-LASFileParser::
+LasFileParser::
 parseOtherInformationSection(int& lineNumber) {
   //
   Q_UNUSED(lineNumber);
 }
 
 void
-LASFileParser::
+LasFileParser::
 parseAsciiLogDataSection(int& lineNumber) {
   int& i = lineNumber;
 

@@ -22,6 +22,14 @@ BasicMainWindow():
   setCentralWidget(_mdiArea);
 
   showMaximized();
+
+  QAction* a = new QAction(QIcon(), QString("bitches"), this);
+
+  QMenu* m = new QMenu(tr("Hello"));
+
+  m->addAction(a);
+
+  this->addMenu(m);
 }
 
 BasicMainWindow::
@@ -32,8 +40,7 @@ BasicMainWindow::
 Q_INVOKABLE void
 BasicMainWindow::
 toBottomDock(QDockWidget* dockWidget) {
-  DEBUG <<
-    "BasicMainWindow::toBottomDock(QDockWidget* dockWidget) is being invoked";
+  DEBUG << "BasicMainWindow::toBottomDock(QDockWidget* dockWidget) is being invoked";
 
   addDockWidget(Qt::BottomDockWidgetArea, dockWidget);
 }
@@ -41,8 +48,7 @@ toBottomDock(QDockWidget* dockWidget) {
 Q_INVOKABLE void
 BasicMainWindow::
 toLeftDock(QDockWidget* dockWidget) {
-  DEBUG <<
-    "BasicMainWindow::toLeftDock(QDockWidget* dockWidget) is being invoked";
+  DEBUG << "BasicMainWindow::toLeftDock(QDockWidget* dockWidget) is being invoked";
 
   addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 }
@@ -50,8 +56,7 @@ toLeftDock(QDockWidget* dockWidget) {
 Q_INVOKABLE void
 BasicMainWindow::
 toRightDock(QDockWidget* dockWidget) {
-  DEBUG <<
-    "BasicMainWindow::toRightDock(QDockWidget* dockWidget) is being invoked";
+  DEBUG << "BasicMainWindow::toRightDock(QDockWidget* dockWidget) is being invoked";
 
   addDockWidget(Qt::RightDockWidgetArea, dockWidget);
 }
@@ -59,8 +64,7 @@ toRightDock(QDockWidget* dockWidget) {
 Q_INVOKABLE void
 BasicMainWindow::
 toCentralWidget(QWidget* widget) {
-  DEBUG <<
-    "BasicMainWindow::toCentralWidget(QWidget* dockWidget) is being invoked";
+  DEBUG << "BasicMainWindow::toCentralWidget(QWidget* dockWidget) is being invoked";
 
   QMdiSubWindow* subWindow = _mdiArea->addSubWindow(widget);
   subWindow->show();
@@ -71,6 +75,7 @@ BasicMainWindow::
 addMenu(QMenu* menu) {
   DEBUG << "BasicMainWindow::addMenu(QMenu* menu) is invoked";
   menuBar()->addMenu(menu);
+  // menuBar()->show();
 }
 
 Q_INVOKABLE void

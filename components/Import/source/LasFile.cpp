@@ -7,7 +7,7 @@ namespace Import {
 //
 
 QString
-LASFile::
+LasFile::
 getText() const {
   //
   QStringList list;

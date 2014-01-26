@@ -31,7 +31,7 @@ public:
   toRightDock(QDockWidget* dockWidget);
 
   Q_INVOKABLE void
-  toCentralWidget(QWidget* widget);
+  toCentralWidget(QWidget* widget) override;
 
   Q_INVOKABLE void
   addMenu(QMenu* menu);

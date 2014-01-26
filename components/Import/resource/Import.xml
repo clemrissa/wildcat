@@ -11,9 +11,9 @@
     </bean>
 
 <!--==============-->
-    <bean name="Import.Menu" bean="Import.UIFactory" method="getImportMenu"/>
+    <bean name="Import.Menu" bean="Import.ImportUiFactory" method="getImportMenu"/>
 
-    <bean name="Import.UIFactory" class="Geo::Import::UIFactory">
+    <bean name="Import.ImportUiFactory" class="Geo::Import::ImportUiFactory">
       <method name="getImportMenu" type="factory"/>
     </bean>
 
@@ -21,8 +21,17 @@
       <bean name="Import.Menu"/>
     </call>
 
-    <!--<call bean="Core.MainWindow" method="toBottomDock">-->
-      <!--<bean name="Import.Menu"/>-->
-    <!--</call>-->
+<!--==============-->
+
+    <bean name="Import.ToolBar" bean="Import.ImportUiFactory" method="getImportToolBar"/>
+
+    <bean name="Import.ImportUiFactory" class="Geo::Import::ImportUiFactory">
+      <method name="getImportToolBar" type="factory"/>
+    </bean>
+
+    <call bean="Core.MainWindow" method="addToolBar">
+      <bean name="Import.ToolBar"/>
+    </call>
+
   </beans>
 </context>

@@ -8,8 +8,8 @@
 #include <QApplication>
 #include <QFile>
 
-TEST(ImportLas, LAS12) {
-  Geo::Import::LASFileParser parser;
+TEST(ImportLas, Las12) {
+  Geo::Import::LasFileParser parser;
 
   // construct las file name
   QString fileName = QString("%1/../tests/%2").
@@ -19,7 +19,7 @@ TEST(ImportLas, LAS12) {
   ASSERT_TRUE(QFile::exists(fileName));
 
   // parsing
-  Geo::Import::LASFile lasFile = parser.parse(fileName);
+  Geo::Import::LasFile lasFile = parser.parse(fileName);
 
   // check well information
   ASSERT_TRUE(lasFile.wellInformation.wellName ==
@@ -52,8 +52,8 @@ TEST(ImportLas, LAS12) {
 
 //// -----------------------------
 
-TEST(ImportLas, LAS20) {
-  Geo::Import::LASFileParser parser;
+TEST(ImportLas, Las20) {
+  Geo::Import::LasFileParser parser;
 
   // construct las file name
   QString fileName = QString("%1/../tests/%2").
@@ -63,7 +63,7 @@ TEST(ImportLas, LAS20) {
   ASSERT_TRUE(QFile::exists(fileName));
 
   // parsing
-  Geo::Import::LASFile lasFile = parser.parse(fileName);
+  Geo::Import::LasFile lasFile = parser.parse(fileName);
 
   // check well information
   ASSERT_TRUE(lasFile.wellInformation.wellName ==

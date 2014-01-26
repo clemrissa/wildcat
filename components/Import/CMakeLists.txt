@@ -17,9 +17,11 @@ add_library(${TARGET_NAME} SHARED ${CPP_FILES} ${CPP_TEST_FILES})
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
 target_link_libraries(${TARGET_NAME} PRIVATE
-  Uni
-  DependencyManager
-  Domain)
+                      Uni
+                      DependencyManager
+                      Domain
+                      #)
+                      Core)
 
 target_link_libraries(${TARGET_NAME} PUBLIC
                       ${SQLITE_LIBRARY}

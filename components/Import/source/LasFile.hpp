@@ -1,5 +1,5 @@
-#ifndef Geo_Import_LASFile_hpp
-#define Geo_Import_LASFile_hpp
+#ifndef Geo_Import_LasFile_hpp
+#define Geo_Import_LasFile_hpp
 
 #include <QtCore/QDateTime>
 #include <QtCore/QMap>
@@ -10,12 +10,12 @@
 namespace Geo {
 namespace Import {
 /**
- * Class contains all the informaation from a LAS file split into special
+ * Class contains all the informaation from a Las file split into special
  * structures
  */
-class LASFile {
+class LasFile {
 public:
-  LASFile(): valid(false) {}
+  LasFile(): valid(false) {}
 
   struct WellInformationEntry {
     QString name;
@@ -47,8 +47,6 @@ public:
   };
 
 public:
-  LASFile(QString fileName);
-
   QString
   getText() const;
 
@@ -62,4 +60,4 @@ public:
 };
 }
 }
-#endif // Geo_Import_LASFile_hpp
+#endif // Geo_Import_LasFile_hpp

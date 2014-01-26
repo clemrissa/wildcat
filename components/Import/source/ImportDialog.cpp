@@ -11,6 +11,8 @@
 #include "LasFile.hpp"
 #include "LasFileParser.hpp"
 
+#include "Auxiliary/ExecutionControl.hpp"
+
 namespace Geo {
 namespace Import {
 class ImportDialog::Private {
@@ -28,6 +30,7 @@ ImportDialog():
   setModal(true);
 
   //
+  INFO << "!!! Hello from constructor of ImportDialog";
 
   im->openFileButton = new QPushButton("Import File");
 
@@ -60,11 +63,10 @@ ImportDialog::
 void
 ImportDialog::
 selectFile() {
-  QString fileName =  QFileDialog::getOpenFileName(this,
-                                                   "Select file to import");
+  QString fileName =  QFileDialog::getOpenFileName(this, "Select file to import ");
 
-  LASFileParser parser;
-  LASFile       lasFile;
+  LasFileParser parser;
+  LasFile       lasFile;
 
   if (!fileName.isEmpty())
     lasFile = parser.parse(fileName);
