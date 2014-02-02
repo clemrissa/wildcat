@@ -20,8 +20,8 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       Uni
                       DependencyManager
                       Domain
-                      #)
-                      Core)
+                      )
+                      #Core)
 
 target_link_libraries(${TARGET_NAME} PUBLIC
                       ${SQLITE_LIBRARY}
@@ -30,14 +30,10 @@ target_link_libraries(${TARGET_NAME} PUBLIC
                       ${ODBQT_LIBRARY}
                       GTest)
 
-#target_include_directories(${TARGET_NAME} PUBLIC "${SQLite_INCLUDE_DIR}")
-#target_include_directories(${TARGET_NAME} PUBLIC "${ODB_INCLUDE_DIR}")
-#target_include_directories(${TARGET_NAME} PUBLIC "${ODBSQLITE_INCLUDE_DIR}")
-#target_include_directories(${TARGET_NAME} PUBLIC "${ODBQT_INCLUDE_DIR}")
-
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
 target_include_directories(${TARGET_NAME} PRIVATE "tests")
+target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Core,INTERFACE_INCLUDE_DIRECTORIES>)
 
 target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
 target_compile_definitions(${TARGET_NAME} PRIVATE "-D${TARGET_NAME}_EXPORTS")

@@ -19,7 +19,7 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       Uni
                       DependencyManager)
 
-target_include_directories(${TARGET_NAME} PUBLIC "include")
+target_include_directories(${TARGET_NAME} INTERFACE "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
 
 target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
