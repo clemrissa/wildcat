@@ -6,7 +6,12 @@
 #include <QMenu>
 #include <QToolBar>
 
-#include "Auxiliary/ExecutionControl.hpp"
+#include <Core/MainWindow>
+
+#include <DependencyManager/ApplicationContext>
+#include <DependencyManager/XmlApplicationContextLoader>
+
+#include <Uni/Logging/Logging>
 
 #include "ImportController.hpp"
 
@@ -15,22 +20,56 @@ namespace Import {
 class ImportUiFactory::ImportUiFactoryImplementation {
 public:
   ImportUiFactoryImplementation():
-    _menu(new QMenu()),
+    _menu(new QMenu(tr("Menu"))),
     _toolBar(new QToolBar()) {
     //
   }
 
   void
   fillActionList(ImportUiFactory* uiFactory) {
-    QAction* action = nullptr;
+    // using       Geo::Core::MainWindow;
+    // MainWindow* mainWindow =
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    // DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
 
-    action = new QAction(QIcon(), tr("Import..."), uiFactory);
+    // MainWindow* mainWindow2 =
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    // DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
 
-    connect(action, &QAction::changed,
-            ImportController::instance(),
-            &ImportController::selectFilesAndImport);
+    // Q_ASSERT(mainWindow == mainWindow2);
 
-    _actionList.append(action);
+    // QAction* action = nullptr;
+
+    //// action = new QAction(QIcon(), tr("Import..."), uiFactory);
+    // action = new QAction(QIcon(), QString("Import..."), mainWindow);
+
+    //// connect(action, &QAction::changed,
+    //// ImportController::instance(),
+    //// &ImportController::selectFilesAndImport);
+
+    // INFO << "ooo Action list filled";
+
+    // _actionList.append(action);
   }
 
   void
@@ -46,7 +85,7 @@ public:
     for (QAction* action : _actionList)
       _toolBar->addAction(action);
 
-    INFO << "ToolBar constructed";
+    INFO << "ooo ToolBar constructed";
   }
 
 public:
@@ -65,6 +104,7 @@ ImportUiFactory():
   _pimpl->fillActionList(this);
   _pimpl->constructMenu();
   _pimpl->constructToolBar();
+  INFO << "ooo Import UI factory constructed";
 }
 
 ImportUiFactory::~ImportUiFactory() {
@@ -74,16 +114,16 @@ ImportUiFactory::~ImportUiFactory() {
 Q_INVOKABLE QMenu*
 ImportUiFactory::
 getImportMenu() {
-  // return _pimpl->_menu;
-  return 0;
+  return _pimpl->_menu;
+
   INFO << "getImportMenu is invoked";
 }
 
 Q_INVOKABLE QToolBar*
 ImportUiFactory::
 getImportToolBar() {
-  // return _pimpl->_toolBar;
-  return 0;
+  return _pimpl->_toolBar;
+  INFO << "getImportToolBar is invoked";
 }
 
 // implementation of slots
