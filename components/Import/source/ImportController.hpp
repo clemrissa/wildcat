@@ -4,9 +4,12 @@
 #include <QAbstractItemModel>
 #include <QObject>
 #include <QSharedPointer>
+#include <QVector>
+#include <QWidget>
 
 namespace Geo {
 namespace Import {
+class ImportTreeLasFileModel;
 // Class collects
 class ImportController: public QObject {
   Q_OBJECT
@@ -18,9 +21,9 @@ public:
   virtual
   ~ImportController();
 
-public slots:
-  void
-  selectFilesAndImport();
+  // public slots:
+  QVector<ImportTreeLasFileModel*>
+  selectFilesAndImport(QWidget* widget);
 
 private:
   ImportController();

@@ -1,19 +1,19 @@
-#ifndef Geo_Import_ImportDialog_hpp
-#define Geo_Import_ImportDialog_hpp
+#ifndef Geo_Import_ImportWidget_hpp
+#define Geo_Import_ImportWidget_hpp
 
-#include <QDialog>
+#include <QWidget>
 
 namespace Geo {
 namespace Import {
-class ImportDialog: public QDialog {
+class ImportWidget: public QWidget {
   Q_OBJECT
 
 public:
   Q_INVOKABLE
-  ImportDialog();
+  ImportWidget();
 
   virtual
-  ~ImportDialog();
+  ~ImportWidget();
 
 public slots:
   void

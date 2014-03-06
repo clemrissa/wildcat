@@ -11,6 +11,10 @@ class ImportTreeLasFileModel;
 class ImportTreeModel: public QAbstractItemModel {
 public:
   ImportTreeModel(QVector<ImportTreeLasFileModel*> importTreeLasFileModels);
+  ImportTreeModel();
+
+  void
+  setImportTreeLasFileModels(QVector<ImportTreeLasFileModel*> lasFileModels);
 
 public:
   QVariant
@@ -27,6 +31,13 @@ public:
 
   int
   rowCount(const QModelIndex& parent) const override;
+
+  //
+
+  QVariant
+  headerData(int             section,
+             Qt::Orientation orientation,
+             int             role = Qt::DisplayRole) const override;
 
 private:
   QVector<ImportTreeLasFileModel*> _importTreeLasFileModels;

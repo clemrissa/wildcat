@@ -37,20 +37,16 @@ instance() {
   if (!_instance)
     _instance = new ImportController();
 
-  return _instance;
-
   INFO << "Getting instance";
+
+  return _instance;
 }
 
-void
+QVector<ImportTreeLasFileModel*>
 ImportController::
-selectFilesAndImport() {
-  using       Geo::Core::MainWindow;
-  MainWindow* mainWindow =
-    DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
-
+selectFilesAndImport(QWidget* widget) {
   QStringList fileList =
-    QFileDialog::getOpenFileNames(mainWindow,
+    QFileDialog::getOpenFileNames(widget,
                                   "Select one or more files to import",
                                   "/home",
                                   "LAS files (*.las)");
@@ -63,15 +59,7 @@ selectFilesAndImport() {
     importTreeLasFileModels.append(new
                                    ImportTreeLasFileModel(lasFileParser.parse(fileName)));
 
-  ImportTreeModel* importTreeModel = new
-                                     ImportTreeModel(importTreeLasFileModels);
-
-  // create TreeView which will show imported las-files
-  QTreeView* treeView = new QTreeView();
-
-  treeView->setModel(importTreeModel);
-
-  mainWindow->toCentralWidget(treeView);
+  return importTreeLasFileModels;
 }
 }
 }
