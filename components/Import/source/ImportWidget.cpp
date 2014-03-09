@@ -35,17 +35,11 @@ public:
 };
 
 ImportWidget::
-ImportWidget(QWidget*        parent,
-             Qt::WindowFlags f): QWidget(parent, f),
-                                 im(new Private) {
+ImportWidget(QVector<ImportTreeLasFileModel*> models):
+  im(new Private) {
   setWindowTitle("Import Data");
 
-  if (parent)
-    INFO << parent->metaObject()->className();
-
   im->openFileButton = new QPushButton("Import Files");
-
-  connect(im->openFileButton, SIGNAL(clicked()), this, SLOT(selectFile()));
 
   //
 
@@ -66,21 +60,23 @@ ImportWidget(QWidget*        parent,
   layout->addWidget(im->treeView);
 
   this->setMinimumSize(QSize(500, 400));
+
+  im->importTreeModel->setImportTreeLasFileModels(models);
 }
 
 ImportWidget::
 ~ImportWidget() {}
 
-void
-ImportWidget::
-selectFile() {
-  QVector<ImportTreeLasFileModel*> lasFileModels =
-    ImportController::instance()->selectFilesAndImport(this);
+// void
+// ImportWidget::
+// selectFile() {
+// QVector<ImportTreeLasFileModel*> lasFileModels =
+// ImportController::instance()->selectFilesAndImport(this);
 
-  for (ImportTreeLasFileModel* model : lasFileModels)
-    im->textEdit->appendPlainText(model->getLasFile()->getText());
+// for (ImportTreeLasFileModel* model : lasFileModels)
+// im->textEdit->appendPlainText(model->getLasFile()->getText());
 
-  im->importTreeModel->setImportTreeLasFileModels(lasFileModels);
-}
+// im->importTreeModel->setImportTreeLasFileModels(lasFileModels);
+// }
 } // namespace Import
 } // namespace Geo

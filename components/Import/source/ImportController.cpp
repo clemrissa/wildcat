@@ -8,6 +8,7 @@
 
 #include "ImportTreeLasFileModel.hpp"
 #include "ImportTreeModel.hpp"
+#include "ImportWidget.hpp"
 #include "LasFile.hpp"
 #include "LasFileParser.hpp"
 
@@ -38,16 +39,18 @@ instance() {
   if (!_instance)
     _instance = new ImportController();
 
-  INFO << "Getting instance";
-
   return _instance;
 }
 
-QVector<ImportTreeLasFileModel*>
+void
 ImportController::
-selectFilesAndImport(QWidget* widget) {
+selectFilesAndImport() {
+  using       Geo::Core::MainWindow;
+  MainWindow* mainWindow =
+    DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
+
   QStringList fileList =
-    QFileDialog::getOpenFileNames(widget,
+    QFileDialog::getOpenFileNames(mainWindow,
                                   "Select one or more files to import",
                                   "/home",
                                   "LAS files (*.las)");
@@ -56,13 +59,19 @@ selectFilesAndImport(QWidget* widget) {
   QVector<ImportTreeLasFileModel*> importTreeLasFileModels;
 
   // collect list of parsed las files
+
   for (QString fileName : fileList) {
     QSharedPointer<LasFile> lf = lasFileParser.parse(fileName);
 
     importTreeLasFileModels.append(new ImportTreeLasFileModel(lf));
   }
 
-  return importTreeLasFileModels;
+  if (importTreeLasFileModels.size() == 0)
+    return;
+
+  ImportWidget* importWidget = new ImportWidget(importTreeLasFileModels);
+
+  mainWindow->toCentralWidget(importWidget);
 }
 }
 }

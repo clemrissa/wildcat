@@ -21,9 +21,9 @@ public:
   virtual
   ~ImportController();
 
-  // public slots:
-  QVector<ImportTreeLasFileModel*>
-  selectFilesAndImport(QWidget* widget);
+public slots:
+  void
+  selectFilesAndImport();
 
 private:
   ImportController();

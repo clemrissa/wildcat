@@ -42,7 +42,6 @@ data(const QModelIndex& index, int role) const  {
   switch (index.column()) {
   case 0:
     result = lasFile->wellInformation.wellName;
-    INFO << lasFile->wellInformation.wellName.toLocal8Bit().data();
     break;
   }
 
@@ -77,8 +76,10 @@ ImportTreeModel::
 rowCount(const QModelIndex& parent) const {
   int count = 0;
 
-  for (ImportTreeLasFileModel* model : _importTreeLasFileModels)
+  for (ImportTreeLasFileModel* model : _importTreeLasFileModels) {
     ++count;
+    Q_UNUSED(model);
+  }
 
   // count += model->rowCount(QModelIndex());
 
