@@ -2,6 +2,12 @@
 
 namespace Geo {
 namespace Import {
+ImportTreeLasFileModel::
+ImportTreeLasFileModel(QSharedPointer<LasFile> lasFile) {
+  _lasFile = std::move(lasFile);
+  QString s;
+}
+
 QVariant
 ImportTreeLasFileModel::
 data(const QModelIndex& index, int role) const  {
@@ -32,7 +38,7 @@ rowCount(const QModelIndex& parent = QModelIndex()) const  {
   return 0;
 }
 
-LasFile const&
+QSharedPointer<LasFile>
 ImportTreeLasFileModel::
 getLasFile() const {
   return _lasFile;

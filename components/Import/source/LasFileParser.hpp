@@ -6,46 +6,44 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
+#include <QSharedPointer>
+
 #include "LasFile.hpp"
 
 namespace Geo {
 namespace Import {
 class LasFileParser {
 public:
-  LasFile
+  QSharedPointer<LasFile>
   parse(const QString fileName);
 
 private:
   bool
-  parseVersionSection(int& lineNumber);
+  parseVersionSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
 
   void
-  parseWellInformationSection(int& lineNumber);
+  parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
 
   void
-  parseCurveInformationSection(int& lineNumber);
+  parseCurveInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
 
   void
-  parseParameterInformationSection(int& lineNumber);
+  parseParameterInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
 
   void
-  parseOtherInformationSection(int& lineNumber);
+  parseOtherInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
 
   void
-  parseAsciiLogDataSection(int& lineNumber);
+  parseAsciiLogDataSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
 
   void
-  parseLines();
+  parseLines(QSharedPointer<LasFile>& lasFile);
 
 private:
   QStringList _lines;
 
   QString _version;
   bool    _wrap;
-
-  //  LasFile::WellInformation wellInformation;
-
-  LasFile lasFile;
 };
 }
 }

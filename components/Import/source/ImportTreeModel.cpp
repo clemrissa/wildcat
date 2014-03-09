@@ -4,6 +4,8 @@
 
 #include <Uni/Logging/Logging>
 
+#include <QSharedPointer>
+
 namespace Geo {
 namespace Import {
 ImportTreeModel::
@@ -35,12 +37,12 @@ data(const QModelIndex& index, int role) const  {
   if (role != Qt::DisplayRole)
     return result;
 
-  LasFile const& lasFile = _importTreeLasFileModels[index.row()]->getLasFile();
+  QSharedPointer<LasFile> const& lasFile = _importTreeLasFileModels[index.row()]->getLasFile();
 
   switch (index.column()) {
   case 0:
-    result = lasFile.wellInformation.wellName;
-    INFO << lasFile.wellInformation.wellName.toLocal8Bit().data();
+    result = lasFile->wellInformation.wellName;
+    INFO << lasFile->wellInformation.wellName.toLocal8Bit().data();
     break;
   }
 
@@ -53,8 +55,7 @@ index(int row, int column, const QModelIndex& parent) const  {
   if (row >= _importTreeLasFileModels.size() && column >= 4)
     return QModelIndex();
 
-  return QAbstractItemModel::createIndex(row, column,
-                                         (void*)&_importTreeLasFileModels[row]->getLasFile());
+  return QAbstractItemModel::createIndex(row, column, row);
 }
 
 QModelIndex

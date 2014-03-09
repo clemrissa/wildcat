@@ -2,6 +2,7 @@
 #define _GeoImport_ImportTreeLasFileModel_h_
 
 #include <QAbstractItemModel>
+#include <QSharedPointer>
 
 #include "LasFile.hpp"
 
@@ -9,10 +10,7 @@ namespace Geo {
 namespace Import {
 class ImportTreeLasFileModel: public QAbstractItemModel {
 public:
-  ImportTreeLasFileModel(LasFile lasFile) {
-    //
-    QString s;
-  }
+  ImportTreeLasFileModel(QSharedPointer<LasFile> lasFile);
 
   QVariant
   data(const QModelIndex& index, int role) const override;
@@ -30,11 +28,11 @@ public:
   rowCount(const QModelIndex& parent) const override;
 
 public:
-  LasFile const&
+  QSharedPointer<LasFile>
   getLasFile() const;
 
 private:
-  LasFile _lasFile;
+  QSharedPointer<LasFile> _lasFile;
 
   //
 };

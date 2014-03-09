@@ -36,8 +36,8 @@ public:
 
 ImportWidget::
 ImportWidget(QWidget*        parent,
-             Qt::WindowFlags f) : QWidget(parent, f),
-                                  im(new Private) {
+             Qt::WindowFlags f): QWidget(parent, f),
+                                 im(new Private) {
   setWindowTitle("Import Data");
 
   if (parent)
@@ -77,13 +77,10 @@ selectFile() {
   QVector<ImportTreeLasFileModel*> lasFileModels =
     ImportController::instance()->selectFilesAndImport(this);
 
-  for (ImportTreeLasFileModel* model : lasFileModels) {
-    im->textEdit->appendPlainText(model->getLasFile().getText());
-  }
+  for (ImportTreeLasFileModel* model : lasFileModels)
+    im->textEdit->appendPlainText(model->getLasFile()->getText());
 
   im->importTreeModel->setImportTreeLasFileModels(lasFileModels);
-
-  INFO << "las files have been chosen";
 }
 } // namespace Import
 } // namespace Geo

@@ -2,6 +2,7 @@
 
 #include <QAbstractItemModel>
 #include <QFileDialog>
+#include <QSharedPointer>
 #include <QTreeView>
 #include <QVector>
 
@@ -55,9 +56,11 @@ selectFilesAndImport(QWidget* widget) {
   QVector<ImportTreeLasFileModel*> importTreeLasFileModels;
 
   // collect list of parsed las files
-  for (QString fileName : fileList)
-    importTreeLasFileModels.append(new
-                                   ImportTreeLasFileModel(lasFileParser.parse(fileName)));
+  for (QString fileName : fileList) {
+    QSharedPointer<LasFile> lf = lasFileParser.parse(fileName);
+
+    importTreeLasFileModels.append(new ImportTreeLasFileModel(lf));
+  }
 
   return importTreeLasFileModels;
 }
