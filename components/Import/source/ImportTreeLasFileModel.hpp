@@ -29,6 +29,10 @@ public:
   int
   rowCount(const QModelIndex& parent) const override;
 
+public:
+  LasFile const&
+  getLasFile() const;
+
 private:
   LasFile _lasFile;
 

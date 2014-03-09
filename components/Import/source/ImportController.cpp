@@ -15,7 +15,7 @@
 
 #include <Core/MainWindow>
 
-#include <Uni/Logging/Logging>
+#include <Uni/Logging/logging>
 
 namespace Geo {
 namespace Import {

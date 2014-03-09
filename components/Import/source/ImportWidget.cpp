@@ -18,6 +18,10 @@
 #include "ImportController.hpp"
 #include "ImportTreeModel.hpp"
 
+#include "ImportTreeLasFileModel.hpp"
+
+#include <Uni/Logging/logging>
+
 namespace Geo {
 namespace Import {
 class ImportWidget::Private {
@@ -31,9 +35,13 @@ public:
 };
 
 ImportWidget::
-ImportWidget():
-  im(new Private) {
+ImportWidget(QWidget*        parent,
+             Qt::WindowFlags f) : QWidget(parent, f),
+                                  im(new Private) {
   setWindowTitle("Import Data");
+
+  if (parent)
+    INFO << parent->metaObject()->className();
 
   im->openFileButton = new QPushButton("Import Files");
 
@@ -41,7 +49,7 @@ ImportWidget():
 
   //
 
-  // im->textEdit = new QPlainTextEdit();
+  im->textEdit = new QPlainTextEdit();
 
   im->treeView = new QTreeView();
 
@@ -54,7 +62,7 @@ ImportWidget():
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   layout->addWidget(im->openFileButton);
-  // layout->addWidget(im->textEdit);
+  layout->addWidget(im->textEdit);
   layout->addWidget(im->treeView);
 
   this->setMinimumSize(QSize(500, 400));
@@ -69,9 +77,13 @@ selectFile() {
   QVector<ImportTreeLasFileModel*> lasFileModels =
     ImportController::instance()->selectFilesAndImport(this);
 
+  for (ImportTreeLasFileModel* model : lasFileModels) {
+    im->textEdit->appendPlainText(model->getLasFile().getText());
+  }
+
   im->importTreeModel->setImportTreeLasFileModels(lasFileModels);
 
   INFO << "las files have been chosen";
 }
-}         // namespace Import
-}         // namespace Geo
+} // namespace Import
+} // namespace Geo

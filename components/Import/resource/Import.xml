@@ -3,35 +3,35 @@
   <dll path="Import"/>
   <beans>
     <call bean="Core.MainWindow" method="toCentralWidget">
-      <bean name="Import.ImportDialog"/>
+      <bean name="Import.ImportWidget"/>
     </call>
 
-    <bean name="Import.ImportDialog" class="Geo::Import::ImportDialog">
-      <!--<bean name="Core.MainWindow"/>-->
+    <bean name="Import.ImportWidget" class="Geo::Import::ImportWidget">
+      <bean name="Core.MainWindow"/>
     </bean>
 
 <!--==============-->
-    <bean name="Import.Menu" bean="Import.ImportUiFactory" method="getImportMenu"/>
+    <!--<bean name="Import.Menu" bean="Import.ImportUiFactory" method="getImportMenu"/>-->
 
-    <bean name="Import.ImportUiFactory" class="Geo::Import::ImportUiFactory">
-      <method name="getImportMenu" type="factory"/>
-    </bean>
+    <!--<bean name="Import.ImportUiFactory" class="Geo::Import::ImportUiFactory">-->
+      <!--<method name="getImportMenu" type="factory"/>-->
+    <!--</bean>-->
 
-    <call bean="Core.MainWindow" method="addMenu">
-      <bean name="Import.Menu"/>
-    </call>
+    <!--<call bean="Core.MainWindow" method="addMenu">-->
+      <!--<bean name="Import.Menu"/>-->
+    <!--</call>-->
 
 <!--==============-->
 
-    <bean name="Import.ToolBar" bean="Import.ImportUiFactory" method="getImportToolBar"/>
+    <!--<bean name="Import.ToolBar" bean="Import.ImportUiFactory" method="getImportToolBar"/>-->
 
-    <bean name="Import.ImportUiFactory" class="Geo::Import::ImportUiFactory">
-      <method name="getImportToolBar" type="factory"/>
-    </bean>
+    <!--<bean name="Import.ImportUiFactory" class="Geo::Import::ImportUiFactory">-->
+      <!--<method name="getImportToolBar" type="factory"/>-->
+    <!--</bean>-->
 
-    <call bean="Core.MainWindow" method="addToolBar">
-      <bean name="Import.ToolBar"/>
-    </call>
+    <!--<call bean="Core.MainWindow" method="addToolBar">-->
+      <!--<bean name="Import.ToolBar"/>-->
+    <!--</call>-->
 
   </beans>
 </context>

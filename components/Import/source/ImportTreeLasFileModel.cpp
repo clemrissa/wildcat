@@ -31,5 +31,11 @@ ImportTreeLasFileModel::
 rowCount(const QModelIndex& parent = QModelIndex()) const  {
   return 0;
 }
+
+LasFile const&
+ImportTreeLasFileModel::
+getLasFile() const {
+  return _lasFile;
+}
 }
 }

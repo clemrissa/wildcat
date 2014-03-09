@@ -22,6 +22,7 @@ void
 ImportTreeModel::
 setImportTreeLasFileModels(QVector<ImportTreeLasFileModel*> lasFileModels) {
   beginResetModel();
+  INFO << "IMPORTED " << lasFileModels.size() << " las files";
   _importTreeLasFileModels = lasFileModels;
   endResetModel();
 }
@@ -31,13 +32,15 @@ ImportTreeModel::
 data(const QModelIndex& index, int role) const  {
   QVariant result;
 
-  switch (role) {
-  case Qt::DisplayRole: {
-    result = tr("Table item");
-    break;
-  }
+  if (role != Qt::DisplayRole)
+    return result;
 
-  default:
+  LasFile const& lasFile = _importTreeLasFileModels[index.row()]->getLasFile();
+
+  switch (index.column()) {
+  case 0:
+    result = lasFile.wellInformation.wellName;
+    INFO << lasFile.wellInformation.wellName.toLocal8Bit().data();
     break;
   }
 
@@ -47,10 +50,11 @@ data(const QModelIndex& index, int role) const  {
 QModelIndex
 ImportTreeModel::
 index(int row, int column, const QModelIndex& parent) const  {
-  if (row >= 2 && column >= 2)
+  if (row >= _importTreeLasFileModels.size() && column >= 4)
     return QModelIndex();
 
-  return QAbstractItemModel::createIndex(row, column, (void*)0);
+  return QAbstractItemModel::createIndex(row, column,
+                                         (void*)&_importTreeLasFileModels[row]->getLasFile());
 }
 
 QModelIndex
@@ -64,18 +68,18 @@ ImportTreeModel::
 columnCount(const QModelIndex& parent) const  {
   // it does not matter as this model is a "fake" one
   // the true number of columns is returned my main model attached to a view
-  return 2;
+  return 4;
 }
 
 int
 ImportTreeModel::
-rowCount(const QModelIndex& parent) const  {
-  int count = 2;
-
-  return count;
+rowCount(const QModelIndex& parent) const {
+  int count = 0;
 
   for (ImportTreeLasFileModel* model : _importTreeLasFileModels)
-    count += model->rowCount(QModelIndex());
+    ++count;
+
+  // count += model->rowCount(QModelIndex());
 
   return count;
 }
@@ -85,25 +89,33 @@ ImportTreeModel::
 headerData(int             section,
            Qt::Orientation orientation,
            int             role)  const {
-  //
+  QVariant result;
 
-  switch (orientation) {
-  case Qt::Horizontal:
+  if (role != Qt::DisplayRole)
+    return result;
 
-    if (role == Qt::DisplayRole)
-      return tr("Column");
+  if (orientation == Qt::Vertical)
+    return result;
 
+  switch (section) {
+  case 0:
+    result = tr("Item");
     break;
 
-  case Qt::Vertical:
-    return tr("Row");
+  case 1:
+    result = tr("Value(Name)");
     break;
 
-  default:
+  case 2:
+    result = tr("Parsed Units");
+    break;
+
+  case 3:
+    result = tr("Save Units");
     break;
   }
 
-  return QVariant();
+  return result;
 }
 }
 }

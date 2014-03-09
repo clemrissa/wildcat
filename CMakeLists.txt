@@ -11,7 +11,7 @@ endif ()
 # ------------------------------------------------------------------------------
 set(CMAKE_ERROR_DEPRECATED ON)
 # ------------------------------------------------------------------------------
-set(CMAKE_VERBOSE_MAKEFILE ON)
+#set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_COLOR_MAKEFILE   ON)
 # ------------------------------------------------------------------------------
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

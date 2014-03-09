@@ -10,7 +10,7 @@ class ImportWidget: public QWidget {
 
 public:
   Q_INVOKABLE
-  ImportWidget();
+  ImportWidget(QWidget * parent = 0, Qt::WindowFlags f = 0);
 
   virtual
   ~ImportWidget();
