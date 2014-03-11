@@ -16,10 +16,10 @@ add_executable(${TARGET_NAME} ${CPP_FILES})
 target_link_libraries(${TARGET_NAME} PRIVATE
                       Uni
                       DependencyManager
-                      Core
-                      Database)
+                      )
 
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_DIR}/source")
+target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Core,INTERFACE_INCLUDE_DIRECTORIES>)
 
 target_use_qt5(${TARGET_NAME} PRIVATE Core Widgets Qml Quick)
 target_use_boost(${TARGET_NAME} PRIVATE)
