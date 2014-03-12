@@ -124,6 +124,44 @@ public:
     }
   }
 };
+
+
+class ImportTreeWrapperWellInfo: public ImportTreeWrapperEntry {
+public:
+  ImportTreeWrapperWellInfo(QSharedPointer<LasFile> lasFile,
+                            ImportTreeWrapperEntry* parent,
+                            int position):
+  ImportTreeWrapperEntry(lasFile, parent),
+    _position(position)
+  {}
+
+  QVariant
+  data(int role, int column) override {
+    if (role != Qt::DisplayRole)
+      return QVariant();
+
+    QString key = _lasFile->wellInformation.entries.keys()[_position];
+
+    switch(column){
+      case 0:
+        return _lasFile->wellInformation.entries[key].name;
+        break;
+      case 1:
+        return _lasFile->wellInformation.entries[key].value;
+        break;
+
+      case 3:
+        return _lasFile->wellInformation.entries[key].units;
+        break;
+
+      default:
+        return QVariant();
+        break;
+    }
+  }
+private:
+  int _position;
+};
 }
 }
 

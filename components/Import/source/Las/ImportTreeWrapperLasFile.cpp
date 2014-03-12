@@ -13,13 +13,17 @@ ImportTreeWrapperLasFile(QSharedPointer<LasFile> lasFile):
                                                    this));
 
   _entries.push_back(new ImportTreeWrapperWellStart(_lasFile,
-                                                this));
+                                                    this));
 
   _entries.push_back(new ImportTreeWrapperWellStop(_lasFile,
-                                               this));
+                                                   this));
 
   _entries.push_back(new ImportTreeWrapperWellStep(_lasFile,
-                                               this));
+                                                   this));
+
+  for(int i = 0; i < _lasFile->wellInformation.entries.keys().size(); ++i){
+    _entries.push_back(new ImportTreeWrapperWellInfo(_lasFile, this, i));
+  }
 }
 
 QVariant

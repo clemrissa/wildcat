@@ -184,7 +184,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
     } else if (reStop.indexIn(line) >= 0) {
       QString all     = reStop.cap(0);
       QString strt    = reStop.cap(1);
-      QString units   = reStop.cap(2);
+      QString units   = reStop.cap(2).trimmed().remove(0,1);
       QString value   = reStop.cap(3);
       QString comment = reStop.cap(5);
 
@@ -193,7 +193,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
     } else if (reStep.indexIn(line) >= 0) {
       QString all     = reStep.cap(0);
       QString strt    = reStep.cap(1);
-      QString units   = reStep.cap(2);
+      QString units   = reStep.cap(2).trimmed().remove(0,1);
       QString value   = reStep.cap(3);
       QString comment = reStep.cap(5);
 
@@ -203,7 +203,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
     } else if (reNULL.indexIn(line) >= 0) {
       QString all     = reNULL.cap(0);
       QString strt    = reNULL.cap(1);
-      QString units   = reNULL.cap(2);
+      QString units   = reNULL.cap(2).trimmed().remove(0,1);
       QString value   = reNULL.cap(3);
       QString comment = reNULL.cap(5);
 
@@ -247,6 +247,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
   }
 }
 
+
 void
 LasFileParser::
 parseCurveInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
@@ -289,6 +290,7 @@ parseCurveInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) 
     ++i;
   }
 }
+
 
 void
 LasFileParser::
