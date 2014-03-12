@@ -1,8 +1,10 @@
 #include "LasFileParser.hpp"
 
 #include <QtCore/QFile>
+#include <QtCore/QFileInfo>
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
+
 
 // Everybody stand back! I know regular expressions
 #include <QSharedPointer>
@@ -28,6 +30,9 @@ parse(const QString fileName) {
     return lasFile;
     Q_ASSERT(false);
   }
+
+  QFileInfo fileInfo(fileName);
+  lasFile->fileName = fileInfo.fileName();
 
   QFile inputFile(fileName);
 

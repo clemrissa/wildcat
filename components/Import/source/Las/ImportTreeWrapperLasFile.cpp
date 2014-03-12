@@ -9,8 +9,17 @@ namespace Import {
 ImportTreeWrapperLasFile::
 ImportTreeWrapperLasFile(QSharedPointer<LasFile> lasFile):
   ImportTreeWrapperEntry(lasFile) {
-  _entries.push_back(new ImportTreeWrapperWellInformation(_lasFile,
-                                                          this));
+  _entries.push_back(new ImportTreeWrapperWellName(_lasFile,
+                                                   this));
+
+  _entries.push_back(new ImportTreeWrapperWellStart(_lasFile,
+                                                this));
+
+  _entries.push_back(new ImportTreeWrapperWellStop(_lasFile,
+                                               this));
+
+  _entries.push_back(new ImportTreeWrapperWellStep(_lasFile,
+                                               this));
 }
 
 QVariant
@@ -19,10 +28,17 @@ data(int role, int column) {
   if (role != Qt::DisplayRole)
     return QVariant();
 
-  if (column == 0)
-    return _lasFile->wellInformation.wellName;
-  else
-    return QVariant();
+  switch(column){
+    case 0:
+      return tr("File");
+      break;
+    case 1:
+      return _lasFile->fileName;
+      break;
+    default:
+      return QVariant();
+      break;
+  }
 }
 }
 }

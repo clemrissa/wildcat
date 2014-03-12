@@ -12,7 +12,8 @@
 namespace Geo {
 namespace Import {
 /// Composite pattern. Used to represent LAS file strurcture as a tree
-class ImportTreeWrapperEntry {
+class ImportTreeWrapperEntry : public QObject {
+
 public:
   ImportTreeWrapperEntry(QSharedPointer<LasFile> lasFile,
                          ImportTreeWrapperEntry* parent = nullptr):

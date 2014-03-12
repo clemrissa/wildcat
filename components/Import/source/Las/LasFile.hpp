@@ -47,8 +47,7 @@ public:
   };
 
 public:
-  QString
-  getText() const;
+  QString fileName;
 
   WellInformation                      wellInformation;
   QMap<QString, CurveInformationEntry> curveInformation;
@@ -57,6 +56,11 @@ public:
   QMap<QString, QVector<double> > data;
 
   bool valid;
+
+public:
+  QString
+  getText() const;
+
 };
 }
 }

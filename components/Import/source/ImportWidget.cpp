@@ -49,29 +49,20 @@ ImportWidget(QAbstractItemModel* importModel):
   im->treeView->setModel(im->importTreeModel);
   im->treeView->setAlternatingRowColors(true);
   im->treeView->header()->show();
+  //im->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+  im->treeView->header()->setSectionResizeMode(QHeaderView::Stretch);
 
   QVBoxLayout* layout = new QVBoxLayout(this);
 
-  layout->addWidget(im->openFileButton);
-  layout->addWidget(im->textEdit);
+  //layout->addWidget(im->openFileButton);
+  //layout->addWidget(im->textEdit);
   layout->addWidget(im->treeView);
 
-  this->setMinimumSize(QSize(500, 400));
+  this->setMinimumSize(QSize(800, 400));
 }
 
 ImportWidget::
 ~ImportWidget() {}
 
-// void
-// ImportWidget::
-// selectFile() {
-// QVector<ImportTreeLasFileModel*> lasFileModels =
-// ImportController::instance()->selectFilesAndImport(this);
-
-// for (ImportTreeLasFileModel* model : lasFileModels)
-// im->textEdit->appendPlainText(model->getLasFile()->getText());
-
-// im->importTreeModel->setImportTreeLasFileModels(lasFileModels);
-// }
 } // namespace Import
 } // namespace Geo

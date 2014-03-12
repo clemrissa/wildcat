@@ -16,9 +16,6 @@ ImportTreeModel::
 ImportTreeModel(QVector<ImportTreeWrapperLasFile*> importTreeWrapperLasFiles):
   _importTreeWrapperLasFiles(importTreeWrapperLasFiles) {
   //
-
-  INFO << " ПЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЩЬ! ";
-  INFO << _importTreeWrapperLasFiles.size();
 }
 
 QVariant
@@ -30,21 +27,10 @@ data(const QModelIndex& index, int role) const  {
   if (role != Qt::DisplayRole)
     return QVariant();
 
-  // ImportTreeWrapperEntry* entry =
-  // static_cast<ImportTreeWrapperEntry*>(index.internalPointer());
+  ImportTreeWrapperEntry* entry =
+    static_cast<ImportTreeWrapperEntry*>(index.internalPointer());
 
-  return QString("lalala");
-  // if (!parent().parent().isValid())
-  // QSharedPointer<LasFile> const& lasFile =
-  // _importTreeLasFileModels[index.row()]->getLasFile();
-
-  // switch (index.column()) {
-  // case 0:
-  // result = lasFile->wellInformation.wellName;
-  // break;
-  // }
-
-  // return result;
+  return entry->data(role, index.column());
 }
 
 QModelIndex
@@ -93,7 +79,7 @@ columnCount(const QModelIndex& parent) const  {
   // it does not matter as this model is a "fake" one
   // the true number of columns is returned my main model attached
   // to a view
-  return 4;
+  return 5;
 }
 
 int
@@ -127,15 +113,19 @@ headerData(int             section,
     break;
 
   case 1:
-    result = tr("Import As");
+    result = tr("Value");
     break;
 
   case 2:
-    result = tr("Parsed Units");
+    result = tr("Import As");
     break;
 
   case 3:
-    result = tr("Save Units");
+    result = tr("Parsed Units");
+    break;
+
+  case 4:
+    result = tr("Import Units As");
     break;
   }
 
