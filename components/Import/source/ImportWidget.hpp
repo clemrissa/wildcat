@@ -3,16 +3,18 @@
 
 #include <QWidget>
 
+#include "ImportTreeModel.hpp"
+
+class QAbstractItemModel;
+
 namespace Geo {
 namespace Import {
-class ImportTreeLasFileModel;
-
 class ImportWidget: public QWidget {
   Q_OBJECT
 
 public:
   // Q_INVOKABLE
-  ImportWidget(QVector<ImportTreeLasFileModel*> models);
+  ImportWidget(QAbstractItemModel* importModel);
 
   virtual
   ~ImportWidget();

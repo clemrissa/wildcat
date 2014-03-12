@@ -1,27 +1,28 @@
 #ifndef Geo_Import_ImportTreeWrapperEntry_hpp
 #define Geo_Import_ImportTreeWrapperEntry_hpp
 
+#include <algorithm>
 #include <vector>
 
 #include <QSharedPointer>
+#include <QVariant>
 
 #include "LasFile.hpp"
 
 namespace Geo {
 namespace Import {
-
 /// Composite pattern. Used to represent LAS file strurcture as a tree
-class ImportTreeWrapperEntry { 
+class ImportTreeWrapperEntry {
 public:
   ImportTreeWrapperEntry(QSharedPointer<LasFile> lasFile,
-                         ImportTreeWrapperEntry* parent = nullptr)
-    : _parent(parent),
-      _lasFile(lasFile)
+                         ImportTreeWrapperEntry* parent = nullptr):
+    _parent(parent),
+    _lasFile(lasFile)
   {}
 
-
-  virtual ~ImportTreeWrapperEntry() {
-    for(ImportTreeWrapperEntry* entry: _entries)
+  virtual
+  ~ImportTreeWrapperEntry() {
+    for (ImportTreeWrapperEntry* entry : _entries)
       delete entry;
   }
 
@@ -35,7 +36,14 @@ public:
     return _entries;
   }
 
-  QSharedPointer<LasFile> const 
+  int
+  positionOfChildEntry(ImportTreeWrapperEntry* const childEntry) const {
+    auto it = std::find(_entries.begin(), _entries.end(), childEntry);
+
+    return it - _entries.begin();
+  }
+
+  QSharedPointer<LasFile> const
   lasFile() const {
     return _lasFile;
   }
@@ -43,14 +51,12 @@ public:
   virtual QVariant
   data(int role, int column) = 0;
 
-private:
+protected:
   ImportTreeWrapperEntry* _parent;
-  QSharedPointer<LasFile> _lasFile);
+  QSharedPointer<LasFile> _lasFile;
 
   std::vector<ImportTreeWrapperEntry*> _entries;
-
 };
-
 }
 }
 #endif // Geo_Import_ImportTreeWrapperEntry_hpp

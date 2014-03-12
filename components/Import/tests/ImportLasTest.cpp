@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <LasFile.hpp>
-#include <LasFileParser.hpp>
+#include <Las/LasFile.hpp>
+#include <Las/LasFileParser.hpp>
 
 #include <Uni/Logging/Logging>
 

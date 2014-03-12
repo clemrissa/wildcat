@@ -2,23 +2,20 @@
 
 #include <Uni/Logging/Logging>
 
-#include <QList>
-
+#include <QAbstractItemModel>
 #include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QHeaderView>
+#include <QList>
 #include <QPlainTextEdit>
 #include <QPushButton>
 #include <QTreeView>
 #include <QVBoxLayout>
 
-#include "LasFile.hpp"
-#include "LasFileParser.hpp"
-
 #include "ImportController.hpp"
 #include "ImportTreeModel.hpp"
 
-#include "ImportTreeLasFileModel.hpp"
+#include "Las/ImportTreeWrapperLasFile.hpp"
 
 #include <Uni/Logging/logging>
 
@@ -31,11 +28,11 @@ public:
 
   QTreeView* treeView;
 
-  ImportTreeModel* importTreeModel;
+  QAbstractItemModel* importTreeModel;
 };
 
 ImportWidget::
-ImportWidget(QVector<ImportTreeLasFileModel*> models):
+ImportWidget(QAbstractItemModel* importModel):
   im(new Private) {
   setWindowTitle("Import Data");
 
@@ -47,7 +44,7 @@ ImportWidget(QVector<ImportTreeLasFileModel*> models):
 
   im->treeView = new QTreeView();
 
-  im->importTreeModel = new ImportTreeModel();
+  im->importTreeModel = importModel;
 
   im->treeView->setModel(im->importTreeModel);
   im->treeView->setAlternatingRowColors(true);
@@ -60,8 +57,6 @@ ImportWidget(QVector<ImportTreeLasFileModel*> models):
   layout->addWidget(im->treeView);
 
   this->setMinimumSize(QSize(500, 400));
-
-  im->importTreeModel->setImportTreeLasFileModels(models);
 }
 
 ImportWidget::

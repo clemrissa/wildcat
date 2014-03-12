@@ -6,11 +6,12 @@
 #include <QTreeView>
 #include <QVector>
 
-#include "ImportTreeLasFileModel.hpp"
 #include "ImportTreeModel.hpp"
 #include "ImportWidget.hpp"
-#include "LasFile.hpp"
-#include "LasFileParser.hpp"
+
+#include "Las/ImportTreeWrapperLasFile.hpp"
+#include "Las/LasFile.hpp"
+#include "Las/LasFileParser.hpp"
 
 #include <DependencyManager/ApplicationContext>
 #include <DependencyManager/XmlApplicationContextLoader>
@@ -55,21 +56,23 @@ selectFilesAndImport() {
                                   "/home",
                                   "LAS files (*.las)");
 
-  LasFileParser                    lasFileParser;
-  QVector<ImportTreeLasFileModel*> importTreeLasFileModels;
+  LasFileParser                      lasFileParser;
+  QVector<ImportTreeWrapperLasFile*> importTreeWrapperLasFile;
 
   // collect list of parsed las files
 
   for (QString fileName : fileList) {
-    QSharedPointer<LasFile> lf = lasFileParser.parse(fileName);
+    QSharedPointer<LasFile> lasFile = lasFileParser.parse(fileName);
 
-    importTreeLasFileModels.append(new ImportTreeLasFileModel(lf));
+    importTreeWrapperLasFile.append(new ImportTreeWrapperLasFile(lasFile));
   }
 
-  if (importTreeLasFileModels.size() == 0)
+  if (importTreeWrapperLasFile.size() == 0)
     return;
 
-  ImportWidget* importWidget = new ImportWidget(importTreeLasFileModels);
+  ImportTreeModel* importTreeModel = new ImportTreeModel(importTreeWrapperLasFile);
+
+  ImportWidget* importWidget = new ImportWidget(importTreeModel);
 
   mainWindow->toCentralWidget(importWidget);
 }

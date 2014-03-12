@@ -1,5 +1,5 @@
-#ifndef _GeoImport_ImportController_h_
-#define _GeoImport_ImportController_h_
+#ifndef Geo_Import_ImportController_hpp
+#define Geo_Import_ImportController_hpp
 
 #include <QAbstractItemModel>
 #include <QObject>
@@ -36,4 +36,4 @@ private:
 }
 }
 
-#endif //  _GeoImport_ImportController_h_
+#endif //  GeoImport_ImportController_hpp

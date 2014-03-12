@@ -5,17 +5,14 @@
 
 namespace Geo {
 namespace Import {
-
-class ImportTreeWrapperWellInformation : public ImportTreeWrapperEntry {
+class ImportTreeWrapperWellInformation: public ImportTreeWrapperEntry {
 public:
   ImportTreeWrapperWellInformation(QSharedPointer<LasFile> lasFile,
                                    ImportTreeWrapperEntry* parent);
 
-  virtual QVariant
+  QVariant
   data(int role, int column) override;
-
 };
-
 }
 }
 
