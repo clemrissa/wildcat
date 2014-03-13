@@ -34,7 +34,7 @@ public:
     QMap<QString, WellInformationEntry> entries;
   };
 
-  struct CurveInformationEntry {
+  struct LogInformationEntry {
     QString units;
     QString code;
     QString description;
@@ -50,7 +50,7 @@ public:
   QString fileName;
 
   WellInformation                      wellInformation;
-  QMap<QString, CurveInformationEntry> curveInformation;
+  QMap<QString, LogInformationEntry> logInformation;
   QVector<ParameterInformationEntry>   parameterInformation;
 
   QMap<QString, QVector<double> > data;

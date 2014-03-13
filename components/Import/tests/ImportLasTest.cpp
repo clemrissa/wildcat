@@ -42,10 +42,10 @@ TEST(ImportLas, Las12) {
   ASSERT_TRUE(lasFile->wellInformation.entries["PROV"].value == "SASKATCHEWAN");
 
   // check curve information
-  ASSERT_EQ(8, lasFile->curveInformation.size());
+  ASSERT_EQ(8, lasFile->logInformation.size());
 
-  ASSERT_TRUE(lasFile->curveInformation["RHOB"].units == "K/M3");
-  ASSERT_TRUE(lasFile->curveInformation["SFLA"].description ==
+  ASSERT_TRUE(lasFile->logInformation["RHOB"].units == "K/M3");
+  ASSERT_TRUE(lasFile->logInformation["SFLA"].description ==
               "SHALLOW RESISTIVITY");
 
   ASSERT_TRUE(lasFile->data["SFLA"].size() == lasFile->data["ILD"].size());
@@ -82,10 +82,10 @@ TEST(ImportLas, Las20) {
   ASSERT_TRUE(lasFile->wellInformation.entries["PROV"].value == "ALBERTA");
 
   // check curve information
-  ASSERT_EQ(8, lasFile->curveInformation.size());
+  ASSERT_EQ(8, lasFile->logInformation.size());
 
-  ASSERT_TRUE(lasFile->curveInformation["RHOB"].units == "K/M3");
-  ASSERT_TRUE(lasFile->curveInformation["SFLA"].description ==
+  ASSERT_TRUE(lasFile->logInformation["RHOB"].units == "K/M3");
+  ASSERT_TRUE(lasFile->logInformation["SFLA"].description ==
               "SHALLOW RESISTIVITY");
 
   ASSERT_TRUE(lasFile->data["SFLA"].size() == lasFile->data["ILD"].size());

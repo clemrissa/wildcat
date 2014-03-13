@@ -25,7 +25,7 @@ private:
   parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
 
   void
-  parseCurveInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
+  parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
 
   void
   parseParameterInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);

@@ -69,7 +69,7 @@ parseLines(QSharedPointer<LasFile>& lasFile) {
     else if (line.startsWith(QString::fromUtf8("~W")))
       parseWellInformationSection(lasFile, i);
     else if (line.startsWith(QString::fromUtf8("~C")))
-      parseCurveInformationSection(lasFile, i);
+      parseLogInformationSection(lasFile, i);
     else if (line.startsWith(QString::fromUtf8("~P")))
       parseParameterInformationSection(lasFile, i);
     else if (line.startsWith(QString::fromUtf8("~O")))
@@ -250,15 +250,15 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
 
 void
 LasFileParser::
-parseCurveInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
+parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
   int& i = lineNumber;
 
   // clear old values
-  lasFile->curveInformation.clear();
+  lasFile->logInformation.clear();
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //                     name .units   name:value
-  QRegExp reCurveInfoEntries("(^.+)(\\.[^ ]*)(.+)( *:)( *.*$)");
+  QRegExp reLogInfoEntries("(^.+)(\\.[^ ]*)(.+)( *:)( *.*$)");
 
   // next line
   ++i;
@@ -272,19 +272,19 @@ parseCurveInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) 
     }
 
     // all the rest fields
-    if (reCurveInfoEntries.indexIn(line) >= 0) {
+    if (reLogInfoEntries.indexIn(line) >= 0) {
       // name .units   name:value
-      LasFile::CurveInformationEntry entry;
+      LasFile::LogInformationEntry entry;
 
-      QString all = reCurveInfoEntries.cap(0);
+      QString all = reLogInfoEntries.cap(0);
 
-      QString mnem = reCurveInfoEntries.cap(1).trimmed();
-      entry.units = reCurveInfoEntries.cap(2).trimmed().remove(0, 1);
-      entry.code  = reCurveInfoEntries.cap(3).trimmed();
+      QString mnem = reLogInfoEntries.cap(1).trimmed();
+      entry.units = reLogInfoEntries.cap(2).trimmed().remove(0, 1);
+      entry.code  = reLogInfoEntries.cap(3).trimmed();
       // cap(4) == ":"
-      entry.description = reCurveInfoEntries.cap(5).trimmed();
+      entry.description = reLogInfoEntries.cap(5).trimmed();
 
-      lasFile->curveInformation[mnem] = entry;
+      lasFile->logInformation[mnem] = entry;
     }
 
     ++i;
@@ -314,7 +314,7 @@ parseAsciiLogDataSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
   // clear old values
   lasFile->data.clear();
 
-  for (auto entryKey : lasFile->curveInformation.keys())
+  for (auto entryKey : lasFile->logInformation.keys())
     lasFile->data[entryKey] = QVector<double>();
 
   // corresponds to any number of form [-]333.566

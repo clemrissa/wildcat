@@ -22,7 +22,7 @@ public:
     if (role != Qt::DisplayRole)
       return QVariant();
 
-    QString key = _lasFile->curveInformation.keys()[_position];
+    QString key = _lasFile->logInformation.keys()[_position];
 
     switch(column){
       case 0:
@@ -30,7 +30,7 @@ public:
         break;
 
       case 3:
-        return _lasFile->curveInformation[key].units;
+        return _lasFile->logInformation[key].units;
         break;
 
       default:
@@ -49,7 +49,7 @@ public:
                             ImportTreeWrapperEntry* parent):
     ImportTreeWrapperEntry(lasFile, parent) {
 
-   for(int i = 0; i < _lasFile->curveInformation.keys().size(); ++i) {
+   for(int i = 0; i < _lasFile->logInformation.keys().size(); ++i) {
       _entries.push_back(new ImportTreeWrapperLog(_lasFile, this, i));
     }
   }
@@ -61,7 +61,7 @@ public:
 
     switch(column){
       case 0:
-        return tr("Logs (%1)").arg(_lasFile->curveInformation.size());
+        return tr("Logs (%1)").arg(_lasFile->logInformation.size());
         break;
       default:
         return QVariant();
