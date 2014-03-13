@@ -5,7 +5,6 @@
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
 
-
 // Everybody stand back! I know regular expressions
 #include <QSharedPointer>
 #include <QtCore/QRegExp>
@@ -32,6 +31,7 @@ parse(const QString fileName) {
   }
 
   QFileInfo fileInfo(fileName);
+
   lasFile->fileName = fileInfo.fileName();
 
   QFile inputFile(fileName);
@@ -158,7 +158,10 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //  name .units   name:value
-  QRegExp reRestEntries("(^.+)( *\\.[^ ]*)(.+)( *:)( *.*$)");
+  // QRegExp reRestEntries("(^.+)( *\\.[^ ]*)(.+)( *:)( *.*$)");
+  QRegExp reRestEntries("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
+
+  reRestEntries.setMinimal(true);
 
   // next line
   ++i;
@@ -179,17 +182,12 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
       QString value   = reStart.cap(3).trimmed();
       QString comment = reStart.cap(5);
 
-      INFO << "Match all ";
-      INFO << all.toLocal8Bit().data(); 
-      INFO << units.toLocal8Bit().data();
-
-
       bool ok;
       lasFile->wellInformation.start = value.toDouble(&ok);
     } else if (reStop.indexIn(line) >= 0) {
       QString all     = reStop.cap(0);
       QString strt    = reStop.cap(1);
-      QString units   = reStop.cap(2).trimmed().remove(0,1);
+      QString units   = reStop.cap(2).trimmed().remove(0, 1);
       QString value   = reStop.cap(3).trimmed();
       QString comment = reStop.cap(5);
 
@@ -198,7 +196,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
     } else if (reStep.indexIn(line) >= 0) {
       QString all     = reStep.cap(0);
       QString strt    = reStep.cap(1);
-      QString units   = reStep.cap(2).trimmed().remove(0,1);
+      QString units   = reStep.cap(2).trimmed().remove(0, 1);
       QString value   = reStep.cap(3).trimmed();
       QString comment = reStep.cap(5);
 
@@ -208,7 +206,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
     } else if (reNULL.indexIn(line) >= 0) {
       QString all     = reNULL.cap(0);
       QString strt    = reNULL.cap(1);
-      QString units   = reNULL.cap(2).trimmed().remove(0,1);
+      QString units   = reNULL.cap(2).trimmed().remove(0, 1);
       QString value   = reNULL.cap(3).trimmed();
       QString comment = reNULL.cap(5);
 
@@ -227,6 +225,8 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
     }
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {
+      // QRegExp reRestEntries("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
+
       // name .units   name:value
       LasFile::WellInformationEntry entry;
 
@@ -236,11 +236,15 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
       entry.units = reRestEntries.cap(2).trimmed().remove(0, 1);
 
       if (_version == "1.2") {
-        entry.name  = reRestEntries.cap(3).trimmed();
-        entry.value = reRestEntries.cap(5).trimmed();
+        entry.name = reRestEntries.cap(3).trimmed();
+        entry.name.chop(1);
+        entry.name  = entry.name.trimmed();
+        entry.value = reRestEntries.cap(4).trimmed();
       } else if (_version == "2.0") {
-        entry.name  = reRestEntries.cap(5).trimmed();
+        entry.name  = reRestEntries.cap(4).trimmed();
         entry.value = reRestEntries.cap(3).trimmed();
+        entry.value.chop(1);
+        entry.value = entry.value.trimmed();
       }
 
       lasFile->wellInformation.entries[mnem] = entry;
@@ -249,7 +253,6 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
     ++i;
   }
 }
-
 
 void
 LasFileParser::
@@ -293,7 +296,6 @@ parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
     ++i;
   }
 }
-
 
 void
 LasFileParser::
