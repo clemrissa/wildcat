@@ -126,6 +126,38 @@ public:
 };
 
 
+class ImportTreeWrapperWellNull: public ImportTreeWrapperEntry {
+public:
+  ImportTreeWrapperWellNull(QSharedPointer<LasFile> lasFile,
+                            ImportTreeWrapperEntry* parent):
+  ImportTreeWrapperEntry(lasFile, parent)
+  {}
+
+  QVariant
+  data(int role, int column) override {
+    if (role != Qt::DisplayRole)
+      return QVariant();
+
+    switch(column){
+      case 0:
+        return tr("Null");
+        break;
+      case 1:
+        return _lasFile->wellInformation.nullValue;
+        break;
+
+      case 3:
+        return _lasFile->wellInformation.units;
+        break;
+
+      default:
+        return QVariant();
+        break;
+    }
+  }
+};
+
+
 class ImportTreeWrapperWellInfo: public ImportTreeWrapperEntry {
 public:
   ImportTreeWrapperWellInfo(QSharedPointer<LasFile> lasFile,

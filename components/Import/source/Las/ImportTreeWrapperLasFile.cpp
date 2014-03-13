@@ -22,6 +22,9 @@ ImportTreeWrapperLasFile(QSharedPointer<LasFile> lasFile):
   _entries.push_back(new ImportTreeWrapperWellStep(_lasFile,
                                                    this));
 
+  _entries.push_back(new ImportTreeWrapperWellNull(_lasFile,
+                                                   this));
+
   for(int i = 0; i < _lasFile->wellInformation.entries.keys().size(); ++i){
     _entries.push_back(new ImportTreeWrapperWellInfo(_lasFile, this, i));
   }
