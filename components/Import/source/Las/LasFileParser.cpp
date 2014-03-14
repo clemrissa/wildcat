@@ -287,12 +287,6 @@ parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
       // name .units   name:value
       LasFile::LogInformationEntry entry;
 
-      // struct LogInformationEntry {
-      // QString units;
-      // QString code;
-      // QString description;
-      // };
-
       QString all = reLogInfoEntries.cap(0);
 
       QString mnem = reLogInfoEntries.cap(1).trimmed();
@@ -301,7 +295,6 @@ parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
       entry.code = reLogInfoEntries.cap(3).trimmed();
 
       entry.description = reLogInfoEntries.cap(4).trimmed();
-      INFO << entry.description.toLocal8Bit().data();
 
       lasFile->logInformation[mnem] = entry;
     }
@@ -313,8 +306,46 @@ parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
 void
 LasFileParser::
 parseParameterInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
-  //
-  Q_UNUSED(lineNumber);
+  int& i = lineNumber;
+
+  // clear old values
+  lasFile->parameterInformation.clear();
+
+  QRegExp reParameterInformation("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
+
+  // next line
+  ++i;
+
+  while (i < _lines.size()) {
+    QString line = _lines[i];
+
+    if (line.startsWith("~")) {
+      --i;
+      return;
+    }
+
+    // all the rest fields
+    if (reParameterInformation.indexIn(line) >= 0) {
+      // name .units   name:value
+      LasFile::ParameterInformationEntry entry;
+
+      QString all = reParameterInformation.cap(0);
+
+      entry.name = reParameterInformation.cap(1).trimmed();
+      entry.units = reParameterInformation.cap(2).trimmed().remove(0, 1);
+
+      entry.value = reParameterInformation.cap(3).trimmed();
+      entry.value.chop(1);
+      entry.value = entry.value.trimmed();
+        
+      entry.description = reParameterInformation.cap(4).trimmed();
+
+
+      lasFile->parameterInformation[entry.name] = entry;
+    }
+
+    ++i;
+  }
 }
 
 void

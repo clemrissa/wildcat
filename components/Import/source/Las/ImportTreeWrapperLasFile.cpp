@@ -1,7 +1,8 @@
 #include "ImportTreeWrapperLasFile.hpp"
 
-#include "ImportTreeWrapperLogGroup.hpp"
 #include "ImportTreeWrapperWellInformation.hpp"
+#include "ImportTreeWrapperLogGroup.hpp"
+#include "ImportTreeWrapperParameters.hpp"
 
 namespace Geo {
 namespace Import {
@@ -30,6 +31,9 @@ ImportTreeWrapperLasFile(QSharedPointer<LasFile> lasFile):
 
   _entries.push_back(new ImportTreeWrapperLogGroup(_lasFile,
                                                    this));
+
+  _entries.push_back(new ImportTreeWrapperParameterGroup(_lasFile,
+                                                         this));
 }
 
 QVariant

@@ -18,10 +18,10 @@ public:
   LasFile(): valid(false) {}
 
   struct WellInformationEntry {
-    QString name;
-    QString description;
+    QString name; // TODO remove. it is used as a key
     QString units;
     QString value;
+    QString description;
   };
 
   struct WellInformation {
@@ -42,17 +42,18 @@ public:
   };
 
   struct ParameterInformationEntry {
-    QString mnem;
-    QString unit;
-    QString comment;
+    QString name;
+    QString units;
+    QString value;
+    QString description;
   };
 
 public:
   QString fileName;
 
   WellInformation                    wellInformation;
+  QMap<QString, ParameterInformationEntry> parameterInformation;
   QMap<QString, LogInformationEntry> logInformation;
-  QVector<ParameterInformationEntry> parameterInformation;
 
   QMap<QString, QVector<double> > data;
 
