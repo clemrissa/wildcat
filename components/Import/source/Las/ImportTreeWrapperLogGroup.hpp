@@ -5,17 +5,14 @@
 
 namespace Geo {
 namespace Import {
-
-
 class ImportTreeWrapperLog: public ImportTreeWrapperEntry {
 public:
   ImportTreeWrapperLog(QSharedPointer<LasFile> lasFile,
                        ImportTreeWrapperEntry* parent,
-                       int position) :
-  ImportTreeWrapperEntry(lasFile, parent),
+                       int                     position):
+    ImportTreeWrapperEntry(lasFile, parent),
     _position(position)
   {}
-
 
   QVariant
   data(int role, int column) override {
@@ -24,18 +21,22 @@ public:
 
     QString key = _lasFile->logInformation.keys()[_position];
 
-    switch(column){
-      case 0:
-        return key + QString(" (%1)").arg(_lasFile->data[key].size());
-        break;
+    switch (column) {
+    case ImportTreeWrapperEntry::Name:
+      return key + QString(" (%1)").arg(_lasFile->data[key].size());
+      break;
 
-      case 3:
-        return _lasFile->logInformation[key].units;
-        break;
+    case ImportTreeWrapperEntry::Description:
+      return _lasFile->logInformation[key].description;
+      break;
 
-      default:
-        return QVariant();
-        break;
+    case ImportTreeWrapperEntry::Units:
+      return _lasFile->logInformation[key].units;
+      break;
+
+    default:
+      return QVariant();
+      break;
     }
   }
 
@@ -48,10 +49,8 @@ public:
   ImportTreeWrapperLogGroup(QSharedPointer<LasFile> lasFile,
                             ImportTreeWrapperEntry* parent):
     ImportTreeWrapperEntry(lasFile, parent) {
-
-   for(int i = 0; i < _lasFile->logInformation.keys().size(); ++i) {
+    for (int i = 0; i < _lasFile->logInformation.keys().size(); ++i)
       _entries.push_back(new ImportTreeWrapperLog(_lasFile, this, i));
-    }
   }
 
   QVariant
@@ -59,19 +58,17 @@ public:
     if (role != Qt::DisplayRole)
       return QVariant();
 
-    switch(column){
-      case 0:
-        return tr("Logs (%1)").arg(_lasFile->logInformation.size());
-        break;
-      default:
-        return QVariant();
-        break;
+    switch (column) {
+    case 0:
+      return tr("Logs (%1)").arg(_lasFile->logInformation.size());
+      break;
+
+    default:
+      return QVariant();
+      break;
     }
   }
 };
-
-
-
 }
 }
 

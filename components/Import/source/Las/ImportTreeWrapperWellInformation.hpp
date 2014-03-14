@@ -9,34 +9,7 @@ class ImportTreeWrapperWellName: public ImportTreeWrapperEntry {
 public:
   ImportTreeWrapperWellName(QSharedPointer<LasFile> lasFile,
                             ImportTreeWrapperEntry* parent):
-  ImportTreeWrapperEntry(lasFile, parent)
-{}
-
-  QVariant
-  data(int role, int column) override {
-    if (role != Qt::DisplayRole)
-      return QVariant();
-
-    switch(column){
-      case 0:
-        return tr("Well");
-        break;
-      case 1:
-        return _lasFile->wellInformation.wellName;
-        break;
-      default:
-        return QVariant();
-        break;
-    }
-  }
-};
-
-
-class ImportTreeWrapperWellStart: public ImportTreeWrapperEntry {
-public:
-  ImportTreeWrapperWellStart(QSharedPointer<LasFile> lasFile,
-                            ImportTreeWrapperEntry* parent):
-  ImportTreeWrapperEntry(lasFile, parent)
+    ImportTreeWrapperEntry(lasFile, parent)
   {}
 
   QVariant
@@ -44,21 +17,50 @@ public:
     if (role != Qt::DisplayRole)
       return QVariant();
 
-    switch(column){
-      case 0:
-        return tr("Start");
-        break;
-      case 1:
-        return _lasFile->wellInformation.start;
-        break;
+    switch (column) {
+    case ImportTreeWrapperEntry::Name:
+      return tr("Well");
+      break;
 
-      case 3:
-        return _lasFile->wellInformation.units;
-        break;
+    case ImportTreeWrapperEntry::Value:
+      return _lasFile->wellInformation.wellName;
+      break;
 
-      default:
-        return QVariant();
-        break;
+    default:
+      return QVariant();
+      break;
+    }
+  }
+};
+
+class ImportTreeWrapperWellStart: public ImportTreeWrapperEntry {
+public:
+  ImportTreeWrapperWellStart(QSharedPointer<LasFile> lasFile,
+                             ImportTreeWrapperEntry* parent):
+    ImportTreeWrapperEntry(lasFile, parent)
+  {}
+
+  QVariant
+  data(int role, int column) override {
+    if (role != Qt::DisplayRole)
+      return QVariant();
+
+    switch (column) {
+    case ImportTreeWrapperEntry::Name:
+      return tr("Start");
+      break;
+
+    case ImportTreeWrapperEntry::Value:
+      return _lasFile->wellInformation.start;
+      break;
+
+    case ImportTreeWrapperEntry::Units:
+      return _lasFile->wellInformation.units;
+      break;
+
+    default:
+      return QVariant();
+      break;
     }
   }
 };
@@ -67,7 +69,7 @@ class ImportTreeWrapperWellStop: public ImportTreeWrapperEntry {
 public:
   ImportTreeWrapperWellStop(QSharedPointer<LasFile> lasFile,
                             ImportTreeWrapperEntry* parent):
-  ImportTreeWrapperEntry(lasFile, parent)
+    ImportTreeWrapperEntry(lasFile, parent)
   {}
 
   QVariant
@@ -75,21 +77,22 @@ public:
     if (role != Qt::DisplayRole)
       return QVariant();
 
-    switch(column){
-      case 0:
-        return tr("Stop");
-        break;
-      case 1:
-        return _lasFile->wellInformation.stop;
-        break;
+    switch (column) {
+    case ImportTreeWrapperEntry::Name:
+      return tr("Stop");
+      break;
 
-      case 3:
-        return _lasFile->wellInformation.units;
-        break;
+    case ImportTreeWrapperEntry::Value:
+      return _lasFile->wellInformation.stop;
+      break;
 
-      default:
-        return QVariant();
-        break;
+    case ImportTreeWrapperEntry::Units:
+      return _lasFile->wellInformation.units;
+      break;
+
+    default:
+      return QVariant();
+      break;
     }
   }
 };
@@ -98,7 +101,7 @@ class ImportTreeWrapperWellStep: public ImportTreeWrapperEntry {
 public:
   ImportTreeWrapperWellStep(QSharedPointer<LasFile> lasFile,
                             ImportTreeWrapperEntry* parent):
-  ImportTreeWrapperEntry(lasFile, parent)
+    ImportTreeWrapperEntry(lasFile, parent)
   {}
 
   QVariant
@@ -106,31 +109,31 @@ public:
     if (role != Qt::DisplayRole)
       return QVariant();
 
-    switch(column){
-      case 0:
-        return tr("Step");
-        break;
-      case 1:
-        return _lasFile->wellInformation.step;
-        break;
+    switch (column) {
+    case ImportTreeWrapperEntry::Name:
+      return tr("Step");
+      break;
 
-      case 3:
-        return _lasFile->wellInformation.units;
-        break;
+    case ImportTreeWrapperEntry::Value:
+      return _lasFile->wellInformation.step;
+      break;
 
-      default:
-        return QVariant();
-        break;
+    case ImportTreeWrapperEntry::Units:
+      return _lasFile->wellInformation.units;
+      break;
+
+    default:
+      return QVariant();
+      break;
     }
   }
 };
-
 
 class ImportTreeWrapperWellNull: public ImportTreeWrapperEntry {
 public:
   ImportTreeWrapperWellNull(QSharedPointer<LasFile> lasFile,
                             ImportTreeWrapperEntry* parent):
-  ImportTreeWrapperEntry(lasFile, parent)
+    ImportTreeWrapperEntry(lasFile, parent)
   {}
 
   QVariant
@@ -138,32 +141,32 @@ public:
     if (role != Qt::DisplayRole)
       return QVariant();
 
-    switch(column){
-      case 0:
-        return tr("Null");
-        break;
-      case 1:
-        return _lasFile->wellInformation.nullValue;
-        break;
+    switch (column) {
+    case ImportTreeWrapperEntry::Name:
+      return tr("Null");
+      break;
 
-      case 3:
-        return _lasFile->wellInformation.units;
-        break;
+    case ImportTreeWrapperEntry::Value:
+      return _lasFile->wellInformation.nullValue;
+      break;
 
-      default:
-        return QVariant();
-        break;
+    case ImportTreeWrapperEntry::Units:
+      return _lasFile->wellInformation.units;
+      break;
+
+    default:
+      return QVariant();
+      break;
     }
   }
 };
-
 
 class ImportTreeWrapperWellInfo: public ImportTreeWrapperEntry {
 public:
   ImportTreeWrapperWellInfo(QSharedPointer<LasFile> lasFile,
                             ImportTreeWrapperEntry* parent,
-                            int position):
-  ImportTreeWrapperEntry(lasFile, parent),
+                            int                     position):
+    ImportTreeWrapperEntry(lasFile, parent),
     _position(position)
   {}
 
@@ -174,23 +177,29 @@ public:
 
     QString key = _lasFile->wellInformation.entries.keys()[_position];
 
-    switch(column){
-      case 0:
-        return _lasFile->wellInformation.entries[key].name;
-        break;
-      case 1:
-        return _lasFile->wellInformation.entries[key].value;
-        break;
+    switch (column) {
+    case ImportTreeWrapperEntry::Name:
+      return _lasFile->wellInformation.entries[key].name;
+      break;
 
-      case 3:
-        return _lasFile->wellInformation.entries[key].units;
-        break;
+    case ImportTreeWrapperEntry::Description:
+      return _lasFile->wellInformation.entries[key].description;
+      break;
 
-      default:
-        return QVariant();
-        break;
+    case ImportTreeWrapperEntry::Value:
+      return _lasFile->wellInformation.entries[key].value;
+      break;
+
+    case ImportTreeWrapperEntry::Units:
+      return _lasFile->wellInformation.entries[key].units;
+      break;
+
+    default:
+      return QVariant();
+      break;
     }
   }
+
 private:
   int _position;
 };

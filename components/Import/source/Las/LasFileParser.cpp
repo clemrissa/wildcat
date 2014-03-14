@@ -153,15 +153,13 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
   QRegExp reNULL("(NULL)( *\\..+ )(-?\\d+\\.\\d+)( *:)( *.*$)");
 
   //  WELL.                WELL:   4832/116
-  // QRegExp reWell("(WELL *)(:)( *.*$)");
-  QRegExp reWell("(WELL)(\\. )(.+)(:)(.*$)");
+  QRegExp reWell("(^WELL *)(\\.[^ ]*)( *.* *:)( *.*$)");
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //  name .units   name:value
-  // QRegExp reRestEntries("(^.+)( *\\.[^ ]*)(.+)( *:)( *.*$)");
   QRegExp reRestEntries("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
 
-  reRestEntries.setMinimal(true);
+  // reRestEntries.setMinimal(true);
 
   // next line
   ++i;
@@ -213,10 +211,14 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
       bool ok;
       lasFile->wellInformation.nullValue = value.toDouble(&ok);
     } else if (reWell.indexIn(line) >= 0) {
+      // QRegExp reWell("(^WELL *)(\\.[^ ]*)( *.* *:)( *.*$)");
+
       QString all = reWell.cap(0);
 
-      QString well  = reWell.cap(3).trimmed();
-      QString value = reWell.cap(5).trimmed();
+      QString well = reWell.cap(3).trimmed();
+      well.chop(1);
+      well = well.trimmed();
+      QString value = reWell.cap(4).trimmed();
 
       if (_version == "1.2")
         lasFile->wellInformation.wellName = value;
@@ -232,22 +234,23 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
 
       QString all = reRestEntries.cap(0);
 
-      QString mnem = reRestEntries.cap(1).trimmed();
+      entry.name  = reRestEntries.cap(1).trimmed();
       entry.units = reRestEntries.cap(2).trimmed().remove(0, 1);
 
       if (_version == "1.2") {
-        entry.name = reRestEntries.cap(3).trimmed();
-        entry.name.chop(1);
-        entry.name  = entry.name.trimmed();
+        entry.description = reRestEntries.cap(3).trimmed();
+        entry.description.chop(1);
+        entry.description = entry.name.trimmed();
+
         entry.value = reRestEntries.cap(4).trimmed();
       } else if (_version == "2.0") {
-        entry.name  = reRestEntries.cap(4).trimmed();
-        entry.value = reRestEntries.cap(3).trimmed();
+        entry.description = reRestEntries.cap(4).trimmed();
+        entry.value       = reRestEntries.cap(3).trimmed();
         entry.value.chop(1);
         entry.value = entry.value.trimmed();
       }
 
-      lasFile->wellInformation.entries[mnem] = entry;
+      lasFile->wellInformation.entries[entry.name] = entry;
     }
 
     ++i;
@@ -263,8 +266,10 @@ parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
   lasFile->logInformation.clear();
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
-  //                     name .units   name:value
-  QRegExp reLogInfoEntries("(^.+)(\\.[^ ]*)(.+)( *:)( *.*$)");
+  //                     name .units   :value
+  QRegExp reLogInfoEntries("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
+
+  // QRegExp reLogInfoEntries("(^.+)(\\.[^ ]*)(.+)( *:)( *.*$)");
 
   // next line
   ++i;
@@ -282,13 +287,21 @@ parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
       // name .units   name:value
       LasFile::LogInformationEntry entry;
 
+      // struct LogInformationEntry {
+      // QString units;
+      // QString code;
+      // QString description;
+      // };
+
       QString all = reLogInfoEntries.cap(0);
 
       QString mnem = reLogInfoEntries.cap(1).trimmed();
       entry.units = reLogInfoEntries.cap(2).trimmed().remove(0, 1);
-      entry.code  = reLogInfoEntries.cap(3).trimmed();
-      // cap(4) == ":"
-      entry.description = reLogInfoEntries.cap(5).trimmed();
+
+      entry.code = reLogInfoEntries.cap(3).trimmed();
+
+      entry.description = reLogInfoEntries.cap(4).trimmed();
+      INFO << entry.description.toLocal8Bit().data();
 
       lasFile->logInformation[mnem] = entry;
     }

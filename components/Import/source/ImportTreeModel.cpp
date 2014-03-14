@@ -79,7 +79,7 @@ columnCount(const QModelIndex& parent) const  {
   // it does not matter as this model is a "fake" one
   // the true number of columns is returned my main model attached
   // to a view
-  return 5;
+  return 6;
 }
 
 int
@@ -113,7 +113,7 @@ headerData(int             section,
     break;
 
   case 1:
-    result = tr("Value");
+    result = tr("Description");
     break;
 
   case 2:
@@ -121,10 +121,14 @@ headerData(int             section,
     break;
 
   case 3:
-    result = tr("Parsed Units");
+    result = tr("Value");
     break;
 
   case 4:
+    result = tr("Parsed Units");
+    break;
+
+  case 5:
     result = tr("Import Units As");
     break;
   }

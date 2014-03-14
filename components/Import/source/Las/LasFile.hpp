@@ -19,6 +19,7 @@ public:
 
   struct WellInformationEntry {
     QString name;
+    QString description;
     QString units;
     QString value;
   };
@@ -49,9 +50,9 @@ public:
 public:
   QString fileName;
 
-  WellInformation                      wellInformation;
+  WellInformation                    wellInformation;
   QMap<QString, LogInformationEntry> logInformation;
-  QVector<ParameterInformationEntry>   parameterInformation;
+  QVector<ParameterInformationEntry> parameterInformation;
 
   QMap<QString, QVector<double> > data;
 
@@ -60,7 +61,6 @@ public:
 public:
   QString
   getText() const;
-
 };
 }
 }
