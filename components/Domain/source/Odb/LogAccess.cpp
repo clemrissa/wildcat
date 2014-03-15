@@ -1,6 +1,6 @@
 #include "LogAccess.hpp"
 
-#include "Auxiliary/ExecutionControl.hpp"
+#include <Uni/Logging/Logging>
 
 #include "Log.odb.hpp"
 
@@ -13,17 +13,18 @@ typedef odb::query<LogAccess::Log>  Query;
 typedef odb::result<LogAccess::Log> Result;
 
 LogAccess::
-LogAccess(Database db) : _db(db) {}
+LogAccess(Database db): _db(db) {}
 
 void
 LogAccess::
 insert(Log::Shared log) {
   try {
     transaction t(_db->begin());
+
     _db->persist(*log);
     t.commit();
   } catch (odb::exception const& e) {
-    ERROR << "Odb error happened: "
+    FATAL << "Odb error happened: "
           << e.what();
   }
 }
@@ -33,10 +34,11 @@ LogAccess::
 update(Log::Shared log) {
   try {
     transaction t(_db->begin());
+
     _db->update(*log);
     t.commit();
   } catch (odb::exception const& e) {
-    ERROR << "Odb error happened: "
+    FATAL << "Odb error happened: "
           << e.what();
   }
 }
@@ -46,10 +48,11 @@ LogAccess::
 remove(Log::Shared log) {
   try {
     transaction t(_db->begin());
+
     _db->erase(*log);
     t.commit();
   } catch (odb::exception const& e) {
-    ERROR << "Odb error happened: "
+    FATAL << "Odb error happened: "
           << e.what();
   }
 }
@@ -59,10 +62,11 @@ LogAccess::
 remove(QUuid const& pk) {
   try {
     transaction t(_db->begin());
+
     _db->erase<Log>(pk);
     t.commit();
   } catch (odb::exception const& e) {
-    ERROR << "Odb error happened: "
+    FATAL << "Odb error happened: "
           << e.what();
   }
 }
@@ -80,12 +84,13 @@ findAll() {
 
     if (i != r.end()) {
       Log::Shared log(i.load());
+
       vector.push_back(log);
     }
 
     t.commit();
   } catch (odb::exception const& e) {
-    ERROR << "Odb error happened: "
+    FATAL << "Odb error happened: "
           << e.what();
   }
 
