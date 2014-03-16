@@ -4,6 +4,9 @@
 
 #include <DependencyManager/MetaSystem/MetaTypeRegistration>
 
+#include "Las/LasFile.hpp"
+#include "Las/LasFileParser.hpp"
+
 #include "ImportUiFactory.hpp"
 #include "ImportWidget.hpp"
 #include <QMenu>
@@ -14,6 +17,7 @@ registerComponent() {
   INFO << "!!! Component exports its classes";
   REGISTER_TYPE(Geo::Import::ImportWidget);
   REGISTER_TYPE(Geo::Import::ImportUiFactory);
-  REGISTER_TYPE(QMenu);
+  REGISTER_TYPE(Geo::Import::LasFileParser);
+  REGISTER_TYPE(Geo::Import::LasFile);
 }
 }

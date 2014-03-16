@@ -12,7 +12,9 @@
 
 namespace Geo {
 namespace Import {
-class LasFileParser {
+class LasFileParser: public QObject {
+  Q_OBJECT
+
 public:
   QSharedPointer<LasFile>
   parse(const QString fileName);

@@ -13,7 +13,9 @@ namespace Import {
  * Class contains all the informaation from a Las file split into special
  * structures
  */
-class LasFile {
+class LasFile: public QObject {
+  Q_OBJECT
+
 public:
   LasFile(): valid(false) {}
 
@@ -51,9 +53,9 @@ public:
 public:
   QString fileName;
 
-  WellInformation                    wellInformation;
+  WellInformation                          wellInformation;
   QMap<QString, ParameterInformationEntry> parameterInformation;
-  QMap<QString, LogInformationEntry> logInformation;
+  QMap<QString, LogInformationEntry>       logInformation;
 
   QMap<QString, QVector<double> > data;
 
