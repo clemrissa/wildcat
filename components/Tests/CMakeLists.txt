@@ -16,8 +16,6 @@ add_executable(${TARGET_NAME} ${CPP_FILES})
 target_link_libraries(${TARGET_NAME} PRIVATE
                       Uni
                       DependencyManager
-                      Core
-                      Database
                       GTest)
 
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_DIR}/source")
