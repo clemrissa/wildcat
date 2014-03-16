@@ -3,14 +3,12 @@
 
 #include <QSharedPointer>
 #include <QString>
-#include <QUuid>
 #include <QVector>
 
 #include <odb/core.hxx>
 
 namespace Geo {
 namespace Domain {
-
 class Well;
 
 #ifdef ODB
@@ -44,7 +42,9 @@ public:
 
   inline
   double
-  getBottomDepth() const { return _topDepth + _values.size() * _step; }
+  getBottomDepth() const {
+    return _topDepth + _values.size() * _step;
+  }
 
   inline
   double
@@ -73,9 +73,9 @@ private:
   friend class odb::access;
 
 #ifdef ODB
-  #pragma db id not_null
+  #pragma db id auto
 #endif
-  QUuid _id;
+  unsigned int _id;
 
   QString _name;
   QString _unit;

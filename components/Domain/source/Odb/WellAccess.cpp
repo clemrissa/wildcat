@@ -1,27 +1,27 @@
-#include "LogAccess.hpp"
+#include "WellAccess.hpp"
 
 #include <Uni/Logging/Logging>
 
-#include "Log.odb.hpp"
+#include "Well.odb.hpp"
 
 #include <odb/transaction.hxx>
 
-using Geo::Domain::Odb::LogAccess;
+using Geo::Domain::Odb::WellAccess;
 using odb::core::transaction;
 
-typedef odb::query<LogAccess::Log>  Query;
-typedef odb::result<LogAccess::Log> Result;
+typedef odb::query<WellAccess::Well>  Query;
+typedef odb::result<WellAccess::Well> Result;
 
-LogAccess::
-LogAccess(Database db): _db(db) {}
+WellAccess::
+WellAccess(Database db): _db(db) {}
 
 void
-LogAccess::
-insert(Log::Shared log) {
+WellAccess::
+insert(Well::Shared well) {
   try {
     transaction t(_db->begin());
 
-    _db->persist(*log);
+    _db->persist(*well);
     t.commit();
   } catch (odb::exception const& e) {
     FATAL << "Odb error happened: "
@@ -30,12 +30,12 @@ insert(Log::Shared log) {
 }
 
 void
-LogAccess::
-update(Log::Shared log) {
+WellAccess::
+update(Well::Shared well) {
   try {
     transaction t(_db->begin());
 
-    _db->update(*log);
+    _db->update(*well);
     t.commit();
   } catch (odb::exception const& e) {
     FATAL << "Odb error happened: "
@@ -44,12 +44,12 @@ update(Log::Shared log) {
 }
 
 void
-LogAccess::
-remove(Log::Shared log) {
+WellAccess::
+remove(Well::Shared well) {
   try {
     transaction t(_db->begin());
 
-    _db->erase(*log);
+    _db->erase(*well);
     t.commit();
   } catch (odb::exception const& e) {
     FATAL << "Odb error happened: "
@@ -58,12 +58,12 @@ remove(Log::Shared log) {
 }
 
 void
-LogAccess::
+WellAccess::
 remove(unsigned int const& pk) {
   try {
     transaction t(_db->begin());
 
-    _db->erase<Log>(pk);
+    _db->erase<Well>(pk);
     t.commit();
   } catch (odb::exception const& e) {
     FATAL << "Odb error happened: "
@@ -71,21 +71,21 @@ remove(unsigned int const& pk) {
   }
 }
 
-QVector<LogAccess::Log::Shared>
-LogAccess::
+QVector<WellAccess::Well::Shared>
+WellAccess::
 findAll() {
-  QVector<Log::Shared> vector;
+  QVector<Well::Shared> vector;
   try {
     transaction t(_db->begin());
 
-    Result r(_db->query<Log>());
+    Result r(_db->query<Well>());
 
     Result::iterator i(r.begin());
 
     if (i != r.end()) {
-      Log::Shared log(i.load());
+      Well::Shared well(i.load());
 
-      vector.push_back(log);
+      vector.push_back(well);
     }
 
     t.commit();
@@ -97,8 +97,8 @@ findAll() {
   return vector;
 }
 
-LogAccess::Log::Shared
-LogAccess::
+WellAccess::Well::Shared
+WellAccess::
 findByPrimaryKey(unsigned int const& pk) {
-  return Log::Shared(_db->load<Log>(pk));
+  return Well::Shared(_db->load<Well>(pk));
 }

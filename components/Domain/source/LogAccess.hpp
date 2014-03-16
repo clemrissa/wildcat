@@ -26,13 +26,13 @@ public:
   remove(Log::Shared log) = 0;
 
   virtual void
-  remove(QUuid const& pk) = 0;
+  remove(unsigned int const& pk) = 0;
 
   virtual QVector<Log::Shared>
   findAll() = 0;
 
   virtual Log::Shared
-  findByPrimaryKey(QUuid const& pk) = 0;
+  findByPrimaryKey(unsigned int const& pk) = 0;
 };
 }
 }

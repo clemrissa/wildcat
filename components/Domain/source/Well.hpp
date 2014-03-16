@@ -5,7 +5,6 @@
 
 #include <QSharedPointer>
 #include <QString>
-#include <QUuid>
 #include <QVector>
 
 #include <odb/core.hxx>
@@ -21,16 +20,14 @@ public:
 
   Well();
 
-  Well(
-    QString const& name,
-    float const&   x,
-    float const&   y,
-    float const&   depth,
-    float const&   absDepth,
-    float const&   altitude);
+  Well(QString const& name,
+       float const&   x,
+       float const&   y,
+       float const&   depth,
+       float const&   absDepth,
+       float const&   altitude);
 
-  Well(
-    Well const& other);
+  Well(Well const& other);
 
   virtual
   ~Well();
@@ -87,9 +84,9 @@ private:
   friend class odb::access;
 
 #ifdef ODB
-  #pragma db id not_null
+  #pragma db id auto
 #endif
-  QUuid _id;
+  unsigned int _id;
 
   QString _name;
   float   _x;
@@ -98,6 +95,9 @@ private:
   float   _absDepth;
   float   _altitude;
 
+#ifdef ODB
+  #pragma db value_not_null unordered
+#endif
   QVector<QSharedPointer<Log> > _logs;
 };
 }

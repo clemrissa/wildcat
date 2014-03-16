@@ -10,7 +10,7 @@
 namespace Geo {
 namespace Domain {
 namespace Odb {
-class LogAccess : public Geo::Domain::LogAccess {
+class LogAccess: public Geo::Domain::LogAccess {
 public:
   typedef typename Geo::Domain::LogAccess::Shared Shared;
   typedef QSharedPointer<odb::core::database>     Database;
@@ -34,13 +34,13 @@ public:
   remove(Log::Shared log);
 
   void
-  remove(QUuid const& pk);
+  remove(unsigned int const& pk);
 
   QVector<Log::Shared>
   findAll();
 
   Log::Shared
-  findByPrimaryKey(QUuid const& pk);
+  findByPrimaryKey(unsigned int const& pk);
 
 private:
   Database _db;

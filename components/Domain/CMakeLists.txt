@@ -38,11 +38,11 @@ odb_compile(HEADER ${ODB_HEADERS}
 add_library(${TARGET_NAME} STATIC ${CPP_FILES})
 
 target_link_libraries(${TARGET_NAME} PUBLIC
-  Uni
-  ${SQLITE_LIBRARY}
-  ${ODB_LIBRARY}
-  ${ODBSQLITE_LIBRARY}
-  ${ODBQT_LIBRARY})
+                      Uni
+                      ${SQLITE_LIBRARY}
+                      ${ODB_LIBRARY}
+                      ${ODBSQLITE_LIBRARY}
+                      ${ODBQT_LIBRARY})
 
 target_include_directories(${TARGET_NAME} PUBLIC "${SQLite_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "${ODB_INCLUDE_DIR}")

@@ -3,6 +3,8 @@
 
 #include <Domain/Odb/LogAccess>
 
+#include <Domain/Odb/WellAccess>
+
 #include <Domain/DataAccessFactory>
 
 #include <QSharedPointer>
@@ -12,7 +14,7 @@
 namespace Geo {
 namespace Domain {
 namespace Odb {
-class DataAccessFactory : public Domain::DataAccessFactory {
+class DataAccessFactory: public Domain::DataAccessFactory {
 private:
   typedef Geo::Domain::DataAccessFactory Base;
 
@@ -21,9 +23,9 @@ public:
   typedef QSharedPointer<odb::core::database> Database;
 
 public:
-  DataAccessFactory(Database const& db) : _db(db) {}
+  DataAccessFactory(Database const& db): _db(db) {}
 
-  DataAccessFactory(DataAccessFactory const &) = delete;
+  DataAccessFactory(DataAccessFactory const&) = delete;
 
   DataAccessFactory&
   operator=(DataAccessFactory const&) = delete;
@@ -31,6 +33,11 @@ public:
   Domain::LogAccess::Shared
   logAccess() const {
     return Domain::LogAccess::Shared(new LogAccess(_db));
+  }
+
+  Domain::WellAccess::Shared
+  wellAccess() const {
+    return Domain::WellAccess::Shared(new WellAccess(_db));
   }
 
 private:

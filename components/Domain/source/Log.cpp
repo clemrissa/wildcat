@@ -64,7 +64,7 @@ generateData() {
     _values.append(value);
   }
 
-  // ! how to serialize the data array of a curve
+  // !how to serialize the data array of a curve
 
   /*
    *  QByteArray byteArray;
