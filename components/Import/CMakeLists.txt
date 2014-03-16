@@ -21,7 +21,6 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       DependencyManager
                       Domain
                       )
-                      #Core)
 
 target_link_libraries(${TARGET_NAME} PUBLIC
                       ${SQLITE_LIBRARY}
