@@ -3,9 +3,7 @@
 
 namespace Geo {
 namespace Database {
-class Connection {
-
-};
+class Connection {};
 }
 }
 #endif

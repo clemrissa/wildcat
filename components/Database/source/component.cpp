@@ -8,6 +8,7 @@
 extern "C" {
 Geo_Database_PUBLIC void
 registerComponent() {
+  REGISTER_TYPE(Geo::Database::Private::Connection);
   REGISTER_TYPE(Geo::Database::Private::ConnectionListModel);
   REGISTER_TYPE(Geo::Database::Private::DatabaseUiFactory);
 }

@@ -27,8 +27,8 @@ static const int Connected = 2;
 static const int Failed    = 3;
 }
 
-class Connection : public QObject,
-                   public Geo::Database::Connection {
+class Connection: public QObject,
+                  public Geo::Database::Connection {
   Q_OBJECT
 
 public:
@@ -37,20 +37,26 @@ public:
   typedef Domain::DataAccessFactory DataAccessFactory;
 
 private:
-  Q_PROPERTY(
-    int databaseType READ databaseType WRITE databaseType NOTIFY
-    databaseTypeChanged)
-  Q_PROPERTY(
-    QString database READ database WRITE database NOTIFY databaseChanged)
-  Q_PROPERTY(
-    int status READ status NOTIFY statusChanged)
-  Q_PROPERTY(
-    QString lastError READ lastError NOTIFY lastErrorChanged)
+  Q_PROPERTY(int databaseType
+             READ databaseType
+             WRITE databaseType
+             NOTIFY databaseTypeChanged)
+  Q_PROPERTY(QString database
+             READ database
+             WRITE database
+             NOTIFY databaseChanged)
+  Q_PROPERTY(int status
+             READ status
+             NOTIFY statusChanged)
+  Q_PROPERTY(QString lastError
+             READ lastError
+             NOTIFY lastErrorChanged)
 
 private:
   typedef boost::shared_ptr<odb::database> DatabaseObject;
 
 public:
+  Q_INVOKABLE
   Connection(QObject* parent = 0);
 
   ~Connection();
@@ -75,6 +81,11 @@ public:
 
   QString const&
   database() const { return _database; }
+
+  DataAccessFactory::Shared
+  dataAccessFactory() const {
+    return _dataAccessFactory;
+  }
 
 private:
   void
@@ -116,10 +127,10 @@ public:
   connect();
 
 private:
-  DatabaseType                      _databaseType;
-  QString                           _database;
-  Status                            _status;
-  QString                           _lastError;
+  DatabaseType              _databaseType;
+  QString                   _database;
+  Status                    _status;
+  QString                   _lastError;
   DataAccessFactory::Shared _dataAccessFactory;
 };
 }

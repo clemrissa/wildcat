@@ -17,5 +17,9 @@
     <bean name="Database.DatabaseUiFactory" class="Geo::Database::Private::DatabaseUiFactory">
       <method name="createConnectionListView" type="factory"/>
     </bean>
+
+    <bean name="Database.Connection" class="Geo::Database::Private::Connection">
+      <!--//-->
+    </bean>
   </beans>
 </context>

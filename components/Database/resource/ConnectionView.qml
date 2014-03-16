@@ -117,6 +117,7 @@ Window {
       }
     } // button
   }
+
   FileDialog {
     id: fileDialog
     title: "Please choose a file"
@@ -128,6 +129,5 @@ Window {
     onRejected: {
       close()
     }
-    //Component.onCompleted: visible = true
   }
 }
