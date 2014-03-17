@@ -20,6 +20,7 @@ Log() {
   _name = QString("Log") + QString::number(qrand() % 10);
   _unit = QString("C");
   _tool = QString("Thermometer");
+
   generateData();
 }
 

@@ -21,6 +21,8 @@ insert(Well::Shared well) {
   try {
     transaction t(_db->begin());
 
+    t.tracer(odb::core::stderr_tracer);
+
     _db->persist(*well);
     t.commit();
   } catch (odb::exception const& e) {

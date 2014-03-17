@@ -38,15 +38,16 @@ TEST(DatabaseTest, CreateDB) {
   Geo::Domain::Well::Shared well(new Geo::Domain::Well(QString("skvazhinka"),
                                                        0, 34, 0.5, 6.7, 5.7));
 
-  Geo::Domain::Log::Shared log(new Geo::Domain::Log(QString("electro"),
-                                                    QString("BKZ"),
-                                                    QString("Lopata")));
+  Geo::Domain::Log::Shared
+    log(new Geo::Domain::Log(QString("electro"),
+                             QString("BKZ"),
+                             QString("Lopata")));
+
+  // FIRST LOG!!
+  logAccess->insert(log);
 
   well->addLog(log);
-
   wellAccess->insert(well);
-
-  // logAccess->insert(log);
 
   ASSERT_TRUE(c->lastError().isEmpty());
 }
