@@ -5,6 +5,8 @@
 
 #include <boost/math/constants/constants.hpp>
 
+#include "Well.hpp"
+
 namespace Geo {
 namespace Domain {
 // Using Declarations {{{

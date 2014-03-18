@@ -43,11 +43,13 @@ TEST(DatabaseTest, CreateDB) {
                              QString("BKZ"),
                              QString("Lopata")));
 
-  // FIRST LOG!!
-  logAccess->insert(log);
-
+  // objects interconnections
   well->addLog(log);
+  log->setWell(well);
+
+  // store both in DB
   wellAccess->insert(well);
+  logAccess->insert(log);
 
   ASSERT_TRUE(c->lastError().isEmpty());
 }

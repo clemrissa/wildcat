@@ -96,7 +96,7 @@ private:
   float   _altitude;
 
 #ifdef ODB
-  #pragma db value_not_null unordered
+  #pragma db value_not_null inverse(_well)
 #endif
   QVector<QSharedPointer<Log> > _logs;
 };
