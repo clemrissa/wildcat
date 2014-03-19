@@ -3,6 +3,7 @@
 
 #include <Domain/LogAccess>
 #include <Domain/WellAccess>
+#include <Domain/WellTraitAccess>
 
 #include <QSharedPointer>
 
@@ -27,6 +28,9 @@ public:
 
   virtual WellAccess::Shared
   wellAccess() const = 0;
+
+  virtual WellTraitAccess::Shared
+  wellTraitAccess() const = 0;
 };
 }
 }

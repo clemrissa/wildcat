@@ -2,8 +2,8 @@
 #define Geo_Domain_Odb_DataAccessFactory_hpp
 
 #include <Domain/Odb/LogAccess>
-
 #include <Domain/Odb/WellAccess>
+#include <Domain/Odb/WellTraitAccess>
 
 #include <Domain/DataAccessFactory>
 
@@ -38,6 +38,11 @@ public:
   Domain::WellAccess::Shared
   wellAccess() const {
     return Domain::WellAccess::Shared(new WellAccess(_db));
+  }
+
+  Domain::WellTraitAccess::Shared
+  wellTraitAccess() const {
+    return Domain::WellTraitAccess::Shared(new WellTraitAccess(_db));
   }
 
 private:

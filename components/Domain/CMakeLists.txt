@@ -13,7 +13,11 @@ set(TARGET_NAME ${PROJECT_NAME})
 file(GLOB_RECURSE CPP_FILES source/*.cpp)
 
 set(ODB_HEADERS ${PROJECT_SOURCE_DIR}/source/Well.hpp
-                ${PROJECT_SOURCE_DIR}/source/Log.hpp)
+                ${PROJECT_SOURCE_DIR}/source/Log.hpp
+                ${PROJECT_SOURCE_DIR}/source/WellTrait.hpp
+                ${PROJECT_SOURCE_DIR}/source/WellTraitValue.hpp
+                )
+
 
 find_qt5_component(Core)
 

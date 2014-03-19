@@ -94,7 +94,7 @@ private:
   QVector<double> _values;
 
 
-#ifdef ODB
+#ifdef ODB_COMPILER
   #pragma db not_null
 #endif
   QWeakPointer<Geo::Domain::Well> _well;

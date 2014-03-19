@@ -2,10 +2,12 @@
 #define Geo_Domain_Well_hpp
 
 #include "Log.hpp"
+#include "WellTraitValue.hpp"
 
 #include <QSharedPointer>
 #include <QString>
 #include <QVector>
+#include <QMap>
 
 #include <odb/core.hxx>
 
@@ -21,8 +23,6 @@ public:
   Well();
 
   Well(QString const& name,
-       float const&   x,
-       float const&   y,
        float const&   depth,
        float const&   absDepth,
        float const&   altitude);
@@ -42,12 +42,6 @@ public:
   getName() const { return _name; }
 
   float const&
-  getX() const { return _x;  }
-
-  float const&
-  getY() const { return _y;  }
-
-  float const&
   getDepth() const { return _depth;  }
 
   float const&
@@ -58,12 +52,6 @@ public:
 
   void
   setName(QString const& name) { _name = name; }
-
-  void
-  setX(float const& x) { _x = x; }
-
-  void
-  setY(float const& y) { _y = y; }
 
   void
   setDepth(float const& depth) { _depth = depth; }
@@ -83,22 +71,26 @@ public:
 private:
   friend class odb::access;
 
-#ifdef ODB
+#ifdef ODB_COMPILER
   #pragma db id auto
 #endif
   unsigned int _id;
 
   QString _name;
-  float   _x;
-  float   _y;
   float   _depth;
   float   _absDepth;
   float   _altitude;
 
-#ifdef ODB
+#ifdef ODB_COMPILER
   #pragma db value_not_null inverse(_well)
 #endif
   QVector<QSharedPointer<Log> > _logs;
+
+  // traits
+#ifdef ODB_COMPILER
+  #pragma db value_not_null inverse(_well)
+#endif
+  QMap<QString, WellTraitAbstractValue::Shared> _traits;
 };
 }
 }

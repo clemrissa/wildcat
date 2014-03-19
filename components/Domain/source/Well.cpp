@@ -12,14 +12,10 @@ Well::
 
 Well::
 Well(QString const& name,
-     float const&   x,
-     float const&   y,
      float const&   depth,
      float const&   absDepth,
      float const&   altitude):
   _name(name),
-  _x(x),
-  _y(y),
   _depth(depth),
   _absDepth(absDepth),
   _altitude(altitude) {
