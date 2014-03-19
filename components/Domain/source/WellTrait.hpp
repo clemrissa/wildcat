@@ -3,6 +3,8 @@
 
 #include <QSharedPointer>
 
+#include <odb/core.hxx>
+
 namespace Geo {
 namespace Domain {
 
@@ -17,15 +19,21 @@ public:
 
   WellTrait(QString name);
 
+  WellTrait(QString name, bool mandatory);
+
   QString name() const { return _name; }
 
   void setName(QString name) { _name = name; }
 
 private:
+  friend class odb::access;
+
 #ifdef ODB_COMPILER
   #pragma db id
 #endif
   QString _name; 
+
+  bool _mandatory;
 };
 
 }
