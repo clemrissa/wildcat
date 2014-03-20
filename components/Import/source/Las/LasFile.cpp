@@ -6,6 +6,35 @@ namespace Geo {
 namespace Import {
 //
 
+LasFile::
+LasFile(LasFile const &lasFile) {
+  wellInformation.start = lasFile.wellInformation.start;
+  wellInformation.stop  = lasFile.wellInformation.stop;
+  wellInformation.step  = lasFile.wellInformation.step;
+  wellInformation.nullValue = lasFile.wellInformation.nullValue;
+  wellInformation.units = lasFile.wellInformation.units;
+
+  for(auto key : lasFile.wellInformation.entries.keys())
+  {
+    wellInformation.entries[key] = lasFile.wellInformation.entries[key];
+  }
+
+  for(auto key : lasFile.parameterInformation.keys())
+  {
+    parameterInformation[key] = lasFile.parameterInformation[key];
+  }
+
+  for(auto key : lasFile.logInformation.keys())
+  {
+    logInformation[key] = lasFile.logInformation[key];
+  }
+
+  for(auto key : lasFile.data.keys())
+  {
+    data[key] = lasFile.data[key];
+  }
+}
+
 QString
 LasFile::
 getText() const {

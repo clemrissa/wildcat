@@ -19,6 +19,8 @@ class LasFile: public QObject {
 public:
   LasFile(): valid(false) {}
 
+  LasFile(LasFile const &lasFile);
+
   struct WellInformationEntry {
     QString name; // TODO remove. it is used as a key
     QString units;
