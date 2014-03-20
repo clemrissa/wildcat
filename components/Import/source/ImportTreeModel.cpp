@@ -24,8 +24,8 @@ data(const QModelIndex& index, int role) const  {
   if (!index.isValid())
     return QVariant();
 
-  if (role != Qt::DisplayRole)
-    return QVariant();
+  //if (role != Qt::DisplayRole)
+    //return QVariant();
 
   ImportTreeWrapperEntry* entry =
     static_cast<ImportTreeWrapperEntry*>(index.internalPointer());

@@ -4,6 +4,8 @@
 #include "ImportTreeWrapperLogGroup.hpp"
 #include "ImportTreeWrapperParameters.hpp"
 
+#include <QColor>
+
 namespace Geo {
 namespace Import {
 /// Composite pattern. Used to represent LAS file strurcture as a tree
@@ -39,22 +41,34 @@ ImportTreeWrapperLasFile(QSharedPointer<LasFile> lasFile):
 QVariant
 ImportTreeWrapperLasFile::
 data(int role, int column) {
-  if (role != Qt::DisplayRole)
-    return QVariant();
 
-  switch (column) {
-  case ImportTreeWrapperEntry::Name:
-    return tr("File");
-    break;
+  switch(role) 
+  {
+    case Qt::DisplayRole:
+    {
+      switch (column) {
+      case ImportTreeWrapperEntry::Name:
+        return tr("File");
+        break;
 
-  case ImportTreeWrapperEntry::Description:
-    return _lasFile->fileName;
-    break;
+      case ImportTreeWrapperEntry::Description:
+        return _lasFile->fileName;
+        break;
 
-  default:
-    return QVariant();
-    break;
+      default:
+        return QVariant();
+        break;
+      }
+     
+      break;
+    
+    }
+    case Qt::BackgroundRole:
+      return QVariant(QColor(0xCC, 0xDD, 0xEE));
+      break;
   }
+
+  return QVariant();
 }
 }
 }
