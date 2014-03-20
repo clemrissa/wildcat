@@ -14,7 +14,7 @@ namespace Import {
 /// Composite pattern. Used to represent LAS file strurcture as a tree
 class ImportTreeWrapperEntry: public QObject {
 public:
-  enum { Name = 0, Description = 1, ImportName = 2, Value = 3, Units = 4, ImportUnits = 5 };
+  enum Column { Name = 0, Description = 1, Value = 2, ImportName = 3, Type = 4, Units = 5, ImportUnits = 6, Size };
 
 public:
   ImportTreeWrapperEntry(QSharedPointer<LasFile> lasFile,

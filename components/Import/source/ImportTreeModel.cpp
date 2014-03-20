@@ -79,7 +79,8 @@ columnCount(const QModelIndex& parent) const  {
   // it does not matter as this model is a "fake" one
   // the true number of columns is returned my main model attached
   // to a view
-  return 6;
+  //return 6;
+  return ImportTreeWrapperEntry::Column::Size;
 }
 
 int
@@ -108,27 +109,31 @@ headerData(int             section,
     return result;
 
   switch (section) {
-  case 0:
+  case ImportTreeWrapperEntry::Name:
     result = tr("Item");
     break;
 
-  case 1:
+  case ImportTreeWrapperEntry::Description:
     result = tr("Description");
     break;
 
-  case 2:
-    result = tr("Import As");
-    break;
-
-  case 3:
+  case ImportTreeWrapperEntry::Value:
     result = tr("Value");
     break;
 
-  case 4:
+  case ImportTreeWrapperEntry::ImportName:
+    result = tr("Import As");
+    break;
+
+  case ImportTreeWrapperEntry::Type:
+    result = tr("Type");
+    break;
+
+  case ImportTreeWrapperEntry::Units:
     result = tr("Parsed Units");
     break;
 
-  case 5:
+  case ImportTreeWrapperEntry::ImportUnits:
     result = tr("Import Units As");
     break;
   }
