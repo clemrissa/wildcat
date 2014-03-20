@@ -20,7 +20,7 @@ namespace Import {
 class ImportUiFactory::ImportUiFactoryImplementation {
 public:
   ImportUiFactoryImplementation():
-    _menu(new QMenu(tr("Menu"))),
+    _menu(new QMenu(tr("Import"))),
     _toolBar(new QToolBar()) {
     //
   }
@@ -34,7 +34,7 @@ public:
 
     QAction* action = nullptr;
 
-    action = new QAction(QIcon(), QString("Import..."), mainWindow);
+    action = new QAction(QIcon(), QString("Las Files"), mainWindow);
 
     connect(action,
             &QAction::triggered,

@@ -22,14 +22,6 @@ BasicMainWindow():
   setCentralWidget(_mdiArea);
 
   showMaximized();
-
-  QAction* a = new QAction(QIcon(), QString("bitches"), this);
-
-  QMenu* m = new QMenu(tr("Hello"));
-
-  m->addAction(a);
-
-  this->addMenu(m);
 }
 
 BasicMainWindow::
