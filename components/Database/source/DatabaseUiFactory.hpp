@@ -1,22 +1,14 @@
 #ifndef Geo_Database_ConnectionListViewFactory_hpp
 #define Geo_Database_ConnectionListViewFactory_hpp
 
-#include "Connection.hpp"
-
 #include <QObject>
-
 #include <QWidget>
 
-#include <QQmlContext>
-#include <QQmlEngine>
-#include <QQuickView>
-#include <QtQml>
-
-class QDockWidget;
+class QMenu;
+class QToolBar;
 
 namespace Geo {
 namespace Database {
-namespace Private {
 class DatabaseUiFactory: public QObject {
   Q_OBJECT
 
@@ -27,10 +19,18 @@ public:
   virtual
   ~DatabaseUiFactory();
 
-  Q_INVOKABLE QDockWidget*
-  createConnectionListView(QObject* value) const;
+  Q_INVOKABLE
+  QMenu*
+  createDatabaseMenu();
+
+  Q_INVOKABLE
+  QToolBar*
+  createDatabaseToolBar();
+
+private:
+  QList<QAction*>
+  createActionList() const;
 };
-}
 }
 }
 

@@ -13,15 +13,10 @@ class ImportWidget: public QWidget {
   Q_OBJECT
 
 public:
-  // Q_INVOKABLE
   ImportWidget(QAbstractItemModel* importModel);
 
   virtual
   ~ImportWidget();
-
-  // public slots:
-  // void
-  // selectFile();
 
 private:
   class Private;

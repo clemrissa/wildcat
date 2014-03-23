@@ -27,10 +27,6 @@ public:
   QToolBar*
   getImportToolBar();
 
-public slots:
-  void
-  showImportWindow();
-
 private:
   class ImportUiFactoryImplementation;
   ImportUiFactoryImplementation* _pimpl;

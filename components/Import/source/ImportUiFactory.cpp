@@ -27,6 +27,7 @@ public:
 
   void
   fillActionList(ImportUiFactory* uiFactory) {
+    using DependencyManager::ApplicationContext;
     using Geo::Core::MainWindow;
 
     MainWindow* mainWindow =
@@ -88,14 +89,6 @@ Q_INVOKABLE QToolBar*
 ImportUiFactory::
 getImportToolBar() {
   return _pimpl->_toolBar;
-}
-
-// implementation of slots
-
-void
-ImportUiFactory::
-showImportWindow() {
-  //
 }
 }
 }

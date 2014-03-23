@@ -35,6 +35,7 @@ target_include_directories(${TARGET_NAME} PUBLIC "${ODBQT_INCLUDE_DIR}")
 
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
+target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Core,INTERFACE_INCLUDE_DIRECTORIES>)
 target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Import,INTERFACE_INCLUDE_DIRECTORIES>)
 
 target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
@@ -52,11 +53,11 @@ install(TARGETS ${TARGET_NAME}
         LIBRARY DESTINATION ${INSTALL_COMPONENT_DIR}
         RUNTIME DESTINATION ${INSTALL_COMPONENT_DIR})
 
-file(GLOB qmlFiles resource/*.qml)
-install(FILES ${qmlFiles} DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
-file(GLOB jsFiles resource/*.js)
-install(FILES ${jsFiles} DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
-install(DIRECTORY resource/imgs DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
+#file(GLOB qmlFiles resource/*.qml)
+#install(FILES ${qmlFiles} DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
+#file(GLOB jsFiles resource/*.js)
+#install(FILES ${jsFiles} DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
+#install(DIRECTORY resource/imgs DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
 
 install(FILES resource/${TARGET_NAME}.xml DESTINATION "${INSTALL_COMPONENT_DIR}")
 # ==============================================================================

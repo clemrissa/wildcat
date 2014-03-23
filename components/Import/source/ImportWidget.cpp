@@ -38,8 +38,7 @@ ImportWidget(QAbstractItemModel* importModel):
 
   im->openFileButton = new QPushButton("Import Files");
 
-  //
-
+  // TODO remove this member
   im->textEdit = new QPlainTextEdit();
 
   im->treeView = new QTreeView();
@@ -49,20 +48,21 @@ ImportWidget(QAbstractItemModel* importModel):
   im->treeView->setModel(im->importTreeModel);
   im->treeView->setAlternatingRowColors(true);
   im->treeView->header()->show();
-  //im->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
   im->treeView->header()->setSectionResizeMode(QHeaderView::Stretch);
 
   QVBoxLayout* layout = new QVBoxLayout(this);
 
-  //layout->addWidget(im->openFileButton);
-  //layout->addWidget(im->textEdit);
+  // layout->addWidget(im->openFileButton);
+  // layout->addWidget(im->textEdit);
   layout->addWidget(im->treeView);
 
   this->setMinimumSize(QSize(800, 400));
 }
 
 ImportWidget::
-~ImportWidget() {}
-
+~ImportWidget() {
+  delete im;
+}
 } // namespace Import
 } // namespace Geo

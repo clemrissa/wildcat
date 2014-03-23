@@ -5,7 +5,7 @@
 #include <Las/LasFile>
 #include <Las/LasFileParser>
 
-#include <Database/Private/Connection>
+#include <Database/Connection>
 
 #include <Domain/Log>
 #include <Domain/LogAccess>
@@ -22,12 +22,12 @@
 
 TEST(DatabaseTest, CreateDB) {
   using DMContext = DependencyManager::ApplicationContext;
-  using Geo::Database::Private::Connection;
+  using Geo::Database::Connection;
 
   Connection* c =
     DMContext::create<Connection>("Database.Connection");
 
-  c->databaseType(Geo::Database::Private::DatabaseType::SQLite);
+  c->databaseType(Geo::Database::DatabaseType::SQLite);
   c->database("test.db");
   c->connect();
 
@@ -59,25 +59,26 @@ TEST(DatabaseTest, CreateDB) {
   delete c;
 }
 
-
 TEST(DatabaseTest, Traits) {
   using DMContext = DependencyManager::ApplicationContext;
-  using Geo::Database::Private::Connection;
+  using Geo::Database::Connection;
 
   Connection* c =
     DMContext::create<Connection>("Database.Connection");
 
-  c->databaseType(Geo::Database::Private::DatabaseType::SQLite);
+  c->databaseType(Geo::Database::DatabaseType::SQLite);
   c->database("test.db");
   c->connect();
 
   auto dataAccessFactory = c->dataAccessFactory();
 
   Geo::Domain::WellTrait::Shared wellName(new Geo::Domain::WellTrait(QString("WellName")));
+
   Geo::Domain::WellTrait::Shared wellRegion(new Geo::Domain::WellTrait(QString("Region")));
+
   Geo::Domain::WellTrait::Shared wellType(new Geo::Domain::WellTrait(QString("Type")));
 
-  Geo::Domain::WellTraitAccess::Shared traitsAccess  = dataAccessFactory->wellTraitAccess();
+  Geo::Domain::WellTraitAccess::Shared traitsAccess = dataAccessFactory->wellTraitAccess();
 
   traitsAccess->insert(wellName);
   traitsAccess->insert(wellRegion);

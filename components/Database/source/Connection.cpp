@@ -12,7 +12,7 @@
 
 #include <Uni/Logging/Logging>
 
-using Geo::Database::Private::Connection;
+using Geo::Database::Connection;
 
 Connection::
 Connection(QObject* parent):

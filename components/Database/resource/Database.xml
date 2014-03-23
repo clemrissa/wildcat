@@ -2,24 +2,39 @@
 <context>
   <dll path="Database"/>
   <beans>
-    <call bean="Core.MainWindow" method="toBottomDock">
-      <bean name="Database.ConnectionListView"/>
+    <!--<call bean="Core.MainWindow" method="toBottomDock">-->
+      <!--<bean name="Database.ConnectionListView"/>-->
+    <!--</call>-->
+
+
+    <!--<bean name="Database.ConnectionListModel" class="Geo::Database::ConnectionListModel">-->
+      <!--<bean name="Core.MainWindow"/>-->
+    <!--</bean>-->
+
+    <!--<bean name="Database.ConnectionListView" bean="Database.DatabaseUiFactory" method="createConnectionListView">-->
+      <!--<bean name="Database.ConnectionListModel"/>-->
+    <!--</bean>-->
+
+    <!--ui factory-->
+    <bean name="Database.DatabaseUiFactory" class="Geo::Database::DatabaseUiFactory">
+      <method name="createConnectionListView" type="factory"/>
+      <method name="createDatabaseMenu" type="factory"/>
+    </bean>
+
+    <!--<bean name="Database.Connection" class="Geo::Database::Connection">-->
+      <!--[>//<]-->
+    <!--</bean>-->
+
+    <!--[>============<]-->
+
+    <bean name="Database.Menu" bean="Database.DatabaseUiFactory" method = "createDatabaseMenu"/>
+
+    <!--[>calls <]-->
+
+    <call bean="Core.MainWindow" method="addMenu">
+      <bean name="Database.Menu"/>
     </call>
 
-    <bean name="Database.ConnectionListModel" class="Geo::Database::Private::ConnectionListModel">
-      <bean name="Core.MainWindow"/>
-    </bean>
 
-    <bean name="Database.ConnectionListView" bean="Database.DatabaseUiFactory" method="createConnectionListView">
-      <bean name="Database.ConnectionListModel"/>
-    </bean>
-
-    <bean name="Database.DatabaseUiFactory" class="Geo::Database::Private::DatabaseUiFactory">
-      <method name="createConnectionListView" type="factory"/>
-    </bean>
-
-    <bean name="Database.Connection" class="Geo::Database::Private::Connection">
-      <!--//-->
-    </bean>
   </beans>
 </context>
