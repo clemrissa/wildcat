@@ -1,4 +1,5 @@
 #include "Connection.hpp"
+#include "ConnectionsManager.hpp"
 #include "DatabaseSettingsWidget.hpp"
 #include "DatabaseUiFactory.hpp"
 
@@ -14,6 +15,7 @@ registerComponent() {
   REGISTER_TYPE(QMenu);
 
   REGISTER_TYPE(Geo::Database::Connection);
+  REGISTER_TYPE(Geo::Database::ConnectionsManager);
   REGISTER_TYPE(Geo::Database::DatabaseUiFactory);
   REGISTER_TYPE(Geo::Database::DatabaseSettingsWidget);
 }

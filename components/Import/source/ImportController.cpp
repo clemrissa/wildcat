@@ -14,7 +14,7 @@
 #include "Las/LasFileParser.hpp"
 
 #include <DependencyManager/ApplicationContext>
-#include <DependencyManager/XmlApplicationContextLoader>
+// #include <DependencyManager/XmlApplicationContextLoader>
 
 #include <Core/MainWindow>
 
@@ -46,9 +46,11 @@ instance() {
 void
 ImportController::
 selectFilesAndImport() {
-  using       Geo::Core::MainWindow;
+  using DependencyManager::ApplicationContext;
+  using Geo::Core::MainWindow;
+
   MainWindow* mainWindow =
-    DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
+    ApplicationContext::create<MainWindow>("Core.MainWindow");
 
   QStringList fileList =
     QFileDialog::getOpenFileNames(mainWindow,

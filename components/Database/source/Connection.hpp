@@ -6,8 +6,9 @@
 #include <Domain/DataAccessFactory>
 
 #include <QObject>
+#include <QSharedPointer>
 
-#include <QDebug>
+// #include <QDebug>
 #include <QString>
 
 #include <boost/shared_ptr.hpp>
@@ -30,6 +31,8 @@ class Connection: public QObject {
   Q_OBJECT
 
 public:
+  typedef QSharedPointer<Connection> Shared;
+
   typedef int                       DatabaseType;
   typedef int                       Status;
   typedef Domain::DataAccessFactory DataAccessFactory;

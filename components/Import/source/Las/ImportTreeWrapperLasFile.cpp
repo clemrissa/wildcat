@@ -1,8 +1,8 @@
 #include "ImportTreeWrapperLasFile.hpp"
 
-#include "ImportTreeWrapperWellInformation.hpp"
 #include "ImportTreeWrapperLogGroup.hpp"
 #include "ImportTreeWrapperParameters.hpp"
+#include "ImportTreeWrapperWellInformation.hpp"
 
 #include <QColor>
 
@@ -41,31 +41,28 @@ ImportTreeWrapperLasFile(QSharedPointer<LasFile> lasFile):
 QVariant
 ImportTreeWrapperLasFile::
 data(int role, int column) {
-
-  switch(role) 
-  {
-    case Qt::DisplayRole:
-    {
-      switch (column) {
-      case ImportTreeWrapperEntry::Name:
-        return tr("File");
-        break;
-
-      case ImportTreeWrapperEntry::Description:
-        return _lasFile->fileName;
-        break;
-
-      default:
-        return QVariant();
-        break;
-      }
-     
+  switch (role) {
+  case Qt::DisplayRole: {
+    switch (column) {
+    case ImportTreeWrapperEntry::Name:
+      return tr("File");
       break;
-    
+
+    case ImportTreeWrapperEntry::Description:
+      return _lasFile->fileName;
+      break;
+
+    default:
+      return QVariant();
+      break;
     }
-    case Qt::BackgroundRole:
-      return QVariant(QColor(0xCC, 0xDD, 0xEE));
-      break;
+
+    break;
+  }
+
+  case Qt::BackgroundRole:
+    return QVariant(QColor(0xCC, 0xDD, 0xEE));
+    break;
   }
 
   return QVariant();

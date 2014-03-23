@@ -15,15 +15,13 @@
       <!--<bean name="Database.ConnectionListModel"/>-->
     <!--</bean>-->
 
-    <!--ui factory-->
     <bean name="Database.DatabaseUiFactory" class="Geo::Database::DatabaseUiFactory">
       <method name="createConnectionListView" type="factory"/>
       <method name="createDatabaseMenu" type="factory"/>
     </bean>
 
-    <!--<bean name="Database.Connection" class="Geo::Database::Connection">-->
-      <!--[>//<]-->
-    <!--</bean>-->
+    <bean name="Database.ConnectionsManager" class="Geo::Database::ConnectionsManager"/>
+
 
     <!--[>============<]-->
 

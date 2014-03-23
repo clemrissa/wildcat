@@ -10,8 +10,8 @@
 
 #include <algorithm>
 
-namespace Geo {
-namespace Import {
+using Geo::Import::ImportTreeModel;
+
 ImportTreeModel::
 ImportTreeModel(QVector<ImportTreeWrapperLasFile*> importTreeWrapperLasFiles):
   _importTreeWrapperLasFiles(importTreeWrapperLasFiles) {
@@ -23,9 +23,6 @@ ImportTreeModel::
 data(const QModelIndex& index, int role) const  {
   if (!index.isValid())
     return QVariant();
-
-  //if (role != Qt::DisplayRole)
-    //return QVariant();
 
   ImportTreeWrapperEntry* entry =
     static_cast<ImportTreeWrapperEntry*>(index.internalPointer());
@@ -79,7 +76,7 @@ columnCount(const QModelIndex& parent) const  {
   // it does not matter as this model is a "fake" one
   // the true number of columns is returned my main model attached
   // to a view
-  //return 6;
+  // return 6;
   return ImportTreeWrapperEntry::Column::Size;
 }
 
@@ -149,6 +146,4 @@ getEntryPosition(ImportTreeWrapperEntry* const entry) const {
 
   return it - _importTreeWrapperLasFiles.begin();
   //
-}
-}
 }
