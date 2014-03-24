@@ -40,3 +40,33 @@ index(int row, int column, const QModelIndex& parent) const {
                                            connection);
   }
 }
+
+QModelIndex
+DatabaseSettingsTreeModel::
+parent(const QModelIndex& index) const  {
+
+  return QModelIndex();
+}
+
+int
+DatabaseSettingsTreeModel::
+columnCount(const QModelIndex& parent) const  {
+  return 1;
+}
+
+int
+DatabaseSettingsTreeModel::
+rowCount(const QModelIndex& parent) const {
+  return 1;
+}
+
+
+
+QVariant
+DatabaseSettingsTreeModel::
+headerData(int             section,
+           Qt::Orientation orientation,
+           int             role)  const {
+
+  return QVariant();
+}

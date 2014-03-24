@@ -15,12 +15,18 @@ public:
   ConnectionsManager() {}
 
   int
-  size() { return _connections.size(); }
+  size() { 
+    return _connections.size(); 
+  }
 
   QSharedPointer<Connection>
   operator[](const int i) const {
     return _connections[i];
   }
+
+  QSharedPointer<Connection>
+  createConnection();
+  
 
 private:
   std::vector<QSharedPointer<Connection> > _connections;
