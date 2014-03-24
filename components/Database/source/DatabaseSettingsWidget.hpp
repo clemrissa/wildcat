@@ -5,11 +5,14 @@
 
 namespace Geo {
 namespace Database {
+
+class DatabaseSettingsTreeModel;
+
 class DatabaseSettingsWidget: public QWidget {
   Q_OBJECT
 
 public:
-  DatabaseSettingsWidget();
+  DatabaseSettingsWidget(DatabaseSettingsTreeModel* treeModel);
 
   ~DatabaseSettingsWidget();
 

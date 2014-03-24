@@ -12,7 +12,7 @@ class ConnectionsManager: public QObject {
 
 public:
   Q_INVOKABLE
-  ConnectionsManager() {}
+  ConnectionsManager();
 
   int
   size() { 
@@ -26,6 +26,12 @@ public:
 
   QSharedPointer<Connection>
   createConnection();
+
+
+  std::vector<QSharedPointer<Connection> > const
+  connections() const {
+    return _connections;
+  }
   
 
 private:

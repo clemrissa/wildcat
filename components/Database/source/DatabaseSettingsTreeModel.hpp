@@ -11,11 +11,15 @@
 namespace Geo {
 namespace Database {
 class ConnectionsManager;
+class DatabaseSettingsTreeEntry;
 
 class DatabaseSettingsTreeModel: public QAbstractItemModel {
 public:
   // TODO implement
   DatabaseSettingsTreeModel();
+
+  virtual
+  ~DatabaseSettingsTreeModel();
 
 public:
   virtual
@@ -47,6 +51,11 @@ public:
 
 private:
   ConnectionsManager* _connectionsManager;
+
+  std::vector<DatabaseSettingsTreeEntry*> _entries;
+
+  int
+  getEntryPosition(DatabaseSettingsTreeEntry* entry) const;
 };
 }
 }

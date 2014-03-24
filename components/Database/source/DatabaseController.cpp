@@ -5,6 +5,7 @@
 #include <Core/MainWindow>
 #include <Uni/Logging/Logging>
 
+#include "DatabaseSettingsTreeModel.hpp"
 #include "DatabaseSettingsWidget.hpp"
 
 #include <DependencyManager/ApplicationContext>
@@ -40,7 +41,9 @@ showDatabaseSettingsWidget() {
   MainWindow* mainWindow =
     DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
 
-  auto databaseSettingsWidget = new DatabaseSettingsWidget();
+  auto databaseSettingsTreeModel = new DatabaseSettingsTreeModel();
+
+  auto databaseSettingsWidget = new DatabaseSettingsWidget(databaseSettingsTreeModel);
 
   mainWindow->toCentralWidget(databaseSettingsWidget);
 }

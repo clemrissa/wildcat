@@ -10,6 +10,7 @@ data(int role, int column) {
 
   switch (column) {
   case DatabaseSettingsTreeEntry::Name:
+    return QString("connection");
     break;
 
   default:

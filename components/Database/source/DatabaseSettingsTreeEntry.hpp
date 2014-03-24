@@ -24,9 +24,14 @@ public:
       delete entry;
   }
 
-  DatabaseSettingsTreeEntry const*
+  DatabaseSettingsTreeEntry*
   parent() const {
     return _parent;
+  }
+
+  std::vector<DatabaseSettingsTreeEntry*> const
+  entries() const {
+    return _entries;
   }
 
   int

@@ -7,6 +7,14 @@ using Geo::Database::ConnectionsManager;
 using Geo::Database::Connection;
 
 
+ConnectionsManager::
+ConnectionsManager() {
+//  TODO remove later
+//  implement xml save/load
+  createConnection();
+  createConnection();
+}
+
 QSharedPointer<Connection>
 ConnectionsManager::
 createConnection() {

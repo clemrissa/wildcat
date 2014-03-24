@@ -30,6 +30,7 @@ data(const QModelIndex& index, int role) const  {
   return entry->data(role, index.column());
 }
 
+
 QModelIndex
 ImportTreeModel::
 index(int row, int column, const QModelIndex& parent) const  {
@@ -44,6 +45,7 @@ index(int row, int column, const QModelIndex& parent) const  {
 
   return QAbstractItemModel::createIndex(row, column, entry->entries()[row]);
 }
+
 
 QModelIndex
 ImportTreeModel::
@@ -70,13 +72,10 @@ parent(const QModelIndex& index) const  {
   return QAbstractItemModel::createIndex(position, 0, parentEntry);
 }
 
+
 int
 ImportTreeModel::
 columnCount(const QModelIndex& parent) const  {
-  // it does not matter as this model is a "fake" one
-  // the true number of columns is returned my main model attached
-  // to a view
-  // return 6;
   return ImportTreeWrapperEntry::Column::Size;
 }
 
