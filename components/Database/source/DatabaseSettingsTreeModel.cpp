@@ -23,6 +23,10 @@ DatabaseSettingsTreeModel() {
     INFO << "add connection ";
     _entries.push_back(new DatabaseSettingsTreeConnection(connection));
   }
+
+
+  // last empty entry ( a placeholder for adding new connections )
+  _entries.push_back(new DatabaseSettingsTreeConnection());
 }
 
 
@@ -48,8 +52,7 @@ QModelIndex
 DatabaseSettingsTreeModel::
 index(int row, int column, const QModelIndex& parent) const {
   if (!parent.isValid()) {
-    return QAbstractItemModel::createIndex(row, column, 
-        _entries[row]);
+    return QAbstractItemModel::createIndex(row, column, _entries[row]);
   }
 
   DatabaseSettingsTreeEntry* entry =
@@ -92,12 +95,15 @@ columnCount(const QModelIndex& parent) const  {
   return 2;
 }
 
+
 int
 DatabaseSettingsTreeModel::
 rowCount(const QModelIndex& parent) const {
 
-  if (!parent.isValid())
-    return _connectionsManager->size();
+  if (!parent.isValid()) 
+  {
+    return _connectionsManager->size() + 1;
+  }
 
   DatabaseSettingsTreeEntry* entry =
     static_cast<DatabaseSettingsTreeEntry*>(parent.internalPointer());
