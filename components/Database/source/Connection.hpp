@@ -7,54 +7,23 @@
 
 #include <QObject>
 #include <QSharedPointer>
-
-// #include <QDebug>
 #include <QString>
-
-#include <boost/shared_ptr.hpp>
 
 namespace Geo {
 namespace Database {
-namespace DatabaseType {
-static const int Unknown = 1;
-static const int MySql   = 2;
-static const int SQLite  = 3;
-}
-
-namespace Status {
-static const int Unknown   = 1;
-static const int Connected = 2;
-static const int Failed    = 3;
-}
+//
+enum DatabaseType { UnknownDB, MySql, SQLite };
+enum Status { Unknown, Connected, Failed };
 
 class Connection: public QObject {
   Q_OBJECT
 
 public:
   typedef QSharedPointer<Connection> Shared;
-
-  typedef int                       DatabaseType;
-  typedef int                       Status;
-  typedef Domain::DataAccessFactory DataAccessFactory;
+  typedef Domain::DataAccessFactory  DataAccessFactory;
 
 private:
-  Q_PROPERTY(int databaseType
-             READ databaseType
-             WRITE databaseType
-             NOTIFY databaseTypeChanged)
-  Q_PROPERTY(QString database
-             READ database
-             WRITE database
-             NOTIFY databaseChanged)
-  Q_PROPERTY(int status
-             READ status
-             NOTIFY statusChanged)
-  Q_PROPERTY(QString lastError
-             READ lastError
-             NOTIFY lastErrorChanged)
-
-private:
-  typedef boost::shared_ptr<odb::database> DatabaseObject;
+  typedef QSharedPointer<odb::database> DatabaseObject;
 
 public:
   Q_INVOKABLE

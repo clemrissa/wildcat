@@ -17,7 +17,7 @@ using Geo::Database::Connection;
 Connection::
 Connection(QObject* parent):
   QObject(parent),
-  _databaseType(DatabaseType::Unknown),
+  _databaseType(DatabaseType::UnknownDB),
   _database(""),
   _status(Status::Unknown) {}
 
@@ -72,7 +72,7 @@ connect() {
     break;
   }
 
-  case DatabaseType::Unknown: {}
+  case DatabaseType::UnknownDB: {}
 
   default: {}
   }

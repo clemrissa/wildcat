@@ -21,6 +21,12 @@ public:
 
 private:
   Connection::Shared _connection;
+
+  QVariant
+  getForegroundRole(int column);
+
+  QVariant
+  getDisplayRole(int column);
 };
 }
 }

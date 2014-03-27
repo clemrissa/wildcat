@@ -19,20 +19,18 @@ DatabaseSettingsTreeModel() {
   _connectionsManager =
     ApplicationContext::create<ConnectionsManager>("Database.ConnectionsManager");
 
-  for(auto connection: _connectionsManager->connections()) {
+  for (auto connection : _connectionsManager->connections()) {
     INFO << "add connection ";
     _entries.push_back(new DatabaseSettingsTreeConnection(connection));
   }
-
 
   // last empty entry ( a placeholder for adding new connections )
   _entries.push_back(new DatabaseSettingsTreeConnection());
 }
 
-
 DatabaseSettingsTreeModel::
 ~DatabaseSettingsTreeModel() {
-  for(auto entry : _entries)
+  for (auto entry : _entries)
     delete entry;
 }
 
@@ -51,9 +49,8 @@ data(const QModelIndex& index, int role) const  {
 QModelIndex
 DatabaseSettingsTreeModel::
 index(int row, int column, const QModelIndex& parent) const {
-  if (!parent.isValid()) {
+  if (!parent.isValid())
     return QAbstractItemModel::createIndex(row, column, _entries[row]);
-  }
 
   DatabaseSettingsTreeEntry* entry =
     static_cast<DatabaseSettingsTreeEntry*>(parent.internalPointer());
@@ -95,30 +92,23 @@ columnCount(const QModelIndex& parent) const  {
   return 2;
 }
 
-
 int
 DatabaseSettingsTreeModel::
 rowCount(const QModelIndex& parent) const {
-
-  if (!parent.isValid()) 
-  {
+  if (!parent.isValid())
     return _connectionsManager->size() + 1;
-  }
 
   DatabaseSettingsTreeEntry* entry =
     static_cast<DatabaseSettingsTreeEntry*>(parent.internalPointer());
 
-
   return entry->entries().size();
 }
-
 
 QVariant
 DatabaseSettingsTreeModel::
 headerData(int             section,
            Qt::Orientation orientation,
            int             role)  const {
-
   QVariant result;
 
   if (role != Qt::DisplayRole)
@@ -128,19 +118,17 @@ headerData(int             section,
     return result;
 
   switch (section) {
-    case DatabaseSettingsTreeEntry::Name:
-      result = tr("Item");
-      break;
+  case DatabaseSettingsTreeEntry::Database:
+    result = tr("Item");
+    break;
 
-    default:
-      result = QVariant();
-      break;
-
+  default:
+    result = QVariant();
+    break;
   }
 
   return result;
 }
-
 
 int
 DatabaseSettingsTreeModel::

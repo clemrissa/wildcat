@@ -10,7 +10,7 @@ namespace Geo {
 namespace Database {
 class DatabaseSettingsTreeEntry: public QObject {
 public:
-  enum Column { Name = 0, Action = 1, Size };
+  enum Column { Database = 0, Action = 1, Size };
 
 public:
   DatabaseSettingsTreeEntry(DatabaseSettingsTreeEntry* parent = nullptr):
