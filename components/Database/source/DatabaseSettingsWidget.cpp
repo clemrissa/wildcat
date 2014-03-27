@@ -6,6 +6,7 @@
 #include <QHeaderView>
 
 #include "DatabaseSettingsTreeModel.hpp"
+#include "DatabaseSettingsItemDelegate.hpp"
 
 namespace Geo {
 namespace Database {
@@ -29,6 +30,7 @@ DatabaseSettingsWidget(DatabaseSettingsTreeModel* treeModel)
   p->treeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
   p->treeView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
   p->treeView->header()->resizeSection(1, 20);
+  p->treeView->setItemDelegate(new DatabaseSettingsItemDelegate());
 
   p->stackedWidget = new QStackedWidget();
 

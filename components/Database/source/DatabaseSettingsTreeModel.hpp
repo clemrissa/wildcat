@@ -44,10 +44,22 @@ public:
 
   //
 
+  bool
+  insertRows(int row, int count, const QModelIndex & parent = QModelIndex()) override;
+
+  //
+
   QVariant
   headerData(int             section,
              Qt::Orientation orientation,
              int             role = Qt::DisplayRole) const override;
+
+  Qt::ItemFlags 
+  flags(const QModelIndex &index) const override;
+
+public slots:
+  void
+  addConnection(int index);
 
 private:
   ConnectionsManager* _connectionsManager;

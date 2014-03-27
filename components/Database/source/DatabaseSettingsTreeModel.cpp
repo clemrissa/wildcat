@@ -28,11 +28,13 @@ DatabaseSettingsTreeModel() {
   _entries.push_back(new DatabaseSettingsTreeConnection());
 }
 
+
 DatabaseSettingsTreeModel::
 ~DatabaseSettingsTreeModel() {
   for (auto entry : _entries)
     delete entry;
 }
+
 
 QVariant
 DatabaseSettingsTreeModel::
@@ -45,6 +47,7 @@ data(const QModelIndex& index, int role) const  {
 
   return entry->data(role, index.column());
 }
+
 
 QModelIndex
 DatabaseSettingsTreeModel::
@@ -86,11 +89,13 @@ parent(const QModelIndex& index) const  {
   return QAbstractItemModel::createIndex(position, 0, parentEntry);
 }
 
+
 int
 DatabaseSettingsTreeModel::
 columnCount(const QModelIndex& parent) const  {
   return 2;
 }
+
 
 int
 DatabaseSettingsTreeModel::
@@ -103,6 +108,15 @@ rowCount(const QModelIndex& parent) const {
 
   return entry->entries().size();
 }
+
+bool
+DatabaseSettingsTreeModel::
+insertRows(int row, int count, const QModelIndex& parent) {
+  //beginInsertRows();
+
+  //endInsertRows();
+}
+
 
 QVariant
 DatabaseSettingsTreeModel::
@@ -129,6 +143,31 @@ headerData(int             section,
 
   return result;
 }
+
+Qt::ItemFlags 
+DatabaseSettingsTreeModel::
+flags(const QModelIndex &index) const
+{
+  if (!index.isValid()) 
+    return 0;
+
+  Qt::ItemFlags flags = QAbstractItemModel::flags(index);
+
+
+  if (!index.parent().isValid() &&
+      (unsigned int) index.row() == _entries.size() - 1)
+    flags |= Qt::ItemIsEditable;
+
+  return flags;
+}
+
+void
+DatabaseSettingsTreeModel::
+addConnection(int index)
+{
+
+}
+
 
 int
 DatabaseSettingsTreeModel::

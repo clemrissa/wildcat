@@ -57,6 +57,10 @@ public:
     return _dataAccessFactory;
   }
 
+  static
+  QString
+  connectionTypeName(DatabaseType type);
+
 private:
   void
   status(Status const& status) {
