@@ -61,6 +61,8 @@ setEditorData(QWidget * editor, const QModelIndex & index) const {
 
   c->addItem(Connection::connectionTypeName(DatabaseType::MySql));
   c->addItem(Connection::connectionTypeName(DatabaseType::SQLite));
+
+  c->showPopup();
 }
 
 
