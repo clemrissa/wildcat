@@ -109,13 +109,13 @@ rowCount(const QModelIndex& parent) const {
   return entry->entries().size();
 }
 
-bool
-DatabaseSettingsTreeModel::
-insertRows(int row, int count, const QModelIndex& parent) {
-  //beginInsertRows();
+//bool
+//DatabaseSettingsTreeModel::
+//insertRows(int row, int count, const QModelIndex& parent) {
+  ////beginInsertRows();
 
-  //endInsertRows();
-}
+  ////endInsertRows();
+//}
 
 
 QVariant
@@ -163,9 +163,38 @@ flags(const QModelIndex &index) const
 
 void
 DatabaseSettingsTreeModel::
-addConnection(int index)
+addConnection(DatabaseType databaseType)
 {
+  int size = _connectionsManager->size();
+  beginInsertRows(QModelIndex(), size, size);
 
+    _connectionsManager->createConnection();
+      //switch(c->currentIndex()) {
+        //case DatabaseType::MySql:
+          //break;
+        //case DatabaseType::SQLite:
+          //break;
+      //}
+    _entries.insert(size, new DatabaseSettingsTreeConnection(_connectionsManager->operator[](size)));
+
+  endInsertRows();
+}
+
+
+void
+DatabaseSettingsTreeModel::
+onClicked(const QModelIndex& index) 
+{
+  if (!index.parent().isValid() &&
+      index.column() == 1 &&
+      index.row() != _entries.size() - 1) {
+    beginRemoveRows(QModelIndex(), index.row(), index.row());
+      auto connectionWrapper = _entries.takeAt(index.row());
+      delete connectionWrapper;
+
+      _connectionsManager->removeConnection(index.row());
+    endRemoveRows();
+  }
 }
 
 

@@ -40,6 +40,12 @@ DatabaseSettingsWidget(DatabaseSettingsTreeModel* treeModel)
   l->addWidget(p->stackedWidget);
 
   setLayout(l);
+
+
+  connect(p->treeView,
+          SIGNAL(clicked(const QModelIndex&)),
+          treeModel,
+          SLOT(onClicked(const QModelIndex&)));
 }
 
 DatabaseSettingsWidget::

@@ -8,6 +8,7 @@
 #include <Uni/Logging/Logging>
 
 #include "DatabaseSettingsTreeConnection.hpp"
+#include "DatabaseSettingsTreeModel.hpp"
 #include "Connection.hpp"
 
 using Geo::Database::DatabaseSettingsItemDelegate;
@@ -71,6 +72,16 @@ DatabaseSettingsItemDelegate::
 setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const {
   //
   INFO << "save data";
+
+  if (!index.parent().isValid()) {
+    QComboBox* c = static_cast<QComboBox*>(editor);
+    DatabaseSettingsTreeModel* m = 
+      static_cast<DatabaseSettingsTreeModel*>(model);
+
+  INFO << "current index " << c->currentIndex();
+
+    m->addConnection((DatabaseType)c->currentIndex());
+  }
 }
 
 

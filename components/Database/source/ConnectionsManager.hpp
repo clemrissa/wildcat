@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSharedPointer>
+#include <QVector>
 
 namespace Geo {
 namespace Database {
@@ -27,15 +28,18 @@ public:
   QSharedPointer<Connection>
   createConnection();
 
+  void
+  removeConnection(int i);
 
-  std::vector<QSharedPointer<Connection> > const
+
+  QVector<QSharedPointer<Connection> > const
   connections() const {
     return _connections;
   }
   
 
 private:
-  std::vector<QSharedPointer<Connection> > _connections;
+  QVector<QSharedPointer<Connection> > _connections;
 };
 }
 }

@@ -3,6 +3,9 @@
 
 #include <QAbstractItemModel>
 #include <QVariant>
+#include <QVector>
+
+#include "Connection.hpp"
 
 // #include "ConnectionsManager.hpp"
 
@@ -14,6 +17,9 @@ class ConnectionsManager;
 class DatabaseSettingsTreeEntry;
 
 class DatabaseSettingsTreeModel: public QAbstractItemModel {
+
+  Q_OBJECT
+
 public:
   // TODO implement
   DatabaseSettingsTreeModel();
@@ -44,8 +50,8 @@ public:
 
   //
 
-  bool
-  insertRows(int row, int count, const QModelIndex & parent = QModelIndex()) override;
+  //bool
+  //insertRows(int row, int count, const QModelIndex & parent = QModelIndex()) override;
 
   //
 
@@ -59,12 +65,15 @@ public:
 
 public slots:
   void
-  addConnection(int index);
+  addConnection(DatabaseType databaseType);
+
+  void
+  onClicked(const QModelIndex& index);
 
 private:
   ConnectionsManager* _connectionsManager;
 
-  std::vector<DatabaseSettingsTreeEntry*> _entries;
+  QVector<DatabaseSettingsTreeEntry*> _entries;
 
   int
   getEntryPosition(DatabaseSettingsTreeEntry* entry) const;
