@@ -12,8 +12,11 @@ set(TARGET_NAME ${PROJECT_NAME})
 
 file(GLOB_RECURSE CPP_FILES source/*.cpp)
 file(GLOB_RECURSE CPP_TEST_FILES tests/*.cpp)
+file(GLOB_RECURSE RESOURCES resource/*.qrc)
 
-add_library(${TARGET_NAME} SHARED ${CPP_FILES} ${CPP_TEST_FILES})
+qt5_add_resources(RESOURCE_SOURCES ${RESOURCES})
+
+add_library(${TARGET_NAME} SHARED ${CPP_FILES} ${CPP_TEST_FILES} ${RESOURCE_SOURCES})
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
 target_link_libraries(${TARGET_NAME} PRIVATE
@@ -53,6 +56,7 @@ install(TARGETS ${TARGET_NAME}
         LIBRARY DESTINATION ${INSTALL_COMPONENT_DIR}
         RUNTIME DESTINATION ${INSTALL_COMPONENT_DIR})
 
+
 #file(GLOB qmlFiles resource/*.qml)
 #install(FILES ${qmlFiles} DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
 #file(GLOB jsFiles resource/*.js)
@@ -61,4 +65,5 @@ install(TARGETS ${TARGET_NAME}
 
 install(FILES resource/${TARGET_NAME}.xml DESTINATION "${INSTALL_COMPONENT_DIR}")
 # ==============================================================================
+
 # }}} Install

@@ -28,13 +28,11 @@ DatabaseSettingsTreeModel() {
   _entries.push_back(new DatabaseSettingsTreeConnection());
 }
 
-
 DatabaseSettingsTreeModel::
 ~DatabaseSettingsTreeModel() {
   for (auto entry : _entries)
     delete entry;
 }
-
 
 QVariant
 DatabaseSettingsTreeModel::
@@ -47,7 +45,6 @@ data(const QModelIndex& index, int role) const  {
 
   return entry->data(role, index.column());
 }
-
 
 QModelIndex
 DatabaseSettingsTreeModel::
@@ -89,13 +86,11 @@ parent(const QModelIndex& index) const  {
   return QAbstractItemModel::createIndex(position, 0, parentEntry);
 }
 
-
 int
 DatabaseSettingsTreeModel::
 columnCount(const QModelIndex& parent) const  {
   return 2;
 }
-
 
 int
 DatabaseSettingsTreeModel::
@@ -109,14 +104,13 @@ rowCount(const QModelIndex& parent) const {
   return entry->entries().size();
 }
 
-//bool
-//DatabaseSettingsTreeModel::
-//insertRows(int row, int count, const QModelIndex& parent) {
-  ////beginInsertRows();
+// bool
+// DatabaseSettingsTreeModel::
+// insertRows(int row, int count, const QModelIndex& parent) {
+////beginInsertRows();
 
-  ////endInsertRows();
-//}
-
+////endInsertRows();
+// }
 
 QVariant
 DatabaseSettingsTreeModel::
@@ -144,18 +138,16 @@ headerData(int             section,
   return result;
 }
 
-Qt::ItemFlags 
+Qt::ItemFlags
 DatabaseSettingsTreeModel::
-flags(const QModelIndex &index) const
-{
-  if (!index.isValid()) 
+flags(const QModelIndex& index) const {
+  if (!index.isValid())
     return 0;
 
   Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
-
   if (!index.parent().isValid() &&
-      (unsigned int) index.row() == _entries.size() - 1)
+      (unsigned int)index.row() == _entries.size() - 1)
     flags |= Qt::ItemIsEditable;
 
   return flags;
@@ -163,40 +155,36 @@ flags(const QModelIndex &index) const
 
 void
 DatabaseSettingsTreeModel::
-addConnection(DatabaseType databaseType)
-{
+addConnection(DatabaseType databaseType) {
   int size = _connectionsManager->size();
   beginInsertRows(QModelIndex(), size, size);
 
-    _connectionsManager->createConnection();
-      //switch(c->currentIndex()) {
-        //case DatabaseType::MySql:
-          //break;
-        //case DatabaseType::SQLite:
-          //break;
-      //}
-    _entries.insert(size, new DatabaseSettingsTreeConnection(_connectionsManager->operator[](size)));
+  _connectionsManager->createConnection();
+  // switch(c->currentIndex()) {
+  // case DatabaseType::MySql:
+  // break;
+  // case DatabaseType::SQLite:
+  // break;
+  // }
+  _entries.insert(size, new DatabaseSettingsTreeConnection(_connectionsManager->operator[](size)));
 
   endInsertRows();
 }
 
-
 void
 DatabaseSettingsTreeModel::
-onClicked(const QModelIndex& index) 
-{
+onClicked(const QModelIndex& index) {
   if (!index.parent().isValid() &&
       index.column() == 1 &&
       index.row() != _entries.size() - 1) {
     beginRemoveRows(QModelIndex(), index.row(), index.row());
-      auto connectionWrapper = _entries.takeAt(index.row());
-      delete connectionWrapper;
+    auto connectionWrapper = _entries.takeAt(index.row());
+    delete connectionWrapper;
 
-      _connectionsManager->removeConnection(index.row());
+    _connectionsManager->removeConnection(index.row());
     endRemoveRows();
   }
 }
-
 
 int
 DatabaseSettingsTreeModel::

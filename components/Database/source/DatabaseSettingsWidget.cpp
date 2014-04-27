@@ -1,12 +1,12 @@
 #include "DatabaseSettingsWidget.hpp"
 
 #include <QHBoxLayout>
+#include <QHeaderView>
 #include <QStackedWidget>
 #include <QTreeView>
-#include <QHeaderView>
 
-#include "DatabaseSettingsTreeModel.hpp"
 #include "DatabaseSettingsItemDelegate.hpp"
+#include "DatabaseSettingsTreeModel.hpp"
 
 namespace Geo {
 namespace Database {
@@ -16,15 +16,15 @@ struct DatabaseSettingsWidget::Private {
 };
 
 DatabaseSettingsWidget::
-DatabaseSettingsWidget(DatabaseSettingsTreeModel* treeModel)
-  : p(new DatabaseSettingsWidget::Private()) 
-{
+DatabaseSettingsWidget(DatabaseSettingsTreeModel* treeModel):
+  p(new DatabaseSettingsWidget::Private()) {
   setWindowTitle(tr("Database Settings"));
   setMinimumSize(600, 400);
 
   p->treeView = new QTreeView();
 
   p->treeView->setMaximumWidth(300);
+
   p->treeView->setModel(treeModel);
   p->treeView->header()->setStretchLastSection(false);
   p->treeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -41,11 +41,10 @@ DatabaseSettingsWidget(DatabaseSettingsTreeModel* treeModel)
 
   setLayout(l);
 
-
   connect(p->treeView,
-          SIGNAL(clicked(const QModelIndex&)),
+          SIGNAL(clicked(const QModelIndex &)),
           treeModel,
-          SLOT(onClicked(const QModelIndex&)));
+          SLOT(onClicked(const QModelIndex &)));
 }
 
 DatabaseSettingsWidget::

@@ -27,6 +27,9 @@ private:
 
   QVariant
   getDisplayRole(int column);
+
+  QVariant
+  getDecorationRole(int column);
 };
 }
 }

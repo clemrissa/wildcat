@@ -1,5 +1,6 @@
 #include "DatabaseSettingsTreeConnection.hpp"
 
+#include <QIcon>
 #include <QPalette>
 
 using Geo::Database::DatabaseSettingsTreeConnection;
@@ -14,6 +15,10 @@ data(int role, int column) {
 
   case Qt::DisplayRole:
     return getDisplayRole(column);
+    break;
+
+  case Qt::DecorationRole:
+    return getDecorationRole(column);
     break;
 
   default:
@@ -61,14 +66,28 @@ getDisplayRole(int column) {
     break;
 
   case DatabaseSettingsTreeEntry::Action:
+    return QVariant();
+    break;
+  }
+
+  return QVariant();
+}
+
+QVariant
+DatabaseSettingsTreeConnection::
+getDecorationRole(int column) {
+  switch (column) {
+  case DatabaseSettingsTreeEntry::Database:
+    return QVariant();
+    break;
+
+  case DatabaseSettingsTreeEntry::Action:
 
     if (!_connection.isNull())
-      return QString("-");
+      return QIcon(":/delete.png");
     else
       return QVariant();
 
     break;
   }
-
-  return QVariant();
 }
