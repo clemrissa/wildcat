@@ -61,7 +61,7 @@ getDisplayRole(int column) {
     if (_connection.isNull())
       return QString("Select DB type to add a connection");
     else
-      return _connection->database();
+      return _connection->textDescription();
 
     break;
 
@@ -90,4 +90,6 @@ getDecorationRole(int column) {
 
     break;
   }
+
+  return QVariant();
 }

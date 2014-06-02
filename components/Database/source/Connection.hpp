@@ -1,112 +1,68 @@
 #ifndef Geo_Database_Connection_hpp
 #define Geo_Database_Connection_hpp
 
-#include <Connection.hpp>
-
 #include <Domain/DataAccessFactory>
-
-#include <QObject>
-#include <QSharedPointer>
-#include <QString>
 
 namespace Geo {
 namespace Database {
-//
 enum DatabaseType { UnknownDB, MySql, SQLite };
 enum Status { Unknown, Connected, Failed };
 
 class Connection: public QObject {
-  Q_OBJECT
-
 public:
-  typedef QSharedPointer<Connection> Shared;
   typedef Domain::DataAccessFactory  DataAccessFactory;
-
-private:
-  typedef QSharedPointer<odb::database> DatabaseObject;
+  typedef QSharedPointer<Connection> Shared;
 
 public:
-  Q_INVOKABLE
-  Connection(QObject* parent = 0);
+  virtual
+  ~Connection() {}
 
-  ~Connection();
-
-  Connection const&
-  operator=(Connection const& other);
-
-  void
-  databaseType(DatabaseType const& databaseType) {
-    _databaseType = databaseType;
-    emit databaseTypeChanged(databaseType);
-  }
-
-  DatabaseType const&
-  databaseType() const { return _databaseType; }
-
-  void
-  database(QString const& database) {
-    _database = database;
-    emit databaseChanged(database);
-  }
-
-  QString const&
-  database() const { return _database; }
-
+  virtual
   DataAccessFactory::Shared
   dataAccessFactory() const {
     return _dataAccessFactory;
   }
 
+  virtual Status const&
+  status() const = 0;
+
+  virtual QString const&
+  lastError() const = 0;
+
+  virtual DatabaseType const&
+  databaseType() const = 0;
+
+  virtual QString const
+  textDescription() const = 0;
+
   static
   QString
-  connectionTypeName(DatabaseType type);
+  connectionTypeName(DatabaseType type) {
+    switch (type) {
+    case DatabaseType::SQLite:
+      return tr("SQLite");
+      break;
 
-private:
-  void
-  status(Status const& status) {
-    _status = status;
-    emit statusChanged(status);
+    case DatabaseType::MySql:
+      return tr("MySQL");
+      break;
+
+    default:
+      Q_ASSERT(false);
+      break;
+    }
+
+    Q_ASSERT(false);
+    return tr("Should not happen");
   }
 
 public:
-  Status const&
-  status() const { return _status; }
+  virtual void
+  connect() = 0;
 
-private:
-  void
-  lastError(QString const& lastError) {
-    _lastError = lastError;
-    emit lastErrorChanged(lastError);
-  }
-
-public:
-  QString const&
-  lastError() const { return _lastError; }
-
-signals:
-  void
-  databaseTypeChanged(DatabaseType const& databaseType);
-
-  void
-  databaseChanged(QString const& database);
-
-  void
-  statusChanged(Status const& staus);
-
-  void
-  lastErrorChanged(QString const& lastError);
-
-public:
-  Q_INVOKABLE void
-  connect();
-
-private:
-  DatabaseType              _databaseType;
-  QString                   _database;
-  Status                    _status;
-  QString                   _lastError;
   DataAccessFactory::Shared _dataAccessFactory;
 };
 }
 }
-#endif
+
+#endif //  Geo_Database_Connection_hpp

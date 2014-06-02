@@ -16,8 +16,8 @@ public:
   ConnectionsManager();
 
   int
-  size() { 
-    return _connections.size(); 
+  size() {
+    return _connections.size();
   }
 
   QSharedPointer<Connection>
@@ -31,12 +31,10 @@ public:
   void
   removeConnection(int i);
 
-
   QVector<QSharedPointer<Connection> > const
   connections() const {
     return _connections;
   }
-  
 
 private:
   QVector<QSharedPointer<Connection> > _connections;

@@ -15,7 +15,7 @@
       <!--<bean name="Database.ConnectionListModel"/>-->
     <!--</bean>-->
 
-    <bean name="Database.Connection" class="Geo::Database::Connection"/>
+    <bean name="Database.SQLiteConnection" class="Geo::Database::SQLiteConnection"/>
 
 
     <!--[>============<]-->

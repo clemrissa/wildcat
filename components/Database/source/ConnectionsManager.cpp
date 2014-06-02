@@ -1,30 +1,25 @@
 #include "ConnectionsManager.hpp"
 
-#include "Connection.hpp"
+#include "SQLiteConnection.hpp"
 
-
-using Geo::Database::ConnectionsManager;
 using Geo::Database::Connection;
-
+using Geo::Database::ConnectionsManager;
 
 ConnectionsManager::
 ConnectionsManager() {
-//  TODO remove later
-//  implement xml save/load
-  //createConnection();
-  //createConnection();
+  //  TODO remove later
+  //  implement xml save/load
 }
 
 QSharedPointer<Connection>
 ConnectionsManager::
 createConnection() {
-  QSharedPointer<Connection> c(new Connection());
+  QSharedPointer<Connection> c(new SQLiteConnection());
+
   _connections.append(c);
 
   return c;
 }
-
-
 
 void
 ConnectionsManager::

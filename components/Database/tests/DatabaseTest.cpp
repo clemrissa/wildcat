@@ -6,6 +6,7 @@
 #include <Las/LasFileParser>
 
 #include <Database/Connection>
+#include <Database/SQLiteConnection>
 
 #include <Domain/Log>
 #include <Domain/LogAccess>
@@ -24,11 +25,11 @@ TEST(DatabaseTest, CreateDB) {
   using DMContext = DependencyManager::ApplicationContext;
   using Geo::Database::Connection;
 
-  Connection* c =
-    DMContext::create<Connection>("Database.Connection");
+  Geo::Database::SQLiteConnection* c =
+    DMContext::create<Geo::Database::SQLiteConnection>("Database.SQLiteConnection");
 
-  c->databaseType(Geo::Database::DatabaseType::SQLite);
-  c->database("test.db");
+  // c->setDatabaseType(Geo::Database::DatabaseType::SQLite);
+  c->setDatabase("test.db");
   c->connect();
 
   auto dataAccessFactory = c->dataAccessFactory();
@@ -38,8 +39,8 @@ TEST(DatabaseTest, CreateDB) {
 
   using Geo::Domain::Well;
 
-  Well::Shared well(new Well(QString("skvazhinka"),
-                             0.5, 6.7, 5.7));
+  Geo::Domain::Well::Shared well(new Well(QString("skvazhinka"),
+                                          0.5, 6.7, 5.7));
 
   Geo::Domain::Log::Shared
     log(new Geo::Domain::Log(QString("electro"),
@@ -61,13 +62,13 @@ TEST(DatabaseTest, CreateDB) {
 
 TEST(DatabaseTest, Traits) {
   using DMContext = DependencyManager::ApplicationContext;
-  using Geo::Database::Connection;
+  using Geo::Database::SQLiteConnection;
 
-  Connection* c =
-    DMContext::create<Connection>("Database.Connection");
+  SQLiteConnection* c =
+    DMContext::create<SQLiteConnection>("Database.SQLiteConnection");
 
-  c->databaseType(Geo::Database::DatabaseType::SQLite);
-  c->database("test.db");
+  // c->databaseType(Geo::Database::DatabaseType::SQLite);
+  c->setDatabase("test.db");
   c->connect();
 
   auto dataAccessFactory = c->dataAccessFactory();
