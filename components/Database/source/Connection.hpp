@@ -3,6 +3,9 @@
 
 #include <Domain/DataAccessFactory>
 
+#include <QDomDocument>
+#include <QDomElement>
+
 namespace Geo {
 namespace Database {
 enum DatabaseType { UnknownDB, MySql, SQLite };
@@ -34,6 +37,9 @@ public:
 
   virtual QString const
   textDescription() const = 0;
+
+  virtual QDomElement
+  xmlDescription(QDomDocument& doc) const = 0;
 
   static
   QString

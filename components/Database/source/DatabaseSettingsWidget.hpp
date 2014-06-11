@@ -5,7 +5,6 @@
 
 namespace Geo {
 namespace Database {
-
 class DatabaseSettingsTreeModel;
 
 class DatabaseSettingsWidget: public QWidget {

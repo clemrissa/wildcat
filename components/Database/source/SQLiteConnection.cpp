@@ -34,6 +34,53 @@ operator=(SQLiteConnection const& other) {
 
 void
 SQLiteConnection::
+setDatabase(QString const& database) {
+  _database = database;
+  emit databaseChanged(database);
+}
+
+Status const&
+SQLiteConnection::
+status() const  {
+  return _status;
+}
+
+QString const&
+SQLiteConnection::
+lastError() const  {
+  return _lastError;
+}
+
+DatabaseType const&
+SQLiteConnection::
+databaseType() const  {
+  return _databaseType;
+}
+
+QString const
+SQLiteConnection::
+textDescription() const {
+  return Connection::connectionTypeName(_databaseType);
+}
+
+QDomElement
+SQLiteConnection::
+xmlDescription(QDomDocument& doc) const {
+  QDomElement tag = doc.createElement("Connection");
+
+  tag.setAttribute("Type", Connection::connectionTypeName(DatabaseType::SQLite));
+
+  QDomElement e = doc.createElement("Path");
+  tag.appendChild(e);
+
+  QDomText t = doc.createTextNode(_database);
+  e.appendChild(t);
+
+  return tag;
+}
+
+void
+SQLiteConnection::
 connect() {
   try {
     Domain::Odb::DataAccessFactory::Database db(

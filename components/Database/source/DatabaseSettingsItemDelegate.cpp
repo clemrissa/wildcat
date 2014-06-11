@@ -25,8 +25,6 @@ createEditor(QWidget*                    parent,
     static_cast<DatabaseSettingsTreeConnection*>(index.internalPointer());
 
   if (connection) {
-    INFO << "Connection";
-
     QComboBox* cb = new QComboBox(parent);
 
     connect(cb,
@@ -35,10 +33,9 @@ createEditor(QWidget*                    parent,
             SLOT(comboBoxActivated(int)));
 
     return cb;
-  } else {
-    INFO << " no connection";
-    return 0;
   }
+
+  return 0;
 }
 
 void
@@ -52,8 +49,6 @@ DatabaseSettingsItemDelegate::
 setEditorData(QWidget* editor, const QModelIndex& index) const {
   QComboBox* c = static_cast<QComboBox*>(editor);
 
-  INFO << "Add data";
-
   c->addItem(Connection::connectionTypeName(DatabaseType::MySql));
   c->addItem(Connection::connectionTypeName(DatabaseType::SQLite));
 
@@ -63,15 +58,10 @@ setEditorData(QWidget* editor, const QModelIndex& index) const {
 void
 DatabaseSettingsItemDelegate::
 setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const {
-  //
-  INFO << "save data";
-
   if (!index.parent().isValid()) {
     QComboBox*                 c = static_cast<QComboBox*>(editor);
     DatabaseSettingsTreeModel* m =
       static_cast<DatabaseSettingsTreeModel*>(model);
-
-    INFO << "current index " << c->currentIndex();
 
     m->addConnection((DatabaseType)c->currentIndex());
   }
@@ -80,8 +70,6 @@ setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& inde
 void
 DatabaseSettingsItemDelegate::
 comboBoxActivated(int index) {
-  INFO << "activated";
-
   QComboBox* cd = static_cast<QComboBox*>(QObject::sender());
   emit       commitData(cd);
 

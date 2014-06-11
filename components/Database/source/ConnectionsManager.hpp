@@ -38,6 +38,13 @@ public:
 
 private:
   QVector<QSharedPointer<Connection> > _connections;
+
+private:
+  void
+  loadFromXml();
+
+  void
+  storeToXml();
 };
 }
 }

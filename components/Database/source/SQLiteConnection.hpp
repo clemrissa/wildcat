@@ -25,24 +25,22 @@ public:
   operator=(SQLiteConnection const& other);
 
   void
-  setDatabase(QString const& database) {
-    _database = database;
-    emit databaseChanged(database);
-  }
+  setDatabase(QString const& database);
 
   QString const
-  textDescription() const override {
-    return Connection::connectionTypeName(_databaseType);
-  }
+  textDescription() const override;
+
+  QDomElement
+  xmlDescription(QDomDocument& doc) const override;
 
   Status const&
-  status() const override { return _status; }
+  status() const override;
 
   QString const&
-  lastError() const override { return _lastError; }
+  lastError() const override;
 
   DatabaseType const&
-  databaseType() const override { return _databaseType; }
+  databaseType() const override;
 
 public:
   Q_INVOKABLE void

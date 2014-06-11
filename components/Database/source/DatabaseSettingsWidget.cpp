@@ -19,7 +19,7 @@ DatabaseSettingsWidget::
 DatabaseSettingsWidget(DatabaseSettingsTreeModel* treeModel):
   p(new DatabaseSettingsWidget::Private()) {
   setWindowTitle(tr("Database Settings"));
-  setMinimumSize(600, 400);
+  setMinimumSize(700, 400);
 
   p->treeView = new QTreeView();
 
@@ -31,6 +31,8 @@ DatabaseSettingsWidget(DatabaseSettingsTreeModel* treeModel):
   p->treeView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
   p->treeView->header()->resizeSection(1, 20);
   p->treeView->setItemDelegate(new DatabaseSettingsItemDelegate());
+
+  p->treeView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
   p->stackedWidget = new QStackedWidget();
 

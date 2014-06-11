@@ -45,7 +45,7 @@ target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
 target_compile_definitions(${TARGET_NAME} PRIVATE "-D${TARGET_NAME}_EXPORTS")
 
 
-target_use_qt5(${TARGET_NAME} PRIVATE Core Widgets Qml Quick)
+target_use_qt5(${TARGET_NAME} PRIVATE Core Widgets Qml Quick Xml)
 target_use_boost(${TARGET_NAME} PRIVATE)
 # ==============================================================================
 # }}} Targets
