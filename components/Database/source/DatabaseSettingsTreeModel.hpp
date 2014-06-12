@@ -17,7 +17,6 @@ class ConnectionsManager;
 class DatabaseSettingsTreeEntry;
 
 class DatabaseSettingsTreeModel: public QAbstractItemModel {
-
   Q_OBJECT
 
 public:
@@ -50,8 +49,9 @@ public:
 
   //
 
-  //bool
-  //insertRows(int row, int count, const QModelIndex & parent = QModelIndex()) override;
+  // bool
+  // insertRows(int row, int count, const QModelIndex & parent = QModelIndex())
+  // override;
 
   //
 
@@ -60,8 +60,8 @@ public:
              Qt::Orientation orientation,
              int             role = Qt::DisplayRole) const override;
 
-  Qt::ItemFlags 
-  flags(const QModelIndex &index) const override;
+  Qt::ItemFlags
+  flags(const QModelIndex& index) const override;
 
 public slots:
   void

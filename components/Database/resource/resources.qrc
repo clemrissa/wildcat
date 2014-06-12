@@ -1,5 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
     <file>delete.png</file>
+    <file>new_file.png</file>
+    <file>open.png</file>
 </qresource>
 </RCC>

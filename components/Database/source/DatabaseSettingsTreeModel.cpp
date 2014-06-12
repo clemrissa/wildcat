@@ -19,10 +19,8 @@ DatabaseSettingsTreeModel() {
   _connectionsManager =
     ApplicationContext::create<ConnectionsManager>("Database.ConnectionsManager");
 
-  for (auto connection : _connectionsManager->connections()) {
-    INFO << "add connection ";
+  for (auto connection : _connectionsManager->connections())
     _entries.push_back(new DatabaseSettingsTreeConnection(connection));
-  }
 
   // last empty entry ( a placeholder for adding new connections )
   _entries.push_back(new DatabaseSettingsTreeConnection());
@@ -147,7 +145,7 @@ flags(const QModelIndex& index) const {
   Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
   if (!index.parent().isValid() &&
-      (unsigned int)index.row() == _entries.size() - 1)
+      index.row() == _entries.size() - 1)
     flags |= Qt::ItemIsEditable;
 
   return flags;

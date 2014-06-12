@@ -15,6 +15,10 @@ public:
 
   ~DatabaseSettingsWidget();
 
+public slots:
+  void
+  onTreeClicked(const QModelIndex& index);
+
 private:
   struct Private;
 

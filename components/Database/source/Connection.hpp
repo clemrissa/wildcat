@@ -8,7 +8,7 @@
 
 namespace Geo {
 namespace Database {
-enum DatabaseType { UnknownDB, MySql, SQLite };
+enum DatabaseType { UnknownDB, SQLite, MySql };
 enum Status { Unknown, Connected, Failed };
 
 class Connection: public QObject {

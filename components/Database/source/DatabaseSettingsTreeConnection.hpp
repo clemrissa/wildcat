@@ -19,6 +19,11 @@ public:
   QVariant
   data(int role, int column) override;
 
+  Connection::Shared
+  connection() {
+    return _connection;
+  }
+
 private:
   Connection::Shared _connection;
 
