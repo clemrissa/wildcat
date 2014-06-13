@@ -88,6 +88,9 @@ onTreeClicked(const QModelIndex& index) {
     DatabaseType type = c ? c->connection()->databaseType() : UnknownDB;
 
     p->stackedWidget->setCurrentIndex((int)type);
+
+    // if (c)
+    // p->stackedWidget->setConnection(c->connection());
   }
 }
 }

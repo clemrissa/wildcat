@@ -1,12 +1,11 @@
 #ifndef Geo_Database_SQLiteConnectionPropertiesWidget_hpp
 #define Geo_Database_SQLiteConnectionPropertiesWidget_hpp
 
+#include "Connection.hpp"
 #include <QWidget>
 
 namespace Geo {
 namespace Database {
-class QSQLiteConnection;
-
 class SQLiteConnectionPropertiesWidget: public QWidget {
 public:
   SQLiteConnectionPropertiesWidget();
@@ -15,7 +14,7 @@ public:
   ~SQLiteConnectionPropertiesWidget();
 
   void
-  setConnection(QSQLiteConnection& connection) {}
+  setConnection(Connection::Shared connection);
 
 private:
   void

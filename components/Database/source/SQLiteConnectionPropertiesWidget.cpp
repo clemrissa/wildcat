@@ -26,6 +26,12 @@ SQLiteConnectionPropertiesWidget::
 
 void
 SQLiteConnectionPropertiesWidget::
+setConnection(Connection::Shared connection) {
+  //
+}
+
+void
+SQLiteConnectionPropertiesWidget::
 createUi() {
   p->openButton = new QPushButton(QIcon(":/open.png"), tr("Open"));
 
