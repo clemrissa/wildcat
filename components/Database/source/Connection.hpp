@@ -41,26 +41,14 @@ public:
   virtual QDomElement
   xmlDescription(QDomDocument& doc) const = 0;
 
-  static
-  QString
-  connectionTypeName(DatabaseType type) {
-    switch (type) {
-    case DatabaseType::SQLite:
-      return tr("SQLite");
-      break;
+  // static methods
 
-    case DatabaseType::MySql:
-      return tr("MySQL");
-      break;
+public:
+  static QString
+  connectionTypeName(DatabaseType type);
 
-    default:
-      Q_ASSERT(false);
-      break;
-    }
-
-    Q_ASSERT(false);
-    return tr("Should not happen");
-  }
+  static Connection::Shared
+  restoreConnectionFromXml(QDomElement& domElement);
 
 public:
   virtual void

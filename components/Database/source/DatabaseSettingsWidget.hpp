@@ -20,6 +20,13 @@ public slots:
   onTreeClicked(const QModelIndex& index);
 
 private:
+  void
+  setupUi(DatabaseSettingsTreeModel* treeModel);
+
+  void
+  connectSignals(DatabaseSettingsTreeModel* treeModel);
+
+private:
   struct Private;
 
   Private* p;

@@ -13,8 +13,7 @@ public:
     _connection(connection)
   {}
 
-  DatabaseSettingsTreeConnection()
-  {}
+  DatabaseSettingsTreeConnection() {}
 
   QVariant
   data(int role, int column) override;

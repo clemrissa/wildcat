@@ -9,8 +9,6 @@
 
 namespace Geo {
 namespace Database {
-//
-
 class SQLiteConnection: public Connection {
   Q_OBJECT
 
@@ -21,11 +19,16 @@ public:
   Q_INVOKABLE
   SQLiteConnection();
 
+  SQLiteConnection(QDomElement& domElement);
+
   SQLiteConnection const&
   operator=(SQLiteConnection const& other);
 
   void
   setDatabase(QString const& database);
+
+  QString const
+  database() const { return _database; }
 
   QString const
   textDescription() const override;
@@ -61,22 +64,28 @@ signals:
 
 protected:
   void
-  setLastError(QString const& lastError) {
+  setLastError(QString const& lastError)
+  {
     _lastError = lastError;
     emit lastErrorChanged(lastError);
   }
 
+
   void
-  setStatus(Status const& status) {
+  setStatus(Status const& status)
+  {
     _status = status;
     emit statusChanged(status);
   }
 
+
   void
-  setDatabaseType(DatabaseType const& databaseType) {
+  setDatabaseType(DatabaseType const& databaseType)
+  {
     _databaseType = databaseType;
     emit databaseTypeChanged(_databaseType);
   }
+
 
 private:
   QString _lastError;

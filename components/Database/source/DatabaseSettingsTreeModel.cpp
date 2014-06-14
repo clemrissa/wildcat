@@ -34,7 +34,7 @@ DatabaseSettingsTreeModel::
 
 QVariant
 DatabaseSettingsTreeModel::
-data(const QModelIndex& index, int role) const  {
+data(const QModelIndex& index, int role) const {
   if (!index.isValid())
     return QVariant();
 

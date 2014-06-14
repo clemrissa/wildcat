@@ -17,32 +17,78 @@ using Geo::Database::ConnectionsManager;
 
 ConnectionsManager::
 ConnectionsManager() {
-  //  TODO remove later
-  //  implement xml save/load
+  loadFromXml();
 }
 
 QSharedPointer<Connection>
 ConnectionsManager::
 createConnection() {
-  QSharedPointer<Connection> c(new SQLiteConnection());
+  auto sqliteConnection = new SQLiteConnection();
 
-  _connections.append(c);
+  connect(sqliteConnection, SIGNAL(databaseChanged(QString)),
+          this, SLOT(storeToXml()));
 
-  storeToXml();
+  QSharedPointer<Connection> c(sqliteConnection);
+
+  appendConnection(c);
 
   return c;
 }
 
 void
 ConnectionsManager::
-removeConnection(int i) {
-  _connections.remove(i);
+appendConnection(QSharedPointer<Connection> c) {
+  _connections.append(c);
+  storeToXml();
 }
 
 void
 ConnectionsManager::
+removeConnection(int i) {
+  _connections.remove(i);
+
+  storeToXml();
+}
+
+// -------------------------
+
+void
+ConnectionsManager::
 loadFromXml() {
-  //
+  QDomDocument doc("Connections");
+
+  QFile file(getDefaultConfigFile());
+
+  if (!file.open(QIODevice::ReadOnly))
+    return;
+
+  if (!doc.setContent(&file)) {
+    file.close();
+    return;
+  }
+
+  file.close();
+
+  // ------
+
+  QDomElement docElem = doc.documentElement();
+
+  QDomNode n = docElem.firstChild();
+
+  while (!n.isNull()) {
+    // try to convert the node to an element.
+    QDomElement e = n.toElement();
+
+    if (!e.isNull()) {
+      Connection::Shared connection =
+        Connection::restoreConnectionFromXml(e);
+
+      if (!connection.isNull())
+        appendConnection(connection);
+    }
+
+    n = n.nextSibling();
+  }
 }
 
 void
@@ -58,9 +104,7 @@ storeToXml() {
 
   QString xml = doc.toString();
 
-  QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
-
-  fileName = QDir(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)).absoluteFilePath("geo.xml");
+  QString fileName = getDefaultConfigFile();
 
   QFile file(fileName);
 
@@ -70,4 +114,16 @@ storeToXml() {
   QTextStream out(&file);
 
   out << xml;
+}
+
+QString
+ConnectionsManager::
+getDefaultConfigFile() const {
+  QString configLocation =
+    QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
+
+  QString fileName =
+    QDir(configLocation).absoluteFilePath("geo.xml");
+
+  return fileName;
 }

@@ -2,6 +2,8 @@
 
 #include "SQLiteConnection.hpp"
 
+#include <QString>
+
 using Geo::Database::Connection;
 
 QString
@@ -28,10 +30,10 @@ connectionTypeName(DatabaseType type) {
 Connection::Shared
 Connection::
 restoreConnectionFromXml(QDomElement& domElement) {
-  // QString connectionType = domElement.attribute("Type");
+  QString connectionType = domElement.attribute("Type");
 
-  // if (connectionType == "SQLite") {
-  // return Connection::Shared(new)
-  // } else
-  // return Connection::Shared;
+  if (connectionType == "SQLite")
+    return Connection::Shared(new SQLiteConnection(domElement));
+
+  return Connection::Shared(0);
 }

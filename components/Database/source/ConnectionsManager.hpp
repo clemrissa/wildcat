@@ -29,6 +29,9 @@ public:
   createConnection();
 
   void
+  appendConnection(QSharedPointer<Connection> c);
+
+  void
   removeConnection(int i);
 
   QVector<QSharedPointer<Connection> > const
@@ -39,12 +42,15 @@ public:
 private:
   QVector<QSharedPointer<Connection> > _connections;
 
-private:
+private slots:
   void
   loadFromXml();
 
   void
   storeToXml();
+
+  QString
+  getDefaultConfigFile() const;
 };
 }
 }

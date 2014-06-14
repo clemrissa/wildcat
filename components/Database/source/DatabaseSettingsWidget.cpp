@@ -23,13 +23,30 @@ struct DatabaseSettingsWidget::Private {
 
 DatabaseSettingsWidget::
 DatabaseSettingsWidget(DatabaseSettingsTreeModel* treeModel):
-  p(new DatabaseSettingsWidget::Private()) {
+  p(new DatabaseSettingsWidget::Private())
+{
+  setupUi(treeModel);
+  connectSignals(treeModel);
+}
+
+
+DatabaseSettingsWidget::
+~DatabaseSettingsWidget()
+{
+  delete p;
+}
+
+
+void
+DatabaseSettingsWidget::
+setupUi(DatabaseSettingsTreeModel* treeModel)
+{
   setWindowTitle(tr("Database Settings"));
   setMinimumSize(700, 400);
 
   p->treeView = new QTreeView();
 
-  p->treeView->setMaximumWidth(300);
+  p->treeView->setMaximumWidth(400);
 
   p->treeView->setModel(treeModel);
   p->treeView->header()->setStretchLastSection(false);
@@ -58,39 +75,44 @@ DatabaseSettingsWidget(DatabaseSettingsTreeModel* treeModel):
   l->addWidget(p->stackedWidget);
 
   setLayout(l);
-
-  connect(p->treeView,
-          SIGNAL(clicked(const QModelIndex &)),
-          treeModel,
-          SLOT(onClicked(const QModelIndex &)));
-
-  connect(p->treeView,
-          SIGNAL(clicked(const QModelIndex &)),
-          this,
-          SLOT(onTreeClicked(const QModelIndex &)));
+  //
 }
 
-DatabaseSettingsWidget::
-~DatabaseSettingsWidget() {
-  delete p;
-}
 
 void
 DatabaseSettingsWidget::
-onTreeClicked(const QModelIndex& index) {
+connectSignals(DatabaseSettingsTreeModel* treeModel)
+{
+  connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
+          treeModel,   SLOT(onClicked(const QModelIndex &)));
+
+  connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
+          this,        SLOT(onTreeClicked(const QModelIndex &)));
+}
+
+
+void
+DatabaseSettingsWidget::
+onTreeClicked(const QModelIndex& index)
+{
   if (!index.parent().isValid()) {
     bool invalidRow = (index.row() == p->treeView->model()->rowCount() - 1);
 
     DatabaseSettingsTreeConnection* c = invalidRow ? nullptr :
-                                        static_cast<DatabaseSettingsTreeConnection*>(
-      index.internalPointer());
+                                        static_cast<DatabaseSettingsTreeConnection*>(index.internalPointer());
 
     DatabaseType type = c ? c->connection()->databaseType() : UnknownDB;
 
     p->stackedWidget->setCurrentIndex((int)type);
 
-    // if (c)
-    // p->stackedWidget->setConnection(c->connection());
+    if (c && type != UnknownDB) {
+      QWidget* w =  p->stackedWidget->widget(type);
+
+      ConnectionPropertiesWidget* cpw =
+        static_cast<ConnectionPropertiesWidget*>(w);
+
+      cpw->setConnection(c->connection());
+    }
   }
 }
 }

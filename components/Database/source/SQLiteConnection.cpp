@@ -17,55 +17,93 @@
 namespace Geo {
 namespace Database {
 SQLiteConnection::
-SQLiteConnection() {
+SQLiteConnection()
+{
   setStatus(Status::Unknown);
   setDatabaseType(DatabaseType::SQLite);
   setDatabase("");
 }
 
+
+SQLiteConnection::
+SQLiteConnection(QDomElement& domElement)
+{
+  setDatabaseType(DatabaseType::SQLite);
+
+  QDomNodeList nodeList = domElement.elementsByTagName("Path");
+
+  if (nodeList.size() > 0) {
+    QDomNode node = nodeList.at(0);
+
+    if (!node.isNull()) {
+      QDomElement e = node.toElement();
+
+      setDatabase(e.text());
+    }
+  }
+}
+
+
 SQLiteConnection const&
 SQLiteConnection::
-operator=(SQLiteConnection const& other) {
+operator=(SQLiteConnection const& other)
+{
   _databaseType = other._databaseType;
   _database     = other._database;
 
   return *this;
 }
 
+
 void
 SQLiteConnection::
-setDatabase(QString const& database) {
+setDatabase(QString const& database)
+{
   _database = database;
+
+  connect();
+
   emit databaseChanged(database);
 }
 
+
 Status const&
 SQLiteConnection::
-status() const  {
+status() const
+{
   return _status;
 }
 
+
 QString const&
 SQLiteConnection::
-lastError() const  {
+lastError() const
+{
   return _lastError;
 }
 
+
 DatabaseType const&
 SQLiteConnection::
-databaseType() const  {
+databaseType() const
+{
   return _databaseType;
 }
 
+
 QString const
 SQLiteConnection::
-textDescription() const {
-  return Connection::connectionTypeName(_databaseType);
+textDescription() const
+{
+  return Connection::connectionTypeName(_databaseType) + ": "
+         + _database;
 }
+
 
 QDomElement
 SQLiteConnection::
-xmlDescription(QDomDocument& doc) const {
+xmlDescription(QDomDocument& doc) const
+{
   QDomElement tag = doc.createElement("Connection");
 
   tag.setAttribute("Type", Connection::connectionTypeName(DatabaseType::SQLite));
@@ -79,9 +117,11 @@ xmlDescription(QDomDocument& doc) const {
   return tag;
 }
 
+
 void
 SQLiteConnection::
-connect() {
+connect()
+{
   try {
     Domain::Odb::DataAccessFactory::Database db(
       new odb::sqlite::database(_database.toUtf8().constData(),
