@@ -1,13 +1,15 @@
-#include "DatabaseSettingsTreeConnection.hpp"
+#include "SettingsTreeConnection.hpp"
 
 #include <QIcon>
 #include <QPalette>
+#include <QVariant>
 
-using Geo::Database::DatabaseSettingsTreeConnection;
+using Geo::Database::SettingsTreeConnection;
 
 QVariant
-DatabaseSettingsTreeConnection::
-data(int role, int column) {
+SettingsTreeConnection::
+data(int role, int column)
+{
   switch (role) {
   case Qt::ForegroundRole:
     return getForegroundRole(column);
@@ -29,11 +31,13 @@ data(int role, int column) {
   return QVariant();
 }
 
+
 QVariant
-DatabaseSettingsTreeConnection::
-getForegroundRole(int column) {
+SettingsTreeConnection::
+getForegroundRole(int column)
+{
   switch (column) {
-  case DatabaseSettingsTreeEntry::Database:
+  case SettingsTreeEntry::Database:
 
     if (_connection.isNull())
       return QColor(Qt::lightGray);
@@ -44,7 +48,7 @@ getForegroundRole(int column) {
 
     break;
 
-  case DatabaseSettingsTreeEntry::Action:
+  case SettingsTreeEntry::Action:
     return QVariant();
     break;
   }
@@ -52,11 +56,13 @@ getForegroundRole(int column) {
   return QVariant();
 }
 
+
 QVariant
-DatabaseSettingsTreeConnection::
-getDisplayRole(int column) {
+SettingsTreeConnection::
+getDisplayRole(int column)
+{
   switch (column) {
-  case DatabaseSettingsTreeEntry::Database:
+  case SettingsTreeEntry::Database:
 
     if (_connection.isNull())
       return QString("Select DB type to add a connection");
@@ -65,7 +71,7 @@ getDisplayRole(int column) {
 
     break;
 
-  case DatabaseSettingsTreeEntry::Action:
+  case SettingsTreeEntry::Action:
     return QVariant();
     break;
   }
@@ -73,15 +79,17 @@ getDisplayRole(int column) {
   return QVariant();
 }
 
+
 QVariant
-DatabaseSettingsTreeConnection::
-getDecorationRole(int column) {
+SettingsTreeConnection::
+getDecorationRole(int column)
+{
   switch (column) {
-  case DatabaseSettingsTreeEntry::Database:
+  case SettingsTreeEntry::Database:
     return QVariant();
     break;
 
-  case DatabaseSettingsTreeEntry::Action:
+  case SettingsTreeEntry::Action:
 
     if (!_connection.isNull())
       return QIcon(":/delete.png");

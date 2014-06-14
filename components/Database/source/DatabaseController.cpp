@@ -5,8 +5,8 @@
 #include <Core/MainWindow>
 #include <Uni/Logging/Logging>
 
-#include "DatabaseSettingsTreeModel.hpp"
-#include "DatabaseSettingsWidget.hpp"
+#include "Gui/SettingsWidget.hpp"
+#include "SettingsTreeModel.hpp"
 
 #include <DependencyManager/ApplicationContext>
 
@@ -16,34 +16,42 @@ DatabaseController* DatabaseController::_instance = nullptr;
 
 DatabaseController*
 DatabaseController::
-instance() {
+instance()
+{
   if (!_instance)
     _instance = new DatabaseController();
 
   return _instance;
 }
 
+
 DatabaseController::
-DatabaseController() {
+DatabaseController()
+{
   //
 }
 
+
 DatabaseController::
-~DatabaseController() {
+~DatabaseController()
+{
   //
 }
+
 
 void
 DatabaseController::
-showDatabaseSettingsWidget() {
+showSettingsWidget()
+{
   using Geo::Core::MainWindow;
+  using Geo::Database::Gui::SettingsWidget;
 
   MainWindow* mainWindow =
     DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
 
-  auto databaseSettingsTreeModel = new DatabaseSettingsTreeModel();
+  auto databaseSettingsTreeModel = new SettingsTreeModel();
 
-  auto databaseSettingsWidget = new DatabaseSettingsWidget(databaseSettingsTreeModel);
+  auto databaseSettingsWidget = new SettingsWidget(databaseSettingsTreeModel);
 
   mainWindow->toCentralWidget(databaseSettingsWidget);
 }

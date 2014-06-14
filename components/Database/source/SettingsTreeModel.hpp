@@ -1,5 +1,5 @@
-#ifndef Geo_Database_DatabaseSettingsTreeModel_hpp
-#define Geo_Database_DatabaseSettingsTreeModel_hpp
+#ifndef Geo_Database_SettingsTreeModel_hpp
+#define Geo_Database_SettingsTreeModel_hpp
 
 #include <QAbstractItemModel>
 #include <QVariant>
@@ -14,17 +14,17 @@
 namespace Geo {
 namespace Database {
 class ConnectionsManager;
-class DatabaseSettingsTreeEntry;
+class SettingsTreeEntry;
 
-class DatabaseSettingsTreeModel: public QAbstractItemModel {
+class SettingsTreeModel: public QAbstractItemModel {
   Q_OBJECT
 
 public:
   // TODO implement
-  DatabaseSettingsTreeModel();
+  SettingsTreeModel();
 
   virtual
-  ~DatabaseSettingsTreeModel();
+  ~SettingsTreeModel();
 
 public:
   virtual
@@ -73,12 +73,12 @@ public slots:
 private:
   ConnectionsManager* _connectionsManager;
 
-  QVector<DatabaseSettingsTreeEntry*> _entries;
+  QVector<SettingsTreeEntry*> _entries;
 
   int
-  getEntryPosition(DatabaseSettingsTreeEntry* entry) const;
+  getEntryPosition(SettingsTreeEntry* entry) const;
 };
 }
 }
 
-#endif //  Geo_Database_DatabaseSettingsTreeModel_hpp
+#endif //  Geo_Database_SettingsTreeModel_hpp

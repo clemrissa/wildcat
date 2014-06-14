@@ -17,7 +17,7 @@ public:
 
 public slots:
   void
-  showDatabaseSettingsWidget();
+  showSettingsWidget();
 
 private:
   DatabaseController();

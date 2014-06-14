@@ -16,18 +16,23 @@
 using Geo::Database::DatabaseUiFactory;
 
 DatabaseUiFactory::
-DatabaseUiFactory() {
-  DEBUG << "DatabaseUiFactory is being created";
+DatabaseUiFactory()
+{
+  //
 }
 
+
 DatabaseUiFactory::
-~DatabaseUiFactory() {
-  DEBUG << "DatabaseUiFactory is being destroyed";
+~DatabaseUiFactory()
+{
+  //
 }
+
 
 QMenu*
 DatabaseUiFactory::
-createDatabaseMenu() {
+createDatabaseMenu()
+{
   QMenu* menu = new QMenu(tr("Database"));
 
   auto actionList = createActionList();
@@ -38,15 +43,19 @@ createDatabaseMenu() {
   return menu;
 }
 
+
 QToolBar*
 DatabaseUiFactory::
-createDatabaseToolBar() {
+createDatabaseToolBar()
+{
   return nullptr;
 }
 
+
 QList<QAction*>
 DatabaseUiFactory::
-createActionList() const {
+createActionList() const
+{
   using DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
 
@@ -55,17 +64,12 @@ createActionList() const {
 
   QList<QAction*> actionList;
 
-  QAction* action = nullptr;
-
-  action = new QAction(QIcon(), QString("Settings"), mainWindow);
+  QAction* action = new QAction(QIcon(), QString("Settings"), mainWindow);
 
   DatabaseController* in = DatabaseController::instance();
 
-  Q_UNUSED(in);
-  connect(action,
-          &QAction::triggered,
-          in,
-          &DatabaseController::showDatabaseSettingsWidget);
+  connect(action, &QAction::triggered,
+          in, &DatabaseController::showSettingsWidget);
 
   actionList.append(action);
 

@@ -1,4 +1,4 @@
-#include "DatabaseSettingsWidget.hpp"
+#include "SettingsWidget.hpp"
 
 #include <QHBoxLayout>
 #include <QHeaderView>
@@ -6,40 +6,41 @@
 #include <QStackedWidget>
 #include <QTreeView>
 
-#include "DatabaseSettingsItemDelegate.hpp"
-#include "DatabaseSettingsTreeConnection.hpp"
-#include "DatabaseSettingsTreeModel.hpp"
+#include "SettingsItemDelegate.hpp"
+#include "SettingsTreeConnection.hpp"
+#include "SettingsTreeModel.hpp"
 
 #include "SQLiteConnectionPropertiesWidget.hpp"
 
 #include <Uni/Logging/Logging>
 
-namespace Geo {
-namespace Database {
-struct DatabaseSettingsWidget::Private {
+using Geo::Database::Gui::SettingsWidget;
+using Geo::Database::SettingsTreeModel;
+
+struct SettingsWidget::Private {
   QTreeView*      treeView;
   QStackedWidget* stackedWidget;
 };
 
-DatabaseSettingsWidget::
-DatabaseSettingsWidget(DatabaseSettingsTreeModel* treeModel):
-  p(new DatabaseSettingsWidget::Private())
+SettingsWidget::
+SettingsWidget(SettingsTreeModel* treeModel):
+  p(new SettingsWidget::Private())
 {
   setupUi(treeModel);
   connectSignals(treeModel);
 }
 
 
-DatabaseSettingsWidget::
-~DatabaseSettingsWidget()
+SettingsWidget::
+~SettingsWidget()
 {
   delete p;
 }
 
 
 void
-DatabaseSettingsWidget::
-setupUi(DatabaseSettingsTreeModel* treeModel)
+SettingsWidget::
+setupUi(SettingsTreeModel* treeModel)
 {
   setWindowTitle(tr("Database Settings"));
   setMinimumSize(700, 400);
@@ -53,7 +54,7 @@ setupUi(DatabaseSettingsTreeModel* treeModel)
   p->treeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
   p->treeView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
   p->treeView->header()->resizeSection(1, 20);
-  p->treeView->setItemDelegate(new DatabaseSettingsItemDelegate());
+  p->treeView->setItemDelegate(new SettingsItemDelegate());
 
   p->treeView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
@@ -75,13 +76,12 @@ setupUi(DatabaseSettingsTreeModel* treeModel)
   l->addWidget(p->stackedWidget);
 
   setLayout(l);
-  //
 }
 
 
 void
-DatabaseSettingsWidget::
-connectSignals(DatabaseSettingsTreeModel* treeModel)
+SettingsWidget::
+connectSignals(SettingsTreeModel* treeModel)
 {
   connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
           treeModel,   SLOT(onClicked(const QModelIndex &)));
@@ -92,14 +92,14 @@ connectSignals(DatabaseSettingsTreeModel* treeModel)
 
 
 void
-DatabaseSettingsWidget::
+SettingsWidget::
 onTreeClicked(const QModelIndex& index)
 {
   if (!index.parent().isValid()) {
     bool invalidRow = (index.row() == p->treeView->model()->rowCount() - 1);
 
-    DatabaseSettingsTreeConnection* c = invalidRow ? nullptr :
-                                        static_cast<DatabaseSettingsTreeConnection*>(index.internalPointer());
+    SettingsTreeConnection* c =
+      invalidRow ? nullptr : static_cast<SettingsTreeConnection*>(index.internalPointer());
 
     DatabaseType type = c ? c->connection()->databaseType() : UnknownDB;
 
@@ -114,6 +114,4 @@ onTreeClicked(const QModelIndex& index)
       cpw->setConnection(c->connection());
     }
   }
-}
-}
 }

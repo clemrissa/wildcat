@@ -1,4 +1,4 @@
-#include "DatabaseSettingsItemDelegate.hpp"
+#include "SettingsItemDelegate.hpp"
 
 #include <QComboBox>
 #include <QLabel>
@@ -8,21 +8,22 @@
 #include <Uni/Logging/Logging>
 
 #include "Connection.hpp"
-#include "DatabaseSettingsTreeConnection.hpp"
-#include "DatabaseSettingsTreeModel.hpp"
+#include "SettingsTreeConnection.hpp"
+#include "SettingsTreeModel.hpp"
 
-using Geo::Database::DatabaseSettingsItemDelegate;
+using Geo::Database::Gui::SettingsItemDelegate;
 
 QWidget*
-DatabaseSettingsItemDelegate::
+SettingsItemDelegate::
 createEditor(QWidget*                    parent,
              const QStyleOptionViewItem& option,
-             const QModelIndex&          index) const {
+             const QModelIndex&          index) const
+{
   if (index.parent().isValid())
     return 0;
 
-  DatabaseSettingsTreeConnection* connection =
-    static_cast<DatabaseSettingsTreeConnection*>(index.internalPointer());
+  SettingsTreeConnection* connection =
+    static_cast<SettingsTreeConnection*>(index.internalPointer());
 
   if (connection) {
     QComboBox* cb = new QComboBox(parent);
@@ -38,15 +39,19 @@ createEditor(QWidget*                    parent,
   return 0;
 }
 
+
 void
-DatabaseSettingsItemDelegate::
-updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const {
+SettingsItemDelegate::
+updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
   editor->setGeometry(option.rect);
 }
 
+
 void
-DatabaseSettingsItemDelegate::
-setEditorData(QWidget* editor, const QModelIndex& index) const {
+SettingsItemDelegate::
+setEditorData(QWidget* editor, const QModelIndex& index) const
+{
   QComboBox* c = static_cast<QComboBox*>(editor);
 
   c->addItem(Connection::connectionTypeName(DatabaseType::MySql));
@@ -55,21 +60,25 @@ setEditorData(QWidget* editor, const QModelIndex& index) const {
   c->showPopup();
 }
 
+
 void
-DatabaseSettingsItemDelegate::
-setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const {
+SettingsItemDelegate::
+setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
+{
   if (!index.parent().isValid()) {
-    QComboBox*                 c = static_cast<QComboBox*>(editor);
-    DatabaseSettingsTreeModel* m =
-      static_cast<DatabaseSettingsTreeModel*>(model);
+    QComboBox*         c = static_cast<QComboBox*>(editor);
+    SettingsTreeModel* m =
+      static_cast<SettingsTreeModel*>(model);
 
     m->addConnection((DatabaseType)c->currentIndex());
   }
 }
 
+
 void
-DatabaseSettingsItemDelegate::
-comboBoxActivated(int index) {
+SettingsItemDelegate::
+comboBoxActivated(int index)
+{
   QComboBox* cd = static_cast<QComboBox*>(QObject::sender());
   emit       commitData(cd);
 

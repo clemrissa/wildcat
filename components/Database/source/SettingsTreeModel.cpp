@@ -1,57 +1,64 @@
-#include "DatabaseSettingsTreeModel.hpp"
+#include "SettingsTreeModel.hpp"
 
 #include <DependencyManager/ApplicationContext>
 
 #include <Uni/Logging/Logging>
 
 #include "ConnectionsManager.hpp"
-#include "DatabaseSettingsTreeConnection.hpp"
-#include "DatabaseSettingsTreeEntry.hpp"
+#include "SettingsTreeConnection.hpp"
+#include "SettingsTreeEntry.hpp"
 
 #include <algorithm>
 
-using Geo::Database::DatabaseSettingsTreeModel;
+using Geo::Database::SettingsTreeModel;
 
-DatabaseSettingsTreeModel::
-DatabaseSettingsTreeModel() {
+SettingsTreeModel::
+SettingsTreeModel()
+{
   using DependencyManager::ApplicationContext;
 
   _connectionsManager =
     ApplicationContext::create<ConnectionsManager>("Database.ConnectionsManager");
 
   for (auto connection : _connectionsManager->connections())
-    _entries.push_back(new DatabaseSettingsTreeConnection(connection));
+    _entries.push_back(new SettingsTreeConnection(connection));
 
   // last empty entry ( a placeholder for adding new connections )
-  _entries.push_back(new DatabaseSettingsTreeConnection());
+  _entries.push_back(new SettingsTreeConnection());
 }
 
-DatabaseSettingsTreeModel::
-~DatabaseSettingsTreeModel() {
+
+SettingsTreeModel::
+~SettingsTreeModel()
+{
   for (auto entry : _entries)
     delete entry;
 }
 
+
 QVariant
-DatabaseSettingsTreeModel::
-data(const QModelIndex& index, int role) const {
+SettingsTreeModel::
+data(const QModelIndex& index, int role) const
+{
   if (!index.isValid())
     return QVariant();
 
-  DatabaseSettingsTreeEntry* entry =
-    static_cast<DatabaseSettingsTreeEntry*>(index.internalPointer());
+  SettingsTreeEntry* entry =
+    static_cast<SettingsTreeEntry*>(index.internalPointer());
 
   return entry->data(role, index.column());
 }
 
+
 QModelIndex
-DatabaseSettingsTreeModel::
-index(int row, int column, const QModelIndex& parent) const {
+SettingsTreeModel::
+index(int row, int column, const QModelIndex& parent) const
+{
   if (!parent.isValid())
     return QAbstractItemModel::createIndex(row, column, _entries[row]);
 
-  DatabaseSettingsTreeEntry* entry =
-    static_cast<DatabaseSettingsTreeEntry*>(parent.internalPointer());
+  SettingsTreeEntry* entry =
+    static_cast<SettingsTreeEntry*>(parent.internalPointer());
 
   if (entry->entries().size() == 0)
     return QModelIndex();
@@ -59,20 +66,22 @@ index(int row, int column, const QModelIndex& parent) const {
   return QAbstractItemModel::createIndex(row, column, entry->entries()[row]);
 }
 
+
 QModelIndex
-DatabaseSettingsTreeModel::
-parent(const QModelIndex& index) const  {
-  DatabaseSettingsTreeEntry* entry =
-    static_cast<DatabaseSettingsTreeEntry*>(index.internalPointer());
+SettingsTreeModel::
+parent(const QModelIndex& index) const
+{
+  SettingsTreeEntry* entry =
+    static_cast<SettingsTreeEntry*>(index.internalPointer());
 
   Q_ASSERT(entry);
 
-  DatabaseSettingsTreeEntry* parentEntry = entry->parent();
+  SettingsTreeEntry* parentEntry = entry->parent();
 
   if (parentEntry == nullptr)
     return QModelIndex();
 
-  DatabaseSettingsTreeEntry* parentParentEntry = parentEntry->parent();
+  SettingsTreeEntry* parentParentEntry = parentEntry->parent();
 
   int position = 0;
 
@@ -84,26 +93,31 @@ parent(const QModelIndex& index) const  {
   return QAbstractItemModel::createIndex(position, 0, parentEntry);
 }
 
+
 int
-DatabaseSettingsTreeModel::
-columnCount(const QModelIndex& parent) const  {
+SettingsTreeModel::
+columnCount(const QModelIndex& parent) const
+{
   return 2;
 }
 
+
 int
-DatabaseSettingsTreeModel::
-rowCount(const QModelIndex& parent) const {
+SettingsTreeModel::
+rowCount(const QModelIndex& parent) const
+{
   if (!parent.isValid())
     return _connectionsManager->size() + 1;
 
-  DatabaseSettingsTreeEntry* entry =
-    static_cast<DatabaseSettingsTreeEntry*>(parent.internalPointer());
+  SettingsTreeEntry* entry =
+    static_cast<SettingsTreeEntry*>(parent.internalPointer());
 
   return entry->entries().size();
 }
 
+
 // bool
-// DatabaseSettingsTreeModel::
+// SettingsTreeModel::
 // insertRows(int row, int count, const QModelIndex& parent) {
 ////beginInsertRows();
 
@@ -111,10 +125,11 @@ rowCount(const QModelIndex& parent) const {
 // }
 
 QVariant
-DatabaseSettingsTreeModel::
+SettingsTreeModel::
 headerData(int             section,
            Qt::Orientation orientation,
-           int             role)  const {
+           int             role)  const
+{
   QVariant result;
 
   if (role != Qt::DisplayRole)
@@ -124,7 +139,7 @@ headerData(int             section,
     return result;
 
   switch (section) {
-  case DatabaseSettingsTreeEntry::Database:
+  case SettingsTreeEntry::Database:
     result = tr("Item");
     break;
 
@@ -136,9 +151,11 @@ headerData(int             section,
   return result;
 }
 
+
 Qt::ItemFlags
-DatabaseSettingsTreeModel::
-flags(const QModelIndex& index) const {
+SettingsTreeModel::
+flags(const QModelIndex& index) const
+{
   if (!index.isValid())
     return 0;
 
@@ -151,9 +168,11 @@ flags(const QModelIndex& index) const {
   return flags;
 }
 
+
 void
-DatabaseSettingsTreeModel::
-addConnection(DatabaseType databaseType) {
+SettingsTreeModel::
+addConnection(DatabaseType databaseType)
+{
   int size = _connectionsManager->size();
   beginInsertRows(QModelIndex(), size, size);
 
@@ -164,14 +183,16 @@ addConnection(DatabaseType databaseType) {
   // case DatabaseType::SQLite:
   // break;
   // }
-  _entries.insert(size, new DatabaseSettingsTreeConnection(_connectionsManager->operator[](size)));
+  _entries.insert(size, new SettingsTreeConnection(_connectionsManager->operator[](size)));
 
   endInsertRows();
 }
 
+
 void
-DatabaseSettingsTreeModel::
-onClicked(const QModelIndex& index) {
+SettingsTreeModel::
+onClicked(const QModelIndex& index)
+{
   if (!index.parent().isValid() &&
       index.column() == 1 &&
       index.row() != _entries.size() - 1) {
@@ -184,9 +205,11 @@ onClicked(const QModelIndex& index) {
   }
 }
 
+
 int
-DatabaseSettingsTreeModel::
-getEntryPosition(DatabaseSettingsTreeEntry* entry) const {
+SettingsTreeModel::
+getEntryPosition(SettingsTreeEntry* entry) const
+{
   auto it = std::find(_entries.begin(),
                       _entries.end(), entry);
 

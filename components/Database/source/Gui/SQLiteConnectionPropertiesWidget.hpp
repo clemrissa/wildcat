@@ -1,13 +1,13 @@
 #ifndef Geo_Database_SQLiteConnectionPropertiesWidget_hpp
 #define Geo_Database_SQLiteConnectionPropertiesWidget_hpp
 
-#include "Connection.hpp"
 #include "ConnectionPropertiesWidget.hpp"
 
 #include "SQLiteConnection.hpp"
 
 namespace Geo {
 namespace Database {
+namespace Gui {
 class SQLiteConnectionPropertiesWidget: public ConnectionPropertiesWidget {
   Q_OBJECT
 
@@ -36,6 +36,7 @@ private:
 
   Private* p;
 };
+}
 }
 }
 

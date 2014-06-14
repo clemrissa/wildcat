@@ -9,7 +9,7 @@
 
 #include <QSharedPointer>
 
-using Geo::Database::SQLiteConnectionPropertiesWidget;
+using Geo::Database::Gui::SQLiteConnectionPropertiesWidget;
 
 struct SQLiteConnectionPropertiesWidget::Private {
   QPushButton* openButton;
