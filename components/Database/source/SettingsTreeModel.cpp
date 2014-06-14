@@ -4,7 +4,7 @@
 
 #include <Uni/Logging/Logging>
 
-#include "ConnectionsManager.hpp"
+#include "ConnectionManager.hpp"
 #include "SettingsTreeConnection.hpp"
 #include "SettingsTreeEntry.hpp"
 
@@ -18,7 +18,7 @@ SettingsTreeModel()
   using DependencyManager::ApplicationContext;
 
   _connectionsManager =
-    ApplicationContext::create<ConnectionsManager>("Database.ConnectionsManager");
+    ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
 
   for (auto connection : _connectionsManager->connections())
     _entries.push_back(new SettingsTreeConnection(connection));

@@ -1,5 +1,5 @@
-#ifndef Geo_Database_ConnectionsManager_hpp
-#define Geo_Database_ConnectionsManager_hpp
+#ifndef Geo_Database_ConnectionManager_hpp
+#define Geo_Database_ConnectionManager_hpp
 
 #include <QObject>
 #include <QSharedPointer>
@@ -8,22 +8,26 @@
 namespace Geo {
 namespace Database {
 class Connection;
-class ConnectionsManager: public QObject {
+class ConnectionManager: public QObject {
   Q_OBJECT
 
 public:
   Q_INVOKABLE
-  ConnectionsManager();
+  ConnectionManager();
 
   int
-  size() {
+  size()
+  {
     return _connections.size();
   }
 
+
   QSharedPointer<Connection>
-  operator[](const int i) const {
+  operator[](const int i) const
+  {
     return _connections[i];
   }
+
 
   QSharedPointer<Connection>
   createConnection();
@@ -35,9 +39,11 @@ public:
   removeConnection(int i);
 
   QVector<QSharedPointer<Connection> > const
-  connections() const {
+  connections() const
+  {
     return _connections;
   }
+
 
 private:
   QVector<QSharedPointer<Connection> > _connections;
@@ -55,4 +61,4 @@ private slots:
 }
 }
 
-#endif //  Geo_Database_ConnectionsManager_hpp
+#endif //  Geo_Database_ConnectionManager_hpp

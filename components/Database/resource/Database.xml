@@ -25,7 +25,7 @@
       <method name="createDatabaseMenu" type="factory"/>
     </bean>
 
-    <bean name="Database.ConnectionsManager" class="Geo::Database::ConnectionsManager" type="singleton"/>
+    <bean name="Database.ConnectionManager" class="Geo::Database::ConnectionManager" type="singleton"/>
 
 
     <!--[>============<]-->

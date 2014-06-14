@@ -1,4 +1,4 @@
-#include "ConnectionsManager.hpp"
+#include "ConnectionManager.hpp"
 
 #include "SQLiteConnection.hpp"
 
@@ -13,16 +13,19 @@
 #include <Uni/Logging/Logging>
 
 using Geo::Database::Connection;
-using Geo::Database::ConnectionsManager;
+using Geo::Database::ConnectionManager;
 
-ConnectionsManager::
-ConnectionsManager() {
+ConnectionManager::
+ConnectionManager()
+{
   loadFromXml();
 }
 
+
 QSharedPointer<Connection>
-ConnectionsManager::
-createConnection() {
+ConnectionManager::
+createConnection()
+{
   auto sqliteConnection = new SQLiteConnection();
 
   connect(sqliteConnection, SIGNAL(databaseChanged(QString)),
@@ -35,26 +38,32 @@ createConnection() {
   return c;
 }
 
+
 void
-ConnectionsManager::
-appendConnection(QSharedPointer<Connection> c) {
+ConnectionManager::
+appendConnection(QSharedPointer<Connection> c)
+{
   _connections.append(c);
   storeToXml();
 }
 
+
 void
-ConnectionsManager::
-removeConnection(int i) {
+ConnectionManager::
+removeConnection(int i)
+{
   _connections.remove(i);
 
   storeToXml();
 }
 
+
 // -------------------------
 
 void
-ConnectionsManager::
-loadFromXml() {
+ConnectionManager::
+loadFromXml()
+{
   QDomDocument doc("Connections");
 
   QFile file(getDefaultConfigFile());
@@ -91,9 +100,11 @@ loadFromXml() {
   }
 }
 
+
 void
-ConnectionsManager::
-storeToXml() {
+ConnectionManager::
+storeToXml()
+{
   QDomDocument doc("Connections");
 
   QDomElement root = doc.createElement("Connections");
@@ -116,9 +127,11 @@ storeToXml() {
   out << xml;
 }
 
+
 QString
-ConnectionsManager::
-getDefaultConfigFile() const {
+ConnectionManager::
+getDefaultConfigFile() const
+{
   QString configLocation =
     QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
 

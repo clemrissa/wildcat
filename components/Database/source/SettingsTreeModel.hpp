@@ -7,13 +7,13 @@
 
 #include "Connection.hpp"
 
-// #include "ConnectionsManager.hpp"
+// #include "ConnectionManager.hpp"
 
 // #include <QStandartPaths>
 
 namespace Geo {
 namespace Database {
-class ConnectionsManager;
+class ConnectionManager;
 class SettingsTreeEntry;
 
 class SettingsTreeModel: public QAbstractItemModel {
@@ -71,7 +71,7 @@ public slots:
   onClicked(const QModelIndex& index);
 
 private:
-  ConnectionsManager* _connectionsManager;
+  ConnectionManager* _connectionsManager;
 
   QVector<SettingsTreeEntry*> _entries;
 
