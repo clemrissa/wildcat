@@ -60,6 +60,9 @@ BasicMainWindow::
 toCentralWidget(QWidget* widget)
 {
   QMdiSubWindow* subWindow = _mdiArea->addSubWindow(widget);
+
+  subWindow->setAttribute(Qt::WA_DeleteOnClose);
+
   subWindow->show();
 }
 
