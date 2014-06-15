@@ -5,6 +5,7 @@
 #include <QAbstractItemModel>
 #include <QComboBox>
 #include <QDialogButtonBox>
+#include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QHeaderView>
 #include <QList>
@@ -23,11 +24,14 @@
 
 namespace Geo {
 namespace Import {
-// ----------------------------------
+//
+//
 struct ImportWidget::Private {
   QComboBox* connectionsComboBox;
 
   QTreeView* treeView;
+
+  QDialogButtonBox* dialogButton;
 };
 
 ImportWidget::
@@ -60,13 +64,21 @@ setupUi()
 
   p->treeView->setAlternatingRowColors(true);
   p->treeView->header()->show();
-
   p->treeView->header()->setSectionResizeMode(QHeaderView::Stretch);
+
+  p->dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok);
+
+  auto okButton =  p->dialogButton->button(QDialogButtonBox::Ok);
+  okButton->setText(tr("Import"));
 
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   layout->addWidget(p->connectionsComboBox);
   layout->addWidget(p->treeView);
+  layout->addWidget(p->dialogButton);
+
+  connect(p->dialogButton, SIGNAL(accepted()),
+          this, SLOT(onImportClicked()));
 }
 
 
@@ -94,5 +106,19 @@ setupDataBinding()
     p->connectionsComboBox->addItem(c->textDescription());
   }
 }
+
+
+void
+ImportWidget::
+onImportClicked()
+{
+  // take selected database  and push data into there
+
+  // close import window
+  static_cast<QWidget*>(parent())->close();
+}
+
+
+//
 } // namespace Import
 } // namespace Geo

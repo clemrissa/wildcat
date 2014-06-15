@@ -28,6 +28,10 @@ public:
   void
   setupDataBinding();
 
+private slots:
+  void
+  onImportClicked();
+
 private:
   struct Private;
 
