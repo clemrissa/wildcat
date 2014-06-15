@@ -35,6 +35,9 @@ private:
 
   QVariant
   getDecorationRole(int column);
+
+  QVariant
+  getBackgroundRole(int column);
 };
 }
 }

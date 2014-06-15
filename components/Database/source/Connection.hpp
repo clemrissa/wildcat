@@ -22,9 +22,11 @@ public:
 
   virtual
   DataAccessFactory::Shared
-  dataAccessFactory() const {
+  dataAccessFactory() const
+  {
     return _dataAccessFactory;
   }
+
 
   virtual Status const&
   status() const = 0;

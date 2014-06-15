@@ -8,7 +8,8 @@ using Geo::Database::Connection;
 
 QString
 Connection::
-connectionTypeName(DatabaseType type) {
+connectionTypeName(DatabaseType type)
+{
   switch (type) {
   case DatabaseType::SQLite:
     return tr("SQLite");
@@ -27,9 +28,11 @@ connectionTypeName(DatabaseType type) {
   return tr("Should not happen");
 }
 
+
 Connection::Shared
 Connection::
-restoreConnectionFromXml(QDomElement& domElement) {
+restoreConnectionFromXml(QDomElement& domElement)
+{
   QString connectionType = domElement.attribute("Type");
 
   if (connectionType == "SQLite")

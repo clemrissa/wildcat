@@ -23,6 +23,10 @@ data(int role, int column)
     return getDecorationRole(column);
     break;
 
+  case Qt::BackgroundRole:
+    return getBackgroundRole(column);
+    break;
+
   default:
     return QVariant();
     break;
@@ -98,6 +102,20 @@ getDecorationRole(int column)
 
     break;
   }
+
+  return QVariant();
+}
+
+
+QVariant
+SettingsTreeConnection::
+getBackgroundRole(int column)
+{
+  if (_connection.isNull())
+    return QVariant();
+
+  if (_connection->status() != Status::Connected)
+    return QVariant(QColor(0xFF, 0xBB, 0xBB));
 
   return QVariant();
 }

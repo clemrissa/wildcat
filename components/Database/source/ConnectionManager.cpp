@@ -28,9 +28,6 @@ createConnection()
 {
   auto sqliteConnection = new SQLiteConnection();
 
-  connect(sqliteConnection, SIGNAL(databaseChanged(QString)),
-          this, SLOT(storeToXml()));
-
   QSharedPointer<Connection> c(sqliteConnection);
 
   appendConnection(c);
@@ -43,6 +40,9 @@ void
 ConnectionManager::
 appendConnection(QSharedPointer<Connection> c)
 {
+  connect(c.data(), SIGNAL(databaseChanged(QString)),
+          this, SLOT(storeToXml()));
+
   _connections.append(c);
   storeToXml();
 }

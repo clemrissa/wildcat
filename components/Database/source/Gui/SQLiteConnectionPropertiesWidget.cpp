@@ -9,6 +9,8 @@
 
 #include <QSharedPointer>
 
+#include <Uni/Logging/Logging>
+
 using Geo::Database::Gui::SQLiteConnectionPropertiesWidget;
 
 struct SQLiteConnectionPropertiesWidget::Private {

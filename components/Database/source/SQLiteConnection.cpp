@@ -29,6 +29,7 @@ SQLiteConnection::
 SQLiteConnection(QDomElement& domElement)
 {
   setDatabaseType(DatabaseType::SQLite);
+  setStatus(Status::Unknown);
 
   QDomNodeList nodeList = domElement.elementsByTagName("Path");
 
@@ -122,6 +123,13 @@ void
 SQLiteConnection::
 connect()
 {
+  // TODO sofar no exception if db file is emply
+
+  if (_database.isEmpty()) {
+    setStatus(Status::Failed);
+    return;
+  }
+
   try {
     Domain::Odb::DataAccessFactory::Database db(
       new odb::sqlite::database(_database.toUtf8().constData(),
@@ -144,7 +152,7 @@ connect()
 
     setStatus(Status::Connected);
   } catch (odb::sqlite::database_exception const& exc) {
-    _status = Status::Failed;
+    setStatus(Status::Failed);
     setLastError(QString(exc.message().c_str()));
   }
 }
