@@ -13,15 +13,25 @@ class ImportWidget: public QWidget {
   Q_OBJECT
 
 public:
-  ImportWidget(QAbstractItemModel* importModel);
+  ImportWidget();
 
   virtual
   ~ImportWidget();
 
-private:
-  class Private;
+public:
+  void
+  setupUi();
 
-  Private* im;
+  void
+  setModel(QAbstractItemModel* importModel);
+
+  void
+  setupDataBinding();
+
+private:
+  struct Private;
+
+  Private* p;
 };
 } // namespace Import
 } // namespace Geo

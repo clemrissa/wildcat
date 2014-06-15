@@ -25,27 +25,34 @@ namespace Import {
 ImportController* ImportController::_instance = nullptr;
 
 ImportController::
-ImportController() {
-  INFO << "Hello from constructor of ImportController";
-}
-
-ImportController::
-~ImportController() {
+ImportController()
+{
   //
 }
 
+
+ImportController::
+~ImportController()
+{
+  //
+}
+
+
 ImportController*
 ImportController::
-instance() {
+instance()
+{
   if (!_instance)
     _instance = new ImportController();
 
   return _instance;
 }
 
+
 void
 ImportController::
-selectFilesAndImport() {
+selectFilesAndImport()
+{
   using DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
 
@@ -74,7 +81,9 @@ selectFilesAndImport() {
 
   ImportTreeModel* importTreeModel = new ImportTreeModel(importTreeWrapperLasFile);
 
-  ImportWidget* importWidget = new ImportWidget(importTreeModel);
+  ImportWidget* importWidget = new ImportWidget();
+
+  importWidget->setModel(importTreeModel);
 
   mainWindow->toCentralWidget(importWidget);
 }

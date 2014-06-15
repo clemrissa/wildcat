@@ -3,66 +3,96 @@
 #include <Uni/Logging/Logging>
 
 #include <QAbstractItemModel>
+#include <QComboBox>
 #include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QHeaderView>
 #include <QList>
-#include <QPlainTextEdit>
 #include <QPushButton>
 #include <QTreeView>
 #include <QVBoxLayout>
+
+#include <Database/Connection>
+#include <Database/ConnectionManager>
+#include <DependencyManager/ApplicationContext>
 
 #include "ImportController.hpp"
 #include "ImportTreeModel.hpp"
 
 #include "Las/ImportTreeWrapperLasFile.hpp"
 
-#include <Uni/Logging/logging>
-
 namespace Geo {
 namespace Import {
-class ImportWidget::Private {
-public:
-  QPushButton*    openFileButton;
-  QPlainTextEdit* textEdit;
+// ----------------------------------
+struct ImportWidget::Private {
+  QComboBox* connectionsComboBox;
 
   QTreeView* treeView;
-
-  QAbstractItemModel* importTreeModel;
 };
 
 ImportWidget::
-ImportWidget(QAbstractItemModel* importModel):
-  im(new Private) {
+ImportWidget():
+  p(new Private)
+{
   setWindowTitle("Import Data");
+  setMinimumSize(QSize(800, 400));
 
-  im->openFileButton = new QPushButton("Import Files");
+  setupUi();
 
-  // TODO remove this member
-  im->textEdit = new QPlainTextEdit();
+  setupDataBinding();
+}
 
-  im->treeView = new QTreeView();
 
-  im->importTreeModel = importModel;
+ImportWidget::
+~ImportWidget()
+{
+  delete p;
+}
 
-  im->treeView->setModel(im->importTreeModel);
-  im->treeView->setAlternatingRowColors(true);
-  im->treeView->header()->show();
 
-  im->treeView->header()->setSectionResizeMode(QHeaderView::Stretch);
+void
+ImportWidget::
+setupUi()
+{
+  p->connectionsComboBox = new QComboBox();
+
+  p->treeView = new QTreeView();
+
+  p->treeView->setAlternatingRowColors(true);
+  p->treeView->header()->show();
+
+  p->treeView->header()->setSectionResizeMode(QHeaderView::Stretch);
 
   QVBoxLayout* layout = new QVBoxLayout(this);
 
-  // layout->addWidget(im->openFileButton);
-  // layout->addWidget(im->textEdit);
-  layout->addWidget(im->treeView);
-
-  this->setMinimumSize(QSize(800, 400));
+  layout->addWidget(p->connectionsComboBox);
+  layout->addWidget(p->treeView);
 }
 
+
+void
 ImportWidget::
-~ImportWidget() {
-  delete im;
+setModel(QAbstractItemModel* importModel)
+{
+  p->treeView->setModel(importModel);
+}
+
+
+void
+ImportWidget::
+setupDataBinding()
+{
+  using DependencyManager::ApplicationContext;
+  using Geo::Database::Connection;
+  using Geo::Database::ConnectionManager;
+
+  auto connectionManager =
+    ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
+
+  for (int i = 0; i < connectionManager->size(); ++i) {
+    Connection::Shared c = connectionManager->at(i);
+    p->connectionsComboBox->addItem(c->textDescription());
+  }
 }
 } // namespace Import
 } // namespace Geo
