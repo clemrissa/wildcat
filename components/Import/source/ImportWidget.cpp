@@ -20,6 +20,7 @@
 #include "ImportController.hpp"
 #include "ImportTreeModel.hpp"
 
+#include "Las/LasImporter.hpp"
 #include "Las/TreeWrapper/LasFileEntry.hpp"
 
 namespace Geo {
@@ -114,11 +115,24 @@ onImportClicked()
 {
   // take selected database  and push data into there
 
+  auto importTreeModel =
+    static_cast<ImportTreeModel*>(p->treeView->model());
+  auto lasFileEntries = importTreeModel->getLasFileEntries();
+
+  QVector<LasFile::Shared> lasFiles;
+
+  for (auto lasFileEntry : lasFileEntries)
+    lasFiles.append(lasFileEntry->lasFile());
+
+  int databaseIndex = p->connectionsComboBox->currentIndex();
+
+  LasImporter(databaseIndex).import(lasFiles);
+
   // close import window
   static_cast<QWidget*>(parent())->close();
 }
 
 
 //
-} // namespace Import
-} // namespace Geo
+}     // namespace Import
+}     // namespace Geo

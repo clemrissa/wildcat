@@ -73,7 +73,8 @@ selectFilesAndImport()
   // collect list of parsed las files
 
   for (QString fileName : fileList) {
-    QSharedPointer<LasFile> lasFile = lasFileParser.parse(fileName);
+    QSharedPointer<LasFile> lasFile =
+      lasFileParser.parse(fileName);
 
     importTreeWrapperLasFile.append(new LasFileEntry(lasFile));
   }

@@ -4,6 +4,8 @@
 #include <QAbstractItemModel>
 #include <QVector>
 
+#include "Las/LasFile.hpp"
+
 namespace Geo {
 namespace Import {
 namespace TreeWrapper {
@@ -14,6 +16,14 @@ class LasFileEntry;
 class ImportTreeModel: public QAbstractItemModel {
 public:
   ImportTreeModel(QVector<TreeWrapper::LasFileEntry*> lasFilesEntries);
+
+  ImportTreeModel(QVector<LasFile::Shared> lasFiles);
+
+  ~ImportTreeModel();
+
+public:
+  QVector<TreeWrapper::LasFileEntry*> const
+  getLasFileEntries() const;
 
 public:
   virtual
@@ -45,6 +55,7 @@ public:
 
 private:
   QVector<TreeWrapper::LasFileEntry*> _lasFileEntries;
+  QVector<LasFile::Shared>            _lasFiles;
 
   int
   getEntryPosition(TreeWrapper::TreeEntry* const entry) const;

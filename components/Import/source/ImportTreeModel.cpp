@@ -22,6 +22,34 @@ ImportTreeModel(QVector<LasFileEntry*> lasFileEntries):
 }
 
 
+ImportTreeModel::
+ImportTreeModel(QVector<QSharedPointer<LasFile> > lasFiles)
+{
+  for (QSharedPointer<LasFile> lasFile : lasFiles)
+    _lasFileEntries.append(new LasFileEntry(lasFile));
+}
+
+
+ImportTreeModel::
+~ImportTreeModel()
+{
+  for (LasFileEntry* entry : _lasFileEntries)
+    delete entry;
+}
+
+
+// -------------------------------------------
+
+QVector<LasFileEntry*> const
+ImportTreeModel::
+getLasFileEntries() const
+{
+  return _lasFileEntries;
+}
+
+
+// --------------------------------------------
+
 QVariant
 ImportTreeModel::
 data(const QModelIndex& index, int role) const

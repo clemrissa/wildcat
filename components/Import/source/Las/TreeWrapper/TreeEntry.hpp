@@ -40,18 +40,10 @@ public:
 
 
   TreeEntry*
-  parent()
-  {
-    return _parent;
-  }
-
+  parent() { return _parent; }
 
   std::vector<TreeEntry*> const
-  entries() const
-  {
-    return _entries;
-  }
-
+  entries() const { return _entries; }
 
   int
   positionOfChildEntry(TreeEntry* const childEntry) const

@@ -4,6 +4,7 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QMap>
 #include <QtCore/QPair>
+#include <QtCore/QSharedPointer>
 #include <QtCore/QString>
 #include <QtCore/QVector>
 
@@ -17,9 +18,12 @@ class LasFile: public QObject {
   Q_OBJECT
 
 public:
+  typedef QSharedPointer<LasFile> Shared;
+
+public:
   LasFile(): valid(false) {}
 
-  LasFile(LasFile const &lasFile);
+  LasFile(LasFile const& lasFile);
 
   struct WellInformationEntry {
     QString name; // TODO remove. it is used as a key
