@@ -19,7 +19,7 @@
 #include "ImportController.hpp"
 #include "ImportTreeModel.hpp"
 
-#include "Las/ImportTreeWrapperLasFile.hpp"
+#include "Las/TreeWrapper/LasFileEntry.hpp"
 
 namespace Geo {
 namespace Import {

@@ -1,36 +1,38 @@
-#ifndef Geo_Import_ImportTreeWrapperLogGroup_hpp
-#define Geo_Import_ImportTreeWrapperLogGroup_hpp
+#ifndef Geo_Import_LogGroup_hpp
+#define Geo_Import_LogGroup_hpp
 
-#include "ImportTreeWrapperEntry.hpp"
+#include "TreeEntry.hpp"
 
 namespace Geo {
 namespace Import {
-class ImportTreeWrapperLog: public ImportTreeWrapperEntry {
+namespace TreeWrapper {
+class ImportTreeWrapperLog: public TreeEntry {
 public:
   ImportTreeWrapperLog(QSharedPointer<LasFile> lasFile,
-                       ImportTreeWrapperEntry* parent,
+                       TreeEntry*              parent,
                        int                     position):
-    ImportTreeWrapperEntry(lasFile, parent),
+    TreeEntry(lasFile, parent),
     _position(position)
   {}
 
   QVariant
-  data(int role, int column) override {
+  data(int role, int column) override
+  {
     if (role != Qt::DisplayRole)
       return QVariant();
 
     QString key = _lasFile->logInformation.keys()[_position];
 
     switch (column) {
-    case ImportTreeWrapperEntry::Name:
+    case TreeEntry::Name:
       return key + QString(" (%1)").arg(_lasFile->data[key].size());
       break;
 
-    case ImportTreeWrapperEntry::Description:
+    case TreeEntry::Description:
       return _lasFile->logInformation[key].description;
       break;
 
-    case ImportTreeWrapperEntry::Units:
+    case TreeEntry::Units:
       return _lasFile->logInformation[key].units;
       break;
 
@@ -40,21 +42,25 @@ public:
     }
   }
 
+
 private:
   int _position;
 };
 
-class ImportTreeWrapperLogGroup: public ImportTreeWrapperEntry {
+class LogGroup: public TreeEntry {
 public:
-  ImportTreeWrapperLogGroup(QSharedPointer<LasFile> lasFile,
-                            ImportTreeWrapperEntry* parent):
-    ImportTreeWrapperEntry(lasFile, parent) {
+  LogGroup(QSharedPointer<LasFile> lasFile,
+           TreeEntry*              parent):
+    TreeEntry(lasFile, parent)
+  {
     for (int i = 0; i < _lasFile->logInformation.keys().size(); ++i)
       _entries.push_back(new ImportTreeWrapperLog(_lasFile, this, i));
   }
 
+
   QVariant
-  data(int role, int column) override {
+  data(int role, int column) override
+  {
     if (role != Qt::DisplayRole)
       return QVariant();
 
@@ -71,5 +77,6 @@ public:
 };
 }
 }
+}
 
-#endif // Geo_Import_ImportTreeWrapperLogGroup_hpp
+#endif // Geo_Import_LogGroup_hpp

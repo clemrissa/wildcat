@@ -2,30 +2,35 @@
 
 #include <Uni/Logging/Logging>
 
-#include "Las/ImportTreeWrapperEntry.hpp"
-#include "Las/ImportTreeWrapperLasFile.hpp"
 #include "Las/LasFile.hpp"
+#include "Las/TreeWrapper/LasFileEntry.hpp"
+#include "Las/TreeWrapper/TreeEntry.hpp"
 
 #include <QSharedPointer>
 
 #include <algorithm>
 
 using Geo::Import::ImportTreeModel;
+using Geo::Import::TreeWrapper::LasFileEntry;
+using Geo::Import::TreeWrapper::TreeEntry;
 
 ImportTreeModel::
-ImportTreeModel(QVector<ImportTreeWrapperLasFile*> importTreeWrapperLasFiles):
-  _importTreeWrapperLasFiles(importTreeWrapperLasFiles) {
+ImportTreeModel(QVector<LasFileEntry*> lasFileEntries):
+  _lasFileEntries(lasFileEntries)
+{
   //
 }
 
+
 QVariant
 ImportTreeModel::
-data(const QModelIndex& index, int role) const  {
+data(const QModelIndex& index, int role) const
+{
   if (!index.isValid())
     return QVariant();
 
-  ImportTreeWrapperEntry* entry =
-    static_cast<ImportTreeWrapperEntry*>(index.internalPointer());
+  TreeEntry* entry =
+    static_cast<TreeEntry*>(index.internalPointer());
 
   return entry->data(role, index.column());
 }
@@ -33,12 +38,13 @@ data(const QModelIndex& index, int role) const  {
 
 QModelIndex
 ImportTreeModel::
-index(int row, int column, const QModelIndex& parent) const  {
+index(int row, int column, const QModelIndex& parent) const
+{
   if (!parent.isValid())
-    return QAbstractItemModel::createIndex(row, column, _importTreeWrapperLasFiles[row]);
+    return QAbstractItemModel::createIndex(row, column, _lasFileEntries[row]);
 
-  ImportTreeWrapperEntry* entry =
-    static_cast<ImportTreeWrapperEntry*>(parent.internalPointer());
+  TreeEntry* entry =
+    static_cast<TreeEntry*>(parent.internalPointer());
 
   if (entry->entries().size() == 0)
     return QModelIndex();
@@ -49,18 +55,19 @@ index(int row, int column, const QModelIndex& parent) const  {
 
 QModelIndex
 ImportTreeModel::
-parent(const QModelIndex& index) const  {
-  ImportTreeWrapperEntry* entry =
-    static_cast<ImportTreeWrapperEntry*>(index.internalPointer());
+parent(const QModelIndex& index) const
+{
+  TreeEntry* entry =
+    static_cast<TreeEntry*>(index.internalPointer());
 
   Q_ASSERT(entry);
 
-  ImportTreeWrapperEntry* parentEntry = entry->parent();
+  TreeEntry* parentEntry = entry->parent();
 
   if (parentEntry == nullptr)
     return QModelIndex();
 
-  ImportTreeWrapperEntry* parentParentEntry = parentEntry->parent();
+  TreeEntry* parentParentEntry = parentEntry->parent();
 
   int position = 0;
 
@@ -75,27 +82,32 @@ parent(const QModelIndex& index) const  {
 
 int
 ImportTreeModel::
-columnCount(const QModelIndex& parent) const  {
-  return ImportTreeWrapperEntry::Column::Size;
+columnCount(const QModelIndex& parent) const
+{
+  return TreeEntry::Column::Size;
 }
+
 
 int
 ImportTreeModel::
-rowCount(const QModelIndex& parent) const {
+rowCount(const QModelIndex& parent) const
+{
   if (!parent.isValid())
-    return _importTreeWrapperLasFiles.size();
+    return _lasFileEntries.size();
 
-  ImportTreeWrapperEntry* entry =
-    static_cast<ImportTreeWrapperEntry*>(parent.internalPointer());
+  TreeEntry* entry =
+    static_cast<TreeEntry*>(parent.internalPointer());
 
   return entry->entries().size();
 }
+
 
 QVariant
 ImportTreeModel::
 headerData(int             section,
            Qt::Orientation orientation,
-           int             role)  const {
+           int             role)  const
+{
   QVariant result;
 
   if (role != Qt::DisplayRole)
@@ -105,31 +117,31 @@ headerData(int             section,
     return result;
 
   switch (section) {
-  case ImportTreeWrapperEntry::Name:
+  case TreeEntry::Name:
     result = tr("Item");
     break;
 
-  case ImportTreeWrapperEntry::Description:
+  case TreeEntry::Description:
     result = tr("Description");
     break;
 
-  case ImportTreeWrapperEntry::Value:
+  case TreeEntry::Value:
     result = tr("Value");
     break;
 
-  case ImportTreeWrapperEntry::ImportName:
+  case TreeEntry::ImportName:
     result = tr("Import As");
     break;
 
-  case ImportTreeWrapperEntry::Type:
+  case TreeEntry::Type:
     result = tr("Type");
     break;
 
-  case ImportTreeWrapperEntry::Units:
+  case TreeEntry::Units:
     result = tr("Parsed Units");
     break;
 
-  case ImportTreeWrapperEntry::ImportUnits:
+  case TreeEntry::ImportUnits:
     result = tr("Import Units As");
     break;
   }
@@ -137,12 +149,14 @@ headerData(int             section,
   return result;
 }
 
+
 int
 ImportTreeModel::
-getEntryPosition(ImportTreeWrapperEntry* const entry) const {
-  auto it = std::find(_importTreeWrapperLasFiles.begin(),
-                      _importTreeWrapperLasFiles.end(), entry);
+getEntryPosition(TreeWrapper::TreeEntry* const entry) const
+{
+  auto it = std::find(_lasFileEntries.begin(),
+                      _lasFileEntries.end(), entry);
 
-  return it - _importTreeWrapperLasFiles.begin();
+  return it - _lasFileEntries.begin();
   //
 }

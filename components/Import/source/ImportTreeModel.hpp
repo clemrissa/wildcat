@@ -6,12 +6,14 @@
 
 namespace Geo {
 namespace Import {
-class ImportTreeWrapperLasFile;
-class ImportTreeWrapperEntry;
+namespace TreeWrapper {
+class TreeEntry;
+class LasFileEntry;
+}
 
 class ImportTreeModel: public QAbstractItemModel {
 public:
-  ImportTreeModel(QVector<ImportTreeWrapperLasFile*> importTreeWrapperLasFiles);
+  ImportTreeModel(QVector<TreeWrapper::LasFileEntry*> lasFilesEntries);
 
 public:
   virtual
@@ -42,10 +44,10 @@ public:
              int             role = Qt::DisplayRole) const override;
 
 private:
-  QVector<ImportTreeWrapperLasFile*> _importTreeWrapperLasFiles;
+  QVector<TreeWrapper::LasFileEntry*> _lasFileEntries;
 
   int
-  getEntryPosition(ImportTreeWrapperEntry* const entry) const;
+  getEntryPosition(TreeWrapper::TreeEntry* const entry) const;
 };
 }
 }

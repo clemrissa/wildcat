@@ -9,9 +9,9 @@
 #include "ImportTreeModel.hpp"
 #include "ImportWidget.hpp"
 
-#include "Las/ImportTreeWrapperLasFile.hpp"
 #include "Las/LasFile.hpp"
 #include "Las/LasFileParser.hpp"
+#include "Las/TreeWrapper/LasFileEntry.hpp"
 
 #include <DependencyManager/ApplicationContext>
 // #include <DependencyManager/XmlApplicationContextLoader>
@@ -19,6 +19,8 @@
 #include <Core/MainWindow>
 
 #include <Uni/Logging/logging>
+
+using Geo::Import::TreeWrapper::LasFileEntry;
 
 namespace Geo {
 namespace Import {
@@ -65,15 +67,15 @@ selectFilesAndImport()
                                   "/home",
                                   "LAS files (*.las)");
 
-  LasFileParser                      lasFileParser;
-  QVector<ImportTreeWrapperLasFile*> importTreeWrapperLasFile;
+  LasFileParser          lasFileParser;
+  QVector<LasFileEntry*> importTreeWrapperLasFile;
 
   // collect list of parsed las files
 
   for (QString fileName : fileList) {
     QSharedPointer<LasFile> lasFile = lasFileParser.parse(fileName);
 
-    importTreeWrapperLasFile.append(new ImportTreeWrapperLasFile(lasFile));
+    importTreeWrapperLasFile.append(new LasFileEntry(lasFile));
   }
 
   if (importTreeWrapperLasFile.size() == 0)
