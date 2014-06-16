@@ -14,7 +14,7 @@ GridFactory::
 createGrid(SectionControllers::AbstractSectionController* parentSection)
 {
   // Domain::Grid::Pointer                          grid) {
-  SectionControllers::AbstractSectionController* c = nullptr;
+  // SectionControllers::AbstractSectionController* c = nullptr;
 
   // switch (grid->getType()) {
   // case Domain::Grid::Regular:

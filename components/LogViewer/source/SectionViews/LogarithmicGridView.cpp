@@ -1,4 +1,4 @@
-#include "LogarithmicGridView"
+#include "LogarithmicGridView.hpp"
 
 #include <QPainter>
 

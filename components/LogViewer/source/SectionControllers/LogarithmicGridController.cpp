@@ -84,7 +84,7 @@ recalculateWidth()
 {
   _width = 0.06;
 
-  if (sectionControllersList.size() == 0) {
+  if (_sectionControllersList.size() == 0) {
     _minLog10Value = log10(1.0);
     _maxLog10Value = log10(100.0);
 

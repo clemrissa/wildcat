@@ -1,5 +1,5 @@
-#ifndef _Geo_Import_ImportUiFactory_h_
-#define _Geo_Import_ImportUiFactory_h_
+#ifndef Geo_Import_ImportUiFactory_hpp
+#define Geo_Import_ImportUiFactory_hpp
 
 #include <QObject>
 
@@ -19,6 +19,7 @@ public:
   virtual
   ~ImportUiFactory();
 
+public:
   Q_INVOKABLE
   QMenu*
   getImportMenu();
@@ -28,10 +29,10 @@ public:
   getImportToolBar();
 
 private:
-  class ImportUiFactoryImplementation;
-  ImportUiFactoryImplementation* _pimpl;
+  class Private;
+  Private* _p;
 };
 }
 }
 
-#endif // _Geo_Import_ImportUiFactory_h_
+#endif // Geo_Import_ImportUiFactory_hpp

@@ -14,7 +14,6 @@
 #include "Las/TreeWrapper/LasFileEntry.hpp"
 
 #include <DependencyManager/ApplicationContext>
-// #include <DependencyManager/XmlApplicationContextLoader>
 
 #include <Core/MainWindow>
 

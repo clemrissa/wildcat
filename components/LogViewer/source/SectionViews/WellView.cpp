@@ -1,4 +1,4 @@
-#include "WellView"
+#include "WellView.hpp"
 
 #include <QDebug>
 #include <QPainter>

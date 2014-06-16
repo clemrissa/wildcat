@@ -1,26 +1,22 @@
-#include "ImportUiFactory.hpp"
+#include "LogViewerUiFactory.hpp"
 
-#include <QAction>
-#include <QIcon>
-#include <QList>
+#include <QLabel>
 #include <QMenu>
 #include <QToolBar>
+#include <QWidget>
 
 #include <Core/MainWindow>
 
 #include <DependencyManager/ApplicationContext>
-// #include <DependencyManager/XmlApplicationContextLoader>
 
-#include <Uni/Logging/Logging>
+#include "LogViewerController.hpp"
 
-#include "ImportController.hpp"
+using Geo::LogViewer::LogViewerUiFactory;
 
-using Geo::Import::ImportUiFactory;
-
-class ImportUiFactory::Private {
+class LogViewerUiFactory::Private {
 public:
   Private():
-    _menu(new QMenu(tr("Import"))),
+    _menu(new QMenu(tr("LogViewer"))),
     _toolBar(new QToolBar())
   {}
 
@@ -31,16 +27,16 @@ public:
     using Geo::Core::MainWindow;
 
     MainWindow* mainWindow =
+
       DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
 
     QAction* action = nullptr;
 
-    action = new QAction(QIcon(), QString("Las Files"), mainWindow);
+    action = new QAction(QIcon(), QString("Create"), mainWindow);
 
-    connect(action,
-            &QAction::triggered,
-            ImportController::instance(),
-            &ImportController::selectFilesAndImport);
+    connect(action, &QAction::triggered,
+            LogViewerController::instance(),
+            &LogViewerController::createLogViewer);
 
     _actionList.append(action);
   }
@@ -69,37 +65,27 @@ public:
   QList<QAction*> _actionList;
 };
 
-// --------------------------------------------------
+// --------------------------
 
-Q_INVOKABLE
-ImportUiFactory::
-ImportUiFactory():
+LogViewerUiFactory::
+LogViewerUiFactory():
   _p(new Private())
 {
   _p->fillActionList();
   _p->constructMenu();
-  // _p->constructToolBar();
 }
 
 
-ImportUiFactory::
-~ImportUiFactory()
+LogViewerUiFactory::
+~LogViewerUiFactory()
 {
   delete _p;
 }
 
 
 Q_INVOKABLE QMenu*
-ImportUiFactory::
-getImportMenu()
+LogViewerUiFactory::
+getLogViewerMenu()
 {
   return _p->_menu;
-}
-
-
-Q_INVOKABLE QToolBar*
-ImportUiFactory::
-getImportToolBar()
-{
-  return _p->_toolBar;
 }

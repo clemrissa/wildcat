@@ -1,4 +1,4 @@
-#include "DepthColumnView"
+#include "DepthColumnView.hpp"
 
 #include <QPainter>
 
@@ -11,14 +11,15 @@ namespace LogViewer {
 namespace SectionViews {
 DepthColumnView::
 DepthColumnView(
-  SectionControllers::AbstractSectionController* controller)
-  : AbstractSectionView(controller) {}
+  SectionControllers::AbstractSectionController* controller):
+  AbstractSectionView(controller) {}
 
 void
 DepthColumnView::
 paintHeader(QPainter&                painter,
             Scalers::Scaler::Pointer scaler,
-            QRectF&                  rect) {
+            QRectF&                  rect)
+{
   Q_UNUSED(scaler);
 
   painter.setPen(Qt::black);
@@ -26,11 +27,13 @@ paintHeader(QPainter&                painter,
   painter.drawRect(QRectF(0.0, 0.0, _controller->width(), rect.height()));
 }
 
+
 void
 DepthColumnView::
 paintBody(QPainter&                painter,
           Scalers::Scaler::Pointer scaler,
-          QRectF&                  rect) {
+          QRectF&                  rect)
+{
   double gridSmallStepLogView = 0.005;
   double gridStepLogView      = 0.02;
 
@@ -103,15 +106,20 @@ paintBody(QPainter&                painter,
     offset += gridStepReal;
   }
 }
-void
-DepthColumnView::
-postOffsetPainterForHeader(QPainter& painter) {
-  painter.translate(_controller->width(), 0.0);
-}
+
 
 void
 DepthColumnView::
-postOffsetPainterForBody(QPainter& painter) {
+postOffsetPainterForHeader(QPainter& painter)
+{
+  painter.translate(_controller->width(), 0.0);
+}
+
+
+void
+DepthColumnView::
+postOffsetPainterForBody(QPainter& painter)
+{
   painter.translate(_controller->width(), 0.0);
 }
 }

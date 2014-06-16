@@ -1,10 +1,10 @@
-#include "SaturationColumnView"
+#include "SaturationColumnView.hpp"
 
 #include <QPainter>
 
-#include "../SectionControllers/AbstractSectionController"
+#include "../SectionControllers/AbstractSectionController.hpp"
 
-#include "WellView"
+#include "WellView.hpp"
 
 namespace Geo {
 namespace LogViewer {
@@ -18,17 +18,20 @@ void
 SaturationColumnView::
 paintHeader(QPainter&                painter,
             Scalers::Scaler::Pointer scaler,
-            QRectF&                  rect) {
+            QRectF&                  rect)
+{
   Q_UNUSED(painter);
   Q_UNUSED(scaler);
   Q_UNUSED(rect)
 }
 
+
 void
 SaturationColumnView::
 paintBody(QPainter&                painter,
           Scalers::Scaler::Pointer scaler,
-          QRectF&                  rect) {
+          QRectF&                  rect)
+{
   Q_UNUSED(rect);
   Q_UNUSED(scaler);
 

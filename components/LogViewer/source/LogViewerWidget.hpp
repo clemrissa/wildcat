@@ -5,7 +5,7 @@
 
 namespace Geo {
 namespace LogViewer {
-class LogViewerWidget : public QWidget {
+class LogViewerWidget: public QWidget {
   Q_OBJECT
 
 public:
@@ -18,7 +18,7 @@ public:
 private:
   struct Private;
 
-  Private* p;
+  Private* _p;
 };
 } // namespace LogViewer
 } // namespace Geo

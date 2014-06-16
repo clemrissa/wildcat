@@ -51,9 +51,9 @@ paintBody(QPainter&                painter,
   double offset = 0.0;
 
   QPen pen;
-  pen.setStyle(Qt::DashLine);
-  pen.setColor(_grid->getColor());
-  painter.setPen(pen);
+  // pen.setStyle(Qt::DashLine);
+  // pen.setColor(_grid->getColor());
+  // painter.setPen(pen);
 
   // small steps
 
@@ -84,7 +84,7 @@ paintBody(QPainter&                painter,
 
   // large steps
   pen.setStyle(Qt::SolidLine);
-  pen.setColor(_grid->getColor());
+  // pen.setColor(_grid->getColor());
   painter.setPen(pen);
 
   offset = 0.0;

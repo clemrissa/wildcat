@@ -39,8 +39,8 @@ paintHeader(QPainter&                painter,
   // horisontal curve line in header
   {
     QPen pen;
-    pen.setWidthF(_curve->getThickness());
-    pen.setColor(_curve->getColor());
+    // pen.setWidthF(_curve->getThickness());
+    // pen.setColor(_curve->getColor());
     pen.setCosmetic(true);
     // pen.setStyle(_lineStyle);
 

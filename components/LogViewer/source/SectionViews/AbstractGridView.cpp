@@ -1,4 +1,4 @@
-#include "AbstractGridView"
+#include "AbstractGridView.hpp"
 
 #include "WellView.hpp"
 
@@ -7,8 +7,8 @@ namespace LogViewer {
 namespace SectionViews {
 AbstractGridView::
 AbstractGridView(
-  SectionControllers::AbstractSectionController* controller)
-  : AbstractSectionView(controller)
+  SectionControllers::AbstractSectionController* controller):
+  AbstractSectionView(controller)
 {}
 }
 }
