@@ -1,6 +1,6 @@
-#include "BodyMouseInputFilter"
+#include "BodyMouseInputFilter.hpp"
 
-#include "../RenderWidgets/GenericRenderWidget"
+#include "../RenderWidgets/GenericRenderWidget.hpp"
 
 namespace Geo {
 namespace LogViewer {
@@ -15,21 +15,26 @@ BodyMouseInputFilter(
 
 void
 BodyMouseInputFilter::
-mousePressEvent(QMouseEvent* event) {
+mousePressEvent(QMouseEvent* event)
+{
   _lastPoint = event->pos();
 
   event->accept();
 }
 
-void
-BodyMouseInputFilter::
-mouseReleaseEvent(QMouseEvent* event) {
-  event->accept();
-}
 
 void
 BodyMouseInputFilter::
-mouseMoveEvent(QMouseEvent* event) {
+mouseReleaseEvent(QMouseEvent* event)
+{
+  event->accept();
+}
+
+
+void
+BodyMouseInputFilter::
+mouseMoveEvent(QMouseEvent* event)
+{
   if (Qt::LeftButton & event->buttons()) {
     QPoint offset = event->pos() - _lastPoint;
 
@@ -49,9 +54,11 @@ mouseMoveEvent(QMouseEvent* event) {
   //        QApplication::sendEvent(rootSection_.data(), &renderWindowEvent);
 }
 
+
 void
 BodyMouseInputFilter::
-resizeEvent(QResizeEvent* event) {
+resizeEvent(QResizeEvent* event)
+{
   Q_UNUSED(event);
 
   xOvershootControl(0);
@@ -61,9 +68,11 @@ resizeEvent(QResizeEvent* event) {
   _widget->update();
 }
 
+
 void
 BodyMouseInputFilter::
-wheelEvent(QWheelEvent* event) {
+wheelEvent(QWheelEvent* event)
+{
   double mult = event->delta() > 0 ? 1.25 : 1.0 / 1.25;
 
   // y scaling
@@ -107,9 +116,11 @@ wheelEvent(QWheelEvent* event) {
   _widget->update();
 }
 
+
 void
 BodyMouseInputFilter::
-xOvershootControl(int offset) {
+xOvershootControl(int offset)
+{
   int rootSectionWidth = _scaler->xScaler()->scaleRealCoordsToPixels(
     _rootSection->width());
 
@@ -128,9 +139,11 @@ xOvershootControl(int offset) {
   }
 }
 
+
 void
 BodyMouseInputFilter::
-yOvershootControl(int offset) {
+yOvershootControl(int offset)
+{
   int rootSectionHeight = _scaler->yScaler()->scaleRealCoordsToPixels(
     _rootSection->height());
 

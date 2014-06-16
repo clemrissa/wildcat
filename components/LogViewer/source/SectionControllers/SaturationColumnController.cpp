@@ -1,8 +1,8 @@
-#include "SaturationColumnController"
+#include "SaturationColumnController.hpp"
 
 #include <QPainter>
 
-#include "WellController"
+#include "WellController.hpp"
 
 namespace Geo {
 namespace LogViewer {
@@ -10,7 +10,8 @@ namespace SectionControllers {
 SaturationColumnController::
 SaturationColumnController(AbstractSectionController* well):
   AbstractSectionController(well),
-  _color(QColor(Qt::gray)) {
+  _color(QColor(Qt::gray))
+{
   double step = 10.; // meters
 
   _topDepth    = 100 + qrand() % 300;
@@ -36,39 +37,49 @@ SaturationColumnController(AbstractSectionController* well):
   recalculateSize();
 }
 
+
 double
 SaturationColumnController::
-topDepth() const {
+topDepth() const
+{
   return _topDepth;
 }
 
-double
-SaturationColumnController::
-bottomDepth() const {
-  return _bottomDepth;
-}
 
 double
 SaturationColumnController::
-width() const {
+bottomDepth() const
+{
+  return _bottomDepth;
+}
+
+
+double
+SaturationColumnController::
+width() const
+{
   return _width;
 }
+
 
 void
 SaturationColumnController::
 paintHeader(QPainter&                painter,
             Scalers::Scaler::Pointer scaler,
-            QRectF&                  rect) {
+            QRectF&                  rect)
+{
   Q_UNUSED(painter);
   Q_UNUSED(scaler);
   Q_UNUSED(rect)
 }
 
+
 void
 SaturationColumnController::
 paintBody(QPainter&                painter,
           Scalers::Scaler::Pointer scaler,
-          QRectF&                  rect) {
+          QRectF&                  rect)
+{
   Q_UNUSED(rect);
   Q_UNUSED(scaler);
 
@@ -106,9 +117,11 @@ paintBody(QPainter&                painter,
   }
 }
 
+
 void
 SaturationColumnController::
-recalculateWidth() {
+recalculateWidth()
+{
   _width = 0.015; // m
 }
 }

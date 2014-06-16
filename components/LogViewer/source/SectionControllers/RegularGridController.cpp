@@ -1,58 +1,73 @@
-#include "RegularGridController"
+#include "RegularGridController.hpp"
 
 #include <QPainter>
 
-#include <Geo/Domain/Curve>
+// #include <Geo/Domain/Curve>
 
-#include "../SectionViews/RegularGridView"
+#include "../SectionViews/RegularGridView.hpp"
 
-#include "ContinuousCurveController"
-#include "WellController"
+#include "ContinuousCurveController.hpp"
+#include "WellController.hpp"
 
 namespace Geo {
 namespace LogViewer {
 namespace SectionControllers {
 RegularGridController::
-RegularGridController(AbstractSectionController* well,
-                      Domain::Grid::Pointer      grid):
-  AbstractGridController(well, grid),
-  _view(new SectionViews::RegularGridView(this, grid)) {
-  QVectorIterator<Domain::Curve::Pointer> it = _grid->getCurveListIterator();
+RegularGridController(AbstractSectionController* well)
+// Domain::Grid::Pointer      grid):
+      :
+        AbstractGridController(well),
+        // , grid),
+        _view(new SectionViews::RegularGridView(this))
+        // _view(new SectionViews::RegularGridView(this, grid))
+{
+  // QVectorIterator<Domain::Curve::Pointer> it =
+  // _grid->getCurveListIterator();
 
-  while (it.hasNext())
-    sectionControllersList.append(new ContinuousCurveController(this,
-                                                                it.next()));
+  // while (it.hasNext())
+  // sectionControllersList.append(new ContinuousCurveController(this,
+  // it.next()));
 
   recalculateSize();
 }
 
+
 double
 RegularGridController::
-topDepth() const {
+topDepth() const
+{
   return _topDepth;
 }
 
+
 double
 RegularGridController::
-bottomDepth() const {
+bottomDepth() const
+{
   return _bottomDepth;
 }
 
+
 double
 RegularGridController::
-width() const {
+width() const
+{
   return _width;
 }
 
+
 void
 RegularGridController::
-recalculateWidth() {
-  _width = _grid->getWidth();
+recalculateWidth()
+{
+  // _width = _grid->getWidth();
 }
+
 
 SectionViews::AbstractSectionView::Pointer
 RegularGridController::
-getView() const {
+getView() const
+{
   return _view;
 }
 }

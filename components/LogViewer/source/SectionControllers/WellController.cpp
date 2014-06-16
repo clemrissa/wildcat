@@ -1,4 +1,4 @@
-#include "WellController"
+#include "WellController.hpp"
 
 #include <QDebug>
 #include <QPainter>
@@ -22,10 +22,10 @@ namespace SectionControllers {
 WellController::
 WellController(AbstractSectionController* parent)
 // Domain::VisualWell::Pointer visualWell)
-  : AbstractSectionController(parent),
-    _view(new SectionViews::WellView(this)),
-    // _view(new SectionViews::WellView(this, visualWell)),
-    // _visualWell(visualWell) {
+      : AbstractSectionController(parent),
+        _view(new SectionViews::WellView(this))
+        // _view(new SectionViews::WellView(this, visualWell)),
+        // _visualWell(visualWell) {
 {
   {
     // first, we take all existing depth columns for current Well
@@ -38,8 +38,8 @@ WellController(AbstractSectionController* parent)
     // DepthColumnController* c = new
     // DepthColumnController(this, it.next());
 
-    qDebug() << "Depth Controller";
-    _sectionControllersList.insert(order, c);
+    // qDebug() << "Depth Controller";
+    // _sectionControllersList.insert(order, c);
     // }
   }
 
@@ -64,40 +64,50 @@ WellController(AbstractSectionController* parent)
   recalculateSize();
 }
 
+
 double
 WellController::
-bottomDepth() const {
+bottomDepth() const
+{
   return _bottomDepth;
 }
 
+
 double
 WellController::
-topDepth() const {
+topDepth() const
+{
   return _topDepth;
 }
 
+
 double
 WellController::
-width() const {
+width() const
+{
   return _width;
 }
 
+
 void
 WellController::
-recalculateWidth() {
+recalculateWidth()
+{
   _width = 0.0;
 
   // qDebug() << sectionControllersList.size();
 
   AbstractSectionController* object;
-  foreach(object, sectionControllersList) {
+  foreach(object, _sectionControllersList) {
     _width += object->width();
   }
 }
 
+
 SectionViews::AbstractSectionView::Pointer
 WellController::
-getView() const {
+getView() const
+{
   return _view;
 }
 }

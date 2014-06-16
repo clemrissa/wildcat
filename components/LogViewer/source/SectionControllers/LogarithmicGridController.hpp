@@ -1,11 +1,11 @@
 #ifndef Geo_LogViewer_SectionControllers_LogarithmicGridController_hpp
 #define Geo_LogViewer_SectionControllers_LogarithmicGridController_hpp
 
-#include <Geo/Domain/Grid>
+// #include <Geo/Domain/Grid>
 
-#include "AbstractGridController"
+#include "AbstractGridController.hpp"
 
-#include "../Scalers/Scaler"
+#include "../Scalers/Scaler.hpp"
 
 namespace Geo {
 namespace LogViewer {
@@ -15,8 +15,8 @@ class LogarithmicGridView;
 namespace SectionControllers {
 class LogarithmicGridController: public AbstractGridController {
 public:
-  LogarithmicGridController(AbstractSectionController* well,
-                            Domain::Grid::Pointer      grid);
+  LogarithmicGridController(AbstractSectionController* well);
+  // Domain::Grid::Pointer      grid);
 
 public:
   void

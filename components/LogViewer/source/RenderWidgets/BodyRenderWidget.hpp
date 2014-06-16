@@ -13,7 +13,7 @@
 namespace Geo {
 namespace LogViewer {
 namespace RenderWidgets {
-class BodyRenderWidget : public GenericRenderWidget {
+class BodyRenderWidget: public GenericRenderWidget {
   Q_OBJECT
 
 public:

@@ -1,7 +1,7 @@
 #ifndef Geo_LogViewer_SectionViews_DepthColumnView_hpp
 #define Geo_LogViewer_SectionViews_DepthColumnView_hpp
 
-#include "AbstractSectionView"
+#include "AbstractSectionView.hpp"
 
 namespace Geo {
 namespace LogViewer {

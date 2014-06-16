@@ -1,9 +1,9 @@
 #ifndef Geo_LogViewer_SectionControllers_DepthColumnController_hpp
 #define Geo_LogViewer_SectionControllers_DepthColumnController_hpp
 
-#include "AbstractSectionController"
+#include "AbstractSectionController.hpp"
 
-#include <Geo/Domain/DepthColumn>
+// #include <Geo/Domain/DepthColumn>
 
 namespace Geo {
 namespace LogViewer {
@@ -13,8 +13,8 @@ class DepthColumnView;
 namespace SectionControllers {
 class DepthColumnController: public AbstractSectionController {
 public:
-  DepthColumnController(AbstractSectionController*   parent,
-                        Domain::DepthColumn::Pointer depthColumn);
+  DepthColumnController(AbstractSectionController* parent);
+  // Domain::DepthColumn::Pointer depthColumn);
 
 public:
   // / @returns top in meters
@@ -42,7 +42,7 @@ public:
 private:
   QSharedPointer<SectionViews::DepthColumnView> _view;
 
-  Domain::DepthColumn::Pointer _depthColumn;
+  // Domain::DepthColumn::Pointer _depthColumn;
 };
 }
 }

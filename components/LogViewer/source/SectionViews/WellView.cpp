@@ -4,28 +4,29 @@
 #include <QPainter>
 #include <QTime>
 
-#include "DepthColumnView"
-#include "LogarithmicGridView"
-#include "RegularGridView"
-#include "SaturationColumnView"
+#include "DepthColumnView.hpp"
+#include "LogarithmicGridView.hpp"
+#include "RegularGridView.hpp"
+#include "SaturationColumnView.hpp"
 
-#include "../SectionControllers/AbstractSectionController"
+#include "../SectionControllers/AbstractSectionController.hpp"
 
 namespace Geo {
 namespace LogViewer {
 namespace SectionViews {
 WellView::
-WellView(SectionControllers::AbstractSectionController* controller,
-         Domain::VisualWell::Pointer                    visualWell):
-  AbstractSectionView(controller),
-  _visualWell(visualWell)
+WellView(SectionControllers::AbstractSectionController* controller):
+  // Domain::VisualWell::Pointer                    visualWell):
+  AbstractSectionView(controller)
+  // _visualWell(visualWell)
 {}
 
 void
 WellView::
 paintHeader(QPainter&                painter,
             Scalers::Scaler::Pointer scaler,
-            QRectF&                  rect) {
+            QRectF&                  rect)
+{
   Q_UNUSED(scaler);
 
   painter.setPen(Qt::black);
@@ -63,11 +64,13 @@ paintHeader(QPainter&                painter,
   }
 }
 
+
 void
 WellView::
 paintBody(QPainter&                painter,
           Scalers::Scaler::Pointer scaler,
-          QRectF&                  rect) {
+          QRectF&                  rect)
+{
   Q_UNUSED(scaler);
   Q_UNUSED(rect);
 
@@ -77,22 +80,28 @@ paintBody(QPainter&                painter,
                           _controller->height()));
 }
 
-void
-WellView::
-preOffsetPainterForHeader(QPainter& painter) {
-  painter.translate(0.0, 0.01);
-}
 
 void
 WellView::
-postOffsetPainterForHeader(QPainter& painter) {
+preOffsetPainterForHeader(QPainter& painter)
+{
+  painter.translate(0.0, 0.01);
+}
+
+
+void
+WellView::
+postOffsetPainterForHeader(QPainter& painter)
+{
   const double wellOffset = 0.01;
   painter.translate(_controller->width() + wellOffset, 0.0);
 }
 
+
 void
 WellView::
-postOffsetPainterForBody(QPainter& painter) {
+postOffsetPainterForBody(QPainter& painter)
+{
   const double wellOffset = 0.01;
   painter.translate(_controller->width() + wellOffset, 0.0);
 }

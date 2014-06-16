@@ -1,20 +1,19 @@
 #ifndef Geo_LogViewer_SectionViews_RegularGridView_hpp
 #define Geo_LogViewer_SectionViews_RegularGridView_hpp
 
-#include <Geo/Domain/Grid>
+// #include <Geo/Domain/Grid>
 
-#include "../Scalers/Scaler"
+#include "../Scalers/Scaler.hpp"
 
-#include "AbstractGridView"
+#include "AbstractGridView.hpp"
 
 namespace Geo {
 namespace LogViewer {
 namespace SectionViews {
 class RegularGridView: public AbstractGridView {
 public:
-  RegularGridView(
-    SectionControllers::AbstractSectionController* controller,
-    Domain::Grid::Pointer                          grid);
+  RegularGridView(SectionControllers::AbstractSectionController* controller);
+  // Domain::Grid::Pointer                          grid);
 
 public:
   void
@@ -33,8 +32,8 @@ public:
   void
   postOffsetPainterForBody(QPainter& painter) override;
 
-private:
-  Domain::Grid::Pointer _grid;
+  // private:
+  // Domain::Grid::Pointer _grid;
 };
 }
 }

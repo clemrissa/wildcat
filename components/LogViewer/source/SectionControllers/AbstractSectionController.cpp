@@ -13,34 +13,42 @@ AbstractSectionController(AbstractSectionController* parent):
 {}
 
 AbstractSectionController::
-~AbstractSectionController() {
-  qDeleteAll(sectionControllersList);
+~AbstractSectionController()
+{
+  qDeleteAll(_sectionControllersList);
 }
+
 
 void
 AbstractSectionController::
 addChildLogViewerSection(AbstractSectionController* AbstractSectionController)
 {
-  sectionControllersList.append(AbstractSectionController);
+  _sectionControllersList.append(AbstractSectionController);
 
   recalculateSize();
 }
 
+
 AbstractSectionController const*
 AbstractSectionController::
-parent() const {
+parent() const
+{
   return _parent;
 }
 
-void
-AbstractSectionController::
-recalculateWidth() {
-  _width = 0.0;
-}
 
 void
 AbstractSectionController::
-recalculateSize() {
+recalculateWidth()
+{
+  _width = 0.0;
+}
+
+
+void
+AbstractSectionController::
+recalculateSize()
+{
   recalculateWidth();
   recalculateDepths();
 
@@ -48,23 +56,26 @@ recalculateSize() {
     _parent->recalculateSize();
 }
 
+
 QListIterator<AbstractSectionController*>
 AbstractSectionController::
-getChildSectionsIterator() const {
-  return QListIterator<AbstractSectionController*>(
-    sectionControllersList);
+getChildSectionsIterator() const
+{
+  return QListIterator<AbstractSectionController*>(_sectionControllersList);
 }
+
 
 void
 AbstractSectionController::
-recalculateDepths() {
+recalculateDepths()
+{
   double max = -std::numeric_limits<double>::max();
   double min = +std::numeric_limits<double>::max();
 
   int n = 0;
 
   AbstractSectionController* section;
-  foreach(section, sectionControllersList) {
+  foreach(section, _sectionControllersList) {
     if (section->hasDepthLimits()) {
       ++n;
 
@@ -86,9 +97,11 @@ recalculateDepths() {
   }
 }
 
+
 void
 AbstractSectionController::
-customEvent(QEvent* event) {
+customEvent(QEvent* event)
+{
   Q_UNUSED(event);
 }
 }

@@ -10,7 +10,7 @@ class AbstractSectionController;
 }
 
 namespace RenderWidgets {
-class HeaderRenderWidget : public GenericRenderWidget {
+class HeaderRenderWidget: public GenericRenderWidget {
   Q_OBJECT
 
 public:

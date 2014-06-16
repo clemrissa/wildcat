@@ -1,9 +1,9 @@
 #ifndef Geo_LogViewer_SectionViews_ContinuousCurveView_hpp
 #define Geo_LogViewer_SectionViews_ContinuousCurveView_hpp
 
-#include <Geo/Domain/Curve>
+// #include <Geo/Domain/Curve>
 
-#include "AbstractGridView"
+#include "AbstractGridView.hpp"
 
 namespace Geo {
 namespace LogViewer {
@@ -11,8 +11,8 @@ namespace SectionViews {
 class ContinuousCurveView: public AbstractSectionView {
 public:
   ContinuousCurveView(
-    SectionControllers::AbstractSectionController* controller,
-    Domain::Curve::Pointer                         curve);
+    SectionControllers::AbstractSectionController* controller);
+  // Domain::Curve::Pointer                         curve);
 
 public:
   void
@@ -42,7 +42,7 @@ public:
   postOffsetPainterForBody(QPainter& painter) override;
 
 private:
-  Domain::Curve::Pointer _curve;
+  // Domain::Curve::Pointer _curve;
 
   QList<QPointF> _curveData;
   QList<QPointF> _curveLog10Data;

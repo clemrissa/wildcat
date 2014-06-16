@@ -1,9 +1,9 @@
 #ifndef Geo_Logviwer_SectionViews_WellView_hpp
 #define Geo_Logviwer_SectionViews_WellView_hpp
 
-#include <Geo/Domain/VisualWell>
+// #include <Geo/Domain/VisualWell>
 
-#include "AbstractSectionView"
+#include "AbstractSectionView.hpp"
 
 namespace Geo {
 namespace LogViewer {
@@ -18,8 +18,8 @@ class Scaler;
 namespace SectionViews {
 class WellView: public AbstractSectionView {
 public:
-  WellView(SectionControllers::AbstractSectionController* controller,
-           Domain::VisualWell::Pointer                    visualWell);
+  WellView(SectionControllers::AbstractSectionController* controller);
+  // Domain::VisualWell::Pointer                    visualWell);
 
   virtual
   ~WellView() {}
@@ -43,8 +43,8 @@ public:
   void
   postOffsetPainterForBody(QPainter& painter) override;
 
-private:
-  Domain::VisualWell::Pointer _visualWell;
+  // private:
+  // Domain::VisualWell::Pointer _visualWell;
 };
 }
 }

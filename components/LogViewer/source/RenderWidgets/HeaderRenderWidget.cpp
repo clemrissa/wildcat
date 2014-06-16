@@ -1,4 +1,4 @@
-#include "HeaderRenderWidget"
+#include "HeaderRenderWidget.hpp"
 
 #include <QPaintEvent>
 #include <QPainter>
@@ -10,13 +10,14 @@ HeaderRenderWidget::
 HeaderRenderWidget(
   Scalers::Scaler::Pointer                  scaler,
   QSharedPointer<SectionControllers::
-                 AbstractSectionController> rootSection)
-  : GenericRenderWidget(scaler, rootSection)
+                 AbstractSectionController> rootSection):
+  GenericRenderWidget(scaler, rootSection)
 {}
 
 void
 HeaderRenderWidget::
-paintEvent(QPaintEvent* event) {
+paintEvent(QPaintEvent* event)
+{
   QPainter
     painter(this);
 
@@ -37,42 +38,54 @@ paintEvent(QPaintEvent* event) {
   paint(_rootSection.data(), painter, _scaler, paintRect);
 }
 
-void
-HeaderRenderWidget::
-wheelEvent(QWheelEvent* event) {
-  Q_UNUSED(event);
-}
 
 void
 HeaderRenderWidget::
-timerEvent(QTimerEvent* event) {
+wheelEvent(QWheelEvent* event)
+{
   Q_UNUSED(event);
 }
 
-void
-HeaderRenderWidget::
-mousePressEvent(QMouseEvent* event) {
-  Q_UNUSED(event);
-}
 
 void
 HeaderRenderWidget::
-mouseReleaseEvent(QMouseEvent* event) {
+timerEvent(QTimerEvent* event)
+{
   Q_UNUSED(event);
 }
 
+
 void
 HeaderRenderWidget::
-mouseMoveEvent(QMouseEvent* event) {
+mousePressEvent(QMouseEvent* event)
+{
   Q_UNUSED(event);
 }
+
+
+void
+HeaderRenderWidget::
+mouseReleaseEvent(QMouseEvent* event)
+{
+  Q_UNUSED(event);
+}
+
+
+void
+HeaderRenderWidget::
+mouseMoveEvent(QMouseEvent* event)
+{
+  Q_UNUSED(event);
+}
+
 
 void
 HeaderRenderWidget::
 paint(SectionControllers::AbstractSectionController* section,
       QPainter&                                      painter,
       Scalers::Scaler::Pointer                       scaler,
-      QRectF                                         rect) {
+      QRectF                                         rect)
+{
   // first, we get view -- it does all painting
   SectionViews::AbstractSectionView::Pointer sectionView = section->getView();
 
@@ -88,9 +101,8 @@ paint(SectionControllers::AbstractSectionController* section,
     sectionView->preOffsetPainterForHeader(painter);
 
     // now we draw child sections recursively
-    while (it.hasNext()) {
+    while (it.hasNext())
       paint(it.next(), painter, scaler, rect);
-    }
   }
   painter.restore();
 

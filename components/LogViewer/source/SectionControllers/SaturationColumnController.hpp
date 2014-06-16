@@ -3,7 +3,7 @@
 
 #include <QColor>
 
-#include "AbstractSectionController"
+#include "AbstractSectionController.hpp"
 
 namespace Geo {
 namespace LogViewer {

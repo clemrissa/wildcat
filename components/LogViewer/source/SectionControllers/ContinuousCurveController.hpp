@@ -1,11 +1,11 @@
 #ifndef Geo_LogViewer_SectionControllers_ContinuousCurveController_hpp
 #define Geo_LogViewer_SectionControllers_ContinuousCurveController_hpp
 
-#include <Geo/Domain/Curve>
+// #include <Geo/Domain/Curve>
 
-#include "../SectionViews/AbstractSectionView"
+#include "../SectionViews/AbstractSectionView.hpp"
 
-#include "AbstractCurveController"
+#include "AbstractCurveController.hpp"
 
 namespace Geo {
 namespace LogViewer {
@@ -18,8 +18,8 @@ class AbstractGridController;
 
 class ContinuousCurveController: public AbstractCurveController {
 public:
-  ContinuousCurveController(AbstractGridController* grid,
-                            Domain::Curve::Pointer  curve);
+  ContinuousCurveController(AbstractGridController* grid);
+  // Domain::Curve::Pointer  curve);
 
 public:
   // / @returns top in meters
@@ -71,7 +71,7 @@ protected:
 private:
   friend class LogarithmicCurveProxy;
 
-  Domain::Curve::Pointer                            _curve;
+  // Domain::Curve::Pointer                            _curve;
   QSharedPointer<SectionViews::ContinuousCurveView> _view;
 
   QVector<double> _curveData;

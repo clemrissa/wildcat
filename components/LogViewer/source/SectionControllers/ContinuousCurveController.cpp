@@ -3,22 +3,24 @@
 #include <QPainter>
 #include <math.h>
 
-#include <Geo/Domain/Log>
+// #include <Geo/Domain/Log>
 
-#include "../Scalers/Scaler"
-#include "../SectionViews/ContinuousCurveView"
-#include "AbstractGridController"
-#include "LogarithmicGridController"
+#include "../Scalers/Scaler.hpp"
+#include "../SectionViews/ContinuousCurveView.hpp"
+#include "AbstractGridController.hpp"
+#include "LogarithmicGridController.hpp"
 
 namespace Geo {
 namespace LogViewer {
 namespace SectionControllers {
 ContinuousCurveController::
-ContinuousCurveController(AbstractGridController* grid,
-                          Domain::Curve::Pointer  curve)
-  : AbstractCurveController(grid),
-    _curve(curve),
-    _view(new SectionViews::ContinuousCurveView(this, curve)) {
+ContinuousCurveController(AbstractGridController* grid)
+// Domain::Curve::Pointer  curve)
+      : AbstractCurveController(grid),
+        // _curve(curve),
+        _view(new SectionViews::ContinuousCurveView(this))
+        // , curve))
+{
   // _lineStyle = qrand() % 2 == 1 ? Qt::DotLine : Qt::DashLine;
 
   calculateMinMaxValues();
@@ -26,45 +28,57 @@ ContinuousCurveController(AbstractGridController* grid,
   recalculateSize();
 }
 
+
 double
 ContinuousCurveController::
-topDepth() const {
-  Domain::Log::Pointer lo = _curve->getLog();
+topDepth() const
+{
+  // Domain::Log::Pointer lo = _curve->getLog();
 
-  return lo->getTopDepth();
+  // return lo->getTopDepth();
 }
 
+
 double
 ContinuousCurveController::
-bottomDepth() const {
-  Domain::Log::Pointer lo = _curve->getLog();
+bottomDepth() const
+{
+  // Domain::Log::Pointer lo = _curve->getLog();
 
-  return lo->getBottomDepth();
+  // return lo->getBottomDepth();
 }
 
+
 double
 ContinuousCurveController::
-width() const {
+width() const
+{
   return 0.0;
 }
 
-double
-ContinuousCurveController::
-minValue() {
-  return _minValue;
-}
 
 double
 ContinuousCurveController::
-maxValue() {
+minValue()
+{
+  return _minValue;
+}
+
+
+double
+ContinuousCurveController::
+maxValue()
+{
   return _maxValue;
 }
+
 
 void
 ContinuousCurveController::
 paintHeaderLog10(QPainter&                painter,
                  Scalers::Scaler::Pointer scaler,
-                 QRectF&                  rect) {
+                 QRectF&                  rect)
+{
   Q_UNUSED(rect);
   Q_UNUSED(painter);
   Q_UNUSED(scaler);
@@ -79,13 +93,16 @@ paintHeaderLog10(QPainter&                painter,
 
   // LogarithmicGridController* logarithmicGrid =
   // static_cast<LogarithmicGridController*>(_parent);
-  ////    painter.scale(_parent->width() / (LogarithmicGrid->maxLog10Value()
+  ////    painter.scale(_parent->width() /
+  // (LogarithmicGrid->maxLog10Value()
   // - LogarithmicGrid->minLog10Value()), 1.0);
-  ////    painter.translate(-LogarithmicGrid->minLog10Value(), 0.0);
+  ////    painter.translate(-LogarithmicGrid->minLog10Value(),
+  // 0.0);
 
   ////    painter.drawLine(QPointF(_minLog10Value, 0.01),
   // QPointF(_maxLog10Value, 0.01));
-  // painter.drawLine(QPointF(0.0, 0.01), QPointF(_parent->width(), 0.01));
+  // painter.drawLine(QPointF(0.0, 0.01),
+  // QPointF(_parent->width(), 0.01));
 
   // QFont font("Monospace");
   // font.setStyleHint(QFont::TypeWriter);
@@ -100,7 +117,8 @@ paintHeaderLog10(QPainter&                painter,
 
   // QPointF p = t.map(QPointF(0.0, 0.0085));
   // painter.translate(p);
-  ////        painter.drawText(0.001, 0.0, QString::number(_minValue, 'f',
+  ////        painter.drawText(0.001, 0.0,
+  // QString::number(_minValue, 'f',
   // 2));
   // painter.drawText(0.001, 0.0, QString::number(pow(10.0,
   // logarithmicGrid->minLog10Value()), 'f', 2));
@@ -110,6 +128,22 @@ paintHeaderLog10(QPainter&                painter,
   // QString rightValue = QString::number(_maxValue, 'f', 2);
 
   // double w =
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   // scaler->xScaler()->scalePixelsToRealCoords(metrics.width(rightValue));
 
   // p = t.map(QPointF(_parent->width() - w - 0.001, 0.0085));
@@ -121,11 +155,13 @@ paintHeaderLog10(QPainter&                painter,
   // painter.restore();
 }
 
+
 void
 ContinuousCurveController::
 paintBodyLog10(QPainter&                painter,
                Scalers::Scaler::Pointer scaler,
-               QRectF&                  rect) {
+               QRectF&                  rect)
+{
   Q_UNUSED(rect);
   Q_UNUSED(painter);
   Q_UNUSED(scaler);
@@ -142,7 +178,8 @@ paintBodyLog10(QPainter&                painter,
 
   // LogarithmicGridController* logarithmicGrid =
   // static_cast<LogarithmicGridController*>(_parent);
-  // painter.scale(_parent->width() / (logarithmicGrid->maxLog10Value() -
+  // painter.scale(_parent->width() /
+  // (logarithmicGrid->maxLog10Value() -
   // logarithmicGrid->minLog10Value()), 1.0);
 
   // painter.translate(-logarithmicGrid->minLog10Value(), 0.0);
@@ -151,7 +188,8 @@ paintBodyLog10(QPainter&                painter,
   // it.next();
   // while(it.hasPrevious() && it.hasNext())
   // {
-  // if (it.peekNext().y() < qMax(_parent->topDepth(), rect.top())) {
+  // if (it.peekNext().y() < qMax(_parent->topDepth(),
+  // rect.top())) {
   // it.next();
   // continue;
   // }
@@ -166,38 +204,40 @@ paintBodyLog10(QPainter&                painter,
   // }
 }
 
+
 void
 ContinuousCurveController::
-calculateMinMaxValues() {
-  Domain::Log::Pointer log = _curve->getLog();
-  auto                 it  = log->getValuesIterator();
+calculateMinMaxValues()
+{
+  // Domain::Log::Pointer log = _curve->getLog();
+  // auto                 it  = log->getValuesIterator();
 
-  if (!it.hasNext()) {
-    _minValue = 1.0;
-    _maxValue = 10.0;
+  // if (!it.hasNext()) {
+  // _minValue = 1.0;
+  // _maxValue = 10.0;
 
-    return;
-  }
+  // return;
+  // }
 
-  _minValue = it.peekNext();
-  _maxValue = it.peekNext();
+  // _minValue = it.peekNext();
+  // _maxValue = it.peekNext();
 
-  while (it.hasNext()) {
-    double v = it.next();
+  // while (it.hasNext()) {
+  // double v = it.next();
 
-    if (v > _maxValue) {
-      _maxValue = v;
-    }
+  // if (v > _maxValue)
+  // _maxValue = v;
 
-    if (v < _minValue) {
-      _minValue = v;
-    }
-  }
+  // if (v < _minValue)
+  // _minValue = v;
+  // }
 }
+
 
 SectionViews::AbstractSectionView::Pointer
 ContinuousCurveController::
-getView() const {
+getView() const
+{
   return _view;
 }
 }

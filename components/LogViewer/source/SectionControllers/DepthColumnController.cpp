@@ -2,49 +2,61 @@
 
 #include <QPainter>
 
-#include "WellController"
+#include "WellController.hpp"
 
-#include "../SectionViews/DepthColumnView"
+#include "../SectionViews/DepthColumnView.hpp"
 
 namespace Geo {
 namespace LogViewer {
 namespace SectionControllers {
 DepthColumnController::
-DepthColumnController(AbstractSectionController*   parent,
-                      Domain::DepthColumn::Pointer depthColumn)
-  : AbstractSectionController(parent),
-    _view(new SectionViews::DepthColumnView(this)),
-    _depthColumn(depthColumn) {
+DepthColumnController(AbstractSectionController* parent):
+
+  // Domain::DepthColumn::Pointer depthColumn):
+  AbstractSectionController(parent),
+  _view(new SectionViews::DepthColumnView(this))
+  // _depthColumn(depthColumn)
+{
   recalculateSize();
 }
 
-double
-DepthColumnController::
-topDepth() const {
-  return 0.0;
-}
 
 double
 DepthColumnController::
-bottomDepth() const {
+topDepth() const
+{
   return 0.0;
 }
 
+
 double
 DepthColumnController::
-width() const {
+bottomDepth() const
+{
+  return 0.0;
+}
+
+
+double
+DepthColumnController::
+width() const
+{
   return _width;
 }
 
+
 void
 DepthColumnController::
-recalculateWidth() {
+recalculateWidth()
+{
   _width = 0.01; // m
 }
 
+
 SectionViews::AbstractSectionView::Pointer
 DepthColumnController::
-getView() const {
+getView() const
+{
   return _view;
 }
 }

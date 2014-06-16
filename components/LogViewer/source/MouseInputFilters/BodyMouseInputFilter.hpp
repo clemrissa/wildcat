@@ -1,7 +1,7 @@
 #ifndef Geo_LogViewer_MouseInputFilters_BodyMouseInputFilter_hpp
 #define Geo_LogViewer_MouseInputFilters_BodyMouseInputFilter_hpp
 
-#include "GenericMouseInputFilter"
+#include "GenericMouseInputFilter.hpp"
 
 namespace Geo {
 namespace LogViewer {

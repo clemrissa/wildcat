@@ -1,6 +1,6 @@
-#include "GenericMouseInputFilter"
+#include "GenericMouseInputFilter.hpp"
 
-// #include "RenderWidgets/GenericRenderWidget"
+#include "RenderWidgets/GenericRenderWidget.hpp"
 
 namespace Geo {
 namespace LogViewer {

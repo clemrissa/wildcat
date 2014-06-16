@@ -1,7 +1,7 @@
 #ifndef Geo_LogViewer_SectionControllers_LogarithmicCurveProxy_hpp
 #define Geo_LogViewer_SectionControllers_LogarithmicCurveProxy_hpp
 
-#include "AbstractCurveController"
+#include "AbstractCurveController.hpp"
 
 namespace Geo {
 namespace LogViewer {

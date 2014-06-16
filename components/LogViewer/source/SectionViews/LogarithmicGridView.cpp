@@ -15,17 +15,19 @@ namespace LogViewer {
 namespace SectionViews {
 LogarithmicGridView::
 LogarithmicGridView(
-  SectionControllers::AbstractSectionController* controller,
-  Domain::Grid::Pointer                          grid)
-  : AbstractGridView(controller),
-    _grid(grid)
+  SectionControllers::AbstractSectionController* controller):
+  // Domain::Grid::Pointer                          grid):
+  AbstractGridView(controller)
+
+  // _grid(grid)
 {}
 
 void
 LogarithmicGridView::
 paintHeader(QPainter&                painter,
             Scalers::Scaler::Pointer scaler,
-            QRectF&                  rect) {
+            QRectF&                  rect)
+{
   Q_UNUSED(scaler);
 
   painter.setPen(Qt::black);
@@ -33,11 +35,13 @@ paintHeader(QPainter&                painter,
   painter.drawRect(QRectF(0.0, 0.0, _controller->width(), rect.height()));
 }
 
+
 void
 LogarithmicGridView::
 paintBody(QPainter&                painter,
           Scalers::Scaler::Pointer scaler,
-          QRectF&                  rect) {
+          QRectF&                  rect)
+{
   SectionControllers::LogarithmicGridController* logController =
     static_cast<SectionControllers::LogarithmicGridController*>(_controller);
 
@@ -70,18 +74,16 @@ paintBody(QPainter&                painter,
     double offset = left + dx;
 
     while (offset < _controller->width()) {
-      if (offset > 0.0) {
+      if (offset > 0.0)
         painter.drawLine(QPointF(offset, top),
                          QPointF(offset,
                                  qMin(rect.bottom(),
                                       _controller->bottomDepth())));
-      }
 
       logStep += 1.0;
 
-      if (logStep > 10.0) {
+      if (logStep > 10.0)
         logStep = 2.0;
-      }
 
       dx = (log10(logStep) - log10(logStep - 1)) * gridLargeXStepReal;
 
@@ -98,7 +100,7 @@ paintBody(QPainter&                painter,
              (d + 1) * gridSmallYStepReal;
 
     while (offset <=
-                                 qMin(rect.bottom(),
+           qMin(rect.bottom(),
                 _controller->parent()->bottomDepth())) {
       painter.drawLine(QPointF(0.0, offset),
                        QPointF(_controller->width(), offset));
@@ -146,7 +148,7 @@ paintBody(QPainter&                painter,
              (d + 1) * gridLargeYStepReal;
 
     while (offset <=
-                             qMin(rect.bottom(),
+           qMin(rect.bottom(),
                 _controller->parent()->bottomDepth())) {
       painter.drawLine(QPointF(0.0, offset),
                        QPointF(_controller->width(), offset));
@@ -156,15 +158,19 @@ paintBody(QPainter&                painter,
   painter.restore();
 }
 
-void
-LogarithmicGridView::
-postOffsetPainterForHeader(QPainter& painter) {
-  painter.translate(_controller->width(), 0.0);
-}
 
 void
 LogarithmicGridView::
-postOffsetPainterForBody(QPainter& painter) {
+postOffsetPainterForHeader(QPainter& painter)
+{
+  painter.translate(_controller->width(), 0.0);
+}
+
+
+void
+LogarithmicGridView::
+postOffsetPainterForBody(QPainter& painter)
+{
   painter.translate(_controller->width(), 0.0);
 }
 }

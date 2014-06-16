@@ -1,4 +1,4 @@
-#include "ContinuousCurveView"
+#include "ContinuousCurveView.hpp"
 
 #include <QtGui/QPainter>
 #include <QtGui/QPolygon>
@@ -7,7 +7,7 @@
 
 #include <math.h>
 
-#include <Geo/Domain/Log>
+// #include <Geo/Domain/Log>
 
 #include "../SectionControllers/AbstractSectionController.hpp"
 #include "../SectionControllers/ContinuousCurveController.hpp"
@@ -19,19 +19,21 @@ namespace Geo {
 namespace LogViewer {
 namespace SectionViews {
 ContinuousCurveView::
-ContinuousCurveView(
-  SectionControllers::AbstractSectionController* controller,
-  Domain::Curve::Pointer                         curve)
-  : AbstractSectionView(controller),
-    _curve(curve) {
+ContinuousCurveView(SectionControllers::AbstractSectionController* controller):
+  // Domain::Curve::Pointer                         curve):
+  AbstractSectionView(controller)
+  // _curve(curve)
+{
   // _lineStyle = qrand() % 2 == 1 ? Qt::DotLine : Qt::DashLine;
 }
+
 
 void
 ContinuousCurveView::
 paintHeader(QPainter&                painter,
             Scalers::Scaler::Pointer scaler,
-            QRectF&                  rect) {
+            QRectF&                  rect)
+{
   Q_UNUSED(rect);
 
   // horisontal curve line in header
@@ -89,17 +91,19 @@ paintHeader(QPainter&                painter,
   painter.restore();
 }
 
+
 void
 ContinuousCurveView::
 paintHeaderLog10(QPainter&                painter,
                  Scalers::Scaler::Pointer scaler,
-                 QRectF&                  rect) {
+                 QRectF&                  rect)
+{
   Q_UNUSED(rect);
 
   QPen pen;
-  pen.setWidthF(_curve->getThickness());
-  pen.setColor(_curve->getColor());
-  pen.setCosmetic(true);
+  // pen.setWidthF(_curve->getThickness());
+  // pen.setColor(_curve->getColor());
+  // pen.setCosmetic(true);
   // pen.setStyle(_lineStyle);
 
   painter.setPen(pen);
@@ -164,67 +168,65 @@ paintHeaderLog10(QPainter&                painter,
   painter.restore();
 }
 
+
 void
 ContinuousCurveView::
 paintBody(QPainter&                painter,
           Scalers::Scaler::Pointer scaler,
-          QRectF&                  rect) {
-  Q_UNUSED(scaler);
+          QRectF&                  rect)
+{
+  // Q_UNUSED(scaler);
 
-  QPen pen;
-  pen.setWidthF(_curve->getThickness());
-  pen.setColor(_curve->getColor());
-  pen.setCosmetic(true);
-  // pen.setStyle(_lineStyle);
+  // QPen pen;
+  // pen.setWidthF(_curve->getThickness());
+  // pen.setColor(_curve->getColor());
+  // pen.setCosmetic(true);
+  //// pen.setStyle(_lineStyle);
 
-  painter.setRenderHint(QPainter::Antialiasing);
+  // painter.setRenderHint(QPainter::Antialiasing);
 
-  painter.setPen(pen);
-  SectionControllers::ContinuousCurveController* curveController =
-    static_cast<SectionControllers::ContinuousCurveController*>(_controller);
-  painter.scale(_controller->parent()->width() /
-                (curveController->maxValue() - curveController->minValue()),
-                1.0);
+  // painter.setPen(pen);
+  // SectionControllers::ContinuousCurveController* curveController =
+  // static_cast<SectionControllers::ContinuousCurveController*>(_controller);
+  // painter.scale(_controller->parent()->width() /
+  // (curveController->maxValue() - curveController->minValue()),
+  // 1.0);
 
-  painter.translate(-curveController->minValue(), 0.0);
+  // painter.translate(-curveController->minValue(), 0.0);
 
-  auto lo = _curve->getLog();
+  // auto lo = _curve->getLog();
 
-  // we must determine lower and upper index
-  int topIndex;
-  int bottomIndex;
-  {
-    double minPaintingDepth =
-      qMax(_controller->parent()->topDepth(), rect.top());
+  //// we must determine lower and upper index
+  // int topIndex;
+  // int bottomIndex;
+  // {
+  // double minPaintingDepth =
+  // qMax(_controller->parent()->topDepth(), rect.top());
 
-    double maxPaintingDepth =
-      qMin(_controller->parent()->bottomDepth(), rect.bottom());
+  // double maxPaintingDepth =
+  // qMin(_controller->parent()->bottomDepth(), rect.bottom());
 
-    topIndex = int((minPaintingDepth - lo->getTopDepth()) / lo->getStep());
+  // topIndex = int((minPaintingDepth - lo->getTopDepth()) / lo->getStep());
 
-    if (topIndex < 0) {
-      topIndex = 0;
-    }
+  // if (topIndex < 0)
+  // topIndex = 0;
 
-    bottomIndex = int((maxPaintingDepth - lo->getTopDepth()) / lo->getStep());
+  // bottomIndex = int((maxPaintingDepth - lo->getTopDepth()) / lo->getStep());
 
-    if (bottomIndex < 0) {
-      bottomIndex = 0;
-    }
+  // if (bottomIndex < 0)
+  // bottomIndex = 0;
 
-    if (bottomIndex > lo->getCount() - 1) {
-      bottomIndex = lo->getCount();
-    }
-  }
+  // if (bottomIndex > lo->getCount() - 1)
+  // bottomIndex = lo->getCount();
+  // }
 
-  QPolygonF       polygon;
-  QVector<double> values = lo->getValuesVector();
+  // QPolygonF       polygon;
+  // QVector<double> values = lo->getValuesVector();
 
-  for (int i = topIndex; i < bottomIndex; ++i) {
-    polygon.append(QPointF(values[i], lo->getTopDepth() + i * lo->getStep()));
-  }
+  // for (int i = topIndex; i < bottomIndex; ++i)
+  // polygon.append(QPointF(values[i], lo->getTopDepth() + i * lo->getStep()));
 
-  painter.drawPolyline(polygon);
+  // painter.drawPolyline(polygon);
 
   // QTransform t = painter.transform();
 
@@ -260,66 +262,71 @@ paintBody(QPainter&                painter,
   // }
 }
 
+
 void
 ContinuousCurveView::
 paintBodyLog10(QPainter&                painter,
                Scalers::Scaler::Pointer scaler,
-               QRectF&                  rect) {
+               QRectF&                  rect)
+{
   Q_UNUSED(scaler);
 
-  QPen pen;
-  pen.setWidthF(_curve->getThickness());
-  pen.setColor(_curve->getColor());
-  pen.setCosmetic(true);
-  // pen.setStyle(_lineStyle);
+  // QPen pen;
+  // pen.setWidthF(_curve->getThickness());
+  // pen.setColor(_curve->getColor());
+  // pen.setCosmetic(true);
+  //// pen.setStyle(_lineStyle);
 
-  painter.setRenderHint(QPainter::Antialiasing);
+  // painter.setRenderHint(QPainter::Antialiasing);
 
-  painter.setPen(pen);
+  // painter.setPen(pen);
 
-  const SectionControllers::LogarithmicGridController* const
-  logarithmicGridController =
-    static_cast<const SectionControllers::
-                LogarithmicGridController*>(
-      _controller->parent());
-  painter.scale(_controller->parent()->width() /
-                (logarithmicGridController->maxLog10Value() -
-                 logarithmicGridController->minLog10Value()), 1.0);
+  // const SectionControllers::LogarithmicGridController* const
+  // logarithmicGridController =
+  // static_cast<const SectionControllers::
+  // LogarithmicGridController*>(
+  // _controller->parent());
+  // painter.scale(_controller->parent()->width() /
+  // (logarithmicGridController->maxLog10Value() -
+  // logarithmicGridController->minLog10Value()), 1.0);
 
-  painter.translate(-logarithmicGridController->minLog10Value(),
-                    0.0);
+  // painter.translate(-logarithmicGridController->minLog10Value(),
+  // 0.0);
 
-  QListIterator<QPointF> it(_curveLog10Data);
+  // QListIterator<QPointF> it(_curveLog10Data);
 
-  it.next();
+  // it.next();
 
-  while (it.hasPrevious() && it.hasNext()) {
-    if (it.peekNext().y() <
-        qMax(_controller->parent()->topDepth(), rect.top())) {
-      it.next();
-      continue;
-    }
+  // while (it.hasPrevious() && it.hasNext()) {
+  // if (it.peekNext().y() <
+  // qMax(_controller->parent()->topDepth(), rect.top())) {
+  // it.next();
+  // continue;
+  // }
 
-    if (it.peekPrevious().y() >
-        qMin(_controller->parent()->bottomDepth(), rect.bottom())) {
-      break;
-    }
+  // if (it.peekPrevious().y() >
+  // qMin(_controller->parent()->bottomDepth(), rect.bottom()))
+  // break;
 
-    painter.drawLine(it.peekPrevious(), it.peekNext());
+  // painter.drawLine(it.peekPrevious(), it.peekNext());
 
-    it.next();
-  }
+  // it.next();
+  // }
 }
+
 
 void
 ContinuousCurveView::
-postOffsetPainterForHeader(QPainter& painter) {
+postOffsetPainterForHeader(QPainter& painter)
+{
   painter.translate(0.0, 0.01);
 }
 
+
 void
 ContinuousCurveView::
-postOffsetPainterForBody(QPainter& painter) {
+postOffsetPainterForBody(QPainter& painter)
+{
   Q_UNUSED(painter);
 }
 }

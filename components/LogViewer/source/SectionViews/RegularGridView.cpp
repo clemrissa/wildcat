@@ -1,4 +1,4 @@
-#include "RegularGridView"
+#include "RegularGridView.hpp"
 
 #include <QPainter>
 
@@ -11,18 +11,19 @@ namespace Geo {
 namespace LogViewer {
 namespace SectionViews {
 RegularGridView::
-RegularGridView(
-  SectionControllers::AbstractSectionController* controller,
-  Domain::Grid::Pointer                          grid)
-  : AbstractGridView(controller),
-    _grid(grid)
+RegularGridView(SectionControllers::AbstractSectionController* controller)
+// Domain::Grid::Pointer                          grid)
+      : AbstractGridView(controller)
+
+        // _grid(grid)
 {}
 
 void
 RegularGridView::
 paintHeader(QPainter&                painter,
             Scalers::Scaler::Pointer scaler,
-            QRectF&                  rect) {
+            QRectF&                  rect)
+{
   Q_UNUSED(scaler);
 
   painter.setPen(Qt::black);
@@ -30,11 +31,13 @@ paintHeader(QPainter&                painter,
   painter.drawRect(QRectF(0.0, 0.0, _controller->width(), rect.height()));
 }
 
+
 void
 RegularGridView::
 paintBody(QPainter&                painter,
           Scalers::Scaler::Pointer scaler,
-          QRectF&                  rect) {
+          QRectF&                  rect)
+{
   QPointF
     gridSmallStepLogView(0.005, 0.005);
 
@@ -72,7 +75,7 @@ paintBody(QPainter&                painter,
            (d + 1) * gridSmallStepReal.y();
 
   while (offset <=
-                             qMin(rect.bottom(),
+         qMin(rect.bottom(),
               _controller->parent()->bottomDepth())) {
     painter.drawLine(QPointF(0.0, offset),
                      QPointF(_controller->width(), offset));
@@ -107,7 +110,7 @@ paintBody(QPainter&                painter,
            (d + 1) * gridStepReal.y();
 
   while (offset <=
-                           qMin(rect.bottom(),
+         qMin(rect.bottom(),
               _controller->parent()->bottomDepth())) {
     painter.drawLine(QPointF(0.0, offset),
                      QPointF(_controller->width(), offset));
@@ -115,15 +118,19 @@ paintBody(QPainter&                painter,
   }
 }
 
-void
-RegularGridView::
-postOffsetPainterForHeader(QPainter& painter) {
-  painter.translate(_controller->width(), 0.0);
-}
 
 void
 RegularGridView::
-postOffsetPainterForBody(QPainter& painter) {
+postOffsetPainterForHeader(QPainter& painter)
+{
+  painter.translate(_controller->width(), 0.0);
+}
+
+
+void
+RegularGridView::
+postOffsetPainterForBody(QPainter& painter)
+{
   painter.translate(_controller->width(), 0.0);
 }
 }

@@ -1,20 +1,19 @@
 #ifndef Geo_LogViewer_SectionViews_LogarithmicGridView_hpp
 #define Geo_LogViewer_SectionViews_LogarithmicGridView_hpp
 
-#include <Geo/Domain/Grid>
+// #include <Geo/Domain/Grid>
 
-#include "AbstractGridView"
+#include "AbstractGridView.hpp"
 
-#include "../Scalers/Scaler"
+#include "../Scalers/Scaler.hpp"
 
 namespace Geo {
 namespace LogViewer {
 namespace SectionViews {
 class LogarithmicGridView: public AbstractGridView {
 public:
-  LogarithmicGridView(
-    SectionControllers::AbstractSectionController* controller,
-    Domain::Grid::Pointer                          grid);
+  LogarithmicGridView(SectionControllers::AbstractSectionController* controller);
+  // Domain::Grid::Pointer                          grid);
 
 public:
   void
@@ -33,8 +32,8 @@ public:
   void
   postOffsetPainterForBody(QPainter& painter) override;
 
-private:
-  Domain::Grid::Pointer _grid;
+  // private:
+  // Domain::Grid::Pointer _grid;
 };
 }
 }

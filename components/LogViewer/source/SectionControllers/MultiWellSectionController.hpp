@@ -14,7 +14,7 @@ class MultiWellSectionView;
 }
 
 namespace SectionControllers {
-class MultiWellSectionController : public AbstractSectionController {
+class MultiWellSectionController: public AbstractSectionController {
 public:
   typedef QSharedPointer<MultiWellSectionController> Pointer;
 

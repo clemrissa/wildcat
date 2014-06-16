@@ -3,7 +3,7 @@
 
 #include <QColor>
 
-#include <Geo/Domain/Grid>
+// #include <Geo/Domain/Grid>
 
 #include "AbstractSectionController.hpp"
 
@@ -12,16 +12,17 @@ namespace LogViewer {
 namespace SectionControllers {
 class WellController;
 
-class AbstractGridController : public AbstractSectionController {
+class AbstractGridController: public AbstractSectionController {
 public:
-  AbstractGridController(AbstractSectionController* well,
-                         Domain::Grid::Pointer      grid);
+  AbstractGridController(AbstractSectionController* well);
+
+  // Domain::Grid::Pointer      grid);
 
   bool
   hasDepthLimits() { return true; }
 
-protected:
-  Domain::Grid::Pointer _grid;
+  // protected:
+  // Domain::Grid::Pointer _grid;
 };
 }
 }

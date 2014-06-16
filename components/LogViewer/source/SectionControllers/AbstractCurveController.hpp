@@ -1,16 +1,16 @@
 #ifndef Geo_LogViewer_SectionControllers_AbstractCurveController_hpp
 #define Geo_LogViewer_SectionControllers_AbstractCurveController_hpp
 
-#include <Geo/Domain/Curve>
+// #include <Geo/Domain/Curve>
 
-#include "AbstractSectionController"
+#include "AbstractSectionController.hpp"
 
 namespace Geo {
 namespace LogViewer {
 namespace SectionControllers {
 class AbstractGridController;
 
-class AbstractCurveController : public AbstractSectionController {
+class AbstractCurveController: public AbstractSectionController {
 public:
   AbstractCurveController(AbstractGridController* gridController);
 

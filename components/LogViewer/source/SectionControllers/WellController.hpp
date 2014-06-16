@@ -1,9 +1,9 @@
 #ifndef Geo_Logviwer_SectionControllers_WellController_hpp
 #define Geo_Logviwer_SectionControllers_WellController_hpp
 
-#include "AbstractSectionController"
+#include "AbstractSectionController.hpp"
 
-#include <Geo/Domain/VisualWell>
+// #include <Geo/Domain/VisualWell>
 
 namespace Geo {
 namespace LogViewer {
@@ -16,7 +16,7 @@ class Scaler;
 }
 
 namespace SectionControllers {
-class WellController : public AbstractSectionController {
+class WellController: public AbstractSectionController {
 public:
   WellController(AbstractSectionController* parent);
   // Domain::VisualWell::Pointer visualWell);
@@ -46,7 +46,7 @@ public:
 private:
   QSharedPointer<SectionViews::WellView> _view;
 
-  Domain::VisualWell::Pointer _visualWell;
+  // Domain::VisualWell::Pointer _visualWell;
 };
 }
 }
