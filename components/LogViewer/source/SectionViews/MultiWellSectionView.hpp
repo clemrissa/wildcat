@@ -14,7 +14,7 @@ class AbstractSectionController;
 }
 
 namespace SectionViews {
-class MultiWellSectionView : public AbstractSectionView {
+class MultiWellSectionView: public AbstractSectionView {
 public:
   typedef QScopedPointer<MultiWellSectionView> Pointer;
 
@@ -28,12 +28,12 @@ public:
   void
   paintHeader(QPainter&                painter,
               Scalers::Scaler::Pointer scaler,
-              QRectF&                  r);
+              QRectF&                  r) override;
 
   void
   paintBody(QPainter&                painter,
             Scalers::Scaler::Pointer scaler,
-            QRectF&                  r);
+            QRectF&                  r) override;
 
   // private:
   // Domain::LogView::Pointer _logView;

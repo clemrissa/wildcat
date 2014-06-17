@@ -14,17 +14,17 @@
 #include <QVBoxLayout>
 
 using Geo::LogViewer::LogViewerWidget;
+using Geo::LogViewer::SectionControllers::AbstractSectionController;
 
 struct LogViewerWidget::Private {
   RenderWidgets::HeaderRenderWidget* headerRenderWidget;
-
-  RenderWidgets::BodyRenderWidget* bodyRenderWidget;
+  RenderWidgets::BodyRenderWidget*   bodyRenderWidget;
 
   QSplitter* verticalSplitter;
 
   QStatusBar* statusBar;
 
-  QSharedPointer<SectionControllers::AbstractSectionController> rootSection;
+  AbstractSectionController::Pointer rootSection;
 
   Scalers::Scaler::Pointer headerScaler;
   Scalers::Scaler::Pointer bodyScaler;

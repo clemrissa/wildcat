@@ -21,16 +21,16 @@ public:
   MultiWellSectionController(AbstractSectionController* parent = 0);
 
   double
-  topDepth() const;
+  topDepth() const override;
 
   double
-  bottomDepth() const;
+  bottomDepth() const override;
 
   double
-  width() const;
+  width() const override;
 
   bool
-  hasDepthLimits() { return true; }
+  hasDepthLimits() override { return true; }
 
   virtual
   SectionViews::AbstractSectionView::Pointer
@@ -38,7 +38,7 @@ public:
 
 protected:
   void
-  recalculateWidth();
+  recalculateWidth() override;
 
   // Domain::LogView::Pointer _logView;
 

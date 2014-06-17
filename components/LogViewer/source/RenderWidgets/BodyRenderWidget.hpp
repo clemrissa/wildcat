@@ -2,13 +2,11 @@
 #define Geo_LogViewer_RenderWidgets_BodyRenderWidget_hpp
 
 #include <QtCore/QSharedPointer>
-#include <QtCore/QTime>
 
 #include "GenericRenderWidget.hpp"
 
-#include "../SectionControllers/AbstractSectionController.hpp"
-
 #include "../MouseInputFilters/BodyMouseInputFilter.hpp"
+#include "../SectionControllers/AbstractSectionController.hpp"
 
 namespace Geo {
 namespace LogViewer {
@@ -23,7 +21,7 @@ public:
     SectionControllers::AbstractSectionController::Pointer rootSection);
 
   virtual
-  ~BodyRenderWidget();
+  ~BodyRenderWidget() {}
 
 protected:
   void

@@ -13,9 +13,9 @@
 
 #include "../SectionViews/MultiWellSectionView.hpp"
 
-namespace Geo {
-namespace LogViewer {
-namespace SectionControllers {
+using Geo::LogViewer::SectionControllers::MultiWellSectionController;
+using Geo::LogViewer::SectionViews::AbstractSectionView;
+
 MultiWellSectionController::
 MultiWellSectionController(AbstractSectionController* parent):
   AbstractSectionController(parent),
@@ -69,7 +69,7 @@ recalculateWidth()
   // empty logView starts at
   // 0.0 meters depth
   if (_sectionControllersList.size() == 0) {
-    _width = 0.20; // in  meters
+    _width = 0.20;   // in  meters
     return;
   }
 
@@ -86,12 +86,9 @@ recalculateWidth()
 }
 
 
-SectionViews::AbstractSectionView::Pointer
+AbstractSectionView::Pointer
 MultiWellSectionController::
 getView() const
 {
   return _view;
-}
-}
-}
 }

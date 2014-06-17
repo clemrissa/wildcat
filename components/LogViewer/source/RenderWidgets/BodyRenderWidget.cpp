@@ -7,21 +7,19 @@
 
 #include "../SectionViews/AbstractSectionView.hpp"
 
-namespace Geo {
-namespace LogViewer {
-namespace RenderWidgets {
+using Geo::LogViewer::RenderWidgets::BodyRenderWidget;
+
 BodyRenderWidget::
 BodyRenderWidget(
   Scalers::Scaler::Pointer                               scaler,
   SectionControllers::AbstractSectionController::Pointer rootSection):
+
   GenericRenderWidget(scaler, rootSection),
   _bodyMouseInputFilter(this, _scaler, _rootSection)
 {
-  this->setMouseTracking(true);
+  setMouseTracking(true);
 }
 
-
-BodyRenderWidget::~BodyRenderWidget() {}
 
 void
 BodyRenderWidget::
@@ -67,8 +65,7 @@ void
 BodyRenderWidget::
 paintEvent(QPaintEvent* event)
 {
-  QPainter
-    painter(this);
+  QPainter painter(this);
 
   // gray background
   painter.fillRect(event->rect(), QColor(Qt::gray).lighter(120));
@@ -82,8 +79,7 @@ paintEvent(QPaintEvent* event)
   // apply transformation
   painter.setTransform(t);
 
-  QRectF
-    paintRect(event->rect());
+  QRectF paintRect(event->rect());
 
   paintRect = t.inverted().mapRect(paintRect);
 
@@ -119,7 +115,4 @@ paint(SectionControllers::AbstractSectionController* section,
   painter.restore();
 
   sectionView->postOffsetPainterForBody(painter);
-}
-}
-}
 }

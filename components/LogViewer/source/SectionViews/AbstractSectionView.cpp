@@ -1,24 +1,19 @@
 #include "AbstractSectionView.hpp"
 
-#include <QEvent>
-#include <limits>
-
 #include "../SectionControllers/AbstractSectionController.hpp"
 
-namespace Geo {
-namespace LogViewer {
-namespace SectionViews {
+using Geo::LogViewer::SectionControllers::AbstractSectionController;
+using Geo::LogViewer::SectionViews::AbstractSectionView;
+
 AbstractSectionView::
 AbstractSectionView(
   SectionControllers::AbstractSectionController* controller):
   _controller(controller)
 {}
 
-SectionControllers::AbstractSectionController const*
+AbstractSectionController const*
 AbstractSectionView::
-controller() const {
+controller() const
+{
   return _controller;
-}
-}
-}
 }

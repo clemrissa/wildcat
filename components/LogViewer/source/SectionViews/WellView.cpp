@@ -11,9 +11,8 @@
 
 #include "../SectionControllers/AbstractSectionController.hpp"
 
-namespace Geo {
-namespace LogViewer {
-namespace SectionViews {
+using Geo::LogViewer::SectionViews::WellView;
+
 WellView::
 WellView(SectionControllers::AbstractSectionController* controller):
   // Domain::VisualWell::Pointer                    visualWell):
@@ -104,7 +103,4 @@ postOffsetPainterForBody(QPainter& painter)
 {
   const double wellOffset = 0.01;
   painter.translate(_controller->width() + wellOffset, 0.0);
-}
-}
-}
 }

@@ -13,7 +13,7 @@ namespace Geo {
 namespace LogViewer {
 namespace RenderWidgets {
 // represents a wiget where LogViewer drawing happens
-class GenericRenderWidget : public QWidget {
+class GenericRenderWidget: public QWidget {
   Q_OBJECT
 
 public:

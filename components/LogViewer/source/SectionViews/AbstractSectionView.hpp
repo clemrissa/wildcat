@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QRectF>
 #include <QSharedPointer>
+#include <QWeakPointer>
 
 #include "../Scalers/Scaler.hpp"
 
@@ -16,14 +17,15 @@ namespace SectionControllers {
 class AbstractSectionController;
 }
 namespace SectionViews {
-class AbstractSectionView : public QObject {
+class AbstractSectionView: public QObject {
   Q_OBJECT
 
 public:
   typedef QSharedPointer<AbstractSectionView> Pointer;
+  typedef QWeakPointer<AbstractSectionView>   WeakPointer;
 
-  AbstractSectionView(
-    SectionControllers::AbstractSectionController* controller);
+  // TODO make weak pointer
+  AbstractSectionView(SectionControllers::AbstractSectionController* controller);
 
   virtual
   ~AbstractSectionView() {}

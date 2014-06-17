@@ -32,15 +32,17 @@ class AbstractSectionController: public QObject {
 
 public:
   typedef QSharedPointer<AbstractSectionController> Pointer;
+
+public:
   AbstractSectionController(AbstractSectionController* parent);
 
   virtual
   ~AbstractSectionController();
 
 public:
+  // TODO remove LogViewer from the function name
   void
-  addChildLogViewerSection(
-    AbstractSectionController* AbstractSectionController);
+  addChildLogViewerSection(AbstractSectionController* AbstractSectionController);
 
   /// @returns bottom in meters
   virtual double
