@@ -1,7 +1,7 @@
-#include "ConnectionManager.hpp"
+#include "Connections/ConnectionManager.hpp"
+#include "Connections/SQLiteConnection.hpp"
 #include "DatabaseUiFactory.hpp"
-#include "Gui/SettingsWidget.hpp"
-#include "SQLiteConnection.hpp"
+#include "Gui/ConnectionsWidget.hpp"
 
 #include "Auxiliary/Visibility.hpp"
 
@@ -15,9 +15,9 @@ registerComponent()
 {
   REGISTER_TYPE(QMenu);
 
-  // REGISTER_TYPE(Geo::Database::SQLiteConnection);
-  REGISTER_TYPE(Geo::Database::ConnectionManager);
+  // REGISTER_TYPE(Geo::Database::Connections::SQLiteConnection);
+  REGISTER_TYPE(Geo::Database::Connections::ConnectionManager);
   REGISTER_TYPE(Geo::Database::DatabaseUiFactory);
-  REGISTER_TYPE(Geo::Database::Gui::SettingsWidget);
+  REGISTER_TYPE(Geo::Database::Gui::ConnectionsWidget);
 }
 }

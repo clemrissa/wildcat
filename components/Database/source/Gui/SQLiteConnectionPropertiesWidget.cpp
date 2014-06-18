@@ -11,6 +11,8 @@
 
 #include <Uni/Logging/Logging>
 
+using Geo::Database::Connections::Connection;
+using Geo::Database::Connections::SQLiteConnection;
 using Geo::Database::Gui::SQLiteConnectionPropertiesWidget;
 
 struct SQLiteConnectionPropertiesWidget::Private {
@@ -53,9 +55,13 @@ void
 SQLiteConnectionPropertiesWidget::
 createUi()
 {
-  p->openButton = new QPushButton(QIcon(":/open.png"), tr("Open"));
+  p->openButton = new QPushButton(QIcon(":/open.png"), QString());
 
-  p->createButton = new QPushButton(QIcon(":/new_file.png"), tr("Create"));
+  p->openButton->setToolTip(tr("Open"));
+
+  p->createButton = new QPushButton(QIcon(":/new_file.png"), QString());
+
+  p->createButton->setToolTip(tr("Create"));
 
   p->databasePath = new QLineEdit();
 

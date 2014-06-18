@@ -12,8 +12,8 @@
 
 #include <Uni/Logging/Logging>
 
-using Geo::Database::Connection;
-using Geo::Database::ConnectionManager;
+using Geo::Database::Connections::Connection;
+using Geo::Database::Connections::ConnectionManager;
 
 ConnectionManager::
 ConnectionManager()

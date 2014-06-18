@@ -17,6 +17,9 @@ public:
 
 public slots:
   void
+  showConnectionsWidget();
+
+  void
   showSettingsWidget();
 
 private:

@@ -1,7 +1,7 @@
 #ifndef Geo_Database_ConnectionPropertiesWidget_hpp
 #define Geo_Database_ConnectionPropertiesWidget_hpp
 
-#include <Connection.hpp>
+#include <Connections/Connection.hpp>
 #include <QWidget>
 
 namespace Geo {
@@ -13,7 +13,7 @@ public:
   ~ConnectionPropertiesWidget() {}
 
   virtual void
-  setConnection(Connection::Shared connection) = 0;
+  setConnection(Connections::Connection::Shared connection) = 0;
 };
 }
 }

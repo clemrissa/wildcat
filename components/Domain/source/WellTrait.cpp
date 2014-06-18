@@ -1,26 +1,20 @@
 #include "WellTrait.hpp"
 
-namespace Geo {
-namespace Domain {
+using Geo::Domain::WellTrait;
 
 WellTrait::
-WellTrait(QString name)
-  : _name(name)
-  , _mandatory(false)
-    
+WellTrait(QString name):
+  _name(name),
+  _mandatory(false)
 {
   //
 }
 
 
 WellTrait::
-WellTrait(QString name, bool mandatory)
-  : _name(name)
-  , _mandatory(mandatory)
+WellTrait(QString name, bool mandatory):
+  _name(name),
+  _mandatory(mandatory)
 {
-  // 
-}
-
-
-}
+  //
 }

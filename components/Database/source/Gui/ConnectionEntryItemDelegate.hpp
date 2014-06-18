@@ -1,5 +1,5 @@
-#ifndef Geo_Database_SettingsItemDelegate_hpp
-#define Geo_Database_SettingsItemDelegate_hpp
+#ifndef Geo_Database_Gui_ConnectionEntryItemDelegate_hpp
+#define Geo_Database_Gui_ConnectionEntryItemDelegate_hpp
 
 #include <QStyledItemDelegate>
 
@@ -8,7 +8,7 @@ class QWidget;
 namespace Geo {
 namespace Database {
 namespace Gui {
-class SettingsItemDelegate: public QStyledItemDelegate {
+class ConnectionEntryItemDelegate: public QStyledItemDelegate {
   Q_OBJECT
 
 public:
@@ -33,4 +33,4 @@ private slots:
 }
 }
 
-#endif //  Geo_Database_SettingsItemDelegate_hpp
+#endif //  Geo_Database_Gui_ConnectionEntryItemDelegate_hpp

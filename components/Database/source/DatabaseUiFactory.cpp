@@ -62,16 +62,29 @@ createActionList() const
   MainWindow* mainWindow =
     DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
 
+  DatabaseController* in = DatabaseController::instance();
+
   QList<QAction*> actionList;
 
-  QAction* action = new QAction(QIcon(), QString("Settings"), mainWindow);
+  // ---------------
 
-  DatabaseController* in = DatabaseController::instance();
+  QAction* action = new QAction(QIcon(), QString("Connections"), mainWindow);
+
+  connect(action, &QAction::triggered,
+          in, &DatabaseController::showConnectionsWidget);
+
+  actionList.append(action);
+
+  // ---------------
+
+  action = new QAction(QIcon(), tr("Settings"), mainWindow);
 
   connect(action, &QAction::triggered,
           in, &DatabaseController::showSettingsWidget);
 
   actionList.append(action);
+
+  // ---------------
 
   return actionList;
 }

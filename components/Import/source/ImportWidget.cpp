@@ -13,8 +13,8 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
-#include <Database/Connection>
-#include <Database/ConnectionManager>
+#include <Database/Connections/Connection>
+#include <Database/Connections/ConnectionManager>
 #include <DependencyManager/ApplicationContext>
 
 #include "ImportController.hpp"
@@ -96,8 +96,8 @@ ImportWidget::
 setupDataBinding()
 {
   using DependencyManager::ApplicationContext;
-  using Geo::Database::Connection;
-  using Geo::Database::ConnectionManager;
+  using Geo::Database::Connections::Connection;
+  using Geo::Database::Connections::ConnectionManager;
 
   auto connectionManager =
     ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");

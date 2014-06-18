@@ -1,30 +1,33 @@
-#ifndef Geo_Database_SettingsTreeModel_hpp
-#define Geo_Database_SettingsTreeModel_hpp
+#ifndef Geo_Database_ConnectionsWidgetModel_hpp
+#define Geo_Database_ConnectionsWidgetModel_hpp
 
 #include <QAbstractItemModel>
 #include <QVariant>
 #include <QVector>
 
-#include "Connection.hpp"
-
-// #include "ConnectionManager.hpp"
-
-// #include <QStandartPaths>
+#include <Connections/Connection.hpp>
 
 namespace Geo {
 namespace Database {
+namespace Connections {
 class ConnectionManager;
-class SettingsTreeEntry;
+}
 
-class SettingsTreeModel: public QAbstractItemModel {
+namespace Models {
+namespace ConnectionsWidgetModel {
+//
+
+class Entry;
+
+class ConnectionsWidgetModel: public QAbstractItemModel {
   Q_OBJECT
 
 public:
   // TODO implement
-  SettingsTreeModel();
+  ConnectionsWidgetModel();
 
   virtual
-  ~SettingsTreeModel();
+  ~ConnectionsWidgetModel();
 
 public:
   virtual
@@ -65,20 +68,22 @@ public:
 
 public slots:
   void
-  addConnection(DatabaseType databaseType);
+  addConnection(Connections::DatabaseType databaseType);
 
   void
   onClicked(const QModelIndex& index);
 
 private:
-  ConnectionManager* _connectionsManager;
+  Connections::ConnectionManager* _connectionsManager;
 
-  QVector<SettingsTreeEntry*> _entries;
+  QVector<Entry*> _entries;
 
   int
-  getEntryPosition(SettingsTreeEntry* entry) const;
+  getEntryPosition(Entry* entry) const;
 };
 }
 }
+}
+}
 
-#endif //  Geo_Database_SettingsTreeModel_hpp
+#endif //  Geo_Database_ConnectionsWidgetModel_hpp

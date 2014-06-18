@@ -1,19 +1,23 @@
-#include "SettingsTreeModel.hpp"
+#include "ConnectionsWidgetModel.hpp"
 
 #include <DependencyManager/ApplicationContext>
 
 #include <Uni/Logging/Logging>
 
-#include "ConnectionManager.hpp"
-#include "SettingsTreeConnection.hpp"
-#include "SettingsTreeEntry.hpp"
+#include <Connections/ConnectionManager.hpp>
+
+#include <Models/ConnectionsWidgetModel/ConnectionEntry.hpp>
+#include <Models/ConnectionsWidgetModel/Entry.hpp>
 
 #include <algorithm>
 
-using Geo::Database::SettingsTreeModel;
+using Geo::Database::Connections::ConnectionManager;
+using Geo::Database::Models::ConnectionsWidgetModel::ConnectionEntry;
+using Geo::Database::Models::ConnectionsWidgetModel::ConnectionsWidgetModel;
+using Geo::Database::Models::ConnectionsWidgetModel::Entry;
 
-SettingsTreeModel::
-SettingsTreeModel()
+ConnectionsWidgetModel::
+ConnectionsWidgetModel()
 {
   using DependencyManager::ApplicationContext;
 
@@ -21,15 +25,15 @@ SettingsTreeModel()
     ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
 
   for (auto connection : _connectionsManager->connections())
-    _entries.push_back(new SettingsTreeConnection(connection));
+    _entries.push_back(new ConnectionEntry(connection));
 
   // last empty entry ( a placeholder for adding new connections )
-  _entries.push_back(new SettingsTreeConnection());
+  _entries.push_back(new ConnectionEntry());
 }
 
 
-SettingsTreeModel::
-~SettingsTreeModel()
+ConnectionsWidgetModel::
+~ConnectionsWidgetModel()
 {
   for (auto entry : _entries)
     delete entry;
@@ -37,28 +41,28 @@ SettingsTreeModel::
 
 
 QVariant
-SettingsTreeModel::
+ConnectionsWidgetModel::
 data(const QModelIndex& index, int role) const
 {
   if (!index.isValid())
     return QVariant();
 
-  SettingsTreeEntry* entry =
-    static_cast<SettingsTreeEntry*>(index.internalPointer());
+  Entry* entry =
+    static_cast<Entry*>(index.internalPointer());
 
   return entry->data(role, index.column());
 }
 
 
 QModelIndex
-SettingsTreeModel::
+ConnectionsWidgetModel::
 index(int row, int column, const QModelIndex& parent) const
 {
   if (!parent.isValid())
     return QAbstractItemModel::createIndex(row, column, _entries[row]);
 
-  SettingsTreeEntry* entry =
-    static_cast<SettingsTreeEntry*>(parent.internalPointer());
+  Entry* entry =
+    static_cast<Entry*>(parent.internalPointer());
 
   if (entry->entries().size() == 0)
     return QModelIndex();
@@ -68,20 +72,20 @@ index(int row, int column, const QModelIndex& parent) const
 
 
 QModelIndex
-SettingsTreeModel::
+ConnectionsWidgetModel::
 parent(const QModelIndex& index) const
 {
-  SettingsTreeEntry* entry =
-    static_cast<SettingsTreeEntry*>(index.internalPointer());
+  Entry* entry =
+    static_cast<Entry*>(index.internalPointer());
 
   Q_ASSERT(entry);
 
-  SettingsTreeEntry* parentEntry = entry->parent();
+  Entry* parentEntry = entry->parent();
 
   if (parentEntry == nullptr)
     return QModelIndex();
 
-  SettingsTreeEntry* parentParentEntry = parentEntry->parent();
+  Entry* parentParentEntry = parentEntry->parent();
 
   int position = 0;
 
@@ -95,29 +99,31 @@ parent(const QModelIndex& index) const
 
 
 int
-SettingsTreeModel::
+ConnectionsWidgetModel::
 columnCount(const QModelIndex& parent) const
 {
+  Q_UNUSED(parent);
+
   return 2;
 }
 
 
 int
-SettingsTreeModel::
+ConnectionsWidgetModel::
 rowCount(const QModelIndex& parent) const
 {
   if (!parent.isValid())
     return _connectionsManager->size() + 1;
 
-  SettingsTreeEntry* entry =
-    static_cast<SettingsTreeEntry*>(parent.internalPointer());
+  Entry* entry =
+    static_cast<Entry*>(parent.internalPointer());
 
   return entry->entries().size();
 }
 
 
 // bool
-// SettingsTreeModel::
+// Model::
 // insertRows(int row, int count, const QModelIndex& parent) {
 ////beginInsertRows();
 
@@ -125,7 +131,7 @@ rowCount(const QModelIndex& parent) const
 // }
 
 QVariant
-SettingsTreeModel::
+ConnectionsWidgetModel::
 headerData(int             section,
            Qt::Orientation orientation,
            int             role)  const
@@ -139,7 +145,7 @@ headerData(int             section,
     return result;
 
   switch (section) {
-  case SettingsTreeEntry::Database:
+  case Entry::Database:
     result = tr("Item");
     break;
 
@@ -153,7 +159,7 @@ headerData(int             section,
 
 
 Qt::ItemFlags
-SettingsTreeModel::
+ConnectionsWidgetModel::
 flags(const QModelIndex& index) const
 {
   if (!index.isValid())
@@ -170,8 +176,8 @@ flags(const QModelIndex& index) const
 
 
 void
-SettingsTreeModel::
-addConnection(DatabaseType databaseType)
+ConnectionsWidgetModel::
+addConnection(Connections::DatabaseType databaseType)
 {
   int size = _connectionsManager->size();
   beginInsertRows(QModelIndex(), size, size);
@@ -183,14 +189,14 @@ addConnection(DatabaseType databaseType)
   // case DatabaseType::SQLite:
   // break;
   // }
-  _entries.insert(size, new SettingsTreeConnection(_connectionsManager->operator[](size)));
+  _entries.insert(size, new ConnectionEntry(_connectionsManager->operator[](size)));
 
   endInsertRows();
 }
 
 
 void
-SettingsTreeModel::
+ConnectionsWidgetModel::
 onClicked(const QModelIndex& index)
 {
   if (!index.parent().isValid() &&
@@ -207,8 +213,8 @@ onClicked(const QModelIndex& index)
 
 
 int
-SettingsTreeModel::
-getEntryPosition(SettingsTreeEntry* entry) const
+ConnectionsWidgetModel::
+getEntryPosition(Entry* entry) const
 {
   auto it = std::find(_entries.begin(),
                       _entries.end(), entry);

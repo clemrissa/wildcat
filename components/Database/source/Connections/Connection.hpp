@@ -1,5 +1,5 @@
-#ifndef Geo_Database_Connection_hpp
-#define Geo_Database_Connection_hpp
+#ifndef Geo_Database_Connections_Connection_hpp
+#define Geo_Database_Connections_Connection_hpp
 
 #include <Domain/DataAccessFactory>
 
@@ -8,6 +8,7 @@
 
 namespace Geo {
 namespace Database {
+namespace Connections {
 enum DatabaseType { UnknownDB, SQLite, MySql };
 enum Status { Unknown, Connected, Failed };
 
@@ -38,6 +39,9 @@ public:
   databaseType() const = 0;
 
   virtual QString const
+  databasePath() const = 0;
+
+  virtual QString const
   textDescription() const = 0;
 
   virtual QDomElement
@@ -60,5 +64,6 @@ public:
 };
 }
 }
+}
 
-#endif //  Geo_Database_Connection_hpp
+#endif //  Geo_Database_Connections_Connection_hpp

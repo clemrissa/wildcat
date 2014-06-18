@@ -1,5 +1,5 @@
-#ifndef Geo_Database_ConnectionManager_hpp
-#define Geo_Database_ConnectionManager_hpp
+#ifndef Geo_Database_Connections_ConnectionManager_hpp
+#define Geo_Database_Connections_ConnectionManager_hpp
 
 #include <QObject>
 #include <QSharedPointer>
@@ -7,6 +7,7 @@
 
 namespace Geo {
 namespace Database {
+namespace Connections {
 class Connection;
 class ConnectionManager: public QObject {
   Q_OBJECT
@@ -55,5 +56,6 @@ private slots:
 };
 }
 }
+}
 
-#endif //  Geo_Database_ConnectionManager_hpp
+#endif //  Geo_Database_Connections_ConnectionManager_hpp

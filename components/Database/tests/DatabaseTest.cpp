@@ -5,8 +5,7 @@
 #include <Las/LasFile>
 #include <Las/LasFileParser>
 
-#include <Database/Connection>
-#include <Database/SQLiteConnection>
+#include <Database/Connections/SQLiteConnection>
 
 #include <Domain/Log>
 #include <Domain/LogAccess>
@@ -23,10 +22,10 @@
 
 TEST(DatabaseTest, CreateDB) {
   using DMContext = DependencyManager::ApplicationContext;
-  using Geo::Database::Connection;
+  using Geo::Database::Connections::Connection;
 
-  Geo::Database::SQLiteConnection* c =
-    DMContext::create<Geo::Database::SQLiteConnection>("Database.SQLiteConnection");
+  Geo::Database::Connections::SQLiteConnection* c =
+    DMContext::create<Geo::Database::Connections::SQLiteConnection>("Database.SQLiteConnection");
 
   // c->setDatabaseType(Geo::Database::DatabaseType::SQLite);
   c->setDatabase("test.db");
@@ -60,9 +59,11 @@ TEST(DatabaseTest, CreateDB) {
   delete c;
 }
 
+// -------------------------------------------------------------------
+
 TEST(DatabaseTest, Traits) {
   using DMContext = DependencyManager::ApplicationContext;
-  using Geo::Database::SQLiteConnection;
+  using Geo::Database::Connections::SQLiteConnection;
 
   SQLiteConnection* c =
     DMContext::create<SQLiteConnection>("Database.SQLiteConnection");

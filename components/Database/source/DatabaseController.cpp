@@ -5,8 +5,11 @@
 #include <Core/MainWindow>
 #include <Uni/Logging/Logging>
 
-#include "Gui/SettingsWidget.hpp"
-#include "SettingsTreeModel.hpp"
+#include <Models/ConnectionsWidgetModel/ConnectionsWidgetModel.hpp>
+#include <Models/SettingsWidgetModel/SettingsWidgetModel.hpp>
+
+#include <Gui/ConnectionsWidget.hpp>
+#include <Gui/SettingsWidget.hpp>
 
 #include <DependencyManager/ApplicationContext>
 
@@ -41,19 +44,45 @@ DatabaseController::
 
 void
 DatabaseController::
-showSettingsWidget()
+showConnectionsWidget()
 {
+  using DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
-  using Geo::Database::Gui::SettingsWidget;
+  using Geo::Database::Gui::ConnectionsWidget;
+  using Model = Geo::Database::Models::ConnectionsWidgetModel::ConnectionsWidgetModel;
 
   MainWindow* mainWindow =
-    DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
+    ApplicationContext::create<MainWindow>("Core.MainWindow");
 
-  auto databaseSettingsTreeModel = new SettingsTreeModel();
+  auto databaseConnectionsTreeModel = new Model();
 
-  auto databaseSettingsWidget = new SettingsWidget(databaseSettingsTreeModel);
+  auto databaseConnectionsWidget = new ConnectionsWidget(databaseConnectionsTreeModel);
 
-  mainWindow->toCentralWidget(databaseSettingsWidget);
+  mainWindow->toCentralWidget(databaseConnectionsWidget);
 }
+
+
+void
+DatabaseController::
+showSettingsWidget()
+{
+  using DependencyManager::ApplicationContext;
+  using Geo::Core::MainWindow;
+
+  using Geo::Database::Gui::SettingsWidget;
+  using Geo::Database::Models::SettingsWidgetModel::SettingsWidgetModel;
+
+  MainWindow* mainWindow =
+    ApplicationContext::create<MainWindow>("Core.MainWindow");
+
+  auto databaseSettingsWidgetModel = new SettingsWidgetModel();
+
+  auto databaseConnectionsWidget = new SettingsWidget(databaseSettingsWidgetModel);
+
+  mainWindow->toCentralWidget(databaseConnectionsWidget);
+}
+
+
+//
 }
 }

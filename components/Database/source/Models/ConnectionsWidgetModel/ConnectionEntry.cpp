@@ -1,13 +1,14 @@
-#include "SettingsTreeConnection.hpp"
+#include "ConnectionEntry.hpp"
 
-#include <QIcon>
-#include <QPalette>
-#include <QVariant>
+#include <QtCore/QVariant>
 
-using Geo::Database::SettingsTreeConnection;
+#include <QtGui/QIcon>
+#include <QtGui/QPalette>
+
+using Geo::Database::Models::ConnectionsWidgetModel::ConnectionEntry;
 
 QVariant
-SettingsTreeConnection::
+ConnectionEntry::
 data(int role, int column)
 {
   switch (role) {
@@ -37,11 +38,11 @@ data(int role, int column)
 
 
 QVariant
-SettingsTreeConnection::
+ConnectionEntry::
 getForegroundRole(int column)
 {
   switch (column) {
-  case SettingsTreeEntry::Database:
+  case ConnectionsWidgetModel::Entry::Database:
 
     if (_connection.isNull())
       return QColor(Qt::lightGray);
@@ -52,7 +53,7 @@ getForegroundRole(int column)
 
     break;
 
-  case SettingsTreeEntry::Action:
+  case ConnectionsWidgetModel::Entry::Action:
     return QVariant();
     break;
   }
@@ -62,11 +63,11 @@ getForegroundRole(int column)
 
 
 QVariant
-SettingsTreeConnection::
+ConnectionEntry::
 getDisplayRole(int column)
 {
   switch (column) {
-  case SettingsTreeEntry::Database:
+  case ConnectionsWidgetModel::Entry::Database:
 
     if (_connection.isNull())
       return QString("Select DB type to add a connection");
@@ -75,7 +76,7 @@ getDisplayRole(int column)
 
     break;
 
-  case SettingsTreeEntry::Action:
+  case ConnectionsWidgetModel::Entry::Action:
     return QVariant();
     break;
   }
@@ -85,15 +86,15 @@ getDisplayRole(int column)
 
 
 QVariant
-SettingsTreeConnection::
+ConnectionEntry::
 getDecorationRole(int column)
 {
   switch (column) {
-  case SettingsTreeEntry::Database:
+  case ConnectionsWidgetModel::Entry::Database:
     return QVariant();
     break;
 
-  case SettingsTreeEntry::Action:
+  case ConnectionsWidgetModel::Entry::Action:
 
     if (!_connection.isNull())
       return QIcon(":/delete.png");
@@ -108,13 +109,15 @@ getDecorationRole(int column)
 
 
 QVariant
-SettingsTreeConnection::
+ConnectionEntry::
 getBackgroundRole(int column)
 {
+  Q_UNUSED(column);
+
   if (_connection.isNull())
     return QVariant();
 
-  if (_connection->status() != Status::Connected)
+  if (_connection->status() != Connections::Status::Connected)
     return QVariant(QColor(0xFF, 0xBB, 0xBB));
 
   return QVariant();

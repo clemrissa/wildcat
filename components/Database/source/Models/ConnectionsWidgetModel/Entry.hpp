@@ -1,5 +1,5 @@
-#ifndef Geo_Database_SettingsTreeEntry_hpp
-#define Geo_Database_SettingsTreeEntry_hpp
+#ifndef Geo_Database_Connections_ConnectionsWidgetModel_Entry_hpp
+#define Geo_Database_Connections_ConnectionsWidgetModel_Entry_hpp
 
 #include <QVariant>
 
@@ -8,12 +8,16 @@
 
 namespace Geo {
 namespace Database {
-class SettingsTreeEntry: public QObject {
+namespace Models {
+namespace ConnectionsWidgetModel {
+//
+
+class Entry: public QObject {
 public:
   enum Column { Database = 0, Action = 1, Size };
 
 public:
-  SettingsTreeEntry(SettingsTreeEntry* parent = nullptr):
+  Entry(Entry* parent = nullptr):
     _parent(parent)
   {
     //
@@ -21,21 +25,21 @@ public:
 
 
   virtual
-  ~SettingsTreeEntry()
+  ~Entry()
   {
-    for (SettingsTreeEntry* entry : _entries)
+    for (Entry* entry : _entries)
       delete entry;
   }
 
 
-  SettingsTreeEntry*
+  Entry*
   parent() const
   {
     return _parent;
   }
 
 
-  std::vector<SettingsTreeEntry*> const
+  std::vector<Entry*> const
   entries() const
   {
     return _entries;
@@ -43,7 +47,7 @@ public:
 
 
   int
-  positionOfChildEntry(SettingsTreeEntry* const childEntry) const
+  positionOfChildEntry(Entry* const childEntry) const
   {
     auto it = std::find(_entries.begin(), _entries.end(), childEntry);
 
@@ -55,10 +59,12 @@ public:
   data(int role, int column) = 0;
 
 protected:
-  SettingsTreeEntry* _parent;
+  Entry* _parent;
 
-  std::vector<SettingsTreeEntry*> _entries;
+  std::vector<Entry*> _entries;
 };
 }
 }
-#endif // Geo_Database_SettingsTreeEntry_hpp
+}
+}
+#endif // Geo_Database_Connections_ConnectionsWidgetModel_Entry_hpp

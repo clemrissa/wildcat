@@ -1,33 +1,30 @@
 #include "SettingsWidget.hpp"
 
-#include <QHBoxLayout>
-#include <QHeaderView>
-#include <QLabel>
-#include <QStackedWidget>
-#include <QTreeView>
-
-#include "SettingsItemDelegate.hpp"
-#include "SettingsTreeConnection.hpp"
-#include "SettingsTreeModel.hpp"
-
-#include "SQLiteConnectionPropertiesWidget.hpp"
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QStackedWidget>
+#include <QtWidgets/QTableView>
 
 #include <Uni/Logging/Logging>
 
+#include <Models/SettingsWidgetModel/ConnectionEntry.hpp>
+#include <Models/SettingsWidgetModel/SettingsWidgetModel.hpp>
+
 using Geo::Database::Gui::SettingsWidget;
-using Geo::Database::SettingsTreeModel;
+
+using Geo::Database::Models::SettingsWidgetModel::SettingsWidgetModel;
 
 struct SettingsWidget::Private {
-  QTreeView*      treeView;
+  QTableView*     tableView;
   QStackedWidget* stackedWidget;
 };
 
 SettingsWidget::
-SettingsWidget(SettingsTreeModel* treeModel):
+SettingsWidget(SettingsWidgetModel* tableModel):
   p(new SettingsWidget::Private())
 {
-  setupUi(treeModel);
-  connectSignals(treeModel);
+  setupUi(tableModel);
+  connectSignals(tableModel);
 }
 
 
@@ -40,39 +37,29 @@ SettingsWidget::
 
 void
 SettingsWidget::
-setupUi(SettingsTreeModel* treeModel)
+setupUi(SettingsWidgetModel* tableModel)
 {
   setWindowTitle(tr("Database Settings"));
-  setMinimumSize(700, 400);
+  setMinimumSize(800, 400);
 
-  p->treeView = new QTreeView();
+  p->tableView = new QTableView();
 
-  p->treeView->setMaximumWidth(400);
+  p->tableView->setModel(tableModel);
 
-  p->treeView->setModel(treeModel);
-  p->treeView->header()->setStretchLastSection(false);
-  p->treeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
-  p->treeView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
-  p->treeView->header()->resizeSection(1, 20);
-  p->treeView->setItemDelegate(new SettingsItemDelegate());
+  p->tableView->horizontalHeader()->setStretchLastSection(true);
+  p->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+  p->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
-  p->treeView->setSelectionBehavior(QAbstractItemView::SelectRows);
+  p->tableView->verticalHeader()->hide();
+
+  p->tableView->setMaximumWidth(400);
+  p->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
   p->stackedWidget = new QStackedWidget();
 
-  QLabel* label = new QLabel("<h5>Create or select database</h5>");
-
-  label->setAlignment(Qt::AlignCenter);
-
-  p->stackedWidget->insertWidget((int)DatabaseType::UnknownDB,
-                                 label);
-
-  p->stackedWidget->insertWidget((int)DatabaseType::SQLite,
-                                 new SQLiteConnectionPropertiesWidget);
-
   QHBoxLayout* l = new QHBoxLayout();
 
-  l->addWidget(p->treeView);
+  l->addWidget(p->tableView);
   l->addWidget(p->stackedWidget);
 
   setLayout(l);
@@ -81,37 +68,20 @@ setupUi(SettingsTreeModel* treeModel)
 
 void
 SettingsWidget::
-connectSignals(SettingsTreeModel* treeModel)
+connectSignals(SettingsWidgetModel* tableModel)
 {
-  connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
-          treeModel,   SLOT(onClicked(const QModelIndex &)));
+  connect(p->tableView, SIGNAL(activated(const QModelIndex &)),
+          this,         SLOT(onConnectionClicked(const QModelIndex &)));
 
-  connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
-          this,        SLOT(onTreeClicked(const QModelIndex &)));
+  // TODO "click on first row"
+  p->tableView->selectRow(0);
 }
 
 
 void
 SettingsWidget::
-onTreeClicked(const QModelIndex& index)
+onConnectionClicked(const QModelIndex& index)
 {
-  if (!index.parent().isValid()) {
-    bool invalidRow = (index.row() == p->treeView->model()->rowCount() - 1);
-
-    SettingsTreeConnection* c =
-      invalidRow ? nullptr : static_cast<SettingsTreeConnection*>(index.internalPointer());
-
-    DatabaseType type = c ? c->connection()->databaseType() : UnknownDB;
-
-    p->stackedWidget->setCurrentIndex((int)type);
-
-    if (c && type != UnknownDB) {
-      QWidget* w =  p->stackedWidget->widget(type);
-
-      ConnectionPropertiesWidget* cpw =
-        static_cast<ConnectionPropertiesWidget*>(w);
-
-      cpw->setConnection(c->connection());
-    }
-  }
+  //
+  Q_UNUSED(index);
 }

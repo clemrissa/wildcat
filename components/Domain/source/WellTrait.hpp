@@ -7,7 +7,6 @@
 
 namespace Geo {
 namespace Domain {
-
 #ifdef ODB_COMPILER
   #pragma db object
 #endif
@@ -21,9 +20,11 @@ public:
 
   WellTrait(QString name, bool mandatory);
 
-  QString name() const { return _name; }
+  QString
+  name() const { return _name; }
 
-  void setName(QString name) { _name = name; }
+  void
+  setName(QString name) { _name = name; }
 
 private:
   friend class odb::access;
@@ -31,15 +32,11 @@ private:
 #ifdef ODB_COMPILER
   #pragma db id
 #endif
-  QString _name; 
+  QString _name;
 
   bool _mandatory;
 };
-
 }
 }
-
 
 #endif //  Geo_Domain_WellTrait_hpp
-
-

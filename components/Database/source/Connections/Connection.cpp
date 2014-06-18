@@ -4,7 +4,8 @@
 
 #include <QString>
 
-using Geo::Database::Connection;
+using Geo::Database::Connections::Connection;
+using Geo::Database::Connections::SQLiteConnection;
 
 QString
 Connection::

@@ -5,27 +5,31 @@
 
 namespace Geo {
 namespace Database {
-class SettingsTreeModel;
+namespace Models {
+namespace SettingsWidgetModel {
+class SettingsWidgetModel;
+}
+}
 
 namespace Gui {
 class SettingsWidget: public QWidget {
   Q_OBJECT
 
 public:
-  SettingsWidget(SettingsTreeModel* treeModel);
+  SettingsWidget(Models::SettingsWidgetModel::SettingsWidgetModel* tableModel);
 
   ~SettingsWidget();
 
 public slots:
   void
-  onTreeClicked(const QModelIndex& index);
+  onConnectionClicked(const QModelIndex& index);
 
 private:
   void
-  setupUi(SettingsTreeModel* treeModel);
+  setupUi(Models::SettingsWidgetModel::SettingsWidgetModel* tableModel);
 
   void
-  connectSignals(SettingsTreeModel* treeModel);
+  connectSignals(Models::SettingsWidgetModel::SettingsWidgetModel* tableModel);
 
 private:
   struct Private;
@@ -36,4 +40,4 @@ private:
 }
 }
 
-#endif //  Geo_Database_SettingsWidget_hpp
+#endif // Geo_Database_SettingsWidget_hpp

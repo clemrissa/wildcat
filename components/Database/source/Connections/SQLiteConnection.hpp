@@ -1,5 +1,5 @@
-#ifndef Geo_Database_SQLiteConnection_hpp
-#define Geo_Database_SQLiteConnection_hpp
+#ifndef Geo_Database_Connections_SQLiteConnection_hpp
+#define Geo_Database_Connections_SQLiteConnection_hpp
 
 #include "Connection.hpp"
 
@@ -9,6 +9,7 @@
 
 namespace Geo {
 namespace Database {
+namespace Connections {
 class SQLiteConnection: public Connection {
   Q_OBJECT
 
@@ -32,6 +33,9 @@ public:
 
   QString const
   textDescription() const override;
+
+  QString const
+  databasePath() const override;
 
   QDomElement
   xmlDescription(QDomDocument& doc) const override;
@@ -96,6 +100,7 @@ private:
 
   QString _database;
 };
+}
 }
 }
 #endif

@@ -12,10 +12,10 @@
 
 #include <Uni/Logging/Logging>
 
-// using Geo::Database::SQLiteConnection;
+using Geo::Database::Connections::DatabaseType;
+using Geo::Database::Connections::SQLiteConnection;
+using Geo::Database::Connections::Status;
 
-namespace Geo {
-namespace Database {
 SQLiteConnection::
 SQLiteConnection()
 {
@@ -96,8 +96,17 @@ QString const
 SQLiteConnection::
 textDescription() const
 {
-  return Connection::connectionTypeName(_databaseType) + ": "
-         + _database;
+  return Connection::connectionTypeName(_databaseType) +
+         ": " +
+         databasePath();
+}
+
+
+QString const
+SQLiteConnection::
+databasePath() const
+{
+  return _database;
 }
 
 
@@ -155,6 +164,4 @@ connect()
     setStatus(Status::Failed);
     setLastError(QString(exc.message().c_str()));
   }
-}
-}
 }

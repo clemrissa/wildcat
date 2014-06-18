@@ -3,7 +3,7 @@
 
 #include "ConnectionPropertiesWidget.hpp"
 
-#include "SQLiteConnection.hpp"
+#include <Connections/SQLiteConnection.hpp>
 
 namespace Geo {
 namespace Database {
@@ -18,7 +18,7 @@ public:
   ~SQLiteConnectionPropertiesWidget();
 
   void
-  setConnection(Connection::Shared connection) override;
+  setConnection(Connections::Connection::Shared connection) override;
 
 private:
   void

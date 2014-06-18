@@ -15,7 +15,7 @@
       <!--<bean name="Database.ConnectionListModel"/>-->
     <!--</bean>-->
 
-    <bean name="Database.SQLiteConnection" class="Geo::Database::SQLiteConnection"/>
+    <bean name="Database.SQLiteConnection" class="Geo::Database::Connections::SQLiteConnection"/>
 
 
     <!--[>============<]-->
@@ -25,7 +25,7 @@
       <method name="createDatabaseMenu" type="factory"/>
     </bean>
 
-    <bean name="Database.ConnectionManager" class="Geo::Database::ConnectionManager" type="singleton"/>
+    <bean name="Database.ConnectionManager" class="Geo::Database::Connections::ConnectionManager" type="singleton"/>
 
 
     <!--[>============<]-->
