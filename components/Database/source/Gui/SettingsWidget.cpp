@@ -49,8 +49,12 @@ setupUi(SettingsWidgetModel* tableModel)
   p->tableView->horizontalHeader()->setStretchLastSection(true);
   p->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
   p->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+  p->tableView->setShowGrid(false);
 
   p->tableView->verticalHeader()->hide();
+  QHeaderView* verticalHeader = p->tableView->verticalHeader();
+  // verticalHeader->setResizeMode(QHeaderView::Fixed);
+  verticalHeader->setDefaultSectionSize(22);
 
   p->tableView->setMaximumWidth(400);
   p->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);

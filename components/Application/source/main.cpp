@@ -7,11 +7,16 @@
 #include <QString>
 #include <QStringList>
 
+#include <QtWidgets/QStyleFactory>
+
 using namespace Geo;
 
 int
-main(int argc, char* argv[]) {
+main(int argc, char* argv[])
+{
   Application application(argc, argv);
+
+  application.setStyle(QStyleFactory::create("fusion"));
 
   QStringList nameFilter("*.xml");
 

@@ -40,4 +40,4 @@ private:
 }
 }
 
-#endif // eo_Database_SQLiteConnectionPropertiesWidget_hpp
+#endif // Geo_Database_SQLiteConnectionPropertiesWidget_hpp

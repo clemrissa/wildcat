@@ -1,13 +1,12 @@
 #include "SQLiteConnectionPropertiesWidget.hpp"
 
-#include <QFileDialog>
-#include <QFileDialog>
-#include <QHBoxLayout>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QVBoxLayout>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QVBoxLayout>
 
-#include <QSharedPointer>
+#include <QtCore/QSharedPointer>
 
 #include <Uni/Logging/Logging>
 
