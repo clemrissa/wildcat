@@ -145,6 +145,7 @@ set(Boost_USE_MULTITHREADED  ON)
 
 # Components {{{
 # ==============================================================================
+add_subdirectory("${CMAKE_SOURCE_DIR}/components/Widgets" ./Widgets)
 add_subdirectory("${CMAKE_SOURCE_DIR}/components/Domain" ./Domain)
 add_subdirectory("${CMAKE_SOURCE_DIR}/components/Core" ./Core)
 add_subdirectory("${CMAKE_SOURCE_DIR}/components/Database" ./Database)

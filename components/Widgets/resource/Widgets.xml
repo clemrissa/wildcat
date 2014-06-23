@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context>
+  <dll path="Widgets"/>
+  <beans>
+    <bean name="Widgets.KeywordWidget" class="Geo::Widgets::KeywordWidget"/>
+  </beans>
+</context>
