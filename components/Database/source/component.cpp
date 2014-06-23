@@ -15,7 +15,7 @@ registerComponent()
 {
   REGISTER_TYPE(QMenu);
 
-  // REGISTER_TYPE(Geo::Database::Connections::SQLiteConnection);
+  REGISTER_TYPE(Geo::Database::Connections::SQLiteConnection);
   REGISTER_TYPE(Geo::Database::Connections::ConnectionManager);
   REGISTER_TYPE(Geo::Database::DatabaseUiFactory);
   REGISTER_TYPE(Geo::Database::Gui::ConnectionsWidget);
