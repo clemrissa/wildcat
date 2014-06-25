@@ -5,7 +5,8 @@
 
 namespace Geo {
 namespace Import {
-class ImportController: public QObject {
+class ImportController: public QObject
+{
   Q_OBJECT
 
 public:

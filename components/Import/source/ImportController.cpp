@@ -17,7 +17,7 @@
 
 #include <Core/MainWindow>
 
-#include <Uni/Logging/logging>
+#include <Uni/Logging/Logging>
 
 using Geo::Import::TreeWrapper::LasFileEntry;
 
@@ -31,13 +31,11 @@ ImportController()
   //
 }
 
-
 ImportController::
 ~ImportController()
 {
   //
 }
-
 
 ImportController*
 ImportController::
@@ -48,7 +46,6 @@ instance()
 
   return _instance;
 }
-
 
 void
 ImportController::
@@ -81,7 +78,8 @@ selectFilesAndImport()
   if (importTreeWrapperLasFile.size() == 0)
     return;
 
-  ImportTreeModel* importTreeModel = new ImportTreeModel(importTreeWrapperLasFile);
+  ImportTreeModel* importTreeModel =
+    new ImportTreeModel(importTreeWrapperLasFile);
 
   ImportWidget* importWidget = new ImportWidget();
 
