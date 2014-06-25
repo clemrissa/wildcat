@@ -1,7 +1,8 @@
 #include "Connections/ConnectionManager.hpp"
 #include "Connections/SQLiteConnection.hpp"
 #include "DatabaseUiFactory.hpp"
-#include "Gui/ConnectionsWidget.hpp"
+
+#include "Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp"
 
 #include "Auxiliary/Visibility.hpp"
 
@@ -18,6 +19,6 @@ registerComponent()
   REGISTER_TYPE(Geo::Database::Connections::SQLiteConnection);
   REGISTER_TYPE(Geo::Database::Connections::ConnectionManager);
   REGISTER_TYPE(Geo::Database::DatabaseUiFactory);
-  REGISTER_TYPE(Geo::Database::Gui::ConnectionsWidget);
+  REGISTER_TYPE(Geo::Database::Gui::ConnectionsEditorWidget);
 }
 }

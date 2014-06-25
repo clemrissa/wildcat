@@ -30,14 +30,12 @@ SettingsWidgetModel()
   _entries.push_back(new ConnectionEntry());
 }
 
-
 SettingsWidgetModel::
 ~SettingsWidgetModel()
 {
   for (auto entry : _entries)
     delete entry;
 }
-
 
 QVariant
 SettingsWidgetModel::
@@ -52,7 +50,6 @@ data(const QModelIndex& index, int role) const
   return entry->data(role, index.column());
 }
 
-
 QModelIndex
 SettingsWidgetModel::
 index(int row, int column, const QModelIndex& parent) const
@@ -65,7 +62,6 @@ index(int row, int column, const QModelIndex& parent) const
   return index;
 }
 
-
 QModelIndex
 SettingsWidgetModel::
 parent(const QModelIndex& index) const
@@ -74,7 +70,6 @@ parent(const QModelIndex& index) const
 
   return QModelIndex();
 }
-
 
 int
 SettingsWidgetModel::
@@ -85,7 +80,6 @@ columnCount(const QModelIndex& parent) const
   return 2;
 }
 
-
 int
 SettingsWidgetModel::
 rowCount(const QModelIndex& parent) const
@@ -95,7 +89,6 @@ rowCount(const QModelIndex& parent) const
 
   return 0;
 }
-
 
 QVariant
 SettingsWidgetModel::
@@ -127,7 +120,6 @@ headerData(int             section,
 
   return result;
 }
-
 
 Qt::ItemFlags
 SettingsWidgetModel::

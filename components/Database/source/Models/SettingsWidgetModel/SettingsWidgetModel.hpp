@@ -18,7 +18,8 @@ namespace SettingsWidgetModel {
 //
 class Entry;
 //
-class SettingsWidgetModel: public QAbstractItemModel {
+class SettingsWidgetModel: public QAbstractItemModel
+{
   Q_OBJECT
 
 public:

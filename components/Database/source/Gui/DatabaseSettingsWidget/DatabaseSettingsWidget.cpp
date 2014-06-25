@@ -1,4 +1,4 @@
-#include "SettingsWidget.hpp"
+#include "DatabaseSettingsWidget.hpp"
 
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -10,33 +10,38 @@
 #include <Models/SettingsWidgetModel/ConnectionEntry.hpp>
 #include <Models/SettingsWidgetModel/SettingsWidgetModel.hpp>
 
-using Geo::Database::Gui::SettingsWidget;
+#include <Gui/DatabaseSettingsWidget/DatabasePropertiesWidget.hpp>
 
-using Geo::Database::Models::SettingsWidgetModel::SettingsWidgetModel;
+using Geo::Database::Gui::DatabaseSettingsWidget;
 
-struct SettingsWidget::Private {
-  QTableView*     tableView;
-  QStackedWidget* stackedWidget;
+using Geo::Database::Gui::DatabasePropertiesWidget;
+
+using Geo::Database::Models::SettingsWidgetModel::
+      SettingsWidgetModel;
+
+struct DatabaseSettingsWidget::Private
+{
+  QTableView* tableView;
+
+  DatabasePropertiesWidget* traitsWidget;
 };
 
-SettingsWidget::
-SettingsWidget(SettingsWidgetModel* tableModel):
-  p(new SettingsWidget::Private())
+DatabaseSettingsWidget::
+DatabaseSettingsWidget(SettingsWidgetModel* tableModel):
+  p(new DatabaseSettingsWidget::Private())
 {
   setupUi(tableModel);
   connectSignals(tableModel);
 }
 
-
-SettingsWidget::
-~SettingsWidget()
+DatabaseSettingsWidget::
+~DatabaseSettingsWidget()
 {
   delete p;
 }
 
-
 void
-SettingsWidget::
+DatabaseSettingsWidget::
 setupUi(SettingsWidgetModel* tableModel)
 {
   setWindowTitle(tr("Database Settings"));
@@ -47,8 +52,10 @@ setupUi(SettingsWidgetModel* tableModel)
   p->tableView->setModel(tableModel);
 
   p->tableView->horizontalHeader()->setStretchLastSection(true);
-  p->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-  p->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+  p->tableView->horizontalHeader()->setSectionResizeMode(0,
+                                                         QHeaderView::ResizeToContents);
+  p->tableView->horizontalHeader()->setSectionResizeMode(1,
+                                                         QHeaderView::Stretch);
   p->tableView->setShowGrid(false);
 
   p->tableView->verticalHeader()->hide();
@@ -59,19 +66,18 @@ setupUi(SettingsWidgetModel* tableModel)
   p->tableView->setMaximumWidth(400);
   p->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-  p->stackedWidget = new QStackedWidget();
+  p->traitsWidget = new DatabasePropertiesWidget();
 
   QHBoxLayout* l = new QHBoxLayout();
 
   l->addWidget(p->tableView);
-  l->addWidget(p->stackedWidget);
+  l->addWidget(p->traitsWidget);
 
   setLayout(l);
 }
 
-
 void
-SettingsWidget::
+DatabaseSettingsWidget::
 connectSignals(SettingsWidgetModel* tableModel)
 {
   connect(p->tableView, SIGNAL(activated(const QModelIndex &)),
@@ -81,9 +87,8 @@ connectSignals(SettingsWidgetModel* tableModel)
   p->tableView->selectRow(0);
 }
 
-
 void
-SettingsWidget::
+DatabaseSettingsWidget::
 onConnectionClicked(const QModelIndex& index)
 {
   //

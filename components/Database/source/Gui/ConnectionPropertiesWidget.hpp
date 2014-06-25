@@ -7,10 +7,13 @@
 namespace Geo {
 namespace Database {
 namespace Gui {
-class ConnectionPropertiesWidget: public QWidget {
+class ConnectionPropertiesWidget: public QWidget
+{
 public:
   virtual
-  ~ConnectionPropertiesWidget() {}
+  ~ConnectionPropertiesWidget()
+  {
+  }
 
   virtual void
   setConnection(Connections::Connection::Shared connection) = 0;

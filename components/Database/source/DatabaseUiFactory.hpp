@@ -9,7 +9,8 @@ class QToolBar;
 
 namespace Geo {
 namespace Database {
-class DatabaseUiFactory: public QObject {
+class DatabaseUiFactory: public QObject
+{
   Q_OBJECT
 
 public:

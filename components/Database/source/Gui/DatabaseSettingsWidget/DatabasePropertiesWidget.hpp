@@ -1,12 +1,13 @@
 #ifndef Geo_Database_DatabasePropertiesWidget_hpp
 #define Geo_Database_DatabasePropertiesWidget_hpp
 
-#include "ConnectionPropertiesWidget.hpp"
+#include <Gui/ConnectionPropertiesWidget.hpp>
 
 namespace Geo {
 namespace Database {
 namespace Gui {
-class DatabasePropertiesWidget: public ConnectionPropertiesWidget {
+class DatabasePropertiesWidget: public ConnectionPropertiesWidget
+{
   //
 
 public:
@@ -25,7 +26,7 @@ private:
 private:
   struct Private;
 
-  Private* p;
+  Private* _p;
 };
 }
 }

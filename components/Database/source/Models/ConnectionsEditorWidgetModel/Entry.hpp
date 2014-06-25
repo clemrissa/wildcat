@@ -1,5 +1,5 @@
-#ifndef Geo_Database_Connections_ConnectionsWidgetModel_Entry_hpp
-#define Geo_Database_Connections_ConnectionsWidgetModel_Entry_hpp
+#ifndef Geo_Database_Connections_ConnectionsEditorWidgetModel_Entry_hpp
+#define Geo_Database_Connections_ConnectionsEditorWidgetModel_Entry_hpp
 
 #include <QVariant>
 
@@ -9,10 +9,11 @@
 namespace Geo {
 namespace Database {
 namespace Models {
-namespace ConnectionsWidgetModel {
+namespace ConnectionsEditorWidgetModel {
 //
 
-class Entry: public QObject {
+class Entry: public QObject
+{
 public:
   enum Column { Database = 0, Action = 1, Size };
 
@@ -23,7 +24,6 @@ public:
     //
   }
 
-
   virtual
   ~Entry()
   {
@@ -31,20 +31,17 @@ public:
       delete entry;
   }
 
-
   Entry*
   parent() const
   {
     return _parent;
   }
 
-
   std::vector<Entry*> const
   entries() const
   {
     return _entries;
   }
-
 
   int
   positionOfChildEntry(Entry* const childEntry) const
@@ -53,7 +50,6 @@ public:
 
     return it - _entries.begin();
   }
-
 
   virtual QVariant
   data(int role, int column) = 0;
@@ -67,4 +63,4 @@ protected:
 }
 }
 }
-#endif // Geo_Database_Connections_ConnectionsWidgetModel_Entry_hpp
+#endif // Geo_Database_Connections_ConnectionsEditorWidgetModel_Entry_hpp

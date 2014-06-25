@@ -1,5 +1,5 @@
-#ifndef Geo_Database_ConnectionsWidgetModel_hpp
-#define Geo_Database_ConnectionsWidgetModel_hpp
+#ifndef Geo_Database_ConnectionsEditorWidgetModel_hpp
+#define Geo_Database_ConnectionsEditorWidgetModel_hpp
 
 #include <QAbstractItemModel>
 #include <QVariant>
@@ -14,20 +14,21 @@ class ConnectionManager;
 }
 
 namespace Models {
-namespace ConnectionsWidgetModel {
+namespace ConnectionsEditorWidgetModel {
 //
 
 class Entry;
 
-class ConnectionsWidgetModel: public QAbstractItemModel {
+class ConnectionsEditorWidgetModel: public QAbstractItemModel
+{
   Q_OBJECT
 
 public:
   // TODO implement
-  ConnectionsWidgetModel();
+  ConnectionsEditorWidgetModel();
 
   virtual
-  ~ConnectionsWidgetModel();
+  ~ConnectionsEditorWidgetModel();
 
 public:
   virtual
@@ -86,4 +87,4 @@ private:
 }
 }
 
-#endif //  Geo_Database_ConnectionsWidgetModel_hpp
+#endif //  Geo_Database_ConnectionsEditorWidgetModel_hpp

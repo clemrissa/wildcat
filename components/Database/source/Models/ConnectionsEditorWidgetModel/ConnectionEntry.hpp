@@ -1,22 +1,26 @@
-#ifndef Geo_Database_ConnectionsWidgetModel_Connection_hpp
-#define Geo_Database_ConnectionsWidgetModel_Connection_hpp
+#ifndef Geo_Database_ConnectionsEditorWidgetModel_Connection_hpp
+#define Geo_Database_ConnectionsEditorWidgetModel_Connection_hpp
 
 #include <Connections/Connection.hpp>
-#include <Models/ConnectionsWidgetModel/Entry.hpp>
+#include <Models/ConnectionsEditorWidgetModel/Entry.hpp>
 
 namespace Geo {
 namespace Database {
 namespace Models {
-namespace ConnectionsWidgetModel {
+namespace ConnectionsEditorWidgetModel {
 //
 
-class ConnectionEntry: public Entry {
+class ConnectionEntry: public Entry
+{
 public:
   ConnectionEntry(Connections::Connection::Shared connection):
     _connection(connection)
-  {}
+  {
+  }
 
-  ConnectionEntry() {}
+  ConnectionEntry()
+  {
+  }
 
   QVariant
   data(int role, int column) override;
@@ -26,7 +30,6 @@ public:
   {
     return _connection;
   }
-
 
 private:
   Connections::Connection::Shared _connection;
@@ -48,4 +51,4 @@ private:
 }
 }
 
-#endif //  Geo_Database_ConnectionsWidgetModel_Connection_hpp
+#endif //  Geo_Database_ConnectionsEditorWidgetModel_Connection_hpp

@@ -1,4 +1,4 @@
-#include "ConnectionsWidget.hpp"
+#include "ConnectionsEditorWidget.hpp"
 
 #include <QHBoxLayout>
 #include <QHeaderView>
@@ -6,42 +6,42 @@
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTreeView>
 
-#include <Gui/ConnectionEntryItemDelegate.hpp>
-#include <Gui/SQLiteConnectionPropertiesWidget.hpp>
+#include <Gui/ConnectionsEditorWidget/ConnectionEntryItemDelegate.hpp>
+#include <Gui/ConnectionsEditorWidget/SQLiteConnectionPropertiesWidget.hpp>
 
-#include <Models/ConnectionsWidgetModel/ConnectionEntry.hpp>
-#include <Models/ConnectionsWidgetModel/ConnectionsWidgetModel.hpp>
+#include <Models/ConnectionsEditorWidgetModel/ConnectionEntry.hpp>
+#include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
 
 #include <Uni/Logging/Logging>
 
-using Geo::Database::Gui::ConnectionsWidget;
+using Geo::Database::Gui::ConnectionsEditorWidget;
 
-using Geo::Database::Models::ConnectionsWidgetModel::ConnectionsWidgetModel;
+using Geo::Database::Models::ConnectionsEditorWidgetModel::
+      ConnectionsEditorWidgetModel;
 
-struct ConnectionsWidget::Private {
+struct ConnectionsEditorWidget::Private
+{
   QTreeView*      treeView;
   QStackedWidget* stackedWidget;
 };
 
-ConnectionsWidget::
-ConnectionsWidget(ConnectionsWidgetModel* treeModel):
-  p(new ConnectionsWidget::Private())
+ConnectionsEditorWidget::
+ConnectionsEditorWidget(ConnectionsEditorWidgetModel* treeModel):
+  p(new ConnectionsEditorWidget::Private())
 {
   setupUi(treeModel);
   connectSignals(treeModel);
 }
 
-
-ConnectionsWidget::
-~ConnectionsWidget()
+ConnectionsEditorWidget::
+~ConnectionsEditorWidget()
 {
   delete p;
 }
 
-
 void
-ConnectionsWidget::
-setupUi(ConnectionsWidgetModel* treeModel)
+ConnectionsEditorWidget::
+setupUi(ConnectionsEditorWidgetModel* treeModel)
 {
   setWindowTitle(tr("Database Settings"));
   setMinimumSize(800, 400);
@@ -79,10 +79,9 @@ setupUi(ConnectionsWidgetModel* treeModel)
   setLayout(l);
 }
 
-
 void
-ConnectionsWidget::
-connectSignals(ConnectionsWidgetModel* treeModel)
+ConnectionsEditorWidget::
+connectSignals(ConnectionsEditorWidgetModel* treeModel)
 {
   connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
           treeModel,   SLOT(onClicked(const QModelIndex &)));
@@ -91,19 +90,20 @@ connectSignals(ConnectionsWidgetModel* treeModel)
           this,        SLOT(onConnectionClicked(const QModelIndex &)));
 }
 
-
 void
-ConnectionsWidget::
+ConnectionsEditorWidget::
 onConnectionClicked(const QModelIndex& index)
 {
-  using Geo::Database::Models::ConnectionsWidgetModel::ConnectionEntry;
+  using Geo::Database::Models::ConnectionsEditorWidgetModel::ConnectionEntry;
 
   if (!index.parent().isValid()) {
     bool invalidRow = (index.row() == p->treeView->model()->rowCount() - 1);
 
-    ConnectionEntry* c = invalidRow ? nullptr : static_cast<ConnectionEntry*>(index.internalPointer());
+    ConnectionEntry* c = invalidRow ? nullptr : static_cast<ConnectionEntry*>(
+      index.internalPointer());
 
-    Connections::DatabaseType type = c ? c->connection()->databaseType() : Connections::UnknownDB;
+    Connections::DatabaseType type =
+      c ? c->connection()->databaseType() : Connections::UnknownDB;
 
     p->stackedWidget->setCurrentIndex((int)type);
 

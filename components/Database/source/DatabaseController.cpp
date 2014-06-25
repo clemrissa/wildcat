@@ -1,15 +1,15 @@
 #include "DatabaseController.hpp"
 
-#include <QLabel>
+#include <QtWidgets/QLabel>
 
 #include <Core/MainWindow>
 #include <Uni/Logging/Logging>
 
-#include <Models/ConnectionsWidgetModel/ConnectionsWidgetModel.hpp>
+#include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
 #include <Models/SettingsWidgetModel/SettingsWidgetModel.hpp>
 
-#include <Gui/ConnectionsWidget.hpp>
-#include <Gui/SettingsWidget.hpp>
+#include <Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp>
+#include <Gui/DatabaseSettingsWidget/DatabaseSettingsWidget.hpp>
 
 #include <DependencyManager/ApplicationContext>
 
@@ -27,13 +27,11 @@ instance()
   return _instance;
 }
 
-
 DatabaseController::
 DatabaseController()
 {
   //
 }
-
 
 DatabaseController::
 ~DatabaseController()
@@ -41,26 +39,27 @@ DatabaseController::
   //
 }
 
-
 void
 DatabaseController::
 showConnectionsWidget()
 {
   using DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
-  using Geo::Database::Gui::ConnectionsWidget;
-  using Model = Geo::Database::Models::ConnectionsWidgetModel::ConnectionsWidgetModel;
+  using Geo::Database::Gui::ConnectionsEditorWidget;
+  using Model =
+          Geo::Database::Models::ConnectionsEditorWidgetModel::
+          ConnectionsEditorWidgetModel;
 
   MainWindow* mainWindow =
     ApplicationContext::create<MainWindow>("Core.MainWindow");
 
   auto databaseConnectionsTreeModel = new Model();
 
-  auto databaseConnectionsWidget = new ConnectionsWidget(databaseConnectionsTreeModel);
+  auto databaseConnectionsWidget = new ConnectionsEditorWidget(
+    databaseConnectionsTreeModel);
 
   mainWindow->toCentralWidget(databaseConnectionsWidget);
 }
-
 
 void
 DatabaseController::
@@ -69,7 +68,7 @@ showSettingsWidget()
   using DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
 
-  using Geo::Database::Gui::SettingsWidget;
+  using Geo::Database::Gui::DatabaseSettingsWidget;
   using Geo::Database::Models::SettingsWidgetModel::SettingsWidgetModel;
 
   MainWindow* mainWindow =
@@ -77,11 +76,11 @@ showSettingsWidget()
 
   auto databaseSettingsWidgetModel = new SettingsWidgetModel();
 
-  auto databaseConnectionsWidget = new SettingsWidget(databaseSettingsWidgetModel);
+  auto databaseConnectionsWidget = new DatabaseSettingsWidget(
+    databaseSettingsWidgetModel);
 
   mainWindow->toCentralWidget(databaseConnectionsWidget);
 }
-
 
 //
 }

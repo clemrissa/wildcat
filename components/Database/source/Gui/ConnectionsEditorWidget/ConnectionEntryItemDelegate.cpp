@@ -7,8 +7,8 @@
 
 #include <Uni/Logging/Logging>
 
-#include <Models/ConnectionsWidgetModel/ConnectionEntry.hpp>
-#include <Models/ConnectionsWidgetModel/ConnectionsWidgetModel.hpp>
+#include <Models/ConnectionsEditorWidgetModel/ConnectionEntry.hpp>
+#include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
 
 #include <Connections/Connection.hpp>
 
@@ -22,7 +22,7 @@ createEditor(QWidget*                    parent,
 {
   Q_UNUSED(option);
 
-  using Geo::Database::Models::ConnectionsWidgetModel::ConnectionEntry;
+  using Geo::Database::Models::ConnectionsEditorWidgetModel::ConnectionEntry;
 
   if (index.parent().isValid())
     return 0;
@@ -44,7 +44,6 @@ createEditor(QWidget*                    parent,
   return 0;
 }
 
-
 void
 ConnectionEntryItemDelegate::
 updateEditorGeometry(QWidget*                    editor,
@@ -56,7 +55,6 @@ updateEditorGeometry(QWidget*                    editor,
   editor->setGeometry(option.rect);
 }
 
-
 void
 ConnectionEntryItemDelegate::
 setEditorData(QWidget* editor, const QModelIndex& index) const
@@ -65,27 +63,31 @@ setEditorData(QWidget* editor, const QModelIndex& index) const
 
   QComboBox* c = static_cast<QComboBox*>(editor);
 
-  c->addItem(Connections::Connection::connectionTypeName(Connections::DatabaseType::MySql));
-  c->addItem(Connections::Connection::connectionTypeName(Connections::DatabaseType::SQLite));
+  c->addItem(Connections::Connection::connectionTypeName(Connections::
+                                                         DatabaseType::MySql));
+  c->addItem(Connections::Connection::connectionTypeName(Connections::
+                                                         DatabaseType::SQLite));
 
   c->showPopup();
 }
 
-
 void
 ConnectionEntryItemDelegate::
-setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
+setModelData(QWidget*            editor,
+             QAbstractItemModel* model,
+             const QModelIndex&  index) const
 {
-  using Geo::Database::Models::ConnectionsWidgetModel::ConnectionsWidgetModel;
+  using Geo::Database::Models::ConnectionsEditorWidgetModel::
+        ConnectionsEditorWidgetModel;
 
   if (!index.parent().isValid()) {
-    QComboBox*              c = static_cast<QComboBox*>(editor);
-    ConnectionsWidgetModel* m = static_cast<ConnectionsWidgetModel*>(model);
+    QComboBox*                    c = static_cast<QComboBox*>(editor);
+    ConnectionsEditorWidgetModel* m =
+      static_cast<ConnectionsEditorWidgetModel*>(model);
 
     m->addConnection((Connections::DatabaseType)c->currentIndex());
   }
 }
-
 
 void
 ConnectionEntryItemDelegate::

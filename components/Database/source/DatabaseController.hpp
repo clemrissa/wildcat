@@ -5,7 +5,8 @@
 
 namespace Geo {
 namespace  Database {
-class DatabaseController: public QObject {
+class DatabaseController: public QObject
+{
   Q_OBJECT
 
 public:

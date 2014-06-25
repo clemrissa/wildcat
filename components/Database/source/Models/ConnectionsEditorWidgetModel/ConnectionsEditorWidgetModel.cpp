@@ -1,4 +1,4 @@
-#include "ConnectionsWidgetModel.hpp"
+#include "ConnectionsEditorWidgetModel.hpp"
 
 #include <DependencyManager/ApplicationContext>
 
@@ -6,18 +6,19 @@
 
 #include <Connections/ConnectionManager.hpp>
 
-#include <Models/ConnectionsWidgetModel/ConnectionEntry.hpp>
-#include <Models/ConnectionsWidgetModel/Entry.hpp>
+#include <Models/ConnectionsEditorWidgetModel/ConnectionEntry.hpp>
+#include <Models/ConnectionsEditorWidgetModel/Entry.hpp>
 
 #include <algorithm>
 
 using Geo::Database::Connections::ConnectionManager;
-using Geo::Database::Models::ConnectionsWidgetModel::ConnectionEntry;
-using Geo::Database::Models::ConnectionsWidgetModel::ConnectionsWidgetModel;
-using Geo::Database::Models::ConnectionsWidgetModel::Entry;
+using Geo::Database::Models::ConnectionsEditorWidgetModel::ConnectionEntry;
+using Geo::Database::Models::ConnectionsEditorWidgetModel::
+      ConnectionsEditorWidgetModel;
+using Geo::Database::Models::ConnectionsEditorWidgetModel::Entry;
 
-ConnectionsWidgetModel::
-ConnectionsWidgetModel()
+ConnectionsEditorWidgetModel::
+ConnectionsEditorWidgetModel()
 {
   using DependencyManager::ApplicationContext;
 
@@ -31,17 +32,15 @@ ConnectionsWidgetModel()
   _entries.push_back(new ConnectionEntry());
 }
 
-
-ConnectionsWidgetModel::
-~ConnectionsWidgetModel()
+ConnectionsEditorWidgetModel::
+~ConnectionsEditorWidgetModel()
 {
   for (auto entry : _entries)
     delete entry;
 }
 
-
 QVariant
-ConnectionsWidgetModel::
+ConnectionsEditorWidgetModel::
 data(const QModelIndex& index, int role) const
 {
   if (!index.isValid())
@@ -53,9 +52,8 @@ data(const QModelIndex& index, int role) const
   return entry->data(role, index.column());
 }
 
-
 QModelIndex
-ConnectionsWidgetModel::
+ConnectionsEditorWidgetModel::
 index(int row, int column, const QModelIndex& parent) const
 {
   if (!parent.isValid())
@@ -70,9 +68,8 @@ index(int row, int column, const QModelIndex& parent) const
   return QAbstractItemModel::createIndex(row, column, entry->entries()[row]);
 }
 
-
 QModelIndex
-ConnectionsWidgetModel::
+ConnectionsEditorWidgetModel::
 parent(const QModelIndex& index) const
 {
   Entry* entry =
@@ -97,9 +94,8 @@ parent(const QModelIndex& index) const
   return QAbstractItemModel::createIndex(position, 0, parentEntry);
 }
 
-
 int
-ConnectionsWidgetModel::
+ConnectionsEditorWidgetModel::
 columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
@@ -107,9 +103,8 @@ columnCount(const QModelIndex& parent) const
   return 2;
 }
 
-
 int
-ConnectionsWidgetModel::
+ConnectionsEditorWidgetModel::
 rowCount(const QModelIndex& parent) const
 {
   if (!parent.isValid())
@@ -121,7 +116,6 @@ rowCount(const QModelIndex& parent) const
   return entry->entries().size();
 }
 
-
 // bool
 // Model::
 // insertRows(int row, int count, const QModelIndex& parent) {
@@ -131,7 +125,7 @@ rowCount(const QModelIndex& parent) const
 // }
 
 QVariant
-ConnectionsWidgetModel::
+ConnectionsEditorWidgetModel::
 headerData(int             section,
            Qt::Orientation orientation,
            int             role)  const
@@ -157,9 +151,8 @@ headerData(int             section,
   return result;
 }
 
-
 Qt::ItemFlags
-ConnectionsWidgetModel::
+ConnectionsEditorWidgetModel::
 flags(const QModelIndex& index) const
 {
   if (!index.isValid())
@@ -174,9 +167,8 @@ flags(const QModelIndex& index) const
   return flags;
 }
 
-
 void
-ConnectionsWidgetModel::
+ConnectionsEditorWidgetModel::
 addConnection(Connections::DatabaseType databaseType)
 {
   int size = _connectionsManager->size();
@@ -189,14 +181,14 @@ addConnection(Connections::DatabaseType databaseType)
   // case DatabaseType::SQLite:
   // break;
   // }
-  _entries.insert(size, new ConnectionEntry(_connectionsManager->operator[](size)));
+  _entries.insert(size,
+                  new ConnectionEntry(_connectionsManager->operator[](size)));
 
   endInsertRows();
 }
 
-
 void
-ConnectionsWidgetModel::
+ConnectionsEditorWidgetModel::
 onClicked(const QModelIndex& index)
 {
   if (!index.parent().isValid() &&
@@ -211,9 +203,8 @@ onClicked(const QModelIndex& index)
   }
 }
 
-
 int
-ConnectionsWidgetModel::
+ConnectionsEditorWidgetModel::
 getEntryPosition(Entry* entry) const
 {
   auto it = std::find(_entries.begin(),
