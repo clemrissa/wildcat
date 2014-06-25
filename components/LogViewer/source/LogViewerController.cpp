@@ -11,7 +11,7 @@
 
 #include <Core/MainWindow>
 
-#include <Uni/Logging/logging>
+#include <Uni/Logging/Logging>
 
 using Geo::LogViewer::LogViewerController;
 using Geo::LogViewer::LogViewerWidget;
@@ -24,13 +24,11 @@ LogViewerController()
   //
 }
 
-
 LogViewerController::
 ~LogViewerController()
 {
   //
 }
-
 
 LogViewerController*
 LogViewerController::
@@ -41,7 +39,6 @@ instance()
 
   return _instance;
 }
-
 
 void
 LogViewerController::
