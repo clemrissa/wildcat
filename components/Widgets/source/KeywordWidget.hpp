@@ -24,9 +24,16 @@ public:
   QStringList
   keywordList() const;
 
+protected:
+  bool
+  eventFilter(QObject* obj, QEvent* event) override;
+
 private:
   void
   connectSignals() const;
+
+  void
+  addKeyword(QString keyword);
 
 private slots:
   void
