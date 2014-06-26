@@ -7,8 +7,8 @@
 
 #include <Uni/Logging/Logging>
 
-#include <Models/SettingsWidgetModel/ConnectionEntry.hpp>
-#include <Models/SettingsWidgetModel/SettingsWidgetModel.hpp>
+#include <Models/DatabaseSettingsWidgetModel/ConnectionEntry.hpp>
+#include <Models/DatabaseSettingsWidgetModel/DatabaseSettingsWidgetModel.hpp>
 
 #include <Gui/DatabaseSettingsWidget/DatabasePropertiesWidget.hpp>
 
@@ -16,8 +16,8 @@ using Geo::Database::Gui::DatabaseSettingsWidget;
 
 using Geo::Database::Gui::DatabasePropertiesWidget;
 
-using Geo::Database::Models::SettingsWidgetModel::
-      SettingsWidgetModel;
+using Geo::Database::Models::DatabaseSettingsWidgetModel::
+      DatabaseSettingsWidgetModel;
 
 struct DatabaseSettingsWidget::Private
 {
@@ -27,7 +27,7 @@ struct DatabaseSettingsWidget::Private
 };
 
 DatabaseSettingsWidget::
-DatabaseSettingsWidget(SettingsWidgetModel* tableModel):
+DatabaseSettingsWidget(DatabaseSettingsWidgetModel* tableModel):
   p(new DatabaseSettingsWidget::Private())
 {
   setupUi(tableModel);
@@ -42,7 +42,7 @@ DatabaseSettingsWidget::
 
 void
 DatabaseSettingsWidget::
-setupUi(SettingsWidgetModel* tableModel)
+setupUi(DatabaseSettingsWidgetModel* tableModel)
 {
   setWindowTitle(tr("Database Settings"));
   setMinimumSize(800, 400);
@@ -78,7 +78,7 @@ setupUi(SettingsWidgetModel* tableModel)
 
 void
 DatabaseSettingsWidget::
-connectSignals(SettingsWidgetModel* tableModel)
+connectSignals(DatabaseSettingsWidgetModel* tableModel)
 {
   connect(p->tableView, SIGNAL(activated(const QModelIndex &)),
           this,         SLOT(onConnectionClicked(const QModelIndex &)));

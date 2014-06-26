@@ -5,7 +5,7 @@
 #include <QtGui/QIcon>
 #include <QtGui/QPalette>
 
-using Geo::Database::Models::SettingsWidgetModel::ConnectionEntry;
+using Geo::Database::Models::DatabaseSettingsWidgetModel::ConnectionEntry;
 
 QVariant
 ConnectionEntry::
@@ -34,11 +34,11 @@ ConnectionEntry::
 getDisplayRole(int column)
 {
   switch (column) {
-  case SettingsWidgetModel::Entry::Type:
+  case DatabaseSettingsWidgetModel::Entry::Type:
     return _connection->connectionTypeName(_connection->databaseType());
     break;
 
-  case SettingsWidgetModel::Entry::Database:
+  case DatabaseSettingsWidgetModel::Entry::Database:
     return _connection->databasePath();
     break;
   }

@@ -6,8 +6,8 @@
 namespace Geo {
 namespace Database {
 namespace Models {
-namespace SettingsWidgetModel {
-class SettingsWidgetModel;
+namespace DatabaseSettingsWidgetModel {
+class DatabaseSettingsWidgetModel;
 }
 }
 
@@ -17,7 +17,7 @@ class DatabaseSettingsWidget: public QWidget
   Q_OBJECT
 
 public:
-  DatabaseSettingsWidget(Models::SettingsWidgetModel::SettingsWidgetModel*
+  DatabaseSettingsWidget(Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel*
                          tableModel);
 
   ~DatabaseSettingsWidget();
@@ -29,11 +29,11 @@ public slots:
 private:
   void
   setupUi(
-    Models::SettingsWidgetModel::SettingsWidgetModel* tableModel);
+    Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel* tableModel);
 
   void
   connectSignals(
-    Models::SettingsWidgetModel::SettingsWidgetModel* tableModel);
+    Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel* tableModel);
 
 private:
   struct Private;

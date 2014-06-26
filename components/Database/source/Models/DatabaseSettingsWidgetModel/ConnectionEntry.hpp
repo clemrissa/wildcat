@@ -1,13 +1,14 @@
-#ifndef Geo_Database_SettingsWidgetModel_Connection_hpp
-#define Geo_Database_SettingsWidgetModel_Connection_hpp
+#ifndef Geo_Database_DatabaseSettingsWidgetModel_Connection_hpp
+
+#define Geo_Database_DatabaseSettingsWidgetModel_Connection_hpp
 
 #include <Connections/Connection.hpp>
-#include <Models/SettingsWidgetModel/Entry.hpp>
+#include <Models/DatabaseSettingsWidgetModel/Entry.hpp>
 
 namespace Geo {
 namespace Database {
 namespace Models {
-namespace SettingsWidgetModel {
+namespace DatabaseSettingsWidgetModel {
 //
 
 class ConnectionEntry: public Entry {
@@ -44,4 +45,4 @@ private:
 }
 }
 
-#endif //  Geo_Database_SettingsWidgetModel_Connection_hpp
+#endif //  Geo_Database_DatabaseSettingsWidgetModel_Connection_hpp

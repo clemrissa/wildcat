@@ -1,21 +1,21 @@
-#include "SettingsWidgetModel.hpp"
+#include "DatabaseSettingsWidgetModel.hpp"
 
 #include <DependencyManager/ApplicationContext>
 
 #include <Uni/Logging/Logging>
 
 #include <Connections/ConnectionManager.hpp>
-#include <Models/SettingsWidgetModel/ConnectionEntry.hpp>
-#include <Models/SettingsWidgetModel/Entry.hpp>
+#include <Models/DatabaseSettingsWidgetModel/ConnectionEntry.hpp>
+#include <Models/DatabaseSettingsWidgetModel/Entry.hpp>
 
 #include <algorithm>
 
-using Geo::Database::Models::SettingsWidgetModel::ConnectionEntry;
-using Geo::Database::Models::SettingsWidgetModel::Entry;
-using Geo::Database::Models::SettingsWidgetModel::SettingsWidgetModel;
+using Geo::Database::Models::DatabaseSettingsWidgetModel::ConnectionEntry;
+using Geo::Database::Models::DatabaseSettingsWidgetModel::Entry;
+using Geo::Database::Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel;
 
-SettingsWidgetModel::
-SettingsWidgetModel()
+DatabaseSettingsWidgetModel::
+DatabaseSettingsWidgetModel()
 {
   using Connections::ConnectionManager;
   using DependencyManager::ApplicationContext;
@@ -30,15 +30,15 @@ SettingsWidgetModel()
   _entries.push_back(new ConnectionEntry());
 }
 
-SettingsWidgetModel::
-~SettingsWidgetModel()
+DatabaseSettingsWidgetModel::
+~DatabaseSettingsWidgetModel()
 {
   for (auto entry : _entries)
     delete entry;
 }
 
 QVariant
-SettingsWidgetModel::
+DatabaseSettingsWidgetModel::
 data(const QModelIndex& index, int role) const
 {
   if (!index.isValid())
@@ -51,7 +51,7 @@ data(const QModelIndex& index, int role) const
 }
 
 QModelIndex
-SettingsWidgetModel::
+DatabaseSettingsWidgetModel::
 index(int row, int column, const QModelIndex& parent) const
 {
   QModelIndex index;
@@ -63,7 +63,7 @@ index(int row, int column, const QModelIndex& parent) const
 }
 
 QModelIndex
-SettingsWidgetModel::
+DatabaseSettingsWidgetModel::
 parent(const QModelIndex& index) const
 {
   Q_UNUSED(index);
@@ -72,7 +72,7 @@ parent(const QModelIndex& index) const
 }
 
 int
-SettingsWidgetModel::
+DatabaseSettingsWidgetModel::
 columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
@@ -81,7 +81,7 @@ columnCount(const QModelIndex& parent) const
 }
 
 int
-SettingsWidgetModel::
+DatabaseSettingsWidgetModel::
 rowCount(const QModelIndex& parent) const
 {
   if (!parent.isValid())
@@ -91,7 +91,7 @@ rowCount(const QModelIndex& parent) const
 }
 
 QVariant
-SettingsWidgetModel::
+DatabaseSettingsWidgetModel::
 headerData(int             section,
            Qt::Orientation orientation,
            int             role)  const
@@ -122,7 +122,7 @@ headerData(int             section,
 }
 
 Qt::ItemFlags
-SettingsWidgetModel::
+DatabaseSettingsWidgetModel::
 flags(const QModelIndex& index) const
 {
   return QAbstractItemModel::flags(index);

@@ -1,5 +1,5 @@
-#ifndef Geo_Database_SettingsWidgetModel_hpp
-#define Geo_Database_SettingsWidgetModel_hpp
+#ifndef Geo_Database_DatabaseSettingsWidgetModel_hpp
+#define Geo_Database_DatabaseSettingsWidgetModel_hpp
 
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QVariant>
@@ -14,19 +14,19 @@ class ConnectionManager;
 }
 
 namespace Models {
-namespace SettingsWidgetModel {
+namespace DatabaseSettingsWidgetModel {
 //
 class Entry;
 //
-class SettingsWidgetModel: public QAbstractItemModel
+class DatabaseSettingsWidgetModel: public QAbstractItemModel
 {
   Q_OBJECT
 
 public:
-  SettingsWidgetModel();
+  DatabaseSettingsWidgetModel();
 
   virtual
-  ~SettingsWidgetModel();
+  ~DatabaseSettingsWidgetModel();
 
 public:
   virtual
@@ -72,4 +72,4 @@ private:
 }
 }
 
-#endif //  Geo_Database_SettingsWidgetModel_hpp
+#endif //  Geo_Database_DatabaseSettingsWidgetModel_hpp
