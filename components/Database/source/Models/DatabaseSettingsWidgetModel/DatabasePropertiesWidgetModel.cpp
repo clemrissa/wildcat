@@ -1,7 +1,7 @@
 #include "DatabasePropertiesWidgetModel.hpp"
 
 
-using Geo::Database::Models::DatabasePropertiesWidgetModel::DatabasePropertiesWidgetModel;
+using Geo::Database::Models::DatabaseSettingsWidgetModel::DatabasePropertiesWidgetModel;
 
 
 DatabasePropertiesWidgetModel::

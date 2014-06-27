@@ -12,9 +12,9 @@
 
 #include <Gui/DatabaseSettingsWidget/DatabasePropertiesWidget.hpp>
 
-using Geo::Database::Gui::DatabaseSettingsWidget;
+using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
 
-using Geo::Database::Gui::DatabasePropertiesWidget;
+using Geo::Database::Gui::DatabaseSettingsWidget::DatabasePropertiesWidget;
 
 using Geo::Database::Models::DatabaseSettingsWidgetModel::
       DatabaseSettingsWidgetModel;
@@ -52,10 +52,8 @@ setupUi(DatabaseSettingsWidgetModel* tableModel)
   p->tableView->setModel(tableModel);
 
   p->tableView->horizontalHeader()->setStretchLastSection(true);
-  p->tableView->horizontalHeader()->setSectionResizeMode(0,
-                                                         QHeaderView::ResizeToContents);
-  p->tableView->horizontalHeader()->setSectionResizeMode(1,
-                                                         QHeaderView::Stretch);
+  p->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+  p->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
   p->tableView->setShowGrid(false);
 
   p->tableView->verticalHeader()->hide();

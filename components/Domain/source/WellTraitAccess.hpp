@@ -1,5 +1,5 @@
-#ifndef Geo_Domain_WellTraitAccessObject_hpp
-#define Geo_Domain_WellTraitAccessObject_hpp
+#ifndef Geo_Domain_WellTraitAccess_hpp
+#define Geo_Domain_WellTraitAccess_hpp
 
 #include <Domain/WellTrait>
 
@@ -38,5 +38,5 @@ public:
 }
 }
 
-#endif // Geo_Domain_WellTraitAccessObject_hpp
+#endif // Geo_Domain_WellTraitAccess_hpp
 

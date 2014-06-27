@@ -15,7 +15,7 @@ namespace Database {
 
 
 namespace Models {
-namespace DatabasePropertiesWidgetModel {
+namespace DatabaseSettingsWidgetModel {
 
 class DatabasePropertiesWidgetModel: public QAbstractItemModel {
 public:

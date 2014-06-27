@@ -12,6 +12,9 @@ class DatabaseSettingsWidgetModel;
 }
 
 namespace Gui {
+
+namespace DatabaseSettingsWidget {
+
 class DatabaseSettingsWidget: public QWidget
 {
   Q_OBJECT
@@ -40,6 +43,8 @@ private:
 
   Private* p;
 };
+
+}
 }
 }
 }

@@ -1,7 +1,8 @@
 #ifndef Geo_Domain_WellTrait_hpp
 #define Geo_Domain_WellTrait_hpp
 
-#include <QSharedPointer>
+#include <QtCore/QSharedPointer>
+#include <QtCore/QList>
 
 #include <odb/core.hxx>
 
@@ -13,6 +14,8 @@ namespace Domain {
 class WellTrait {
 public:
   typedef QSharedPointer<WellTrait> Shared;
+
+public:
 
   WellTrait() {}
 
@@ -26,6 +29,14 @@ public:
   void
   setName(QString name) { _name = name; }
 
+  QList<QString>
+  synonyms() const { return _synonyms; }
+
+  void
+  setSynonyms(QList<QString> synonyms) {
+    _synonyms = synonyms;
+  }
+
 private:
   friend class odb::access;
 
@@ -33,6 +44,8 @@ private:
   #pragma db id
 #endif
   QString _name;
+
+  QList<QString> _synonyms;
 
   bool _mandatory;
 };

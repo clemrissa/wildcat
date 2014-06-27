@@ -68,7 +68,7 @@ showSettingsWidget()
   using DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
 
-  using Geo::Database::Gui::DatabaseSettingsWidget;
+  using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
   using Geo::Database::Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel;
 
   MainWindow* mainWindow =

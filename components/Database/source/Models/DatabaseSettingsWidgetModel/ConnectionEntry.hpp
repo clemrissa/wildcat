@@ -1,6 +1,5 @@
-#ifndef Geo_Database_DatabaseSettingsWidgetModel_Connection_hpp
-
-#define Geo_Database_DatabaseSettingsWidgetModel_Connection_hpp
+#ifndef Geo_Database_DatabaseSettingsWidgetModel_ConnectionEntry_hpp
+#define Geo_Database_DatabaseSettingsWidgetModel_ConnectionEntry_hpp
 
 #include <Connections/Connection.hpp>
 #include <Models/DatabaseSettingsWidgetModel/Entry.hpp>
@@ -45,4 +44,4 @@ private:
 }
 }
 
-#endif //  Geo_Database_DatabaseSettingsWidgetModel_Connection_hpp
+#endif //  Geo_Database_DatabaseSettingsWidgetModel_ConnectionEntry_hpp
