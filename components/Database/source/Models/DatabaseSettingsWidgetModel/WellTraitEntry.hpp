@@ -14,7 +14,10 @@ namespace DatabaseSettingsWidgetModel {
 class WellTraitEntry: public Entry
 {
 public:
-  enum Column { Trait = 0, Synonyms = 1, Size };
+  enum Column { Trait = 0, 
+                Synonyms = 1, 
+                CloseAction = 2, 
+                Size };
 
 public:
   WellTraitEntry(Geo::Domain::WellTrait::Shared trait):
@@ -35,11 +38,11 @@ public:
 private:
   Geo::Domain::WellTrait::Shared _trait;
 
-  // QVariant
-  // getDisplayRole(int column);
+  QVariant
+  getDisplayEditRole(int column) const;
 
-  // QVariant
-  // getBackgroundRole(int column);
+  QVariant
+  getDecorationRole(int column) const;
 };
 
 //

@@ -121,7 +121,7 @@ columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
 
-  return 2;
+  return 3;
 }
 
 
@@ -172,7 +172,8 @@ flags(const QModelIndex& index) const
 {
   Qt::ItemFlags flags =   QAbstractItemModel::flags(index);
 
-  flags |= Qt::ItemIsEditable;
+  if (index.column() != WellTraitEntry::CloseAction)
+    flags |= Qt::ItemIsEditable;
 
   flags ^= Qt::ItemIsSelectable;
 

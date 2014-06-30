@@ -66,9 +66,11 @@ createUi()
 
   auto headerView = _p->traitsTable->horizontalHeader();
 
-  headerView->setStretchLastSection(true);
+  headerView->setStretchLastSection(false);
   headerView->setSectionResizeMode(0, QHeaderView::ResizeToContents);
   headerView->setSectionResizeMode(1, QHeaderView::Stretch);
+  headerView->setSectionResizeMode(2, QHeaderView::Fixed);
+  headerView->resizeSection(2, 20);
 
   QHeaderView* verticalHeader = _p->traitsTable->verticalHeader();
   verticalHeader->setSectionResizeMode(QHeaderView::ResizeToContents);
