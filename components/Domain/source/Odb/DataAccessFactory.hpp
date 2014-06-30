@@ -30,18 +30,21 @@ public:
   DataAccessFactory&
   operator=(DataAccessFactory const&) = delete;
 
+  Database
+  database() const override { return _db; }
+
   Domain::LogAccess::Shared
-  logAccess() const {
+  logAccess() const override {
     return Domain::LogAccess::Shared(new LogAccess(_db));
   }
 
   Domain::WellAccess::Shared
-  wellAccess() const {
+  wellAccess() const override {
     return Domain::WellAccess::Shared(new WellAccess(_db));
   }
 
   Domain::WellTraitAccess::Shared
-  wellTraitAccess() const {
+  wellTraitAccess() const override {
     return Domain::WellTraitAccess::Shared(new WellTraitAccess(_db));
   }
 

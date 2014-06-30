@@ -148,22 +148,28 @@ connect()
     _dataAccessFactory = DataAccessFactory::Shared(
       new Domain::Odb::DataAccessFactory(db));
 
-    // create Sqlite db scheme
-    {
-      odb::connection_ptr c(db->connection());
-
-      c->execute("PRAGMA foreign_keys=OFF");
-      odb::transaction t(c->begin());
-
-      bool dropDB = false;
-      odb::schema_catalog::create_schema(*db, "", dropDB);
-      t.commit();
-      c->execute("PRAGMA foreign_keys=ON");
-    }
 
     setStatus(Status::Connected);
   } catch (odb::sqlite::database_exception const& exc) {
     setStatus(Status::Failed);
+    setLastError(QString(exc.message().c_str()));
+  }
+
+  // create Sqlite db scheme
+  if (_status == Status::Connected)
+  try {
+    auto odb_database = _dataAccessFactory->database();
+
+    odb::connection_ptr c(odb_database->connection());
+
+    c->execute("PRAGMA foreign_keys=OFF");
+    odb::transaction t(c->begin());
+
+    bool dropDB = false;
+    odb::schema_catalog::create_schema(*odb_database, "", dropDB);
+    t.commit();
+    c->execute("PRAGMA foreign_keys=ON");
+  } catch (odb::sqlite::database_exception const& exc) {
     setLastError(QString(exc.message().c_str()));
   }
 }

@@ -7,6 +7,8 @@
 
 #include <QSharedPointer>
 
+#include <odb/database.hxx>
+
 namespace Geo {
 namespace Domain {
 /**
@@ -22,6 +24,9 @@ public:
 
   DataAccessFactory&
   operator=(DataAccessFactory const&) = delete;
+
+  virtual QSharedPointer<odb::core::database> 
+  database() const = 0;
 
   virtual LogAccess::Shared
   logAccess() const = 0;
