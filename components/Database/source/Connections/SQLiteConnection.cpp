@@ -116,7 +116,8 @@ xmlDescription(QDomDocument& doc) const
 {
   QDomElement tag = doc.createElement("Connection");
 
-  tag.setAttribute("Type", Connection::connectionTypeName(DatabaseType::SQLite));
+  tag.setAttribute("Type",
+                   Connection::connectionTypeName(DatabaseType::SQLite));
 
   QDomElement e = doc.createElement("Path");
   tag.appendChild(e);
@@ -154,7 +155,8 @@ connect()
       c->execute("PRAGMA foreign_keys=OFF");
       odb::transaction t(c->begin());
 
-      odb::schema_catalog::create_schema(*db);
+      bool dropDB = false;
+      odb::schema_catalog::create_schema(*db, "", dropDB);
       t.commit();
       c->execute("PRAGMA foreign_keys=ON");
     }

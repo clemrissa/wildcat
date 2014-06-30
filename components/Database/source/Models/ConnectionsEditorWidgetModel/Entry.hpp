@@ -15,9 +15,6 @@ namespace ConnectionsEditorWidgetModel {
 class Entry: public QObject
 {
 public:
-  enum Column { Database = 0, Action = 1, Size };
-
-public:
   Entry(Entry* parent = nullptr):
     _parent(parent)
   {

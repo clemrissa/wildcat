@@ -9,7 +9,8 @@
 namespace Geo {
 namespace Domain {
 namespace Odb {
-class WellTraitAccess: public Geo::Domain::WellTraitAccess {
+class WellTraitAccess: public Geo::Domain::WellTraitAccess
+{
 public:
   typedef typename Geo::Domain::WellTraitAccess::Shared Shared;
   typedef QSharedPointer<odb::core::database>           Database;
@@ -51,4 +52,3 @@ private:
 }
 
 #endif //  Geo_Domain_Odb_WellTraitAccessObject_hpp
-

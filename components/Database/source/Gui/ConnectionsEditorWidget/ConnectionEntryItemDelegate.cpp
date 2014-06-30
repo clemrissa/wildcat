@@ -12,7 +12,7 @@
 
 #include <Connections/Connection.hpp>
 
-using Geo::Database::Gui::ConnectionEntryItemDelegate;
+using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionEntryItemDelegate;
 
 QWidget*
 ConnectionEntryItemDelegate::
@@ -44,6 +44,7 @@ createEditor(QWidget*                    parent,
   return 0;
 }
 
+
 void
 ConnectionEntryItemDelegate::
 updateEditorGeometry(QWidget*                    editor,
@@ -54,6 +55,7 @@ updateEditorGeometry(QWidget*                    editor,
 
   editor->setGeometry(option.rect);
 }
+
 
 void
 ConnectionEntryItemDelegate::
@@ -70,6 +72,7 @@ setEditorData(QWidget* editor, const QModelIndex& index) const
 
   c->showPopup();
 }
+
 
 void
 ConnectionEntryItemDelegate::
@@ -88,6 +91,7 @@ setModelData(QWidget*            editor,
     m->addConnection((Connections::DatabaseType)c->currentIndex());
   }
 }
+
 
 void
 ConnectionEntryItemDelegate::

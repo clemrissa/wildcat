@@ -12,9 +12,7 @@ class DatabaseSettingsWidgetModel;
 }
 
 namespace Gui {
-
 namespace DatabaseSettingsWidget {
-
 class DatabaseSettingsWidget: public QWidget
 {
   Q_OBJECT
@@ -35,15 +33,13 @@ private:
     Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel* tableModel);
 
   void
-  connectSignals(
-    Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel* tableModel);
+  connectSignals();
 
 private:
   struct Private;
 
   Private* p;
 };
-
 }
 }
 }

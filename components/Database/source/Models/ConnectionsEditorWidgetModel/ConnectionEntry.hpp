@@ -13,6 +13,9 @@ namespace ConnectionsEditorWidgetModel {
 class ConnectionEntry: public Entry
 {
 public:
+  enum Column { Database = 0, Action = 1, Size };
+
+public:
   ConnectionEntry(Connections::Connection::Shared connection):
     _connection(connection)
   {

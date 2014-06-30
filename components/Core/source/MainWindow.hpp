@@ -5,7 +5,8 @@
 
 namespace Geo {
 namespace Core {
-class MainWindow: public QMainWindow {
+class MainWindow: public QMainWindow
+{
 public:
   virtual
   void

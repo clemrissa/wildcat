@@ -35,18 +35,18 @@ KeywordWidget(QWidget* parent):
   connectSignals();
 
   QStringList testKeywords;
-  testKeywords << "suka";
-  testKeywords << "pidor";
-  testKeywords << "sucksuck";
-  testKeywords << "fuck";
-  testKeywords << "zaebis";
+  testKeywords << "lalala";
+  testKeywords << "privet";
+  testKeywords << "nuremberg";
+  testKeywords << "muenche";
 
   setKeywords(testKeywords);
 }
 
+
 void
 KeywordWidget::
-setKeywords(QStringList const& keywordList)
+setKeywords(QStringList keywordList)
 {
   _keywords = keywordList;
 
@@ -54,12 +54,14 @@ setKeywords(QStringList const& keywordList)
     addKeyword(keyword);
 }
 
+
 QStringList
 KeywordWidget::
-keywordList() const
+keywords() const
 {
   return _keywords;
 }
+
 
 bool
 KeywordWidget::
@@ -94,6 +96,7 @@ eventFilter(QObject* obj, QEvent* event)
   return false;
 }
 
+
 void
 KeywordWidget::
 connectSignals() const
@@ -103,6 +106,7 @@ connectSignals() const
           this,
           SLOT(onTextChanged(QString const &)));
 }
+
 
 void
 KeywordWidget::
@@ -115,6 +119,7 @@ onTextChanged(QString const& text)
     addKeyword(newKeyword);
   }
 }
+
 
 void
 KeywordWidget::
@@ -143,4 +148,6 @@ addKeyword(QString keyword)
   _flowLayout->addWidget(_lineEdit);
 
   _lineEdit->clear();
+
+  emit keywordAdded();
 }

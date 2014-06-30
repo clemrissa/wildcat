@@ -27,11 +27,13 @@ instance()
   return _instance;
 }
 
+
 DatabaseController::
 DatabaseController()
 {
   //
 }
+
 
 DatabaseController::
 ~DatabaseController()
@@ -39,13 +41,14 @@ DatabaseController::
   //
 }
 
+
 void
 DatabaseController::
 showConnectionsWidget()
 {
   using DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
-  using Geo::Database::Gui::ConnectionsEditorWidget;
+  using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionsEditorWidget;
   using Model =
           Geo::Database::Models::ConnectionsEditorWidgetModel::
           ConnectionsEditorWidgetModel;
@@ -61,6 +64,7 @@ showConnectionsWidget()
   mainWindow->toCentralWidget(databaseConnectionsWidget);
 }
 
+
 void
 DatabaseController::
 showSettingsWidget()
@@ -69,18 +73,21 @@ showSettingsWidget()
   using Geo::Core::MainWindow;
 
   using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
-  using Geo::Database::Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel;
+  using Geo::Database::Models::DatabaseSettingsWidgetModel::
+        DatabaseSettingsWidgetModel;
 
   MainWindow* mainWindow =
     ApplicationContext::create<MainWindow>("Core.MainWindow");
 
-  auto databaseDatabaseSettingsWidgetModel = new DatabaseSettingsWidgetModel();
+  auto databaseSettingsWidgetModel =
+    new DatabaseSettingsWidgetModel();
 
-  auto databaseConnectionsWidget = new DatabaseSettingsWidget(
-    databaseDatabaseSettingsWidgetModel);
+  auto databaseConnectionsWidget =
+    new DatabaseSettingsWidget(databaseSettingsWidgetModel);
 
   mainWindow->toCentralWidget(databaseConnectionsWidget);
 }
+
 
 //
 }

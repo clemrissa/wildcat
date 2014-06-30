@@ -10,7 +10,8 @@
 namespace Geo {
 namespace Database {
 namespace Connections {
-class SQLiteConnection: public Connection {
+class SQLiteConnection: public Connection
+{
   Q_OBJECT
 
 private:
@@ -74,7 +75,6 @@ protected:
     emit lastErrorChanged(lastError);
   }
 
-
   void
   setStatus(Status const& status)
   {
@@ -82,14 +82,12 @@ protected:
     emit statusChanged(status);
   }
 
-
   void
   setDatabaseType(DatabaseType const& databaseType)
   {
     _databaseType = databaseType;
     emit databaseTypeChanged(_databaseType);
   }
-
 
 private:
   QString _lastError;

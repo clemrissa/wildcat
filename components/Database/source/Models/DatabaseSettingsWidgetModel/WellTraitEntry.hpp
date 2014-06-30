@@ -11,31 +11,35 @@ namespace Models {
 namespace DatabaseSettingsWidgetModel {
 //
 
-class WellTraitEntry: public Entry {
+class WellTraitEntry: public Entry
+{
 public:
   enum Column { Trait = 0, Synonyms = 1, Size };
+
 public:
   WellTraitEntry(Geo::Domain::WellTrait::Shared trait):
-    _connection(connection)
-  {}
+    _trait(trait)
+  {
+  }
 
-  WellTraitEntry() {}
+  WellTraitEntry()
+  {
+  }
 
   QVariant
   data(int role, int column) override;
 
   Geo::Domain::WellTrait::Shared
-  connection() const;
+  trait() const;
 
 private:
   Geo::Domain::WellTrait::Shared _trait;
 
+  // QVariant
+  // getDisplayRole(int column);
 
-  //QVariant
-  //getDisplayRole(int column);
-
-  //QVariant
-  //getBackgroundRole(int column);
+  // QVariant
+  // getBackgroundRole(int column);
 };
 
 //

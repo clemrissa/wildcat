@@ -6,7 +6,7 @@
       <method name="toBottomDock"/>
       <method name="toLeftDock"/>
       <method name="toRightDock"/>
-      <method name="toCentralWidget"/>
+      <!--<method name="toCentralWidget"/>-->
       <method name="addMenu"/>
       <method name="addToolBar"/>
     </bean>

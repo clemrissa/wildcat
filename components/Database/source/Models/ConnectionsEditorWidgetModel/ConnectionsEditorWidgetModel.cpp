@@ -32,12 +32,14 @@ ConnectionsEditorWidgetModel()
   _entries.push_back(new ConnectionEntry());
 }
 
+
 ConnectionsEditorWidgetModel::
 ~ConnectionsEditorWidgetModel()
 {
   for (auto entry : _entries)
     delete entry;
 }
+
 
 QVariant
 ConnectionsEditorWidgetModel::
@@ -51,6 +53,7 @@ data(const QModelIndex& index, int role) const
 
   return entry->data(role, index.column());
 }
+
 
 QModelIndex
 ConnectionsEditorWidgetModel::
@@ -67,6 +70,7 @@ index(int row, int column, const QModelIndex& parent) const
 
   return QAbstractItemModel::createIndex(row, column, entry->entries()[row]);
 }
+
 
 QModelIndex
 ConnectionsEditorWidgetModel::
@@ -94,6 +98,7 @@ parent(const QModelIndex& index) const
   return QAbstractItemModel::createIndex(position, 0, parentEntry);
 }
 
+
 int
 ConnectionsEditorWidgetModel::
 columnCount(const QModelIndex& parent) const
@@ -102,6 +107,7 @@ columnCount(const QModelIndex& parent) const
 
   return 2;
 }
+
 
 int
 ConnectionsEditorWidgetModel::
@@ -115,6 +121,7 @@ rowCount(const QModelIndex& parent) const
 
   return entry->entries().size();
 }
+
 
 // bool
 // Model::
@@ -139,7 +146,7 @@ headerData(int             section,
     return result;
 
   switch (section) {
-  case Entry::Database:
+  case ConnectionEntry::Database:
     result = tr("Item");
     break;
 
@@ -150,6 +157,7 @@ headerData(int             section,
 
   return result;
 }
+
 
 Qt::ItemFlags
 ConnectionsEditorWidgetModel::
@@ -166,6 +174,7 @@ flags(const QModelIndex& index) const
 
   return flags;
 }
+
 
 void
 ConnectionsEditorWidgetModel::
@@ -187,6 +196,7 @@ addConnection(Connections::DatabaseType databaseType)
   endInsertRows();
 }
 
+
 void
 ConnectionsEditorWidgetModel::
 onClicked(const QModelIndex& index)
@@ -202,6 +212,7 @@ onClicked(const QModelIndex& index)
     endRemoveRows();
   }
 }
+
 
 int
 ConnectionsEditorWidgetModel::

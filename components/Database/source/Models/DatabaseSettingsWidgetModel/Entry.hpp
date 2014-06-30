@@ -12,17 +12,14 @@ namespace Models {
 namespace DatabaseSettingsWidgetModel {
 //
 
-class Entry: public QObject {
-public:
-  enum Column { Type = 0, Database = 1, Size };
-
+class Entry: public QObject
+{
 public:
   Entry(Entry* parent = nullptr):
     _parent(parent)
   {
     //
   }
-
 
   virtual
   ~Entry()
@@ -31,20 +28,17 @@ public:
       delete entry;
   }
 
-
   Entry*
   parent() const
   {
     return _parent;
   }
 
-
   std::vector<Entry*> const
   entries() const
   {
     return _entries;
   }
-
 
   int
   positionOfChildEntry(Entry* const childEntry) const
@@ -53,7 +47,6 @@ public:
 
     return it - _entries.begin();
   }
-
 
   virtual QVariant
   data(int role, int column) = 0;

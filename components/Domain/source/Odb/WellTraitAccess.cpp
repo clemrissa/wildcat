@@ -12,13 +12,13 @@ using odb::core::transaction;
 typedef odb::query<WellTraitAccess::WellTrait>  Query;
 typedef odb::result<WellTraitAccess::WellTrait> Result;
 
-
 WellTraitAccess::
 WellTraitAccess(Database db): _db(db) {}
 
 void
 WellTraitAccess::
-insert(WellTrait::Shared wellTrait) {
+insert(WellTrait::Shared wellTrait)
+{
   try {
     transaction t(_db->begin());
 
@@ -32,9 +32,11 @@ insert(WellTrait::Shared wellTrait) {
   }
 }
 
+
 void
 WellTraitAccess::
-update(WellTrait::Shared wellTrait) {
+update(WellTrait::Shared wellTrait)
+{
   try {
     transaction t(_db->begin());
 
@@ -46,9 +48,11 @@ update(WellTrait::Shared wellTrait) {
   }
 }
 
+
 void
 WellTraitAccess::
-remove(WellTrait::Shared wellTrait) {
+remove(WellTrait::Shared wellTrait)
+{
   try {
     transaction t(_db->begin());
 
@@ -60,9 +64,11 @@ remove(WellTrait::Shared wellTrait) {
   }
 }
 
+
 void
 WellTraitAccess::
-remove(QString const& pk) {
+remove(QString const& pk)
+{
   try {
     transaction t(_db->begin());
 
@@ -74,9 +80,11 @@ remove(QString const& pk) {
   }
 }
 
+
 QVector<WellTraitAccess::WellTrait::Shared>
 WellTraitAccess::
-findAll() {
+findAll()
+{
   QVector<WellTrait::Shared> vector;
   try {
     transaction t(_db->begin());
@@ -100,8 +108,10 @@ findAll() {
   return vector;
 }
 
+
 WellTraitAccess::WellTrait::Shared
 WellTraitAccess::
-findByPrimaryKey(QString const& pk) {
+findByPrimaryKey(QString const& pk)
+{
   return WellTrait::Shared(_db->load<WellTrait>(pk));
 }

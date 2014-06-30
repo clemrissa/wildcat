@@ -14,7 +14,7 @@
 
 #include <Uni/Logging/Logging>
 
-using Geo::Database::Gui::ConnectionsEditorWidget;
+using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionsEditorWidget;
 
 using Geo::Database::Models::ConnectionsEditorWidgetModel::
       ConnectionsEditorWidgetModel;
@@ -33,11 +33,13 @@ ConnectionsEditorWidget(ConnectionsEditorWidgetModel* treeModel):
   connectSignals(treeModel);
 }
 
+
 ConnectionsEditorWidget::
 ~ConnectionsEditorWidget()
 {
   delete p;
 }
+
 
 void
 ConnectionsEditorWidget::
@@ -79,16 +81,20 @@ setupUi(ConnectionsEditorWidgetModel* treeModel)
   setLayout(l);
 }
 
+
 void
 ConnectionsEditorWidget::
 connectSignals(ConnectionsEditorWidgetModel* treeModel)
 {
+  // for deleting rows
   connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
           treeModel,   SLOT(onClicked(const QModelIndex &)));
 
+  // for assgning connection to widget
   connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
           this,        SLOT(onConnectionClicked(const QModelIndex &)));
 }
+
 
 void
 ConnectionsEditorWidget::

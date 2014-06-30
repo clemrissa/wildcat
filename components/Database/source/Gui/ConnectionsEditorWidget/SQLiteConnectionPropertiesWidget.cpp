@@ -34,11 +34,13 @@ SQLiteConnectionPropertiesWidget():
   createUi();
 }
 
+
 SQLiteConnectionPropertiesWidget::
 ~SQLiteConnectionPropertiesWidget()
 {
   delete p;
 }
+
 
 void
 SQLiteConnectionPropertiesWidget::
@@ -51,6 +53,7 @@ setConnection(Connection::Shared connection)
   connect(p->c.data(), SIGNAL(databaseChanged(QString)),
           p->databasePath, SLOT(setText(QString)));
 }
+
 
 void
 SQLiteConnectionPropertiesWidget::
@@ -82,10 +85,17 @@ createUi()
 
   using Geo::Widgets::KeywordWidget;
 
-  KeywordWidget* w =
-    ApplicationContext::create<KeywordWidget>("Widgets.KeywordWidget");
+  // KeywordWidget* w =
+  // ApplicationContext::create<KeywordWidget>("Widgets.KeywordWidget");
 
-  ll->addWidget(w);
+  // QStringList list;
+  // list << "hello";
+
+  // w->setKeywords(list);
+
+  // Q_ASSERT(list.size());
+
+  // ll->addWidget(w);
 
   ll->addStretch();
 
@@ -99,6 +109,7 @@ createUi()
   connect(p->createButton, SIGNAL(released()),
           this, SLOT(onNewClicked()));
 }
+
 
 void
 SQLiteConnectionPropertiesWidget::
@@ -117,6 +128,7 @@ onOpenClicked()
   if (!p->c.isNull())
     p->c->setDatabase(fileName);
 }
+
 
 void
 SQLiteConnectionPropertiesWidget::

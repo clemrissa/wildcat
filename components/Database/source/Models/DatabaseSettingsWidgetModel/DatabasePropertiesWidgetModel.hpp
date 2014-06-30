@@ -1,26 +1,28 @@
 #ifndef Geo_Database_DatabasePropertiesWidgetModel_hpp
 #define Geo_Database_DatabasePropertiesWidgetModel_hpp
 
+#include <Connections/Connection.hpp>
+
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QVariant>
 #include <QtCore/QVector>
 
+using Geo::Database::Connections::Connection;
+
 namespace Geo {
 namespace Database {
-
-  //namespace Connections {
-//class ConnectionManager;
-
-//}
-
-
 namespace Models {
 namespace DatabaseSettingsWidgetModel {
+//
 
-class DatabasePropertiesWidgetModel: public QAbstractItemModel {
+class WellTraitEntry;
+
+//
+
+class DatabasePropertiesWidgetModel: public QAbstractItemModel
+{
 public:
   DatabasePropertiesWidgetModel();
-
 
   virtual
   ~DatabasePropertiesWidgetModel();
@@ -29,6 +31,11 @@ public:
   virtual
   QVariant
   data(const QModelIndex& index, int role) const override;
+
+  bool
+  setData(const QModelIndex& index,
+          const QVariant&    value,
+          int                role = Qt::EditRole) override;
 
   virtual
   QModelIndex
@@ -54,14 +61,28 @@ public:
   Qt::ItemFlags
   flags(const QModelIndex& index) const override;
 
+public:
+  void
+  setConnection(Connections::Connection::Shared connection);
+
+private:
+  void
+  reloadTraits();
+
+  void
+  saveTraits();
+
 private:
   // database traits
+  Connections::Connection::Shared _connection;
 
-
+  QVector<WellTraitEntry*> _entries;
 };
 
+//
 }
 }
 }
 }
+
 #endif //  Geo_Database_DatabasePropertiesWidgetModel_hpp

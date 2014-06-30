@@ -6,11 +6,9 @@
 namespace Geo {
 namespace Database {
 namespace Gui {
-
 class ConnectionPropertiesWiget;
 
 namespace DatabaseSettingsWidget {
-
 class DatabasePropertiesWidget: public ConnectionPropertiesWidget
 {
   //
@@ -33,7 +31,6 @@ private:
 
   Private* _p;
 };
-
 }
 }
 }

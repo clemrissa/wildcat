@@ -34,11 +34,11 @@ ConnectionEntry::
 getDisplayRole(int column)
 {
   switch (column) {
-  case DatabaseSettingsWidgetModel::Entry::Type:
+  case Type:
     return _connection->connectionTypeName(_connection->databaseType());
     break;
 
-  case DatabaseSettingsWidgetModel::Entry::Database:
+  case Database:
     return _connection->databasePath();
     break;
   }

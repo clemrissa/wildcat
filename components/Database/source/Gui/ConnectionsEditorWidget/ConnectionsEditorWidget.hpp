@@ -12,6 +12,9 @@ class ConnectionsEditorWidgetModel;
 }
 
 namespace Gui {
+namespace ConnectionsEditorWidget {
+//
+
 class ConnectionsEditorWidget: public QWidget
 {
   Q_OBJECT
@@ -41,6 +44,9 @@ private:
 
   Private* p;
 };
+
+//
+}
 }
 }
 }

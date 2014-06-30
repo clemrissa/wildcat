@@ -12,7 +12,8 @@
 
 using Geo::Database::Models::DatabaseSettingsWidgetModel::ConnectionEntry;
 using Geo::Database::Models::DatabaseSettingsWidgetModel::Entry;
-using Geo::Database::Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel;
+using Geo::Database::Models::DatabaseSettingsWidgetModel::
+      DatabaseSettingsWidgetModel;
 
 DatabaseSettingsWidgetModel::
 DatabaseSettingsWidgetModel()
@@ -30,12 +31,14 @@ DatabaseSettingsWidgetModel()
   _entries.push_back(new ConnectionEntry());
 }
 
+
 DatabaseSettingsWidgetModel::
 ~DatabaseSettingsWidgetModel()
 {
   for (auto entry : _entries)
     delete entry;
 }
+
 
 QVariant
 DatabaseSettingsWidgetModel::
@@ -50,6 +53,7 @@ data(const QModelIndex& index, int role) const
   return entry->data(role, index.column());
 }
 
+
 QModelIndex
 DatabaseSettingsWidgetModel::
 index(int row, int column, const QModelIndex& parent) const
@@ -62,6 +66,7 @@ index(int row, int column, const QModelIndex& parent) const
   return index;
 }
 
+
 QModelIndex
 DatabaseSettingsWidgetModel::
 parent(const QModelIndex& index) const
@@ -70,6 +75,7 @@ parent(const QModelIndex& index) const
 
   return QModelIndex();
 }
+
 
 int
 DatabaseSettingsWidgetModel::
@@ -80,6 +86,7 @@ columnCount(const QModelIndex& parent) const
   return 2;
 }
 
+
 int
 DatabaseSettingsWidgetModel::
 rowCount(const QModelIndex& parent) const
@@ -89,6 +96,7 @@ rowCount(const QModelIndex& parent) const
 
   return 0;
 }
+
 
 QVariant
 DatabaseSettingsWidgetModel::
@@ -105,11 +113,11 @@ headerData(int             section,
     return result;
 
   switch (section) {
-  case Entry::Type:
+  case ConnectionEntry::Type:
     result = tr("Type");
     break;
 
-  case Entry::Database:
+  case ConnectionEntry::Database:
     result = tr("Database");
     break;
 
@@ -120,6 +128,7 @@ headerData(int             section,
 
   return result;
 }
+
 
 Qt::ItemFlags
 DatabaseSettingsWidgetModel::

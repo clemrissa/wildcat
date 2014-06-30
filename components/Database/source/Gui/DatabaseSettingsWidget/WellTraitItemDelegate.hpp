@@ -1,17 +1,20 @@
-#ifndef Geo_Database_Gui_ConnectionEntryItemDelegate_hpp
-#define Geo_Database_Gui_ConnectionEntryItemDelegate_hpp
+#ifndef Geo_Database_Gui_DatabaseSettingsWidget_WellTraitItemDelegate_hpp
+#define Geo_Database_Gui_DatabaseSettingsWidget_WellTraitItemDelegate_hpp
 
 #include <QStyledItemDelegate>
+
+#include <map>
+#include <utility>
 
 class QWidget;
 
 namespace Geo {
 namespace Database {
 namespace Gui {
-namespace ConnectionsEditorWidget {
+namespace DatabaseSettingsWidget {
 //
 
-class ConnectionEntryItemDelegate: public QStyledItemDelegate
+class WellTraitItemDelegate: public QStyledItemDelegate
 {
   Q_OBJECT
 
@@ -29,15 +32,22 @@ public:
   void
   setEditorData(QWidget* editor, const QModelIndex& index) const override;
 
-  virtual
   void
   setModelData(QWidget*            editor,
                QAbstractItemModel* model,
                const QModelIndex&  index) const override;
 
-private slots:
-  void
-  comboBoxActivated(int index);
+  // void
+  // paint(QPainter*                   painter,
+  // const QStyleOptionViewItem& option,
+  // const QModelIndex&          index) const override;
+
+  QSize
+  sizeHint(const QStyleOptionViewItem& option,
+           const QModelIndex&          index) const override;
+
+private:
+  mutable std::map<std::pair<int, int>, QSize> _sizeHints;
 };
 
 //
@@ -46,4 +56,4 @@ private slots:
 }
 }
 
-#endif //  Geo_Database_Gui_ConnectionEntryItemDelegate_hpp
+#endif //  Geo_Database_Gui_DatabaseSettingsWidget_WellTraitItemDelegate_hpp

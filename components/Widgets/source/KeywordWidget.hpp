@@ -19,10 +19,10 @@ public:
   KeywordWidget(QWidget* parent = nullptr);
 
   void
-  setKeywords(QStringList const& keywordList);
+  setKeywords(QStringList keywordList);
 
   QStringList
-  keywordList() const;
+  keywords() const;
 
 protected:
   bool
@@ -34,6 +34,10 @@ private:
 
   void
   addKeyword(QString keyword);
+
+signals:
+  void
+  keywordAdded();
 
 private slots:
   void

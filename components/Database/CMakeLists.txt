@@ -22,7 +22,9 @@ set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 target_link_libraries(${TARGET_NAME} PRIVATE
                       Uni
                       DependencyManager
-                      Domain)
+                      Domain
+                      #Widgets
+                      )
 
 target_link_libraries(${TARGET_NAME} PUBLIC
                       ${SQLITE_LIBRARY}

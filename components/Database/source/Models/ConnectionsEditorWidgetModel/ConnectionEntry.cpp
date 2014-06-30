@@ -36,12 +36,13 @@ data(int role, int column)
   return QVariant();
 }
 
+
 QVariant
 ConnectionEntry::
 getForegroundRole(int column)
 {
   switch (column) {
-  case ConnectionsEditorWidgetModel::Entry::Database:
+  case Database:
 
     if (_connection.isNull())
       return QColor(Qt::lightGray);
@@ -52,7 +53,7 @@ getForegroundRole(int column)
 
     break;
 
-  case ConnectionsEditorWidgetModel::Entry::Action:
+  case Action:
     return QVariant();
     break;
   }
@@ -60,12 +61,13 @@ getForegroundRole(int column)
   return QVariant();
 }
 
+
 QVariant
 ConnectionEntry::
 getDisplayRole(int column)
 {
   switch (column) {
-  case ConnectionsEditorWidgetModel::Entry::Database:
+  case Database:
 
     if (_connection.isNull())
       return QString("Select DB type to add a connection");
@@ -74,7 +76,7 @@ getDisplayRole(int column)
 
     break;
 
-  case ConnectionsEditorWidgetModel::Entry::Action:
+  case Action:
     return QVariant();
     break;
   }
@@ -82,16 +84,17 @@ getDisplayRole(int column)
   return QVariant();
 }
 
+
 QVariant
 ConnectionEntry::
 getDecorationRole(int column)
 {
   switch (column) {
-  case ConnectionsEditorWidgetModel::Entry::Database:
+  case Database:
     return QVariant();
     break;
 
-  case ConnectionsEditorWidgetModel::Entry::Action:
+  case Action:
 
     if (!_connection.isNull())
       return QIcon(":/delete.png");
@@ -103,6 +106,7 @@ getDecorationRole(int column)
 
   return QVariant();
 }
+
 
 QVariant
 ConnectionEntry::

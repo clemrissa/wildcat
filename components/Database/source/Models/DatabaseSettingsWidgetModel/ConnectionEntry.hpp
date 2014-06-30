@@ -10,13 +10,20 @@ namespace Models {
 namespace DatabaseSettingsWidgetModel {
 //
 
-class ConnectionEntry: public Entry {
+class ConnectionEntry: public Entry
+{
+public:
+  enum Column { Type = 0, Database = 1, Size };
+
 public:
   ConnectionEntry(Connections::Connection::Shared connection):
     _connection(connection)
-  {}
+  {
+  }
 
-  ConnectionEntry() {}
+  ConnectionEntry()
+  {
+  }
 
   QVariant
   data(int role, int column) override;
@@ -26,7 +33,6 @@ public:
   {
     return _connection;
   }
-
 
 private:
   Connections::Connection::Shared _connection;

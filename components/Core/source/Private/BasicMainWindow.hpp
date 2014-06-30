@@ -11,7 +11,8 @@ class QMenu;
 namespace Geo {
 namespace Core {
 namespace Private {
-class BasicMainWindow: public Geo::Core::MainWindow {
+class BasicMainWindow: public Geo::Core::MainWindow
+{
   Q_OBJECT
 
 public:
