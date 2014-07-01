@@ -1,7 +1,7 @@
 #ifndef Geo_Database_Gui_DatabaseSettingsWidget_WellTraitItemDelegate_hpp
 #define Geo_Database_Gui_DatabaseSettingsWidget_WellTraitItemDelegate_hpp
 
-#include <QStyledItemDelegate>
+#include <QtWidgets/QStyledItemDelegate>
 
 #include <map>
 #include <utility>

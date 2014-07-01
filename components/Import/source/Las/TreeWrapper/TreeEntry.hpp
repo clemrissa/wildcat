@@ -66,6 +66,9 @@ public:
   virtual QVariant
   data(int role, int column) = 0;
 
+  virtual QWidget*
+  delegateWidget() { return 0; }
+
 protected:
   TreeEntry*              _parent;
   QSharedPointer<LasFile> _lasFile;
