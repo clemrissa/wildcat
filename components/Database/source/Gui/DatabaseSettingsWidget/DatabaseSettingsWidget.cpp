@@ -53,22 +53,18 @@ setupUi(DatabaseSettingsWidgetModel* tableModel)
 
   p->tableView->setModel(tableModel);
 
-  QHeaderView* horizontalHeader =
-    p->tableView->horizontalHeader();
+  p->tableView->setShowGrid(false);
+  p->tableView->setFocusPolicy(Qt::NoFocus);
+
+  QHeaderView* horizontalHeader = p->tableView->horizontalHeader();
 
   horizontalHeader->setStretchLastSection(true);
+  horizontalHeader->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+  horizontalHeader->setSectionResizeMode(1, QHeaderView::Stretch);
 
-  horizontalHeader->setSectionResizeMode(0,
-                                         QHeaderView::ResizeToContents);
 
-  horizontalHeader->setSectionResizeMode(1,
-                                         QHeaderView::Stretch);
-
-  p->tableView->setShowGrid(false);
-
-  p->tableView->verticalHeader()->hide();
   QHeaderView* verticalHeader = p->tableView->verticalHeader();
-
+  verticalHeader->hide();
   verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
   verticalHeader->setDefaultSectionSize(22);
 

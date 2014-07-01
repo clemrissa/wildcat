@@ -36,8 +36,7 @@ ConnectionsEditorWidgetModel()
 ConnectionsEditorWidgetModel::
 ~ConnectionsEditorWidgetModel()
 {
-  for (auto entry : _entries)
-    delete entry;
+  qDeleteAll(_entries);
 }
 
 
@@ -45,9 +44,6 @@ QVariant
 ConnectionsEditorWidgetModel::
 data(const QModelIndex& index, int role) const
 {
-  if (!index.isValid())
-    return QVariant();
-
   Entry* entry =
     static_cast<Entry*>(index.internalPointer());
 
@@ -59,16 +55,7 @@ QModelIndex
 ConnectionsEditorWidgetModel::
 index(int row, int column, const QModelIndex& parent) const
 {
-  if (!parent.isValid())
-    return QAbstractItemModel::createIndex(row, column, _entries[row]);
-
-  Entry* entry =
-    static_cast<Entry*>(parent.internalPointer());
-
-  if (entry->entries().size() == 0)
-    return QModelIndex();
-
-  return QAbstractItemModel::createIndex(row, column, entry->entries()[row]);
+  return QAbstractItemModel::createIndex(row, column, _entries[row]);
 }
 
 
@@ -76,26 +63,9 @@ QModelIndex
 ConnectionsEditorWidgetModel::
 parent(const QModelIndex& index) const
 {
-  Entry* entry =
-    static_cast<Entry*>(index.internalPointer());
+  Q_UNUSED(index);
 
-  Q_ASSERT(entry);
-
-  Entry* parentEntry = entry->parent();
-
-  if (parentEntry == nullptr)
-    return QModelIndex();
-
-  Entry* parentParentEntry = parentEntry->parent();
-
-  int position = 0;
-
-  if (parentParentEntry == nullptr)
-    position = getEntryPosition(parentEntry);
-  else
-    position =  parentParentEntry->positionOfChildEntry(parentEntry);
-
-  return QAbstractItemModel::createIndex(position, 0, parentEntry);
+  return QModelIndex();
 }
 
 
@@ -105,7 +75,7 @@ columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
 
-  return 2;
+  return ConnectionEntry::Size;
 }
 
 
@@ -113,13 +83,7 @@ int
 ConnectionsEditorWidgetModel::
 rowCount(const QModelIndex& parent) const
 {
-  if (!parent.isValid())
-    return _connectionsManager->size() + 1;
-
-  Entry* entry =
-    static_cast<Entry*>(parent.internalPointer());
-
-  return entry->entries().size();
+  return _connectionsManager->size() + 1;
 }
 
 
@@ -146,8 +110,12 @@ headerData(int             section,
     return result;
 
   switch (section) {
+  case ConnectionEntry::Type:
+    result = tr("Type");
+    break;
+
   case ConnectionEntry::Database:
-    result = tr("Item");
+    result = tr("Database");
     break;
 
   default:
@@ -202,7 +170,7 @@ ConnectionsEditorWidgetModel::
 onClicked(const QModelIndex& index)
 {
   if (!index.parent().isValid() &&
-      index.column() == 1 &&
+      index.column() == ConnectionEntry::CloseAction &&
       index.row() != _entries.size() - 1) {
     beginRemoveRows(QModelIndex(), index.row(), index.row());
     auto connectionWrapper = _entries.takeAt(index.row());

@@ -53,7 +53,7 @@ getForegroundRole(int column)
 
     break;
 
-  case Action:
+  case CloseAction:
     return QVariant();
     break;
   }
@@ -67,16 +67,21 @@ ConnectionEntry::
 getDisplayRole(int column)
 {
   switch (column) {
+  case Type:
+    if (!_connection.isNull())
+      return _connection->connectionTypeName(_connection->databaseType());
+    break;
+
   case Database:
 
     if (_connection.isNull())
       return QString("Select DB type to add a connection");
     else
-      return _connection->textDescription();
+      return _connection->databasePath();
 
     break;
 
-  case Action:
+  case CloseAction:
     return QVariant();
     break;
   }
@@ -94,7 +99,7 @@ getDecorationRole(int column)
     return QVariant();
     break;
 
-  case Action:
+  case CloseAction:
 
     if (!_connection.isNull())
       return QIcon(":/delete.png");

@@ -16,9 +16,9 @@ namespace Domain {
 #endif
 class WellTraitAbstractValue {
 public:
-
   typedef QSharedPointer<WellTraitAbstractValue> Shared;
 
+public:
   virtual QString
   value() = 0;
 

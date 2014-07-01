@@ -4,7 +4,7 @@
 #include <QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QStackedWidget>
-#include <QtWidgets/QTreeView>
+#include <QtWidgets/QTableView>
 
 #include <Gui/ConnectionsEditorWidget/ConnectionEntryItemDelegate.hpp>
 #include <Gui/ConnectionsEditorWidget/SQLiteConnectionPropertiesWidget.hpp>
@@ -21,7 +21,7 @@ using Geo::Database::Models::ConnectionsEditorWidgetModel::
 
 struct ConnectionsEditorWidget::Private
 {
-  QTreeView*      treeView;
+  QTableView*     connectionsTable;
   QStackedWidget* stackedWidget;
 };
 
@@ -45,21 +45,34 @@ void
 ConnectionsEditorWidget::
 setupUi(ConnectionsEditorWidgetModel* treeModel)
 {
-  setWindowTitle(tr("Database Settings"));
+  setWindowTitle(tr("Connections Settings"));
   setMinimumSize(800, 400);
 
-  p->treeView = new QTreeView();
+  p->connectionsTable = new QTableView();
 
-  p->treeView->setMaximumWidth(400);
+  p->connectionsTable->setMaximumWidth(400);
 
-  p->treeView->setModel(treeModel);
-  p->treeView->header()->setStretchLastSection(false);
-  p->treeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
-  p->treeView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
-  p->treeView->header()->resizeSection(1, 20);
-  p->treeView->setItemDelegate(new ConnectionEntryItemDelegate());
+  p->connectionsTable->setModel(treeModel);
 
-  p->treeView->setSelectionBehavior(QAbstractItemView::SelectRows);
+  p->connectionsTable->setShowGrid(false);
+  p->connectionsTable->setFocusPolicy(Qt::NoFocus);
+
+  QHeaderView* horizontalHeader = p->connectionsTable->horizontalHeader();
+
+  horizontalHeader->setStretchLastSection(false);
+  horizontalHeader->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+  horizontalHeader->setSectionResizeMode(1, QHeaderView::Stretch);
+  horizontalHeader->setSectionResizeMode(2, QHeaderView::Fixed);
+  horizontalHeader->resizeSection(2, 20);
+
+  QHeaderView* verticalHeader = p->connectionsTable->verticalHeader();
+  verticalHeader->hide();
+  verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
+  verticalHeader->setDefaultSectionSize(22);
+
+  p->connectionsTable->setItemDelegate(new ConnectionEntryItemDelegate());
+
+  p->connectionsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
 
   p->stackedWidget = new QStackedWidget();
 
@@ -75,7 +88,7 @@ setupUi(ConnectionsEditorWidgetModel* treeModel)
 
   QHBoxLayout* l = new QHBoxLayout();
 
-  l->addWidget(p->treeView);
+  l->addWidget(p->connectionsTable);
   l->addWidget(p->stackedWidget);
 
   setLayout(l);
@@ -87,11 +100,11 @@ ConnectionsEditorWidget::
 connectSignals(ConnectionsEditorWidgetModel* treeModel)
 {
   // for deleting rows
-  connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
+  connect(p->connectionsTable, SIGNAL(clicked(const QModelIndex &)),
           treeModel,   SLOT(onClicked(const QModelIndex &)));
 
   // for assgning connection to widget
-  connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
+  connect(p->connectionsTable, SIGNAL(clicked(const QModelIndex &)),
           this,        SLOT(onConnectionClicked(const QModelIndex &)));
 }
 
@@ -103,7 +116,7 @@ onConnectionClicked(const QModelIndex& index)
   using Geo::Database::Models::ConnectionsEditorWidgetModel::ConnectionEntry;
 
   if (!index.parent().isValid()) {
-    bool invalidRow = (index.row() == p->treeView->model()->rowCount() - 1);
+    bool invalidRow = (index.row() == p->connectionsTable->model()->rowCount() - 1);
 
     ConnectionEntry* c = invalidRow ? nullptr : static_cast<ConnectionEntry*>(
       index.internalPointer());

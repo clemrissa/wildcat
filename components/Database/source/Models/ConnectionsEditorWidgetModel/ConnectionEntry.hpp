@@ -13,7 +13,7 @@ namespace ConnectionsEditorWidgetModel {
 class ConnectionEntry: public Entry
 {
 public:
-  enum Column { Database = 0, Action = 1, Size };
+  enum Column { Type = 0, Database = 1, CloseAction = 2, Size };
 
 public:
   ConnectionEntry(Connections::Connection::Shared connection):

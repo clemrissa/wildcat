@@ -44,9 +44,6 @@ QVariant
 DatabaseSettingsWidgetModel::
 data(const QModelIndex& index, int role) const
 {
-  if (!index.isValid())
-    return QVariant();
-
   Entry* entry =
     static_cast<Entry*>(index.internalPointer());
 
@@ -58,12 +55,7 @@ QModelIndex
 DatabaseSettingsWidgetModel::
 index(int row, int column, const QModelIndex& parent) const
 {
-  QModelIndex index;
-
-  if (!parent.isValid())
-    index =  QAbstractItemModel::createIndex(row, column, _entries[row]);
-
-  return index;
+  return QAbstractItemModel::createIndex(row, column, _entries[row]);
 }
 
 
@@ -83,7 +75,7 @@ columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
 
-  return 2;
+  return ConnectionEntry::Size;
 }
 
 
@@ -91,10 +83,7 @@ int
 DatabaseSettingsWidgetModel::
 rowCount(const QModelIndex& parent) const
 {
-  if (!parent.isValid())
-    return _connectionsManager->size();
-
-  return 0;
+  return _connectionsManager->size();
 }
 
 
