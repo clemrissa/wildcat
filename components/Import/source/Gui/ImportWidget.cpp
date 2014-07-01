@@ -23,10 +23,8 @@
 #include "Las/LasImporter.hpp"
 #include "Las/TreeWrapper/LasFileEntry.hpp"
 
-namespace Geo {
-namespace Import {
-//
-//
+using Geo::Import::Gui::ImportWidget;
+
 struct ImportWidget::Private {
   QComboBox* connectionsComboBox;
 
@@ -133,6 +131,3 @@ onImportClicked()
 }
 
 
-//
-}     // namespace Import
-}     // namespace Geo

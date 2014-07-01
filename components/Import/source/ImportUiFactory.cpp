@@ -9,7 +9,6 @@
 #include <Core/MainWindow>
 
 #include <DependencyManager/ApplicationContext>
-// #include <DependencyManager/XmlApplicationContextLoader>
 
 #include <Uni/Logging/Logging>
 

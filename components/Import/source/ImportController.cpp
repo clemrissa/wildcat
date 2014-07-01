@@ -7,7 +7,8 @@
 #include <QVector>
 
 #include "ImportTreeModel.hpp"
-#include "ImportWidget.hpp"
+
+#include <Gui/ImportWidget.hpp>
 
 #include "Las/LasFile.hpp"
 #include "Las/LasFileParser.hpp"
@@ -80,6 +81,8 @@ selectFilesAndImport()
 
   ImportTreeModel* importTreeModel =
     new ImportTreeModel(importTreeWrapperLasFile);
+
+  using Geo::Import::Gui::ImportWidget;
 
   ImportWidget* importWidget = new ImportWidget();
 

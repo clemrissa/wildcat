@@ -9,6 +9,7 @@ class QAbstractItemModel;
 
 namespace Geo {
 namespace Import {
+namespace Gui {
 class ImportWidget: public QWidget {
   Q_OBJECT
 
@@ -20,9 +21,6 @@ public:
 
 public:
   void
-  setupUi();
-
-  void
   setModel(QAbstractItemModel* importModel);
 
   void
@@ -33,10 +31,17 @@ private slots:
   onImportClicked();
 
 private:
+  void
+  setupUi();
+
+private:
   struct Private;
 
   Private* p;
 };
+//
+
+} // namespace Gui
 } // namespace Import
 } // namespace Geo
 
