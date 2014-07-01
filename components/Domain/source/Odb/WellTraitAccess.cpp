@@ -91,9 +91,8 @@ findAll()
 
     Result r(_db->query<WellTrait>());
 
-    Result::iterator i(r.begin());
-
-    if (i != r.end()) {
+    for(Result::iterator i(r.begin()); i != r.end(); ++i)
+    {
       WellTrait::Shared wellTrait(i.load());
 
       vector.push_back(wellTrait);

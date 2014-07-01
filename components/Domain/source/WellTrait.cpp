@@ -2,6 +2,8 @@
 
 #include <QtCore/QStringList>
 
+#include <Uni/Logging/Logging>
+
 using Geo::Domain::WellTrait;
 
 WellTrait::
@@ -20,6 +22,15 @@ WellTrait(QString name, bool mandatory):
 {
   //
 }
+
+
+void
+WellTrait::
+setName(QString name) 
+{ 
+  _name = name; 
+}
+
 
 
 void

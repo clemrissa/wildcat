@@ -2,6 +2,8 @@
 
 #include "WellTraitEntry.hpp"
 
+#include <Uni/Logging/Logging>
+
 using Geo::Database::Models::DatabaseSettingsWidgetModel::
       DatabasePropertiesWidgetModel;
 
@@ -196,6 +198,24 @@ setConnection(Connections::Connection::Shared connection)
 
 void
 DatabasePropertiesWidgetModel::
+onClicked(const QModelIndex& index)
+{
+  if (!index.parent().isValid() &&
+      index.column() == WellTraitEntry::CloseAction &&
+      index.row() != _entries.size() - 1) 
+  {
+    beginRemoveRows(QModelIndex(), index.row(), index.row());
+
+    auto connectionWrapper = _entries.takeAt(index.row());
+    delete connectionWrapper;
+
+    endRemoveRows();
+  }
+}
+
+
+void
+DatabasePropertiesWidgetModel::
 reloadTraits()
 {
   if (_connection.isNull())
@@ -244,5 +264,4 @@ saveTraits()
   for (WellTraitEntry* e : _entries)
     if (e->trait()->isValid())
       wellTraitAccess->insert(e->trait());
-
 }

@@ -30,6 +30,7 @@ DatabasePropertiesWidget():
   _p(new Private)
 {
   createUi();
+  connectSignals();
 }
 
 
@@ -83,4 +84,14 @@ createUi()
   l->addWidget(_p->traitsTable);
 
   setLayout(l);
+}
+
+
+void
+DatabasePropertiesWidget::
+connectSignals()
+{
+  // for deleting rows
+  connect(_p->traitsTable, SIGNAL(clicked(const QModelIndex &)),
+          _p->propertiesWidgetModel,   SLOT(onClicked(const QModelIndex &)));
 }

@@ -82,9 +82,8 @@ findAll() {
 
     Result r(_db->query<Well>());
 
-    Result::iterator i(r.begin());
-
-    if (i != r.end()) {
+    for(Result::iterator i(r.begin()); i != r.end(); ++i)
+    {
       Well::Shared well(i.load());
 
       vector.push_back(well);

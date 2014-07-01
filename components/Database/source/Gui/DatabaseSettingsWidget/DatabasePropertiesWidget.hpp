@@ -26,6 +26,9 @@ private:
   void
   createUi();
 
+  void
+  connectSignals();
+
 private:
   struct Private;
 

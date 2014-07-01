@@ -21,6 +21,7 @@ class WellTraitEntry;
 
 class DatabasePropertiesWidgetModel: public QAbstractItemModel
 {
+  Q_OBJECT
 public:
   DatabasePropertiesWidgetModel();
 
@@ -64,6 +65,10 @@ public:
 public:
   void
   setConnection(Connections::Connection::Shared connection);
+
+public slots:
+  void
+  onClicked(const QModelIndex& index);
 
 private:
   void

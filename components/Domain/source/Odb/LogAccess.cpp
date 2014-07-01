@@ -80,9 +80,8 @@ findAll() {
 
     Result r(_db->query<Log>());
 
-    Result::iterator i(r.begin());
-
-    if (i != r.end()) {
+    for(Result::iterator i(r.begin()); i != r.end(); ++i)
+    {
       Log::Shared log(i.load());
 
       vector.push_back(log);

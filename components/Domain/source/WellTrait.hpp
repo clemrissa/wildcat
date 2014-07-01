@@ -29,7 +29,7 @@ public:
   name() const { return _name; }
 
   void
-  setName(QString name) { _name = name; }
+  setName(QString name);
 
   QList<QString>
   synonyms() const { return _synonyms; }
