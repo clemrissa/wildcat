@@ -25,7 +25,8 @@
 
 using Geo::Import::Gui::ImportWidget;
 
-struct ImportWidget::Private {
+struct ImportWidget::Private
+{
   QComboBox* connectionsComboBox;
 
   QTreeView* treeView;
@@ -63,7 +64,7 @@ setupUi()
 
   p->treeView->setAlternatingRowColors(true);
   p->treeView->header()->show();
-  p->treeView->header()->setSectionResizeMode(QHeaderView::Stretch);
+  p->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
   p->dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok);
 
@@ -129,5 +130,3 @@ onImportClicked()
   // close import window
   static_cast<QWidget*>(parent())->close();
 }
-
-

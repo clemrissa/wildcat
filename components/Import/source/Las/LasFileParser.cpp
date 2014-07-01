@@ -13,11 +13,13 @@
 
 #include <Uni/Logging/Logging>
 
-namespace Geo {
-namespace Import {
+using Geo::Import::LasFile;
+using Geo::Import::LasFileParser;
+
 QSharedPointer<LasFile>
 LasFileParser::
-parse(const QString fileName) {
+parse(const QString fileName)
+{
   _lines.clear();
   _wrap    = false;
   _version = QString();
@@ -56,9 +58,11 @@ parse(const QString fileName) {
   return lasFile;
 }
 
+
 void
 LasFileParser::
-parseLines(QSharedPointer<LasFile>& lasFile) {
+parseLines(QSharedPointer<LasFile>& lasFile)
+{
   int i = 0;
 
   while (i < _lines.size()) {
@@ -81,10 +85,12 @@ parseLines(QSharedPointer<LasFile>& lasFile) {
   }
 }
 
+
 bool
 LasFileParser::
 parseVersionSection(QSharedPointer<LasFile>& lasFile,
-                    int&                     lineNumber) {
+                    int&                     lineNumber)
+{
   int& i = lineNumber;
 
   /*
@@ -135,13 +141,15 @@ parseVersionSection(QSharedPointer<LasFile>& lasFile,
   return true;
 }
 
+
 void
 LasFileParser::
-parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
+parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
+{
   int& i = lineNumber;
 
   // clear old values
-  lasFile->wellInformation.entries.clear();
+  lasFile->wellInformation.clear();
 
   // STRT.M        583.0:
   QRegExp reStart("(STRT)( *\\..+ )(-?\\d+\\.\\d+)( *:)( *.*$)");
@@ -181,7 +189,8 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
       QString comment = reStart.cap(5);
 
       bool ok;
-      lasFile->wellInformation.start = value.toDouble(&ok);
+
+      lasFile->lasRequired.start = value.toDouble(&ok);
     } else if (reStop.indexIn(line) >= 0) {
       QString all     = reStop.cap(0);
       QString strt    = reStop.cap(1);
@@ -190,7 +199,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
       QString comment = reStop.cap(5);
 
       bool ok;
-      lasFile->wellInformation.stop = value.toDouble(&ok);
+      lasFile->lasRequired.stop = value.toDouble(&ok);
     } else if (reStep.indexIn(line) >= 0) {
       QString all     = reStep.cap(0);
       QString strt    = reStep.cap(1);
@@ -199,8 +208,8 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
       QString comment = reStep.cap(5);
 
       bool ok;
-      lasFile->wellInformation.step  = value.toDouble(&ok);
-      lasFile->wellInformation.units = units;
+      lasFile->lasRequired.step  = value.toDouble(&ok);
+      lasFile->lasRequired.units = units;
     } else if (reNULL.indexIn(line) >= 0) {
       QString all     = reNULL.cap(0);
       QString strt    = reNULL.cap(1);
@@ -209,7 +218,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
       QString comment = reNULL.cap(5);
 
       bool ok;
-      lasFile->wellInformation.nullValue = value.toDouble(&ok);
+      lasFile->lasRequired.nullValue = value.toDouble(&ok);
     } else if (reWell.indexIn(line) >= 0) {
       // QRegExp reWell("(^WELL *)(\\.[^ ]*)( *.* *:)( *.*$)");
 
@@ -221,9 +230,9 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
       QString value = reWell.cap(4).trimmed();
 
       if (_version == "1.2")
-        lasFile->wellInformation.wellName = value;
+        lasFile->lasRequired.wellName = value;
       else if (_version == "2.0")
-        lasFile->wellInformation.wellName = well;
+        lasFile->lasRequired.wellName = well;
     }
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {
@@ -250,16 +259,18 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
         entry.value = entry.value.trimmed();
       }
 
-      lasFile->wellInformation.entries[entry.name] = entry;
+      lasFile->wellInformation[entry.name] = entry;
     }
 
     ++i;
   }
 }
 
+
 void
 LasFileParser::
-parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
+parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
+{
   int& i = lineNumber;
 
   // clear old values
@@ -303,9 +314,12 @@ parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
   }
 }
 
+
 void
 LasFileParser::
-parseParameterInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
+parseParameterInformationSection(QSharedPointer<LasFile>& lasFile,
+                                 int&                     lineNumber)
+{
   int& i = lineNumber;
 
   // clear old values
@@ -331,15 +345,14 @@ parseParameterInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumb
 
       QString all = reParameterInformation.cap(0);
 
-      entry.name = reParameterInformation.cap(1).trimmed();
+      entry.name  = reParameterInformation.cap(1).trimmed();
       entry.units = reParameterInformation.cap(2).trimmed().remove(0, 1);
 
       entry.value = reParameterInformation.cap(3).trimmed();
       entry.value.chop(1);
       entry.value = entry.value.trimmed();
-        
-      entry.description = reParameterInformation.cap(4).trimmed();
 
+      entry.description = reParameterInformation.cap(4).trimmed();
 
       lasFile->parameterInformation[entry.name] = entry;
     }
@@ -348,16 +361,20 @@ parseParameterInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumb
   }
 }
 
+
 void
 LasFileParser::
-parseOtherInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
+parseOtherInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
+{
   //
   Q_UNUSED(lineNumber);
 }
 
+
 void
 LasFileParser::
-parseAsciiLogDataSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
+parseAsciiLogDataSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
+{
   int& i = lineNumber;
 
   // clear old values
@@ -405,6 +422,4 @@ parseAsciiLogDataSection(QSharedPointer<LasFile>& lasFile, int& lineNumber) {
 
     ++i;
   }
-}
-}
 }

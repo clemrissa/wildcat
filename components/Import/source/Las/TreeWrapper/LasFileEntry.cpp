@@ -14,29 +14,13 @@ LasFileEntry::
 LasFileEntry(QSharedPointer<LasFile> lasFile):
   TreeEntry(lasFile)
 {
-  _entries.push_back(new WellName(_lasFile,
-                                  this));
+  _entries.push_back(new LasRequiredGroup(lasFile, this));
 
-  _entries.push_back(new WellStart(_lasFile,
-                                   this));
+  _entries.push_back(new WellInformationGroup(lasFile,  this));
 
-  _entries.push_back(new WellStop(_lasFile,
-                                  this));
+  _entries.push_back(new LogGroup(_lasFile, this));
 
-  _entries.push_back(new WellStep(_lasFile,
-                                  this));
-
-  _entries.push_back(new WellNull(_lasFile,
-                                  this));
-
-  for (int i = 0; i < _lasFile->wellInformation.entries.keys().size(); ++i)
-    _entries.push_back(new WellInfo(_lasFile, this, i));
-
-  _entries.push_back(new LogGroup(_lasFile,
-                                  this));
-
-  _entries.push_back(new ParameterGroup(_lasFile,
-                                        this));
+  _entries.push_back(new ParameterGroup(_lasFile, this));
 }
 
 
@@ -48,10 +32,6 @@ data(int role, int column)
   case Qt::DisplayRole: {
     switch (column) {
     case TreeEntry::Name:
-      return tr("File");
-      break;
-
-    case TreeEntry::Description:
       return _lasFile->fileName;
       break;
 

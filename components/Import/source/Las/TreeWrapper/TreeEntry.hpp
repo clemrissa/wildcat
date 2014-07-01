@@ -13,7 +13,8 @@ namespace Geo {
 namespace Import {
 namespace TreeWrapper {
 /// Composite pattern. Used to represent LAS file strurcture as a tree
-class TreeEntry: public QObject {
+class TreeEntry: public QObject
+{
 public:
   enum Column { Name        = 0,
                 Description = 1,
@@ -29,7 +30,8 @@ public:
             TreeEntry*              parent = nullptr):
     _parent(parent),
     _lasFile(lasFile)
-  {}
+  {
+  }
 
   virtual
   ~TreeEntry()
@@ -37,7 +39,6 @@ public:
     for (TreeEntry* entry : _entries)
       delete entry;
   }
-
 
   TreeEntry*
   parent() { return _parent; }
@@ -55,13 +56,11 @@ public:
     return it - _entries.begin();
   }
 
-
   QSharedPointer<LasFile> const
   lasFile() const
   {
     return _lasFile;
   }
-
 
   virtual QVariant
   data(int role, int column) = 0;

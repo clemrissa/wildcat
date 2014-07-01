@@ -7,48 +7,43 @@ namespace Import {
 //
 
 LasFile::
-LasFile(LasFile const &lasFile) {
-  wellInformation.start = lasFile.wellInformation.start;
-  wellInformation.stop  = lasFile.wellInformation.stop;
-  wellInformation.step  = lasFile.wellInformation.step;
-  wellInformation.nullValue = lasFile.wellInformation.nullValue;
-  wellInformation.units = lasFile.wellInformation.units;
+LasFile(LasFile const& lasFile)
+{
+  lasRequired.start     = lasFile.lasRequired.start;
+  lasRequired.stop      = lasFile.lasRequired.stop;
+  lasRequired.step      = lasFile.lasRequired.step;
+  lasRequired.nullValue = lasFile.lasRequired.nullValue;
+  lasRequired.units     = lasFile.lasRequired.units;
 
-  for(auto key : lasFile.wellInformation.entries.keys())
-  {
-    wellInformation.entries[key] = lasFile.wellInformation.entries[key];
-  }
+  for (auto key : lasFile.wellInformation.keys())
+    wellInformation[key] = lasFile.wellInformation[key];
 
-  for(auto key : lasFile.parameterInformation.keys())
-  {
+  for (auto key : lasFile.parameterInformation.keys())
     parameterInformation[key] = lasFile.parameterInformation[key];
-  }
 
-  for(auto key : lasFile.logInformation.keys())
-  {
+  for (auto key : lasFile.logInformation.keys())
     logInformation[key] = lasFile.logInformation[key];
-  }
 
-  for(auto key : lasFile.data.keys())
-  {
+  for (auto key : lasFile.data.keys())
     data[key] = lasFile.data[key];
-  }
 }
+
 
 QString
 LasFile::
-getText() const {
+getText() const
+{
   //
   QStringList list;
 
   list << "------";
   list << "well information";
 
-  list << "well:   " + wellInformation.wellName;
-  list << "start:  " + QString::number(wellInformation.start);
-  list << "stop:   " + QString::number(wellInformation.stop);
+  list << "well:   " + lasRequired.wellName;
+  list << "start:  " + QString::number(lasRequired.start);
+  list << "stop:   " + QString::number(lasRequired.stop);
 
-  for (auto entry : wellInformation.entries)
+  for (auto entry : wellInformation)
     list << entry.name + "   " + entry.value;
 
   list << "";

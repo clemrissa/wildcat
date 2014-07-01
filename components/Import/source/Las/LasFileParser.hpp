@@ -12,7 +12,8 @@
 
 namespace Geo {
 namespace Import {
-class LasFileParser: public QObject {
+class LasFileParser: public QObject
+{
   Q_OBJECT
 
 public:
@@ -24,16 +25,20 @@ private:
   parseVersionSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
 
   void
-  parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
+  parseWellInformationSection(QSharedPointer<LasFile>& lasFile,
+                              int&                     lineNumber);
 
   void
-  parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
+  parseLogInformationSection(QSharedPointer<LasFile>& lasFile,
+                             int&                     lineNumber);
 
   void
-  parseParameterInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
+  parseParameterInformationSection(QSharedPointer<LasFile>& lasFile,
+                                   int&                     lineNumber);
 
   void
-  parseOtherInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
+  parseOtherInformationSection(QSharedPointer<LasFile>& lasFile,
+                               int&                     lineNumber);
 
   void
   parseAsciiLogDataSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);

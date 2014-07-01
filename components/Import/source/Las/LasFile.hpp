@@ -14,42 +14,47 @@ namespace Import {
  * Class contains all the informaation from a Las file split into special
  * structures
  */
-class LasFile: public QObject {
+class LasFile: public QObject
+{
   Q_OBJECT
 
 public:
   typedef QSharedPointer<LasFile> Shared;
 
 public:
-  LasFile(): valid(false) {}
+  LasFile(): valid(false)
+  {
+  }
 
   LasFile(LasFile const& lasFile);
 
-  struct WellInformationEntry {
+  struct WellInformationEntry
+  {
     QString name; // TODO remove. it is used as a key
     QString units;
     QString value;
     QString description;
   };
 
-  struct WellInformation {
+  struct LasRequired
+  {
     QString wellName;
     double  start;
     double  stop;
     double  step;
     double  nullValue;
     QString units;
-
-    QMap<QString, WellInformationEntry> entries;
   };
 
-  struct LogInformationEntry {
+  struct LogInformationEntry
+  {
     QString units;
     QString code;
     QString description;
   };
 
-  struct ParameterInformationEntry {
+  struct ParameterInformationEntry
+  {
     QString name;
     QString units;
     QString value;
@@ -59,7 +64,8 @@ public:
 public:
   QString fileName;
 
-  WellInformation                          wellInformation;
+  LasRequired                              lasRequired;
+  QMap<QString, WellInformationEntry>      wellInformation;
   QMap<QString, ParameterInformationEntry> parameterInformation;
   QMap<QString, LogInformationEntry>       logInformation;
 

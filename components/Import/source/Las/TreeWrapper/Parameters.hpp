@@ -6,15 +6,19 @@
 namespace Geo {
 namespace Import {
 namespace TreeWrapper {
+//
+
 class Parameter:
-  public TreeEntry {
+  public TreeEntry
+{
 public:
   Parameter(QSharedPointer<LasFile> lasFile,
             TreeEntry*              parent,
             int                     position):
     TreeEntry(lasFile, parent),
     _position(position)
-  {}
+  {
+  }
 
   QVariant
   data(int role, int column) override
@@ -47,13 +51,12 @@ public:
     }
   }
 
-
 private:
   int _position;
 };
 
-class ParameterGroup:
-  public TreeEntry {
+class ParameterGroup: public TreeEntry
+{
 public:
   ParameterGroup(QSharedPointer<LasFile> lasFile,
                  TreeEntry*              parent):
@@ -62,7 +65,6 @@ public:
     for (int i = 0; i < _lasFile->parameterInformation.keys().size(); ++i)
       _entries.push_back(new Parameter(_lasFile, this, i));
   }
-
 
   QVariant
   data(int role, int column) override
