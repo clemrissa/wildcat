@@ -38,10 +38,21 @@ public:
       return _lasFile->lasRequired.wellName;
       break;
 
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->lasRequired.wellName;
+      break;
+
     default:
       return QVariant();
       break;
     }
+  }
+
+  void
+  copyDataToLasToImport() override
+  {
+    _lasFileToImport->lasRequired.wellName =
+      _lasFile->lasRequired.wellName;
   }
 };
 
@@ -254,6 +265,10 @@ public:
       return _lasFile->wellInformation[key].value;
       break;
 
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->wellInformation[key].value;
+      break;
+
     case TreeEntry::Units:
       return _lasFile->wellInformation[key].units;
       break;
@@ -264,6 +279,15 @@ public:
     }
   }
 
+  void
+  copyDataToLasToImport() override
+  {
+    QString key = _lasFile->wellInformation.keys()[_position];
+
+    _lasFileToImport->wellInformation[key] =
+      _lasFile->wellInformation[key];
+  }
+
   QWidget*
   delegateWidget(int column) override
   {
@@ -272,7 +296,7 @@ public:
     if (_connection.isNull())
       return nullptr;
 
-    if (column != TreeEntry::ImportName)
+    if (column != TreeEntry::Type)
       return nullptr;
 
     QComboBox* comboBox = new QComboBox();

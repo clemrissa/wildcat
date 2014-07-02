@@ -18,8 +18,8 @@
 #include <DependencyManager/ApplicationContext>
 
 #include "ImportController.hpp"
-#include "ImportTreeModel.hpp"
 #include "ImportTreeItemDelegate.hpp"
+#include "ImportTreeModel.hpp"
 
 #include "Las/LasImporter.hpp"
 #include "Las/TreeWrapper/LasFileEntry.hpp"
@@ -93,6 +93,8 @@ setModel(ImportTreeModel* importModel)
 {
   p->treeView->setModel(importModel);
 
+  p->treeView->expandAll();
+
   using DependencyManager::ApplicationContext;
   using Geo::Database::Connections::ConnectionManager;
 
@@ -100,9 +102,7 @@ setModel(ImportTreeModel* importModel)
     ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
 
   if (connectionManager->size())
-  {
     importModel->setConnection(connectionManager->at(0));
-  }
 }
 
 

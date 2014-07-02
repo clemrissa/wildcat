@@ -32,11 +32,13 @@ ImportController()
   //
 }
 
+
 ImportController::
 ~ImportController()
 {
   //
 }
+
 
 ImportController*
 ImportController::
@@ -47,6 +49,7 @@ instance()
 
   return _instance;
 }
+
 
 void
 ImportController::
@@ -67,11 +70,9 @@ selectFilesAndImport()
   LasFileParser          lasFileParser;
   QVector<LasFileEntry*> importTreeWrapperLasFile;
 
-  // collect list of parsed las files
-
+  // collect a list of parsed las files
   for (QString fileName : fileList) {
-    QSharedPointer<LasFile> lasFile =
-      lasFileParser.parse(fileName);
+    auto lasFile = lasFileParser.parse(fileName);
 
     importTreeWrapperLasFile.append(new LasFileEntry(lasFile));
   }

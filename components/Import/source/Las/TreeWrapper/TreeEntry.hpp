@@ -21,26 +21,23 @@ public:
   enum Column { Name        = 0,
                 Description = 1,
                 Value       = 2,
-                ImportName  = 3,
+                ImportValue = 3,
                 Type        = 4,
                 Units       = 5,
                 ImportUnits = 6,
                 Size };
 
 public:
-  TreeEntry(QSharedPointer<LasFile> lasFile,
-            TreeEntry*              parent = nullptr):
+  TreeEntry(LasFile::Shared lasFile,
+            TreeEntry*      parent = nullptr):
     _parent(parent),
     _lasFile(lasFile)
   {
+    setLasFileToImport(LasFile::Shared(new LasFile()));
   }
 
   virtual
-  ~TreeEntry()
-  {
-    for (TreeEntry* entry : _entries)
-      delete entry;
-  }
+  ~TreeEntry();
 
   TreeEntry*
   parent() { return _parent; }
@@ -49,39 +46,37 @@ public:
   entries() const { return _entries; }
 
   int
-  positionOfChildEntry(TreeEntry* const childEntry) const
-  {
-    auto it = std::find(_entries.begin(),
-                        _entries.end(),
-                        childEntry);
+  positionOfChildEntry(TreeEntry* const childEntry) const;
 
-    return it - _entries.begin();
-  }
+  LasFile::Shared const
+  lasFile() const { return _lasFile; }
 
-  QSharedPointer<LasFile> const
-  lasFile() const
-  {
-    return _lasFile;
-  }
+  LasFile::Shared const
+  lasFileToImport() const { return _lasFileToImport; }
 
   virtual QVariant
   data(int role, int column) = 0;
 
   virtual QWidget*
-  delegateWidget(int column) { return 0; }
+  delegateWidget(int column);
 
   void
-  setConnection(Geo::Database::Connections::Connection::Shared connection)
-  {
-    _connection = connection;
+  setConnection(Geo::Database::Connections::Connection::Shared connection);
 
-    for (TreeEntry* e : _entries)
-      e->setConnection(connection);
-  }
+  void
+  setLasFileToImport(LasFile::Shared lasFileToImport);
 
 protected:
-  TreeEntry*              _parent;
-  QSharedPointer<LasFile> _lasFile;
+  virtual void
+  copyDataToLasToImport() {}
+
+protected:
+  TreeEntry* _parent;
+
+  LasFile::Shared _lasFile;
+
+  // contains processed/modified information
+  LasFile::Shared _lasFileToImport;
 
   Geo::Database::Connections::Connection::Shared _connection;
 

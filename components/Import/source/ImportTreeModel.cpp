@@ -47,17 +47,16 @@ getLasFileEntries() const
   return _lasFileEntries;
 }
 
+
 void
 ImportTreeModel::
-setConnection(Geo::Database::Connections::Connection::Shared connection) 
+setConnection(Geo::Database::Connections::Connection::Shared connection)
 {
   _connection = connection;
 
-  for(TreeWrapper::TreeEntry* e : _lasFileEntries)
-  {
+  for (TreeWrapper::TreeEntry* e : _lasFileEntries)
     e->setConnection(connection);
-  }
-} 
+}
 
 
 // --------------------------------------------
@@ -166,11 +165,11 @@ headerData(int             section,
     break;
 
   case TreeEntry::Value:
-    result = tr("Value");
+    result = tr("Parsed Value");
     break;
 
-  case TreeEntry::ImportName:
-    result = tr("Import As");
+  case TreeEntry::ImportValue:
+    result = tr("Import Value");
     break;
 
   case TreeEntry::Type:
@@ -189,6 +188,7 @@ headerData(int             section,
   return result;
 }
 
+
 Qt::ItemFlags
 ImportTreeModel::
 flags(const QModelIndex& index) const
@@ -197,7 +197,7 @@ flags(const QModelIndex& index) const
 
   flags |= Qt::ItemIsEditable;
 
-  //flags ^= Qt::ItemIsSelectable;
+  // flags ^= Qt::ItemIsSelectable;
 
   return flags;
 }
