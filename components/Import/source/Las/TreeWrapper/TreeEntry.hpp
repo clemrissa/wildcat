@@ -68,16 +68,16 @@ public:
   data(int role, int column) = 0;
 
   virtual QWidget*
-  delegateWidget() { return 0; }
+  delegateWidget(int column) { return 0; }
 
   void
-  setConnection(Geo::Database::Connections::Connection::Shared connection) 
+  setConnection(Geo::Database::Connections::Connection::Shared connection)
   {
     _connection = connection;
-    
-    for(TreeEntry* e: _entries)
+
+    for (TreeEntry* e : _entries)
       e->setConnection(connection);
-  } 
+  }
 
 protected:
   TreeEntry*              _parent;

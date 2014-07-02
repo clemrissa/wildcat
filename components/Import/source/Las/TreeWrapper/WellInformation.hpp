@@ -8,6 +8,8 @@
 
 #include "TreeEntry.hpp"
 
+#include <Uni/Logging/Logging>
+
 namespace Geo {
 namespace Import {
 namespace TreeWrapper {
@@ -221,7 +223,6 @@ public:
   }
 };
 
-
 class WellInfo: public TreeEntry
 {
 public:
@@ -264,12 +265,15 @@ public:
   }
 
   QWidget*
-  delegateWidget() override
+  delegateWidget(int column) override
   {
     using Geo::Domain::WellTrait;
 
     if (_connection.isNull())
-      return 0;
+      return nullptr;
+
+    if (column != TreeEntry::ImportName)
+      return nullptr;
 
     QComboBox* comboBox = new QComboBox();
 
@@ -288,7 +292,6 @@ public:
 private:
   int _position;
 };
-
 
 class WellInformationGroup: public TreeEntry
 {
