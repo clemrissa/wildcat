@@ -9,6 +9,8 @@
 
 #include <Las/LasFile.hpp>
 
+#include <Database/Connections/Connection>
+
 namespace Geo {
 namespace Import {
 namespace TreeWrapper {
@@ -68,9 +70,20 @@ public:
   virtual QWidget*
   delegateWidget() { return 0; }
 
+  void
+  setConnection(Geo::Database::Connections::Connection::Shared connection) 
+  {
+    _connection = connection;
+    
+    for(TreeEntry* e: _entries)
+      e->setConnection(connection);
+  } 
+
 protected:
   TreeEntry*              _parent;
   QSharedPointer<LasFile> _lasFile;
+
+  Geo::Database::Connections::Connection::Shared _connection;
 
   std::vector<TreeEntry*> _entries;
 };

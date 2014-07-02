@@ -3,12 +3,11 @@
 
 #include <QWidget>
 
-#include "ImportTreeModel.hpp"
-
-class QAbstractItemModel;
-
 namespace Geo {
 namespace Import {
+
+class ImportTreeModel; 
+
 namespace Gui {
 class ImportWidget: public QWidget {
   Q_OBJECT
@@ -21,7 +20,7 @@ public:
 
 public:
   void
-  setModel(QAbstractItemModel* importModel);
+  setModel(ImportTreeModel* importModel);
 
   void
   setupDataBinding();

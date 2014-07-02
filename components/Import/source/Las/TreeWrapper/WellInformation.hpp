@@ -1,5 +1,10 @@
-#ifndef Geo_Import_WellInformation_hpp
-#define Geo_Import_WellInformation_hpp
+#ifndef Geo_Import_TreeWrapper_WellInformation_hpp
+#define Geo_Import_TreeWrapper_WellInformation_hpp
+
+#include <QtWidgets/QComboBox>
+
+#include <Database/Connections/Connection>
+#include <Domain/WellTrait>
 
 #include "TreeEntry.hpp"
 
@@ -196,9 +201,6 @@ public:
     _entries.push_back(new WellStep(_lasFile, this));
 
     _entries.push_back(new WellNull(_lasFile, this));
-
-    // for (int i = 0; i < _lasFile->parameterInformation.keys().size(); ++i)
-    // _entries.push_back(new Parameter(_lasFile, this, i));
   }
 
   QVariant
@@ -218,6 +220,7 @@ public:
     }
   }
 };
+
 
 class WellInfo: public TreeEntry
 {
@@ -260,9 +263,32 @@ public:
     }
   }
 
+  QWidget*
+  delegateWidget() override
+  {
+    using Geo::Domain::WellTrait;
+
+    if (_connection.isNull())
+      return 0;
+
+    QComboBox* comboBox = new QComboBox();
+
+    auto dataAccessFactory = _connection->dataAccessFactory();
+
+    auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
+
+    QVector<WellTrait::Shared> traits = wellTraitAccess->findAll();
+
+    for (WellTrait::Shared t : traits)
+      comboBox->addItem(t->name());
+
+    return comboBox;
+  }
+
 private:
   int _position;
 };
+
 
 class WellInformationGroup: public TreeEntry
 {
@@ -298,4 +324,4 @@ public:
 }
 }
 
-#endif // Geo_Import_WellInformation_hpp
+#endif // Geo_Import_TreeWrapper_WellInformation_hpp

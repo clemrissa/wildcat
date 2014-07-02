@@ -4,6 +4,8 @@
 #include <QAbstractItemModel>
 #include <QVector>
 
+#include <Database/Connections/Connection>
+
 #include "Las/LasFile.hpp"
 
 namespace Geo {
@@ -24,6 +26,9 @@ public:
 public:
   QVector<TreeWrapper::LasFileEntry*> const
   getLasFileEntries() const;
+
+  void
+  setConnection(Geo::Database::Connections::Connection::Shared connection);
 
 public:
   virtual
@@ -53,9 +58,14 @@ public:
              Qt::Orientation orientation,
              int             role = Qt::DisplayRole) const override;
 
+  Qt::ItemFlags
+  flags(const QModelIndex& index) const override;
+
 private:
   QVector<TreeWrapper::LasFileEntry*> _lasFileEntries;
   QVector<LasFile::Shared>            _lasFiles;
+
+  Geo::Database::Connections::Connection::Shared _connection;
 
   int
   getEntryPosition(TreeWrapper::TreeEntry* const entry) const;

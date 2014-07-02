@@ -2,6 +2,7 @@
 #define Geo_Database_DatabaseSettingsWidgetModel_WellTrait_hpp
 
 #include <Domain/WellTrait>
+#include <Database/Connections/Connection>
 
 #include <Models/DatabaseSettingsWidgetModel/Entry.hpp>
 

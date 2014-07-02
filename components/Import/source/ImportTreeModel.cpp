@@ -47,6 +47,18 @@ getLasFileEntries() const
   return _lasFileEntries;
 }
 
+void
+ImportTreeModel::
+setConnection(Geo::Database::Connections::Connection::Shared connection) 
+{
+  _connection = connection;
+
+  for(TreeWrapper::TreeEntry* e : _lasFileEntries)
+  {
+    e->setConnection(connection);
+  }
+} 
+
 
 // --------------------------------------------
 
@@ -175,6 +187,19 @@ headerData(int             section,
   }
 
   return result;
+}
+
+Qt::ItemFlags
+ImportTreeModel::
+flags(const QModelIndex& index) const
+{
+  Qt::ItemFlags flags =   QAbstractItemModel::flags(index);
+
+  flags |= Qt::ItemIsEditable;
+
+  //flags ^= Qt::ItemIsSelectable;
+
+  return flags;
 }
 
 

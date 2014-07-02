@@ -19,6 +19,7 @@
 
 #include "ImportController.hpp"
 #include "ImportTreeModel.hpp"
+#include "ImportTreeItemDelegate.hpp"
 
 #include "Las/LasImporter.hpp"
 #include "Las/TreeWrapper/LasFileEntry.hpp"
@@ -58,6 +59,8 @@ void
 ImportWidget::
 setupUi()
 {
+  using Geo::Import::Gui::ImportTreeItemDelegate;
+
   p->connectionsComboBox = new QComboBox();
 
   p->treeView = new QTreeView();
@@ -65,6 +68,8 @@ setupUi()
   p->treeView->setAlternatingRowColors(true);
   p->treeView->header()->show();
   p->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+  p->treeView->setItemDelegate(new  ImportTreeItemDelegate());
 
   p->dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok);
 
@@ -84,9 +89,20 @@ setupUi()
 
 void
 ImportWidget::
-setModel(QAbstractItemModel* importModel)
+setModel(ImportTreeModel* importModel)
 {
   p->treeView->setModel(importModel);
+
+  using DependencyManager::ApplicationContext;
+  using Geo::Database::Connections::ConnectionManager;
+
+  auto connectionManager =
+    ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
+
+  if (connectionManager->size())
+  {
+    importModel->setConnection(connectionManager->at(0));
+  }
 }
 
 
