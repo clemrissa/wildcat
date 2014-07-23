@@ -41,6 +41,10 @@ public:
       return _lasFile->parameterInformation[key].value;
       break;
 
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->parameterInformation[key].value;
+      break;
+
     case TreeEntry::Description:
       return _lasFile->parameterInformation[key].description;
       break;
@@ -49,6 +53,15 @@ public:
       return QVariant();
       break;
     }
+  }
+
+  void
+  copyDataToLasToImport() override
+  {
+    QString key = _lasFile->parameterInformation.keys()[_position];
+
+    _lasFileToImport->parameterInformation[key] =
+      _lasFile->parameterInformation[key];
   }
 
 private:

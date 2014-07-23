@@ -14,6 +14,10 @@ public:
 
   virtual QVariant
   data(int role, int column) override;
+
+private:
+  void
+  createEntries(QSharedPointer<LasFile> lasFile);
 };
 }
 }

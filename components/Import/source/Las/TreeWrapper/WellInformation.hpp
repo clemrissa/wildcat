@@ -80,6 +80,10 @@ public:
       return _lasFile->lasRequired.start;
       break;
 
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->lasRequired.start;
+      break;
+
     case TreeEntry::Units:
       return _lasFile->lasRequired.units;
       break;
@@ -88,6 +92,13 @@ public:
       return QVariant();
       break;
     }
+  }
+
+  void
+  copyDataToLasToImport() override
+  {
+    _lasFileToImport->lasRequired.start =
+      _lasFile->lasRequired.start;
   }
 };
 
@@ -115,6 +126,10 @@ public:
       return _lasFile->lasRequired.stop;
       break;
 
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->lasRequired.stop;
+      break;
+
     case TreeEntry::Units:
       return _lasFile->lasRequired.units;
       break;
@@ -123,6 +138,13 @@ public:
       return QVariant();
       break;
     }
+  }
+
+  void
+  copyDataToLasToImport() override
+  {
+    _lasFileToImport->lasRequired.stop =
+      _lasFile->lasRequired.stop;
   }
 };
 
@@ -150,6 +172,10 @@ public:
       return _lasFile->lasRequired.step;
       break;
 
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->lasRequired.step;
+      break;
+
     case TreeEntry::Units:
       return _lasFile->lasRequired.units;
       break;
@@ -158,6 +184,13 @@ public:
       return QVariant();
       break;
     }
+  }
+
+  void
+  copyDataToLasToImport() override
+  {
+    _lasFileToImport->lasRequired.step =
+      _lasFile->lasRequired.step;
   }
 };
 
@@ -185,6 +218,10 @@ public:
       return _lasFile->lasRequired.nullValue;
       break;
 
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->lasRequired.nullValue;
+      break;
+
     case TreeEntry::Units:
       return _lasFile->lasRequired.units;
       break;
@@ -193,6 +230,13 @@ public:
       return QVariant();
       break;
     }
+  }
+
+  void
+  copyDataToLasToImport() override
+  {
+    _lasFileToImport->lasRequired.nullValue =
+      _lasFile->lasRequired.nullValue;
   }
 };
 

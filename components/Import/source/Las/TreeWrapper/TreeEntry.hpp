@@ -33,7 +33,7 @@ public:
     _parent(parent),
     _lasFile(lasFile)
   {
-    setLasFileToImport(LasFile::Shared(new LasFile()));
+    //
   }
 
   virtual

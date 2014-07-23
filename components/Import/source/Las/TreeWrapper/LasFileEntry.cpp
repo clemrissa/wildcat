@@ -11,8 +11,18 @@ using Geo::Import::TreeWrapper::LasFileEntry;
 /// Composite pattern. Used to represent LAS file strurcture as a tree
 
 LasFileEntry::
-LasFileEntry(QSharedPointer<LasFile> lasFile):
+LasFileEntry(LasFile::Shared lasFile):
   TreeEntry(lasFile)
+{
+  createEntries(lasFile);
+
+  setLasFileToImport(LasFile::Shared(new LasFile()));
+}
+
+
+void
+LasFileEntry::
+createEntries(LasFile::Shared lasFile)
 {
   _entries.push_back(new LasRequiredGroup(lasFile, this));
 
