@@ -17,18 +17,24 @@
 #include <DependencyManager/XmlApplicationContextLoader>
 
 #include <QApplication>
+#include <QDebug>
 #include <QFile>
 #include <QSharedPointer>
+
+static const QString dbFileName("test.db");
 
 TEST(DatabaseTest, CreateDB) {
   using DMContext = DependencyManager::ApplicationContext;
   using Geo::Database::Connections::Connection;
 
   Geo::Database::Connections::SQLiteConnection* c =
-    DMContext::create<Geo::Database::Connections::SQLiteConnection>("Database.SQLiteConnection");
+    DMContext::create<Geo::Database::Connections::SQLiteConnection>(
+      "Database.SQLiteConnection");
+
+  QFile::remove(dbFileName);
 
   // c->setDatabaseType(Geo::Database::DatabaseType::SQLite);
-  c->setDatabase("test.db");
+  c->setDatabase(dbFileName);
   c->connect();
 
   auto dataAccessFactory = c->dataAccessFactory();
@@ -68,19 +74,26 @@ TEST(DatabaseTest, Traits) {
   SQLiteConnection* c =
     DMContext::create<SQLiteConnection>("Database.SQLiteConnection");
 
-  // c->databaseType(Geo::Database::DatabaseType::SQLite);
-  c->setDatabase("test.db");
+  QFile::remove(dbFileName);
+
+  c->setDatabase(dbFileName);
   c->connect();
 
   auto dataAccessFactory = c->dataAccessFactory();
 
-  Geo::Domain::WellTrait::Shared wellName(new Geo::Domain::WellTrait(QString("WellName")));
+  Geo::Domain::WellTrait::Shared wellName(new Geo::Domain::WellTrait(QString(
+                                                                       "WellName")));
 
-  Geo::Domain::WellTrait::Shared wellRegion(new Geo::Domain::WellTrait(QString("Region")));
+  Geo::Domain::WellTrait::Shared wellRegion(new Geo::Domain::WellTrait(QString(
+                                                                         "Region")));
 
-  Geo::Domain::WellTrait::Shared wellType(new Geo::Domain::WellTrait(QString("Type")));
+  Geo::Domain::WellTrait::Shared wellType(new Geo::Domain::WellTrait(QString(
+                                                                       "Type")));
 
-  Geo::Domain::WellTraitAccess::Shared traitsAccess = dataAccessFactory->wellTraitAccess();
+  Geo::Domain::WellTraitAccess::Shared traitsAccess =
+    dataAccessFactory->wellTraitAccess();
+
+  qDebug() << c->lastError();
 
   traitsAccess->insert(wellName);
   traitsAccess->insert(wellRegion);

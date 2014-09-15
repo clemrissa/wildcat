@@ -10,16 +10,20 @@ namespace Geo {
 namespace Database {
 namespace Connections {
 enum DatabaseType { UnknownDB, SQLite, MySql };
+
 enum Status { Unknown, Connected, Failed };
 
-class Connection: public QObject {
+class Connection: public QObject
+{
 public:
   typedef Domain::DataAccessFactory  DataAccessFactory;
   typedef QSharedPointer<Connection> Shared;
 
 public:
   virtual
-  ~Connection() {}
+  ~Connection()
+  {
+  }
 
   virtual
   DataAccessFactory::Shared
@@ -27,7 +31,6 @@ public:
   {
     return _dataAccessFactory;
   }
-
 
   virtual Status const&
   status() const = 0;
