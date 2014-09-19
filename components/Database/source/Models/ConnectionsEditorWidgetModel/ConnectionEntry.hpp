@@ -10,6 +10,8 @@ namespace Models {
 namespace ConnectionsEditorWidgetModel {
 //
 
+/// Class wraps Connection entity and provides information for
+/// table model
 class ConnectionEntry: public Entry
 {
 public:

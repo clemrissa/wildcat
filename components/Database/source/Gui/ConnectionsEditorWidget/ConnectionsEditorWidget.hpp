@@ -15,6 +15,7 @@ namespace Gui {
 namespace ConnectionsEditorWidget {
 //
 
+// Shows dialog for editing connections
 class ConnectionsEditorWidget: public QWidget
 {
   Q_OBJECT

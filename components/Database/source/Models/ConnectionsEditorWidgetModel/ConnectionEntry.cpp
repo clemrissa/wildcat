@@ -68,8 +68,10 @@ getDisplayRole(int column)
 {
   switch (column) {
   case Type:
+
     if (!_connection.isNull())
       return _connection->connectionTypeName(_connection->databaseType());
+
     break;
 
   case Database:

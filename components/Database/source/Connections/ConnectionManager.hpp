@@ -9,7 +9,8 @@ namespace Geo {
 namespace Database {
 namespace Connections {
 class Connection;
-class ConnectionManager: public QObject {
+class ConnectionManager: public QObject
+{
   Q_OBJECT
 
 public:
@@ -39,7 +40,6 @@ public:
   {
     return _connections;
   }
-
 
 private:
   QVector<QSharedPointer<Connection> > _connections;

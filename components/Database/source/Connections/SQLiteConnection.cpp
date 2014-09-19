@@ -12,6 +12,8 @@
 
 #include <Uni/Logging/Logging>
 
+#include <QDebug>
+
 using Geo::Database::Connections::DatabaseType;
 using Geo::Database::Connections::SQLiteConnection;
 using Geo::Database::Connections::Status;
@@ -62,7 +64,7 @@ setDatabase(QString const& database)
 {
   _database = database;
 
-  // connect();
+  connect();
 
   emit databaseChanged(database);
 }

@@ -22,6 +22,7 @@ class WellTraitEntry;
 class DatabasePropertiesWidgetModel: public QAbstractItemModel
 {
   Q_OBJECT
+
 public:
   DatabasePropertiesWidgetModel();
 

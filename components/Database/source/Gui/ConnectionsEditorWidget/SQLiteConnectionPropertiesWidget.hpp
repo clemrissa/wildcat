@@ -8,6 +8,8 @@
 namespace Geo {
 namespace Database {
 namespace Gui {
+//
+
 class SQLiteConnectionPropertiesWidget: public ConnectionPropertiesWidget
 {
   Q_OBJECT

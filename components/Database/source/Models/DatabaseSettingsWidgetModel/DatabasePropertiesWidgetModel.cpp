@@ -83,6 +83,8 @@ setData(const QModelIndex& index,
       _entries.append(new WellTraitEntry(emptyTrait));
     }
     endResetModel();
+
+    saveTraits();
   }
 
   return true;
@@ -202,8 +204,7 @@ onClicked(const QModelIndex& index)
 {
   if (!index.parent().isValid() &&
       index.column() == WellTraitEntry::CloseAction &&
-      index.row() != _entries.size() - 1) 
-  {
+      index.row() != _entries.size() - 1) {
     beginRemoveRows(QModelIndex(), index.row(), index.row());
 
     auto connectionWrapper = _entries.takeAt(index.row());
@@ -264,4 +265,5 @@ saveTraits()
   for (WellTraitEntry* e : _entries)
     if (e->trait()->isValid())
       wellTraitAccess->insert(e->trait());
+
 }

@@ -14,6 +14,8 @@
 
 #include <Widgets/KeywordWidget>
 
+#include <QDebug>
+
 using Geo::Database::Connections::Connection;
 using Geo::Database::Connections::SQLiteConnection;
 using Geo::Database::Gui::SQLiteConnectionPropertiesWidget;
@@ -115,8 +117,6 @@ void
 SQLiteConnectionPropertiesWidget::
 onOpenClicked()
 {
-  //
-
   QString fileName =
     QFileDialog::getOpenFileName(this, tr("Select a database file"),
                                  QString(),

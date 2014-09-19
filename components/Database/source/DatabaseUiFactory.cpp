@@ -21,11 +21,13 @@ DatabaseUiFactory()
   //
 }
 
+
 DatabaseUiFactory::
 ~DatabaseUiFactory()
 {
   //
 }
+
 
 QMenu*
 DatabaseUiFactory::
@@ -41,12 +43,14 @@ createDatabaseMenu()
   return menu;
 }
 
+
 QToolBar*
 DatabaseUiFactory::
 createDatabaseToolBar()
 {
   return nullptr;
 }
+
 
 QList<QAction*>
 DatabaseUiFactory::

@@ -116,7 +116,8 @@ onConnectionClicked(const QModelIndex& index)
   using Geo::Database::Models::ConnectionsEditorWidgetModel::ConnectionEntry;
 
   if (!index.parent().isValid()) {
-    bool invalidRow = (index.row() == p->connectionsTable->model()->rowCount() - 1);
+    bool invalidRow =
+      (index.row() == p->connectionsTable->model()->rowCount() - 1);
 
     ConnectionEntry* c = invalidRow ? nullptr : static_cast<ConnectionEntry*>(
       index.internalPointer());

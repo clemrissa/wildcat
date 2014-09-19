@@ -35,7 +35,7 @@ TEST(DatabaseTest, CreateDB) {
 
   // c->setDatabaseType(Geo::Database::DatabaseType::SQLite);
   c->setDatabase(dbFileName);
-  c->connect();
+  // c->connect();
 
   auto dataAccessFactory = c->dataAccessFactory();
 
@@ -77,7 +77,7 @@ TEST(DatabaseTest, Traits) {
   QFile::remove(dbFileName);
 
   c->setDatabase(dbFileName);
-  c->connect();
+  // c->connect();
 
   auto dataAccessFactory = c->dataAccessFactory();
 
