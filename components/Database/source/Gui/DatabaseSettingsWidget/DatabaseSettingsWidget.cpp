@@ -62,7 +62,6 @@ setupUi(DatabaseSettingsWidgetModel* tableModel)
   horizontalHeader->setSectionResizeMode(0, QHeaderView::ResizeToContents);
   horizontalHeader->setSectionResizeMode(1, QHeaderView::Stretch);
 
-
   QHeaderView* verticalHeader = p->tableView->verticalHeader();
   verticalHeader->hide();
   verticalHeader->setSectionResizeMode(QHeaderView::Fixed);

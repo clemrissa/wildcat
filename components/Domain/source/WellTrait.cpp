@@ -1,5 +1,6 @@
 #include "WellTrait.hpp"
 
+#include <QtCore/QObject>
 #include <QtCore/QStringList>
 
 #include <Uni/Logging/Logging>
@@ -7,8 +8,18 @@
 using Geo::Domain::WellTrait;
 
 WellTrait::
+WellTrait():
+  _name(QString()),
+  _type(WellTrait::Undefined),
+  _mandatory(false)
+{
+}
+
+
+WellTrait::
 WellTrait(QString name):
   _name(name),
+  _type(WellTrait::Undefined),
   _mandatory(false)
 {
   //
@@ -18,6 +29,7 @@ WellTrait(QString name):
 WellTrait::
 WellTrait(QString name, bool mandatory):
   _name(name),
+  _type(WellTrait::Undefined),
   _mandatory(mandatory)
 {
   //
@@ -26,11 +38,10 @@ WellTrait(QString name, bool mandatory):
 
 void
 WellTrait::
-setName(QString name) 
-{ 
-  _name = name; 
+setName(QString name)
+{
+  _name = name;
 }
-
 
 
 void
@@ -54,9 +65,39 @@ getSynonymsAsString()
 }
 
 
+QString
+WellTrait::
+typeAsString(Type type)
+{
+  QString result;
+
+  switch (type) {
+  case Type::Undefined:
+    result = QString();
+    break;
+
+  case Type::String:
+    result = QObject::tr("String");
+    break;
+
+  case Type::Double:
+    result = QObject::tr("Double");
+    break;
+
+  default:
+    // should not get here
+    break;
+  }
+
+  return result;
+}
+
+
 bool
 WellTrait::
 isValid() const
 {
-  return !_name.isEmpty() && (_synonyms.size() > 0);
+  return !_name.isEmpty() &&
+         (_synonyms.size() > 0) &&
+         _type != WellTrait::Undefined;
 }

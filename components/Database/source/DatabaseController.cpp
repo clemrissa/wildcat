@@ -56,6 +56,7 @@ showConnectionsWidget()
   MainWindow* mainWindow =
     ApplicationContext::create<MainWindow>("Core.MainWindow");
 
+  // TODO remove model
   auto databaseConnectionsTreeModel = new Model();
 
   auto databaseConnectionsWidget = new ConnectionsEditorWidget(

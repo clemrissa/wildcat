@@ -1,20 +1,22 @@
 #ifndef Geo_Domain_WellTraitValue_hpp
 #define Geo_Domain_WellTraitValue_hpp
 
-#include <QSharedPointer>
-#include <QWeakPointer>
+#include <QtCore/QSharedPointer>
+#include <QtCore/QWeakPointer>
 
 #include <odb/core.hxx>
 
 namespace Geo {
 namespace Domain {
+//
 
-  class Well;
+class Well;
 
 #ifdef ODB_COMPILER
   #pragma db object polymorphic pointer(QSharedPointer)
 #endif
-class WellTraitAbstractValue {
+class WellTraitAbstractValue
+{
 public:
   typedef QSharedPointer<WellTraitAbstractValue> Shared;
 
@@ -23,10 +25,11 @@ public:
   value() = 0;
 
   virtual double
-  value(bool *ok) = 0;
+  value(bool* ok) = 0;
 
-  void 
-  setWell(QSharedPointer<Well> well) {
+  void
+  setWell(QSharedPointer<Well> well)
+  {
     _well = well;
   }
 
@@ -38,74 +41,77 @@ protected:
 #endif
   unsigned long _id;
 
-
 #ifdef ODB_COMPILER
   #pragma db not_null
 #endif
   QWeakPointer<Geo::Domain::Well> _well;
 };
 
-
 #ifdef ODB_COMPILER
   #pragma db object
 #endif
-class WellTraitDoubleValue : public WellTraitAbstractValue {
+class WellTraitDoubleValue: public WellTraitAbstractValue
+{
 public:
-
   virtual QString
-  value() override {
+  value() override
+  {
     return QString::number(_value);
   }
 
   virtual double
-  value(bool *ok) override {
+  value(bool* ok) override
+  {
     *ok = true;
     return _value;
   }
 
-  void setValue(double value) 
+  void
+  setValue(double value)
   {
     _value = value;
   }
+
 protected:
   friend class odb::access;
 
   double _value;
 };
 
-
 #ifdef ODB_COMPILER
   #pragma db object
 #endif
-class WellTraitStringValue : public WellTraitAbstractValue {
+class WellTraitStringValue: public WellTraitAbstractValue
+{
 public:
-
   virtual QString
-  value() override {
+  value() override
+  {
     return _value;
   }
 
   virtual double
-  value(bool *ok) override {
+  value(bool* ok) override
+  {
     return _value.toDouble(ok);
   }
 
-  void setValue(QString value)
+  void
+  setValue(QString value)
   {
     _value = value;
   }
+
 protected:
   friend class odb::access;
 
   QString _value;
 };
-
 }
 }
 
 #ifdef ODB_COMPILER
   #include "Well.hpp"
-#endif 
-
+#endif
 
 #endif //  Geo_Domain_WellTraitValue_hpp

@@ -2,6 +2,7 @@
 
 #include <QtGui/QIcon>
 
+#include <Domain/WellTrait>
 #include <Uni/Logging/Logging>
 
 using Geo::Database::Models::DatabaseSettingsWidgetModel::WellTraitEntry;
@@ -12,13 +13,13 @@ data(int role, int column)
 {
   Q_UNUSED(column);
 
-  switch(role) {
+  switch (role) {
   case Qt::DisplayRole:
-    return getDisplayEditRole(column);
+    return getDisplayOrEditRole(column);
     break;
 
   case Qt::EditRole:
-    return getDisplayEditRole(column);
+    return getDisplayOrEditRole(column);
     break;
 
   case Qt::DecorationRole:
@@ -32,20 +33,24 @@ data(int role, int column)
 
 QVariant
 WellTraitEntry::
-getDisplayEditRole(int column) const
+getDisplayOrEditRole(int column) const
 {
   QVariant result;
+
+  using Domain::WellTrait;
 
   switch (column) {
   case Trait:
     result = _trait->name();
     break;
 
-  case Synonyms: {
+  case Synonyms:
     result = _trait->getSynonymsAsString();
-
     break;
-  }
+
+  case Type:
+    result = WellTrait::typeAsString(_trait->type());
+    break;
   }
 
   return result;
@@ -57,7 +62,7 @@ WellTraitEntry::
 getDecorationRole(int column) const
 {
   if (column == CloseAction)
-      return QIcon(":/delete.png");
+    return QIcon(":/delete.png");
 
   return QVariant();
 }

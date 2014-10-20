@@ -9,6 +9,8 @@
 #include <Gui/DatabaseSettingsWidget/WellTraitItemDelegate.hpp>
 #include <Models/DatabaseSettingsWidgetModel/DatabasePropertiesWidgetModel.hpp>
 
+#include <Models/DatabaseSettingsWidgetModel/WellTraitEntry.hpp>
+
 using Geo::Database::Connections::Connection;
 using Geo::Database::Gui::DatabaseSettingsWidget::DatabasePropertiesWidget;
 using Geo::Database::Models::DatabaseSettingsWidgetModel::
@@ -38,6 +40,8 @@ DatabasePropertiesWidget::
 ~DatabasePropertiesWidget()
 {
   delete _p;
+
+  delete _p->propertiesWidgetModel;
 }
 
 
@@ -55,6 +59,7 @@ void
 DatabasePropertiesWidget::
 createUi()
 {
+  using Models::DatabaseSettingsWidgetModel::WellTraitEntry;
   _p->propertiesWidgetModel = new DatabasePropertiesWidgetModel();
 
   // --------------
@@ -63,15 +68,22 @@ createUi()
 
   _p->traitsTable->setModel(_p->propertiesWidgetModel);
 
-  // _p->traitsTable->setItemDelegate(new WellTraitItemDelegate());
+  // temporarily use standard edit tool
+  _p->traitsTable->setItemDelegate(new WellTraitItemDelegate());
 
   auto headerView = _p->traitsTable->horizontalHeader();
 
   headerView->setStretchLastSection(false);
-  headerView->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-  headerView->setSectionResizeMode(1, QHeaderView::Stretch);
-  headerView->setSectionResizeMode(2, QHeaderView::Fixed);
-  headerView->resizeSection(2, 20);
+  headerView->setSectionResizeMode(WellTraitEntry::Trait,
+                                   QHeaderView::ResizeToContents);
+  headerView->setSectionResizeMode(WellTraitEntry::Synonyms,
+                                   QHeaderView::Stretch);
+  headerView->setSectionResizeMode(WellTraitEntry::Type,
+                                   QHeaderView::Stretch);
+
+  headerView->setSectionResizeMode(WellTraitEntry::CloseAction,
+                                   QHeaderView::Fixed);
+  headerView->resizeSection(WellTraitEntry::CloseAction, 20);
 
   QHeaderView* verticalHeader = _p->traitsTable->verticalHeader();
   verticalHeader->setSectionResizeMode(QHeaderView::ResizeToContents);

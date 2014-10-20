@@ -6,6 +6,10 @@
 
 #include <Models/DatabaseSettingsWidgetModel/WellTraitEntry.hpp>
 
+#include <Domain/WellTrait>
+
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QTableView>
 
 using Geo::Database::Gui::DatabaseSettingsWidget::WellTraitItemDelegate;
@@ -20,17 +24,19 @@ createEditor(QWidget*                    parent,
   Q_UNUSED(parent);
   Q_UNUSED(option);
 
+  using Geo::Domain::WellTrait;
+
   QWidget* result = nullptr;
 
   switch (index.column()) {
   case WellTraitEntry::Trait:
-    break;
-
   case WellTraitEntry::Synonyms: {
-    using AC = DependencyManager::ApplicationContext;
-    using Geo::Widgets::KeywordWidget;
+    // using AC = DependencyManager::ApplicationContext;
+    // using Geo::Widgets::KeywordWidget;
 
-    result = AC::create<KeywordWidget>("Widgets.KeywordWidget");
+    // result = AC::create<KeywordWidget>("Widgets.KeywordWidget");
+
+    result = new QLineEdit();
 
     result->setParent(parent);
 
@@ -39,6 +45,16 @@ createEditor(QWidget*                    parent,
     // connect(result, SIGNAL(keywordAdded()),
     // t->horizontalHeader(), SLOT(HHH));
 
+    break;
+  }
+
+  case WellTraitEntry::Type: {
+    auto cbox = new QComboBox(parent);
+
+    for (int i = 0; i < WellTrait::Type::Size; ++i)
+      cbox->addItem(WellTrait::typeAsString((WellTrait::Type)i));
+
+    result = cbox;
     break;
   }
   }
@@ -55,24 +71,26 @@ updateEditorGeometry(QWidget*                    editor,
 {
   Q_UNUSED(index);
 
-  editor->setFixedWidth(option.rect.width());
-  editor->move(option.rect.x(), option.rect.y());
+  editor->setGeometry(option.rect);
 
-  _sizeHints[std::make_pair(index.row(), index.column())] = editor->size();
+  // editor->setFixedWidth(option.rect.width());
+  // editor->move(option.rect.x(), option.rect.y());
+
+  // _sizeHints[std::make_pair(index.row(),
+  // index.column())] =
+  // editor->size();
 }
 
 
 void
 WellTraitItemDelegate::
-setEditorData(QWidget* editor, const QModelIndex& index) const
+setEditorData(QWidget*           editor,
+              const QModelIndex& index) const
 {
   Q_UNUSED(index);
 
   switch (index.column()) {
   case WellTraitEntry::Trait:
-    return;
-    break;
-
   case WellTraitEntry::Synonyms: {
     using Geo::Widgets::KeywordWidget;
 
@@ -84,9 +102,28 @@ setEditorData(QWidget* editor, const QModelIndex& index) const
     if (!traitEntry)
       return;
 
-    auto trait = traitEntry->trait();
+    auto lineEdit = static_cast<QLineEdit*>(editor);
+
+    lineEdit->setText(traitEntry->data(Qt::DisplayRole,
+                                       index.column()).toString());
+
+    // auto trait = traitEntry->trait();
 
     // w->setKeywords(trait->synonyms());
+
+    break;
+  }
+
+  case WellTraitEntry::Type: {
+    auto traitEntry =
+      static_cast<WellTraitEntry*>(index.internalPointer());
+
+    if (!traitEntry)
+      return;
+
+    auto cbox = static_cast<QComboBox*>(editor);
+
+    cbox->setCurrentIndex(traitEntry->trait()->type());
 
     break;
   }
@@ -102,30 +139,39 @@ setModelData(QWidget*            editor,
 {
   switch (index.column()) {
   case WellTraitEntry::Trait:
-    return;
-    break;
-
   case WellTraitEntry::Synonyms: {
     using Geo::Widgets::KeywordWidget;
 
-    auto w = static_cast<KeywordWidget*>(editor);
+    auto lineEdit = static_cast<QLineEdit*>(editor);
 
-    Q_ASSERT(w);
+    model->setData(index, lineEdit->text(),
+                   Qt::EditRole);
 
-    auto traitEntry =
-      static_cast<WellTraitEntry*>(index.internalPointer());
+    // auto w = static_cast<KeywordWidget*>(editor);
 
-    if (!traitEntry)
-      return;
+    // Q_ASSERT(w);
 
-    auto trait = traitEntry->trait();
+    // auto traitEntry = static_cast<WellTraitEntry*>(index.internalPointer());
 
-    QStringList l = w->keywords();
+    // if (!traitEntry)
+    // return;
 
-    Q_ASSERT(l.size());
+    // auto trait = traitEntry->trait();
+
+    // QStringList l = w->keywords();
+
+    // Q_ASSERT(l.size());
 
     // trait->setSynonyms(w->keywords());
 
+    break;
+  }
+
+  case WellTraitEntry::Type: {
+    auto cbox = static_cast<QComboBox*>(editor);
+    model->setData(index,
+                   cbox->currentIndex(),
+                   Qt::EditRole);
     break;
   }
   }
@@ -146,7 +192,9 @@ sizeHint(const QStyleOptionViewItem& option,
          const QModelIndex&          index) const
 {
   Q_UNUSED(option);
-  auto iterator = _sizeHints.find(std::make_pair(index.row(), index.column()));
+  auto iterator =
+    _sizeHints.find(std::make_pair(index.row(),
+                                   index.column()));
 
   if (iterator != _sizeHints.end())
     return iterator->second;

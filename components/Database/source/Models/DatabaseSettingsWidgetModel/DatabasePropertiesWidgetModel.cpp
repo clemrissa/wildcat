@@ -17,6 +17,8 @@ DatabasePropertiesWidgetModel()
 DatabasePropertiesWidgetModel::
 ~DatabasePropertiesWidgetModel()
 {
+  saveTraits();
+
   qDeleteAll(_entries);
 }
 
@@ -27,11 +29,16 @@ data(const QModelIndex& index, int role) const
 {
   Q_UNUSED(role);
 
+  QVariant result;
+
   if (!index.isValid())
-    return QVariant();
+    return result;
 
   auto traitEntry =
     static_cast<WellTraitEntry*>(index.internalPointer());
+
+  if (!traitEntry)
+    return result;
 
   return traitEntry->data(role, index.column());
 }
@@ -58,10 +65,20 @@ setData(const QModelIndex& index,
   }
 
   case WellTraitEntry::Synonyms: {
-    auto list =
-      value.toString().split(",", QString::SkipEmptyParts);
+    auto list = value.toString().split(",", QString::SkipEmptyParts);
+
+    for (QString& s : list)
+      s = s.toUpper();
 
     traitEntry->trait()->setSynonyms(list);
+
+    break;
+  }
+
+  case WellTraitEntry::Type: {
+    using Geo::Domain::WellTrait;
+
+    traitEntry->trait()->setType(static_cast<WellTrait::Type>(value.toInt()));
 
     break;
   }
@@ -69,8 +86,7 @@ setData(const QModelIndex& index,
 
   bool newTraitStatus = traitEntry->trait()->isValid();
 
-  emit dataChanged(index, index);
-
+  // if a trait became valid
   if (!oldTraitStatus && newTraitStatus) {
     // add new data if necessary
     beginResetModel();
@@ -83,9 +99,11 @@ setData(const QModelIndex& index,
       _entries.append(new WellTraitEntry(emptyTrait));
     }
     endResetModel();
-
-    saveTraits();
   }
+
+  saveTraits();
+
+  emit dataChanged(index, index);
 
   return true;
 }
@@ -125,7 +143,7 @@ columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
 
-  return 3;
+  return WellTraitEntry::Size;
 }
 
 
@@ -159,6 +177,10 @@ headerData(int             section,
 
   case WellTraitEntry::Synonyms:
     result = tr("Synonyms");
+    break;
+
+  case WellTraitEntry::Type:
+    result = tr("Data Type");
     break;
 
   default:
@@ -262,8 +284,15 @@ saveTraits()
   for (WellTrait::Shared t : traits)
     wellTraitAccess->remove(t);
 
-  for (WellTraitEntry* e : _entries)
-    if (e->trait()->isValid())
+  int counter = 0;
+
+  for (WellTraitEntry* e : _entries) {
+    bool valid = e->trait()->isValid();
+
+    // if (e->trait()->isValid())
+    if (valid)
       wellTraitAccess->insert(e->trait());
 
+    counter++;
+  }
 }

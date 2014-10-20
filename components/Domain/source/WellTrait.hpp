@@ -6,6 +6,8 @@
 
 #include <odb/core.hxx>
 
+#include <iostream>
+
 namespace Geo {
 namespace Domain {
 #ifdef ODB_COMPILER
@@ -14,12 +16,19 @@ namespace Domain {
 class WellTrait
 {
 public:
+  // which type do we store here?
+  enum Type {
+    Undefined = 0,
+    String    = 1,
+    Double    = 2,
+    Size
+  };
+
+public:
   typedef QSharedPointer<WellTrait> Shared;
 
 public:
-  WellTrait()
-  {
-  }
+  WellTrait();
 
   WellTrait(QString name);
 
@@ -40,6 +49,21 @@ public:
   QString
   getSynonymsAsString();
 
+  static
+  QString
+  typeAsString(Type type);
+
+  Type
+  type() const { return _type; }
+
+  void
+  setType(Type type)
+  {
+    _type = type;
+
+    std::cout << "NEW TYPE IS " << _type << std::endl;
+  }
+
 public:
   bool
   isValid() const;
@@ -53,6 +77,8 @@ private:
   QString _name;
 
   QList<QString> _synonyms;
+
+  Type _type;
 
   bool _mandatory;
 };
