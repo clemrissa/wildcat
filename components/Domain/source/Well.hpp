@@ -4,10 +4,10 @@
 #include "Log.hpp"
 #include "WellTraitValue.hpp"
 
+#include <QtCore/QMap>
 #include <QtCore/QSharedPointer>
 #include <QtCore/QString>
 #include <QtCore/QVector>
-#include <QtCore/QMap>
 
 #include <odb/core.hxx>
 
@@ -16,7 +16,8 @@ namespace Domain {
 #ifdef ODB
   #pragma db object
 #endif
-class Well {
+class Well
+{
 public:
   typedef QSharedPointer<Well> Shared;
 
@@ -63,9 +64,9 @@ public:
   setAltitide(float const& altitude) { _altitude = altitude; }
 
   void
-  addLog(QSharedPointer<Log> log);
+  addLog(Log::Shared log);
 
-  QVectorIterator<QSharedPointer<Log> >
+  QVectorIterator<Log::Shared>
   getLogsListIterator();
 
 private:

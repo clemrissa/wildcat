@@ -16,6 +16,8 @@ set(ODB_HEADERS ${PROJECT_SOURCE_DIR}/source/Well.hpp
                 ${PROJECT_SOURCE_DIR}/source/Log.hpp
                 ${PROJECT_SOURCE_DIR}/source/WellTrait.hpp
                 ${PROJECT_SOURCE_DIR}/source/WellTraitValue.hpp
+                ${PROJECT_SOURCE_DIR}/source/LogParameter.hpp
+                ${PROJECT_SOURCE_DIR}/source/LogParameterGroup.hpp
                 )
 
 

@@ -1,28 +1,28 @@
-#include "LogAccess.hpp"
+#include "LogParameterAccess.hpp"
 
 #include <Uni/Logging/Logging>
 
-#include "Log.odb.hpp"
+#include "LogParameter.odb.hpp"
 
 #include <odb/transaction.hxx>
 
-using Geo::Domain::Odb::LogAccess;
+using Geo::Domain::Odb::LogParameterAccess;
 using odb::core::transaction;
 
-typedef odb::query<Geo::Domain::Log>  Query;
-typedef odb::result<Geo::Domain::Log> Result;
+typedef odb::query<Geo::Domain::LogParameter>  Query;
+typedef odb::result<Geo::Domain::LogParameter> Result;
 
-LogAccess::
-LogAccess(Database db): _db(db) {}
+LogParameterAccess::
+LogParameterAccess(Database db): _db(db) {}
 
 void
-LogAccess::
-insert(Geo::Domain::Log::Shared log)
+LogParameterAccess::
+insert(Geo::Domain::LogParameter::Shared logParameter)
 {
   try {
     transaction t(_db->begin());
 
-    _db->persist(*log);
+    _db->persist(*logParameter);
     t.commit();
   } catch (odb::exception const& e) {
     FATAL << "Odb error happened: "
@@ -32,13 +32,13 @@ insert(Geo::Domain::Log::Shared log)
 
 
 void
-LogAccess::
-update(Geo::Domain::Log::Shared log)
+LogParameterAccess::
+update(Geo::Domain::LogParameter::Shared logParameter)
 {
   try {
     transaction t(_db->begin());
 
-    _db->update(*log);
+    _db->update(*logParameter);
     t.commit();
   } catch (odb::exception const& e) {
     FATAL << "Odb error happened: "
@@ -48,13 +48,13 @@ update(Geo::Domain::Log::Shared log)
 
 
 void
-LogAccess::
-remove(Geo::Domain::Log::Shared log)
+LogParameterAccess::
+remove(Geo::Domain::LogParameter::Shared logParameter)
 {
   try {
     transaction t(_db->begin());
 
-    _db->erase(*log);
+    _db->erase(*logParameter);
     t.commit();
   } catch (odb::exception const& e) {
     FATAL << "Odb error happened: "
@@ -64,13 +64,13 @@ remove(Geo::Domain::Log::Shared log)
 
 
 void
-LogAccess::
+LogParameterAccess::
 remove(unsigned int const& pk)
 {
   try {
     transaction t(_db->begin());
 
-    _db->erase<Geo::Domain::Log>(pk);
+    _db->erase<Geo::Domain::LogParameter>(pk);
     t.commit();
   } catch (odb::exception const& e) {
     FATAL << "Odb error happened: "
@@ -79,22 +79,22 @@ remove(unsigned int const& pk)
 }
 
 
-QVector<Geo::Domain::Log::Shared>
-LogAccess::
+QVector<Geo::Domain::LogParameter::Shared>
+LogParameterAccess::
 findAll()
 {
-  using Geo::Domain::Log;
+  using Geo::Domain::LogParameter;
 
-  QVector<Log::Shared> vector;
+  QVector<LogParameter::Shared> vector;
   try {
     transaction t(_db->begin());
 
-    Result r(_db->query<Log>());
+    Result r(_db->query<Geo::Domain::LogParameter>());
 
     for (Result::iterator i(r.begin()); i != r.end(); ++i) {
-      Log::Shared log(i.load());
+      LogParameter::Shared log(i.load());
 
-      vector.push_back(log);
+      vector.push_back(logParameter);
     }
 
     t.commit();
@@ -107,10 +107,10 @@ findAll()
 }
 
 
-Geo::Domain::Log::Shared
-LogAccess::
+Geo::Domain::LogParameter::Shared
+LogParameterAccess::
 findByPrimaryKey(unsigned int const& pk)
 {
-  using Geo::Domain::Log;
-  return Log::Shared(_db->load<Log>(pk));
+  using Geo::Domain::LogParameter;
+  return LogParameter::Shared(_db->load<LogParameter>(pk));
 }

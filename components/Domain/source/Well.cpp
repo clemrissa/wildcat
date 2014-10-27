@@ -18,7 +18,8 @@ Well(QString const& name,
   _name(name),
   _depth(depth),
   _absDepth(absDepth),
-  _altitude(altitude) {
+  _altitude(altitude)
+{
   // for (int i = 0; i < 5; ++i) {
   // QString name = "Log_" + QString::number(qrand() % 100 + 100);
   // QString unit = "Unit_" + QString::number(qrand() % 100 + 100);
@@ -30,15 +31,19 @@ Well(QString const& name,
   // }
 }
 
+
 void
 Well::
-addLog(QSharedPointer<Log> log) {
+addLog(QSharedPointer<Log> log)
+{
   _logs.append(log);
 }
 
+
 QVectorIterator<QSharedPointer<Log> >
 Well::
-getLogsListIterator() {
+getLogsListIterator()
+{
   return QVectorIterator<QSharedPointer<Log> >(_logs);
 }
 }

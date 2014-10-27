@@ -9,6 +9,8 @@
 
 #include <Domain/Log>
 #include <Domain/LogAccess>
+#include <Domain/LogParameterAccess>
+#include <Domain/LogParameterGroupAccess>
 #include <Domain/Well>
 #include <Domain/WellAccess>
 #include <Domain/WellTrait>
@@ -34,23 +36,71 @@ TEST(DatabaseTest, CreateDB) {
   QFile::remove(dbFileName);
 
   // c->setDatabaseType(Geo::Database::DatabaseType::SQLite);
-  c->setDatabase(dbFileName);
-  // c->connect();
+  c->setDatabase(dbFileName); // calls connect() inside
 
   auto dataAccessFactory = c->dataAccessFactory();
 
-  Geo::Domain::WellAccess::Shared wellAccess = dataAccessFactory->wellAccess();
-  Geo::Domain::LogAccess::Shared  logAccess  = dataAccessFactory->logAccess();
+  using Geo::Domain::LogAccess;
+  using Geo::Domain::WellAccess;
 
+  WellAccess::Shared wellAccess = dataAccessFactory->wellAccess();
+  LogAccess::Shared  logAccess  = dataAccessFactory->logAccess();
+
+  using Geo::Domain::Log;
   using Geo::Domain::Well;
 
-  Geo::Domain::Well::Shared well(new Well(QString("skvazhinka"),
-                                          0.5, 6.7, 5.7));
+  Well::Shared well(new Well(QString("skvazhinka"),
+                             0.5, 6.7, 5.7));
 
-  Geo::Domain::Log::Shared
-    log(new Geo::Domain::Log(QString("electro"),
-                             QString("BKZ"),
-                             QString("Lopata")));
+  Log::Shared log(new Log(QString("electro"),
+                          QString("BKZ"),
+                          QString("Lopata")));
+
+  // objects interconnections
+  well->addLog(log);
+  log->setWell(well);
+
+  // store both in DB
+  wellAccess->insert(well);
+  logAccess->insert(log);
+
+  ASSERT_TRUE(c->lastError().isEmpty());
+
+  delete c;
+}
+
+// -------------------------------------------------------------------
+
+TEST(DatabaseTest, LogParameters) {
+  using DMContext = DependencyManager::ApplicationContext;
+  using Geo::Database::Connections::Connection;
+
+  Geo::Database::Connections::SQLiteConnection* c =
+    DMContext::create<Geo::Database::Connections::SQLiteConnection>(
+      "Database.SQLiteConnection");
+
+  QFile::remove(dbFileName);
+
+  c->setDatabase(dbFileName); // calls connect() inside
+
+  auto dataAccessFactory = c->dataAccessFactory();
+
+  using Geo::Domain::LogParameterAccess;
+  using Geo::Domain::LogParameterGroupAccess;
+
+  LogParameterGroupAccess::Shared wellAccess =
+    dataAccessFactory->wellAccess();
+  LogAccess::Shared logAccess = dataAccessFactory->logAccess();
+
+  using Geo::Domain::Log;
+  using Geo::Domain::Well;
+
+  Well::Shared well(new Well(QString("skvazhinka"),
+                             0.5, 6.7, 5.7));
+
+  Log::Shared log(new Log(QString("electro"),
+                          QString("BKZ"),
+                          QString("Lopata")));
 
   // objects interconnections
   well->addLog(log);
@@ -81,14 +131,13 @@ TEST(DatabaseTest, Traits) {
 
   auto dataAccessFactory = c->dataAccessFactory();
 
-  Geo::Domain::WellTrait::Shared wellName(new Geo::Domain::WellTrait(QString(
-                                                                       "WellName")));
+  using Geo::Domain::WellTrait;
 
-  Geo::Domain::WellTrait::Shared wellRegion(new Geo::Domain::WellTrait(QString(
-                                                                         "Region")));
+  WellTrait::Shared wellName(new WellTrait(QString("WellName")));
 
-  Geo::Domain::WellTrait::Shared wellType(new Geo::Domain::WellTrait(QString(
-                                                                       "Type")));
+  WellTrait::Shared wellRegion(new WellTrait(QString("Region")));
+
+  WellTrait::Shared wellType(new WellTrait(QString("Type")));
 
   Geo::Domain::WellTraitAccess::Shared traitsAccess =
     dataAccessFactory->wellTraitAccess();

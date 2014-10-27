@@ -14,7 +14,8 @@
 namespace Geo {
 namespace Domain {
 namespace Odb {
-class DataAccessFactory: public Domain::DataAccessFactory {
+class DataAccessFactory: public Domain::DataAccessFactory
+{
 private:
   typedef Geo::Domain::DataAccessFactory Base;
 
@@ -23,7 +24,9 @@ public:
   typedef QSharedPointer<odb::core::database> Database;
 
 public:
-  DataAccessFactory(Database const& db): _db(db) {}
+  DataAccessFactory(Database const& db): _db(db)
+  {
+  }
 
   DataAccessFactory(DataAccessFactory const&) = delete;
 
@@ -34,18 +37,34 @@ public:
   database() const override { return _db; }
 
   Domain::LogAccess::Shared
-  logAccess() const override {
+  logAccess() const override
+  {
     return Domain::LogAccess::Shared(new LogAccess(_db));
   }
 
   Domain::WellAccess::Shared
-  wellAccess() const override {
+  wellAccess() const override
+  {
     return Domain::WellAccess::Shared(new WellAccess(_db));
   }
 
   Domain::WellTraitAccess::Shared
-  wellTraitAccess() const override {
+  wellTraitAccess() const override
+  {
     return Domain::WellTraitAccess::Shared(new WellTraitAccess(_db));
+  }
+
+  Domain::LogParameterGroupAccess::Shared
+  logParameterGroupAccess() const override
+  {
+    return Domain::LogParameterGroupAccess::Shared(
+      new LogParameterGroupAccess(_db));
+  }
+
+  Domain::LogParameterAccess::Shared
+  logParameterAccess() const override
+  {
+    return Domain::LogParameterAccess::Shared(new LogParameterAccess(_db));
   }
 
 private:

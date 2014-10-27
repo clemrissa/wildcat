@@ -2,6 +2,8 @@
 #define Geo_Domain_DataAccessFactory_hpp
 
 #include <Domain/LogAccess>
+#include <Domain/LogParameterAccess>
+#include <Domain/LogParameterGroupAccess>
 #include <Domain/WellAccess>
 #include <Domain/WellTraitAccess>
 
@@ -14,18 +16,21 @@ namespace Domain {
 /**
  * Class produces various objects for accesing ORM elements
  */
-class DataAccessFactory {
+class DataAccessFactory
+{
 public:
   typedef QSharedPointer<DataAccessFactory> Shared;
 
 public:
   virtual
-  ~DataAccessFactory() {}
+  ~DataAccessFactory()
+  {
+  }
 
   DataAccessFactory&
   operator=(DataAccessFactory const&) = delete;
 
-  virtual QSharedPointer<odb::core::database> 
+  virtual QSharedPointer<odb::core::database>
   database() const = 0;
 
   virtual LogAccess::Shared
@@ -36,6 +41,12 @@ public:
 
   virtual WellTraitAccess::Shared
   wellTraitAccess() const = 0;
+
+  virtual LogParameterGroupAccess::Shared
+  logParameterGroupAccess() const = 0;
+
+  virtual LogParameterAccess::Shared
+  logParameterAccess() const = 0;
 };
 }
 }
