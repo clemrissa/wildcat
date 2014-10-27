@@ -1,5 +1,4 @@
-#include "DatabasePropertiesWidget.hpp"
-
+#include "DatabasePropertiesWidget.hpp" 
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
@@ -76,8 +75,10 @@ createUi()
   headerView->setStretchLastSection(false);
   headerView->setSectionResizeMode(WellTraitEntry::Trait,
                                    QHeaderView::ResizeToContents);
+
   headerView->setSectionResizeMode(WellTraitEntry::Synonyms,
-                                   QHeaderView::Stretch);
+                                   QHeaderView::ResizeToContents);
+
   headerView->setSectionResizeMode(WellTraitEntry::Type,
                                    QHeaderView::Stretch);
 
@@ -85,7 +86,8 @@ createUi()
                                    QHeaderView::Fixed);
   headerView->resizeSection(WellTraitEntry::CloseAction, 20);
 
-  QHeaderView* verticalHeader = _p->traitsTable->verticalHeader();
+
+  auto verticalHeader = _p->traitsTable->verticalHeader();
   verticalHeader->setSectionResizeMode(QHeaderView::ResizeToContents);
   verticalHeader->hide();
 

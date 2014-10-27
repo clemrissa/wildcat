@@ -76,9 +76,8 @@ updateEditorGeometry(QWidget*                    editor,
   // editor->setFixedWidth(option.rect.width());
   // editor->move(option.rect.x(), option.rect.y());
 
-  // _sizeHints[std::make_pair(index.row(),
-  // index.column())] =
-  // editor->size();
+   //_sizeHints[std::make_pair(index.row(), index.column())] =
+     //editor->size();
 }
 
 
@@ -191,13 +190,15 @@ WellTraitItemDelegate::
 sizeHint(const QStyleOptionViewItem& option,
          const QModelIndex&          index) const
 {
-  Q_UNUSED(option);
-  auto iterator =
-    _sizeHints.find(std::make_pair(index.row(),
-                                   index.column()));
+  return QStyledItemDelegate::sizeHint(option, index);
 
-  if (iterator != _sizeHints.end())
-    return iterator->second;
-  else
-    return QSize();
+  //Q_UNUSED(option);
+  //auto iterator =
+    //_sizeHints.find(std::make_pair(index.row(),
+                                   //index.column()));
+
+  //if (iterator != _sizeHints.end())
+    //return iterator->second;
+  //else
+    //return QSize();
 }
