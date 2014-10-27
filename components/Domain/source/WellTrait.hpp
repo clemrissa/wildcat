@@ -21,6 +21,7 @@ public:
     Undefined = 0,
     String    = 1,
     Double    = 2,
+    Date      = 3,
     Size
   };
 
@@ -60,8 +61,6 @@ public:
   setType(Type type)
   {
     _type = type;
-
-    std::cout << "NEW TYPE IS " << _type << std::endl;
   }
 
 public:

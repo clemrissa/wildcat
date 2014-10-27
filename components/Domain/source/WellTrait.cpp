@@ -84,6 +84,10 @@ typeAsString(Type type)
     result = QObject::tr("Double");
     break;
 
+  case Type::Date:
+    result = QObject::tr("Date");
+    break;
+
   default:
     // should not get here
     break;
