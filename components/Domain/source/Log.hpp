@@ -1,15 +1,17 @@
 #ifndef Geo_Domain_Log_hpp
 #define Geo_Domain_Log_hpp
 
-#include <QSharedPointer>
-#include <QWeakPointer>
-#include <QString>
-#include <QVector>
+#include <QtCore/QSharedPointer>
+#include <QtCore/QWeakPointer>
+#include <QtCore/QString>
+#include <QtCore/QVector>
 
 #include <odb/core.hxx>
 
 namespace Geo {
 namespace Domain {
+//
+
 class Well;
 
 #ifdef ODB

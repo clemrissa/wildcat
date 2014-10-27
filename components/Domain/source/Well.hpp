@@ -4,10 +4,10 @@
 #include "Log.hpp"
 #include "WellTraitValue.hpp"
 
-#include <QSharedPointer>
-#include <QString>
-#include <QVector>
-#include <QMap>
+#include <QtCore/QSharedPointer>
+#include <QtCore/QString>
+#include <QtCore/QVector>
+#include <QtCore/QMap>
 
 #include <odb/core.hxx>
 
