@@ -92,7 +92,7 @@ findAll()
     Result r(_db->query<Geo::Domain::LogParameter>());
 
     for (Result::iterator i(r.begin()); i != r.end(); ++i) {
-      LogParameter::Shared log(i.load());
+      LogParameter::Shared logParameter(i.load());
 
       vector.push_back(logParameter);
     }

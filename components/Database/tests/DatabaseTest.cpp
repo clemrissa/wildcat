@@ -87,35 +87,50 @@ TEST(DatabaseTest, LogParameters) {
 
   using Geo::Domain::LogParameterAccess;
   using Geo::Domain::LogParameterGroupAccess;
+  using Geo::Domain::WellAccess;
 
-  LogParameterGroupAccess::Shared wellAccess =
-    dataAccessFactory->wellAccess();
-  LogAccess::Shared logAccess = dataAccessFactory->logAccess();
+  WellAccess::Shared wellAccess = dataAccessFactory->wellAccess();
 
-  using Geo::Domain::Log;
+  LogParameterGroupAccess::Shared logParameterGroupAccess = 
+    dataAccessFactory->logParameterGroupAccess();
+
+  LogParameterAccess::Shared logParameterAccess = 
+    dataAccessFactory->logParameterAccess();
+
   using Geo::Domain::Well;
+  using Geo::Domain::LogParameter;
+  using Geo::Domain::LogParameterString;
+  using Geo::Domain::LogParameterGroup;
+
+
 
   Well::Shared well(new Well(QString("skvazhinka"),
                              0.5, 6.7, 5.7));
 
-  Log::Shared log(new Log(QString("electro"),
-                          QString("BKZ"),
-                          QString("Lopata")));
+  LogParameterGroup::Shared group(new LogParameterGroup());
 
-  // objects interconnections
-  well->addLog(log);
-  log->setWell(well);
+  LogParameter::Shared parameter(new LogParameterString());
+ 
+  parameter->setName("TestName");
 
-  // store both in DB
+  parameter->setValue("TestValue");
+
+
+  parameter->setLogParameterGroup(group);
+
+  group->setWell(well);
+
+
   wellAccess->insert(well);
-  logAccess->insert(log);
+  logParameterGroupAccess->insert(group);
+  logParameterAccess->insert(parameter);
 
   ASSERT_TRUE(c->lastError().isEmpty());
 
   delete c;
 }
 
-// -------------------------------------------------------------------
+//-------------------------------------------------------------------
 
 TEST(DatabaseTest, Traits) {
   using DMContext = DependencyManager::ApplicationContext;

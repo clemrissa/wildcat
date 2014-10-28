@@ -28,12 +28,25 @@ public:
 
 public:
   virtual QString
-  value() = 0;
+  getValue() = 0;
+
+  virtual void
+  setValue(QString value) = 0;
 
   void
-  setLogGroup(QSharedPointer<LogParameterGroup> logParameterGroup)
+  setLogParameterGroup(QSharedPointer<LogParameterGroup> logParameterGroup)
   {
     _logParameterGroup = logParameterGroup;
+  }
+
+  QString
+  getName()
+  { return _name; }
+
+  void
+  setName(QString name)
+  {
+    _name = name;
   }
 
 protected:
@@ -49,7 +62,13 @@ protected:
 #endif
   QWeakPointer<Geo::Domain::LogParameterGroup>
   _logParameterGroup;
+
+  QString _name;
 };
+
+
+//-----------------------------------------------
+
 
 #ifdef ODB_COMPILER
   #pragma db object
@@ -58,7 +77,7 @@ class LogParameterString: public LogParameter
 {
 public:
   virtual QString
-  value() override
+  getValue() override
   {
     return _value;
   }

@@ -4,6 +4,8 @@
 #include <Domain/Odb/LogAccess>
 #include <Domain/Odb/WellAccess>
 #include <Domain/Odb/WellTraitAccess>
+#include <Domain/Odb/LogParameterAccess>
+#include <Domain/Odb/LogParameterGroupAccess>
 
 #include <Domain/DataAccessFactory>
 
