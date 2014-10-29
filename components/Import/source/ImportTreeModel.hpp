@@ -15,7 +15,8 @@ class TreeEntry;
 class LasFileEntry;
 }
 
-class ImportTreeModel: public QAbstractItemModel {
+class ImportTreeModel: public QAbstractItemModel
+{
 public:
   ImportTreeModel(QVector<TreeWrapper::LasFileEntry*> lasFilesEntries);
 
@@ -38,6 +39,11 @@ public:
   virtual
   QModelIndex
   index(int row, int column, const QModelIndex& parent) const override;
+
+  bool
+  setData(const QModelIndex& index,
+          const QVariant&    value,
+          int                role = Qt::EditRole) override;
 
   virtual
   QModelIndex

@@ -4,6 +4,8 @@
 
 #include <Uni/Logging/Logging>
 
+#include <QtWidgets/QLineEdit>
+
 using Geo::Import::Gui::ImportTreeItemDelegate;
 
 QWidget*
@@ -55,7 +57,17 @@ setModelData(QWidget*            editor,
              QAbstractItemModel* model,
              const QModelIndex&  index) const
 {
-  Q_UNUSED(editor);
-  Q_UNUSED(model);
-  Q_UNUSED(index);
+  using Geo::Import::TreeWrapper::TreeEntry;
+
+  switch (index.column()) {
+  case TreeEntry::ImportValue: {
+    auto lineEdit = static_cast<QLineEdit*>(editor);
+
+    model->setData(index, lineEdit->text(), Qt::EditRole);
+    break;
+  }
+
+  default:
+    break;
+  }
 }

@@ -91,18 +91,16 @@ TEST(DatabaseTest, LogParameters) {
 
   WellAccess::Shared wellAccess = dataAccessFactory->wellAccess();
 
-  LogParameterGroupAccess::Shared logParameterGroupAccess = 
+  LogParameterGroupAccess::Shared logParameterGroupAccess =
     dataAccessFactory->logParameterGroupAccess();
 
-  LogParameterAccess::Shared logParameterAccess = 
+  LogParameterAccess::Shared logParameterAccess =
     dataAccessFactory->logParameterAccess();
 
-  using Geo::Domain::Well;
   using Geo::Domain::LogParameter;
-  using Geo::Domain::LogParameterString;
   using Geo::Domain::LogParameterGroup;
-
-
+  using Geo::Domain::LogParameterString;
+  using Geo::Domain::Well;
 
   Well::Shared well(new Well(QString("skvazhinka"),
                              0.5, 6.7, 5.7));
@@ -110,16 +108,14 @@ TEST(DatabaseTest, LogParameters) {
   LogParameterGroup::Shared group(new LogParameterGroup());
 
   LogParameter::Shared parameter(new LogParameterString());
- 
+
   parameter->setName("TestName");
 
   parameter->setValue("TestValue");
 
-
   parameter->setLogParameterGroup(group);
 
   group->setWell(well);
-
 
   wellAccess->insert(well);
   logParameterGroupAccess->insert(group);
@@ -130,7 +126,7 @@ TEST(DatabaseTest, LogParameters) {
   delete c;
 }
 
-//-------------------------------------------------------------------
+// -------------------------------------------------------------------
 
 TEST(DatabaseTest, Traits) {
   using DMContext = DependencyManager::ApplicationContext;

@@ -57,6 +57,10 @@ public:
   virtual QVariant
   data(int role, int column) = 0;
 
+  virtual
+  bool
+  setData(int role, int column, QVariant value) { return false; }
+
   virtual QWidget*
   delegateWidget(int column);
 

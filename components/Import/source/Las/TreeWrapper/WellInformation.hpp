@@ -2,6 +2,7 @@
 #define Geo_Import_TreeWrapper_WellInformation_hpp
 
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QLineEdit>
 
 #include <Database/Connections/Connection>
 #include <Domain/WellTrait>
@@ -323,6 +324,28 @@ public:
     }
   }
 
+  bool
+  setData(int role, int column, QVariant value) override
+  {
+    QString key = _lasFile->wellInformation.keys()[_position];
+
+    bool result = false;
+
+    switch (column) {
+    case TreeEntry::ImportValue: {
+      _lasFileToImport->wellInformation[key].value = value.toString();
+
+      result = true;
+      break;
+    }
+
+    default:
+      break;
+    }
+
+    return result;
+  }
+
   void
   copyDataToLasToImport() override
   {
@@ -337,24 +360,44 @@ public:
   {
     using Geo::Domain::WellTrait;
 
+    QWidget* result = nullptr;
+
     if (_connection.isNull())
-      return nullptr;
+      return result;
 
-    if (column != TreeEntry::Type)
-      return nullptr;
+    switch (column) {
+    case TreeEntry::ImportValue: {
+      QLineEdit* line = new QLineEdit();
 
-    QComboBox* comboBox = new QComboBox();
+      QString key = _lasFile->wellInformation.keys()[_position];
+      line->setText(_lasFileToImport->wellInformation[key].value);
 
-    auto dataAccessFactory = _connection->dataAccessFactory();
+      result = line;
+      break;
+    }
 
-    auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
+    case TreeEntry::Type: {
+      QComboBox* comboBox = new QComboBox();
 
-    QVector<WellTrait::Shared> traits = wellTraitAccess->findAll();
+      auto dataAccessFactory = _connection->dataAccessFactory();
 
-    for (WellTrait::Shared t : traits)
-      comboBox->addItem(t->name());
+      auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
 
-    return comboBox;
+      QVector<WellTrait::Shared> traits = wellTraitAccess->findAll();
+
+      for (WellTrait::Shared t : traits)
+        comboBox->addItem(t->name());
+
+      result = comboBox;
+
+      break;
+    }
+
+    default:
+      break;
+    }
+
+    return result;
   }
 
 private:

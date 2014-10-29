@@ -75,6 +75,27 @@ data(const QModelIndex& index, int role) const
 }
 
 
+bool
+ImportTreeModel::
+setData(const QModelIndex& index,
+        const QVariant&    value,
+        int                role)
+{
+  if (role != Qt::EditRole)
+    return false;
+
+  auto treeEntry =
+    static_cast<TreeEntry*>(index.internalPointer());
+
+  bool result = treeEntry->setData(role, index.column(), value);
+
+  if (result)
+    emit dataChanged(index, index);
+
+  return result;
+}
+
+
 QModelIndex
 ImportTreeModel::
 index(int row, int column, const QModelIndex& parent) const
