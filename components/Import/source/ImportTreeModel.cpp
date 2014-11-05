@@ -194,7 +194,7 @@ headerData(int             section,
     break;
 
   case TreeEntry::Type:
-    result = tr("Type");
+    result = tr("Trait/Type");
     break;
 
   case TreeEntry::Units:

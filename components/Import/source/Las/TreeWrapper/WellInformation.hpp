@@ -12,6 +12,11 @@
 #include <Uni/Logging/Logging>
 
 namespace Geo {
+
+namespace Domain {
+  class WellTrait;
+}
+
 namespace Import {
 namespace TreeWrapper {
 //
@@ -130,15 +135,34 @@ public:
   bool
   setData(int role, int column, QVariant value) override;
 
+  const QSharedPointer<Geo::Domain::WellTrait> 
+  getTrait() const;
+
+  void
+  setTrait(QSharedPointer<Geo::Domain::WellTrait> trait);
+
   void
   copyDataToLasToImport() override;
 
   QWidget*
   delegateWidget(int column) override;
 
+  void
+  setConnection(Geo::Database::Connections::Connection::Shared connection);
+
 private:
   int _position;
+
+  QSharedPointer<Geo::Domain::WellTrait> _trait;
+
+private slots:
+  void 
+  importValueChanged();
 };
+
+
+//------------------------------------------------------
+
 
 class WellInformationGroup: public TreeEntry
 {
@@ -149,6 +173,7 @@ public:
   QVariant
   data(int role, int column) override;
 };
+
 
 //
 }

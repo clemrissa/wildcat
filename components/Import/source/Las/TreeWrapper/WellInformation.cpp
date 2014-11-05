@@ -331,6 +331,14 @@ data(int role, int column)
     return _lasFileToImport->wellInformation[key].value;
     break;
 
+
+  case TreeEntry::Type: 
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+    break;
+
   case TreeEntry::Units:
     return _lasFile->wellInformation[key].units;
     break;
@@ -354,15 +362,36 @@ setData(int role, int column, QVariant value)
   case TreeEntry::ImportValue: {
     _lasFileToImport->wellInformation[key].value = value.toString();
 
+    importValueChanged();
+
     result = true;
     break;
   }
+
+  //case TreeEntry::Type: {
+  //}
 
   default:
     break;
   }
 
   return result;
+}
+
+
+const QSharedPointer<Geo::Domain::WellTrait> 
+WellInfo::
+getTrait() const 
+{
+  return _trait;
+}
+
+
+void
+WellInfo::
+setTrait(QSharedPointer<Geo::Domain::WellTrait> trait)
+{
+  _trait = trait;
 }
 
 
@@ -374,6 +403,8 @@ copyDataToLasToImport()
 
   _lasFileToImport->wellInformation[key] =
     _lasFile->wellInformation[key];
+
+  importValueChanged();
 }
 
 
@@ -421,6 +452,42 @@ delegateWidget(int column)
   }
 
   return result;
+}
+
+
+void
+WellInfo::
+setConnection(Geo::Database::Connections::Connection::Shared connection)
+{
+  TreeEntry::setConnection(connection);
+
+  importValueChanged();
+}
+
+
+void 
+WellInfo::
+importValueChanged()
+{
+  using Geo::Domain::WellTrait;
+
+  if (_connection.isNull())
+    return;
+
+  QString key = _lasFile->wellInformation.keys()[_position];
+  QString name = _lasFile->wellInformation[key].name;
+
+  auto dataAccessFactory = _connection->dataAccessFactory();
+
+  auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
+
+  QVector<WellTrait::Shared> traits = wellTraitAccess->findAll();
+
+  for (WellTrait::Shared t : traits)
+    if (t->synonyms().contains(name))
+    {
+      _trait = t;
+    }
 }
 
 

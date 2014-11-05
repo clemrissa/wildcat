@@ -69,6 +69,7 @@ public:
   virtual QWidget*
   delegateWidget(int column);
 
+  virtual
   void
   setConnection(Geo::Database::Connections::Connection::Shared connection);
 
