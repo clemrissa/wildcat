@@ -14,7 +14,12 @@
 namespace Geo {
 namespace Import {
 namespace TreeWrapper {
-/// Composite pattern. Used to represent LAS file strurcture as a tree
+//
+
+
+/// @brief Composite pattern. Used to represent LAS file strurcture as a tree.
+/// Every subclass works with sertain data from the LasFile class.
+/// The whole tree is employed then in AbstractItemMoodel for QTreeView
 class TreeEntry: public QObject
 {
 public:
