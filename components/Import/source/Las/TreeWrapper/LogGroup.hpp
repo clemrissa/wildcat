@@ -6,9 +6,12 @@
 namespace Geo {
 namespace Import {
 namespace TreeWrapper {
-class ImportTreeWrapperLog: public TreeEntry {
+//
+
+
+class LogWrapper: public TreeEntry {
 public:
-  ImportTreeWrapperLog(QSharedPointer<LasFile> lasFile,
+  LogWrapper(QSharedPointer<LasFile> lasFile,
                        TreeEntry*              parent,
                        int                     position):
     TreeEntry(lasFile, parent),
@@ -47,6 +50,7 @@ private:
   int _position;
 };
 
+
 class LogGroup: public TreeEntry {
 public:
   LogGroup(QSharedPointer<LasFile> lasFile,
@@ -54,7 +58,7 @@ public:
     TreeEntry(lasFile, parent)
   {
     for (int i = 0; i < _lasFile->logInformation.keys().size(); ++i)
-      _entries.push_back(new ImportTreeWrapperLog(_lasFile, this, i));
+      _entries.push_back(new LogWrapper(_lasFile, this, i));
   }
 
 

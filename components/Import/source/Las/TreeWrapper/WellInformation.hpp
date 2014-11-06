@@ -108,6 +108,57 @@ public:
 //------------------------------------------------------
 
 
+class WellCompany: public TreeEntry
+{
+public:
+  WellCompany(QSharedPointer<LasFile> lasFile,
+              TreeEntry*              parent);
+
+  QVariant
+  data(int role, int column) override;
+
+  void
+  copyDataToLasToImport() override;
+};
+
+
+//------------------------------------------------------
+
+
+class WellServiceCompany: public TreeEntry
+{
+public:
+  WellServiceCompany(QSharedPointer<LasFile> lasFile,
+              TreeEntry*              parent);
+
+  QVariant
+  data(int role, int column) override;
+
+  void
+  copyDataToLasToImport() override;
+};
+
+//------------------------------------------------------
+
+
+class WellField: public TreeEntry
+{
+public:
+  WellField(QSharedPointer<LasFile> lasFile,
+            TreeEntry*              parent);
+
+  QVariant
+  data(int role, int column) override;
+
+  void
+  copyDataToLasToImport() override;
+};
+
+
+
+//------------------------------------------------------
+
+
 class LasRequiredGroup: public TreeEntry
 {
 public:

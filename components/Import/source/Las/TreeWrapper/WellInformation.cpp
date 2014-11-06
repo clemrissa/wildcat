@@ -18,7 +18,7 @@ data(int role, int column)
 
   switch (column) {
   case TreeEntry::Name:
-    return tr("Well");
+    return tr("WELL");
     break;
 
   case TreeEntry::Value:
@@ -64,6 +64,10 @@ data(int role, int column)
 
   switch (column) {
   case TreeEntry::Name:
+    return tr("STRT");
+    break;
+
+  case TreeEntry::Description:
     return tr("Start");
     break;
 
@@ -117,6 +121,10 @@ data(int role, int column)
 
   switch (column) {
   case TreeEntry::Name:
+    return tr("STOP");
+    break;
+
+  case TreeEntry::Description:
     return tr("Stop");
     break;
 
@@ -171,6 +179,10 @@ data(int role, int column)
 
   switch (column) {
   case TreeEntry::Name:
+    return tr("STEP");
+    break;
+
+  case TreeEntry::Description:
     return tr("Step");
     break;
 
@@ -221,7 +233,11 @@ data(int role, int column)
 
   switch (column) {
   case TreeEntry::Name:
-    return tr("Null");
+    return tr("NULL");
+    break;
+
+  case TreeEntry::Description:
+    return tr("Description");
     break;
 
   case TreeEntry::Value:
@@ -242,6 +258,7 @@ data(int role, int column)
   }
 }
 
+
 void
 WellNull::
 copyDataToLasToImport()
@@ -250,6 +267,168 @@ copyDataToLasToImport()
     _lasFile->lasRequired.nullValue;
 }
 
+
+//------------------------------------------------------
+
+
+using Geo::Import::TreeWrapper::WellCompany;
+
+WellCompany::
+WellCompany(QSharedPointer<LasFile> lasFile,
+            TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
+{
+  
+}
+
+
+QVariant
+WellCompany::
+data(int role, int column) 
+{
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
+  switch (column) {
+  case TreeEntry::Name:
+    return tr("COMP");
+    break;
+
+  case TreeEntry::Description:
+    return tr("Oil Company");
+    break;
+
+  case TreeEntry::Value:
+    return _lasFile->lasRequired.company;
+    break;
+
+  case TreeEntry::ImportValue:
+    return _lasFileToImport->lasRequired.company;
+    break;
+
+  default:
+    return QVariant();
+    break;
+  }
+
+}
+
+
+void
+WellCompany::
+copyDataToLasToImport() 
+{
+  _lasFileToImport->lasRequired.company = 
+    _lasFile->lasRequired.company;
+}
+
+
+//------------------------------------------------------
+
+
+using Geo::Import::TreeWrapper::WellServiceCompany;
+
+WellServiceCompany::
+WellServiceCompany(QSharedPointer<LasFile> lasFile,
+            TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
+{
+  
+}
+
+
+QVariant
+WellServiceCompany::
+data(int role, int column) 
+{
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
+  switch (column) {
+  case TreeEntry::Name:
+    return tr("SRVC");
+    break;
+
+  case TreeEntry::Description:
+    return tr("Service Company");
+    break;
+
+  case TreeEntry::Value:
+    return _lasFile->lasRequired.serviceCompany;
+    break;
+
+  case TreeEntry::ImportValue:
+    return _lasFileToImport->lasRequired.serviceCompany;
+    break;
+
+  default:
+    return QVariant();
+    break;
+  }
+
+}
+
+
+void
+WellServiceCompany::
+copyDataToLasToImport() 
+{
+  _lasFileToImport->lasRequired.serviceCompany = 
+    _lasFile->lasRequired.serviceCompany;
+}
+
+//------------------------------------------------------
+
+
+using Geo::Import::TreeWrapper::WellField;
+
+WellField::
+WellField(QSharedPointer<LasFile> lasFile,
+          TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
+{
+}
+
+
+QVariant
+WellField::
+data(int role, int column) 
+{
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
+  switch (column) {
+  case TreeEntry::Name:
+    return tr("FLD");
+    break;
+
+  case TreeEntry::Description:
+    return tr("Field");
+    break;
+
+  case TreeEntry::Value:
+    return _lasFile->lasRequired.field;
+    break;
+
+  case TreeEntry::ImportValue:
+    return _lasFileToImport->lasRequired.field;
+    break;
+
+  default:
+    return QVariant();
+    break;
+  }
+
+}
+
+
+void
+WellField::
+copyDataToLasToImport() 
+{
+  _lasFileToImport->lasRequired.field = 
+    _lasFile->lasRequired.field;
+}
 
 //------------------------------------------------------
 
@@ -270,6 +449,12 @@ LasRequiredGroup(QSharedPointer<LasFile> lasFile,
   _entries.push_back(new WellStep(_lasFile, this));
 
   _entries.push_back(new WellNull(_lasFile, this));
+
+  _entries.push_back(new WellCompany(_lasFile, this));
+
+  _entries.push_back(new WellServiceCompany(_lasFile, this));
+
+  _entries.push_back(new WellField(_lasFile, this));
 }
 
 

@@ -163,6 +163,12 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
   //  WELL.                WELL:   4832/116
   QRegExp reWell("(^WELL *)(\\.[^ ]*)( *.* *:)( *.*$)");
 
+  QRegExp reComp("(^COMP *)(\\.[^ ]*)( *.* *:)( *.*$)");
+
+  QRegExp reServiceComp("(^SRVC *)(\\.[^ ]*)( *.* *:)( *.*$)");
+
+  QRegExp reField("(^FLD *)(\\.[^ ]*)( *.* *:)( *.*$)");
+
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //  name .units   name:value
   QRegExp reRestEntries("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
@@ -220,10 +226,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
       bool ok;
       lasFile->lasRequired.nullValue = value.toDouble(&ok);
     } else if (reWell.indexIn(line) >= 0) {
-      // QRegExp reWell("(^WELL *)(\\.[^ ]*)( *.* *:)( *.*$)");
-
       QString all = reWell.cap(0);
-
       QString well = reWell.cap(3).trimmed();
       well.chop(1);
       well = well.trimmed();
@@ -233,6 +236,41 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
         lasFile->lasRequired.wellName = value;
       else if (_version == "2.0")
         lasFile->lasRequired.wellName = well;
+    } else if (reComp.indexIn(line) >= 0) {
+      QString all = reComp.cap(0);
+      QString company = reComp.cap(3).trimmed();
+      company.chop(1);
+      company = company.trimmed();
+      QString value = reComp.cap(4).trimmed();
+
+      if (_version == "1.2")
+        lasFile->lasRequired.company = value;
+      else if (_version == "2.0")
+        lasFile->lasRequired.company = company;
+
+    } else if (reServiceComp.indexIn(line) >= 0) {
+      QString all = reServiceComp.cap(0);
+      QString company = reServiceComp.cap(3).trimmed();
+      company.chop(1);
+      company = company.trimmed();
+      QString value = reServiceComp.cap(4).trimmed();
+
+      if (_version == "1.2")
+        lasFile->lasRequired.serviceCompany = value;
+      else if (_version == "2.0")
+        lasFile->lasRequired.serviceCompany = company;
+
+    } else if (reField.indexIn(line) >= 0) {
+      QString all = reField.cap(0);
+      QString field = reField.cap(3).trimmed();
+      field.chop(1);
+      field = field.trimmed();
+      QString value = reField.cap(4).trimmed();
+
+      if (_version == "1.2")
+        lasFile->lasRequired.field = value;
+      else if (_version == "2.0")
+        lasFile->lasRequired.field = field;
     }
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {

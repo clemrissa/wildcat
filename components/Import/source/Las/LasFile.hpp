@@ -39,6 +39,9 @@ public:
   struct LasRequired
   {
     QString wellName;
+    QString company;
+    QString serviceCompany;
+    QString field;
     double  start;
     double  stop;
     double  step;
