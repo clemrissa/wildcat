@@ -3,6 +3,7 @@
 #include "LogGroup.hpp"
 #include "Parameters.hpp"
 #include "WellInformation.hpp"
+#include "LogMetrics.hpp"
 
 #include <QColor>
 
@@ -27,6 +28,8 @@ createEntries(LasFile::Shared lasFile)
   _entries.push_back(new LasRequiredGroup(lasFile, this));
 
   _entries.push_back(new WellInformationGroup(lasFile,  this));
+
+  _entries.push_back(new LogMetricsGroup(lasFile, this));
 
   _entries.push_back(new LogGroup(_lasFile, this));
 
