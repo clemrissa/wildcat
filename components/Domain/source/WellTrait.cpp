@@ -80,6 +80,10 @@ typeAsString(Type type)
     result = QObject::tr("String");
     break;
 
+  case Type::Integer:
+    result = QObject::tr("Integer");
+    break;
+
   case Type::Double:
     result = QObject::tr("Double");
     break;

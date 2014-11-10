@@ -11,6 +11,8 @@
 
 #include <Database/Connections/Connection>
 
+class QAbstractItemModel;
+
 namespace Geo {
 namespace Import {
 namespace TreeWrapper {
@@ -67,7 +69,11 @@ public:
   setData(int role, int column, QVariant value) { return false; }
 
   virtual QWidget*
-  delegateWidget(int column);
+  delegateWidget(int column) const;
+
+  virtual void
+  setDataFromWidget(QWidget* editor, QModelIndex const & index,
+                    QAbstractItemModel *model) {}
 
   virtual
   void

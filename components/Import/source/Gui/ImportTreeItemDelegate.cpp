@@ -59,15 +59,8 @@ setModelData(QWidget*            editor,
 {
   using Geo::Import::TreeWrapper::TreeEntry;
 
-  switch (index.column()) {
-  case TreeEntry::ImportValue: {
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+  auto treeEntry = static_cast<TreeEntry*>(index.internalPointer());
 
-    model->setData(index, lineEdit->text(), Qt::EditRole);
-    break;
-  }
-
-  default:
-    break;
-  }
+  treeEntry->setDataFromWidget(editor, index, model);
+  
 }

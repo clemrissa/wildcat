@@ -23,8 +23,9 @@ public:
   enum Type {
     Undefined = 0,
     String    = 1,
-    Double    = 2,
-    Date      = 3,
+    Integer   = 2,
+    Double    = 3,
+    Date      = 4,
     Size
   };
 

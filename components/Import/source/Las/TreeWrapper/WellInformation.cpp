@@ -1,252 +1,5 @@
 #include "WellInformation.hpp"
 
-using Geo::Import::TreeWrapper::WellName;
-
-WellName::
-WellName(QSharedPointer<LasFile> lasFile,
-         TreeEntry*              parent):
-  TreeEntry(lasFile, parent)
-{
-}
-
-QVariant
-WellName::
-data(int role, int column) 
-{
-  if (role != Qt::DisplayRole)
-    return QVariant();
-
-  switch (column) {
-  case TreeEntry::Name:
-    return tr("WELL");
-    break;
-
-  case TreeEntry::Value:
-    return _lasFile->lasRequired.wellName;
-    break;
-
-  case TreeEntry::ImportValue:
-    return _lasFileToImport->lasRequired.wellName;
-    break;
-
-  default:
-    return QVariant();
-    break;
-  }
-}
-
-void
-WellName::
-copyDataToLasToImport() 
-{
-  _lasFileToImport->lasRequired.wellName =
-    _lasFile->lasRequired.wellName;
-}
-
-
-
-//------------------------------------------------------
-
-
-using Geo::Import::TreeWrapper::WellCompany;
-
-WellCompany::
-WellCompany(QSharedPointer<LasFile> lasFile,
-            TreeEntry*              parent)
-  : TreeEntry(lasFile, parent)
-{
-  
-}
-
-
-QVariant
-WellCompany::
-data(int role, int column) 
-{
-  if (role != Qt::DisplayRole)
-    return QVariant();
-
-  switch (column) {
-  case TreeEntry::Name:
-    return tr("COMP");
-    break;
-
-  case TreeEntry::Description:
-    return tr("Oil Company");
-    break;
-
-  case TreeEntry::Value:
-    return _lasFile->lasRequired.company;
-    break;
-
-  case TreeEntry::ImportValue:
-    return _lasFileToImport->lasRequired.company;
-    break;
-
-  default:
-    return QVariant();
-    break;
-  }
-
-}
-
-
-void
-WellCompany::
-copyDataToLasToImport() 
-{
-  _lasFileToImport->lasRequired.company = 
-    _lasFile->lasRequired.company;
-}
-
-
-//------------------------------------------------------
-
-
-using Geo::Import::TreeWrapper::WellServiceCompany;
-
-WellServiceCompany::
-WellServiceCompany(QSharedPointer<LasFile> lasFile,
-            TreeEntry*              parent)
-  : TreeEntry(lasFile, parent)
-{
-  
-}
-
-
-QVariant
-WellServiceCompany::
-data(int role, int column) 
-{
-  if (role != Qt::DisplayRole)
-    return QVariant();
-
-  switch (column) {
-  case TreeEntry::Name:
-    return tr("SRVC");
-    break;
-
-  case TreeEntry::Description:
-    return tr("Service Company");
-    break;
-
-  case TreeEntry::Value:
-    return _lasFile->lasRequired.serviceCompany;
-    break;
-
-  case TreeEntry::ImportValue:
-    return _lasFileToImport->lasRequired.serviceCompany;
-    break;
-
-  default:
-    return QVariant();
-    break;
-  }
-
-}
-
-
-void
-WellServiceCompany::
-copyDataToLasToImport() 
-{
-  _lasFileToImport->lasRequired.serviceCompany = 
-    _lasFile->lasRequired.serviceCompany;
-}
-
-//------------------------------------------------------
-
-
-using Geo::Import::TreeWrapper::WellField;
-
-WellField::
-WellField(QSharedPointer<LasFile> lasFile,
-          TreeEntry*              parent)
-  : TreeEntry(lasFile, parent)
-{
-}
-
-
-QVariant
-WellField::
-data(int role, int column) 
-{
-  if (role != Qt::DisplayRole)
-    return QVariant();
-
-  switch (column) {
-  case TreeEntry::Name:
-    return tr("FLD");
-    break;
-
-  case TreeEntry::Description:
-    return tr("Field");
-    break;
-
-  case TreeEntry::Value:
-    return _lasFile->lasRequired.field;
-    break;
-
-  case TreeEntry::ImportValue:
-    return _lasFileToImport->lasRequired.field;
-    break;
-
-  default:
-    return QVariant();
-    break;
-  }
-
-}
-
-
-void
-WellField::
-copyDataToLasToImport() 
-{
-  _lasFileToImport->lasRequired.field = 
-    _lasFile->lasRequired.field;
-}
-
-//------------------------------------------------------
-
-using Geo::Import::TreeWrapper::LasRequiredGroup;
-
-
-LasRequiredGroup::
-LasRequiredGroup(QSharedPointer<LasFile> lasFile,
-                 TreeEntry*              parent):
-  TreeEntry(lasFile, parent)
-{
-  _entries.push_back(new WellName(_lasFile, this));
-
-  _entries.push_back(new WellCompany(_lasFile, this));
-
-  _entries.push_back(new WellServiceCompany(_lasFile, this));
-
-  _entries.push_back(new WellField(_lasFile, this));
-}
-
-
-QVariant
-LasRequiredGroup::
-data(int role, int column) 
-{
-  if (role != Qt::DisplayRole)
-    return QVariant();
-
-  switch (column) {
-  case TreeEntry::Name:
-    return tr("Las Required");
-    break;
-
-  default:
-    return QVariant();
-    break;
-  }
-}
-
-
-//------------------------------------------------------
 
 using Geo::Import::TreeWrapper::WellInfo;
 
@@ -322,8 +75,20 @@ setData(int role, int column, QVariant value)
     break;
   }
 
-  //case TreeEntry::Type: {
-  //}
+  case TreeEntry::Type: {
+
+    using Geo::Domain::WellTrait;
+
+    auto dataAccessFactory = _connection->dataAccessFactory();
+
+    auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
+
+    QVector<WellTrait::Shared> traits = wellTraitAccess->findAll();
+
+    setTrait(traits[value.toInt()]);
+
+    break;
+  }
 
   default:
     break;
@@ -364,7 +129,7 @@ copyDataToLasToImport()
 
 QWidget*
 WellInfo::
-delegateWidget(int column) 
+delegateWidget(int column) const
 {
   using Geo::Domain::WellTrait;
 
@@ -406,6 +171,33 @@ delegateWidget(int column)
   }
 
   return result;
+}
+
+
+void
+WellInfo::
+setDataFromWidget(QWidget* editor, 
+                  QModelIndex const & index,
+                  QAbstractItemModel *model) 
+{
+  switch (index.column()) {
+  case TreeEntry::ImportValue: {
+    auto lineEdit = static_cast<QLineEdit*>(editor);
+
+    model->setData(index, lineEdit->text(), Qt::EditRole);
+    break;
+  }
+
+  case TreeEntry::Type: {
+    auto cbox = static_cast<QComboBox*>(editor);
+
+    model->setData(index, cbox->currentIndex(), Qt::EditRole);
+    break;
+  }
+
+  default:
+    break;
+  }
 }
 
 

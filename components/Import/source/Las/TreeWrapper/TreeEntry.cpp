@@ -50,7 +50,7 @@ setLasFileToImport(LasFile::Shared lasFileToImport)
 
 QWidget*
 TreeEntry::
-delegateWidget(int column)
+delegateWidget(int column) const
 {
   Q_UNUSED(column);
   return nullptr;

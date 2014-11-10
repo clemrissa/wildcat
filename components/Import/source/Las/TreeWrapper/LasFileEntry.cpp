@@ -2,6 +2,7 @@
 
 #include "LogGroup.hpp"
 #include "Parameters.hpp"
+#include "LasRequired.hpp"
 #include "WellInformation.hpp"
 #include "LogMetrics.hpp"
 

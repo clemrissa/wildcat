@@ -21,92 +21,6 @@ namespace Import {
 namespace TreeWrapper {
 //
 
-
-
-class WellName: public TreeEntry
-{
-public:
-  WellName(QSharedPointer<LasFile> lasFile,
-           TreeEntry*              parent);
-
-  QVariant
-  data(int role, int column) override;
-
-  void
-  copyDataToLasToImport() override;
-};
-
-
-
-
-//------------------------------------------------------
-
-
-class WellCompany: public TreeEntry
-{
-public:
-  WellCompany(QSharedPointer<LasFile> lasFile,
-              TreeEntry*              parent);
-
-  QVariant
-  data(int role, int column) override;
-
-  void
-  copyDataToLasToImport() override;
-};
-
-
-//------------------------------------------------------
-
-
-class WellServiceCompany: public TreeEntry
-{
-public:
-  WellServiceCompany(QSharedPointer<LasFile> lasFile,
-              TreeEntry*              parent);
-
-  QVariant
-  data(int role, int column) override;
-
-  void
-  copyDataToLasToImport() override;
-};
-
-//------------------------------------------------------
-
-
-class WellField: public TreeEntry
-{
-public:
-  WellField(QSharedPointer<LasFile> lasFile,
-            TreeEntry*              parent);
-
-  QVariant
-  data(int role, int column) override;
-
-  void
-  copyDataToLasToImport() override;
-};
-
-
-
-//------------------------------------------------------
-
-
-class LasRequiredGroup: public TreeEntry
-{
-public:
-  LasRequiredGroup(QSharedPointer<LasFile> lasFile,
-                   TreeEntry*              parent);
-
-  QVariant
-  data(int role, int column) override;
-};
-
-
-//------------------------------------------------------
-
-
 class WellInfo: public TreeEntry
 {
 public:
@@ -130,7 +44,11 @@ public:
   copyDataToLasToImport() override;
 
   QWidget*
-  delegateWidget(int column) override;
+  delegateWidget(int column) const override;
+
+  void
+  setDataFromWidget(QWidget* editor, QModelIndex const & index,
+                    QAbstractItemModel *model) override;
 
   void
   setConnection(Geo::Database::Connections::Connection::Shared connection);

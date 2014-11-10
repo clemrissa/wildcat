@@ -42,6 +42,8 @@ public:
     QString company;
     QString serviceCompany;
     QString field;
+    QString location;
+    QString date;
     double  start;
     double  stop;
     double  step;

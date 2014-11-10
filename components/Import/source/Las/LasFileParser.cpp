@@ -169,6 +169,10 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
 
   QRegExp reField("(^FLD *)(\\.[^ ]*)( *.* *:)( *.*$)");
 
+  QRegExp reLocation("(^LOC *)(\\.[^ ]*)( *.* *:)( *.*$)");
+
+  QRegExp reDate("(^DATE *)(\\.[^ ]*)( *.* *:)( *.*$)");
+
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //  name .units   name:value
   QRegExp reRestEntries("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
@@ -271,6 +275,31 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
         lasFile->lasRequired.field = value;
       else if (_version == "2.0")
         lasFile->lasRequired.field = field;
+
+    } else if (reLocation.indexIn(line) >= 0) {
+      QString all = reLocation.cap(0);
+      QString location = reLocation.cap(3).trimmed();
+      location.chop(1);
+      location = location.trimmed();
+      QString value = reLocation.cap(4).trimmed();
+
+      if (_version == "1.2")
+        lasFile->lasRequired.location = value;
+      else if (_version == "2.0")
+        lasFile->lasRequired.location = location;
+
+    } else if (reDate.indexIn(line) >= 0) {
+      QString all = reDate.cap(0);
+      QString date = reDate.cap(3).trimmed();
+      date.chop(1);
+      date = date.trimmed();
+      QString value = reDate.cap(4).trimmed();
+
+      if (_version == "1.2")
+        lasFile->lasRequired.date = value;
+      else if (_version == "2.0")
+        lasFile->lasRequired.date = date;
+
     }
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {
