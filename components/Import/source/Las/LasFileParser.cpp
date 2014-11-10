@@ -161,17 +161,19 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
   QRegExp reNULL("(NULL)( *\\..+ )(-?\\d+\\.\\d+)( *:)( *.*$)");
 
   //  WELL.                WELL:   4832/116
-  QRegExp reWell("(^WELL *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  const QString specificField("(^%1 *)(\\.[^ ]*)( *.* *:)( *.*$)");
 
-  QRegExp reComp("(^COMP *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  QRegExp reWell(specificField.arg("WELL"));
 
-  QRegExp reServiceComp("(^SRVC *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  QRegExp reComp(specificField.arg("COMP"));
 
-  QRegExp reField("(^FLD *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  QRegExp reServiceComp(specificField.arg("SRVC"));
 
-  QRegExp reLocation("(^LOC *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  QRegExp reField(specificField.arg("FLD"));
 
-  QRegExp reDate("(^DATE *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  QRegExp reLocation(specificField.arg("LOC"));
+
+  QRegExp reDate(specificField.arg("DATE"));
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //  name .units   name:value
@@ -230,7 +232,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
       bool ok;
       lasFile->lasRequired.nullValue = value.toDouble(&ok);
     } else if (reWell.indexIn(line) >= 0) {
-      QString all = reWell.cap(0);
+      QString all  = reWell.cap(0);
       QString well = reWell.cap(3).trimmed();
       well.chop(1);
       well = well.trimmed();
@@ -241,7 +243,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
       else if (_version == "2.0")
         lasFile->lasRequired.wellName = well;
     } else if (reComp.indexIn(line) >= 0) {
-      QString all = reComp.cap(0);
+      QString all     = reComp.cap(0);
       QString company = reComp.cap(3).trimmed();
       company.chop(1);
       company = company.trimmed();
@@ -251,9 +253,8 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
         lasFile->lasRequired.company = value;
       else if (_version == "2.0")
         lasFile->lasRequired.company = company;
-
     } else if (reServiceComp.indexIn(line) >= 0) {
-      QString all = reServiceComp.cap(0);
+      QString all     = reServiceComp.cap(0);
       QString company = reServiceComp.cap(3).trimmed();
       company.chop(1);
       company = company.trimmed();
@@ -263,9 +264,8 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
         lasFile->lasRequired.serviceCompany = value;
       else if (_version == "2.0")
         lasFile->lasRequired.serviceCompany = company;
-
     } else if (reField.indexIn(line) >= 0) {
-      QString all = reField.cap(0);
+      QString all   = reField.cap(0);
       QString field = reField.cap(3).trimmed();
       field.chop(1);
       field = field.trimmed();
@@ -275,9 +275,8 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
         lasFile->lasRequired.field = value;
       else if (_version == "2.0")
         lasFile->lasRequired.field = field;
-
     } else if (reLocation.indexIn(line) >= 0) {
-      QString all = reLocation.cap(0);
+      QString all      = reLocation.cap(0);
       QString location = reLocation.cap(3).trimmed();
       location.chop(1);
       location = location.trimmed();
@@ -287,9 +286,8 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
         lasFile->lasRequired.location = value;
       else if (_version == "2.0")
         lasFile->lasRequired.location = location;
-
     } else if (reDate.indexIn(line) >= 0) {
-      QString all = reDate.cap(0);
+      QString all  = reDate.cap(0);
       QString date = reDate.cap(3).trimmed();
       date.chop(1);
       date = date.trimmed();
@@ -299,7 +297,6 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
         lasFile->lasRequired.date = value;
       else if (_version == "2.0")
         lasFile->lasRequired.date = date;
-
     }
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {
