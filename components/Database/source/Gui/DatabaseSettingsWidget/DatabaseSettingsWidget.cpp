@@ -5,6 +5,9 @@
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableView>
 
+#include <DependencyManager/ApplicationContext>
+#include <Connections/ConnectionManager.hpp>
+
 #include <Uni/Logging/Logging>
 
 #include <Models/DatabaseSettingsWidgetModel/ConnectionEntry.hpp>
@@ -78,6 +81,8 @@ setupUi(DatabaseSettingsWidgetModel* tableModel)
   l->addWidget(p->traitsWidget);
 
   setLayout(l);
+
+  // select first connection
 }
 
 
@@ -88,8 +93,19 @@ connectSignals()
   connect(p->tableView, SIGNAL(clicked(const QModelIndex &)),
           this,         SLOT(onConnectionClicked(const QModelIndex &)));
 
-  // TODO "click on first row"
-  p->tableView->selectRow(0);
+  // "click on first row in connections list
+  using Connections::ConnectionManager;
+  using DependencyManager::ApplicationContext;
+
+  auto connectionsManager =
+    ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
+
+  if (connectionsManager->size( ) > 0)
+  {
+    auto connections =  connectionsManager->connections();
+    p->traitsWidget->setConnection(connections[0]);
+    p->tableView->selectRow(0);
+  }
 }
 
 
