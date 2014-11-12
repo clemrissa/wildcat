@@ -22,7 +22,7 @@ parse(const QString fileName)
 {
   _lines.clear();
   _wrap    = false;
-  _version = QString();
+  _version = 0;
 
   // result
   QSharedPointer<LasFile> lasFile(new LasFile());
@@ -116,10 +116,18 @@ parseVersionSection(QSharedPointer<LasFile>& lasFile,
 
   line = _lines[i];
 
-  int pos = reVersion.indexIn(line);
-
-  if (pos > -1)
-    _version = reVersion.cap(1);
+  if (reVersion.indexIn(line) >= 0) 
+  {
+    auto s = reVersion.cap(1).trimmed();
+    if (s == "1.2")
+    {
+      _version = 12;
+    }
+    else if (s == "2.0")
+    {
+      _version = 20;
+    }
+  }
 
   else
     return false;
@@ -129,10 +137,9 @@ parseVersionSection(QSharedPointer<LasFile>& lasFile,
 
   QRegExp reWrap("(YES|NO)");
 
-  pos = reWrap.indexIn(line);
-
   // have information about warpping
-  if (pos > -1) {
+  if (reWrap.indexIn(line) >= 0) 
+  {
     QString s = reWrap.cap(1);
     _wrap = s == "YES" ? true : false;
   } else
@@ -151,28 +158,21 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
   // clear old values
   lasFile->wellInformation.clear();
 
+  const QString numericalField("(%1)( *\\..+ )(-?\\d*\\.\\d+)( *:)( *.*$)");
+
   // STRT.M        583.0:
-  QRegExp reStart("(STRT)( *\\..+ )(-?\\d+\\.\\d+)( *:)( *.*$)");
-
-  QRegExp reStop("(STOP)( *\\..+ )(-?\\d+\\.\\d+)( *:)( *.*$)");
-
-  QRegExp reStep("(STEP)( *\\..+ )(-?\\d+\\.\\d+)( *:)( *.*$)");
-
-  QRegExp reNULL("(NULL)( *\\..+ )(-?\\d+\\.\\d+)( *:)( *.*$)");
+  QRegExp reStart(numericalField.arg("STRT"));
+  QRegExp reStop(numericalField.arg("STOP"));
+  QRegExp reStep(numericalField.arg("STEP"));
+  QRegExp reNull(numericalField.arg("NULL"));
 
   //  WELL.                WELL:   4832/116
   const QString specificField("(^%1 *)(\\.[^ ]*)( *.* *:)( *.*$)");
-
   QRegExp reWell(specificField.arg("WELL"));
-
   QRegExp reComp(specificField.arg("COMP"));
-
   QRegExp reServiceComp(specificField.arg("SRVC"));
-
   QRegExp reField(specificField.arg("FLD"));
-
   QRegExp reLocation(specificField.arg("LOC"));
-
   QRegExp reDate(specificField.arg("DATE"));
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
@@ -184,6 +184,30 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
   // next line
   ++i;
 
+  // function for addressing results of RegExp matching
+  auto selectValue = [&](QString s1, QString s2) {
+    s1 = s1.trimmed(); s1.chop(1); s1 = s1.trimmed();
+    s2 = s2.trimmed();
+    if (_version == 12)
+      return s2;
+    else if (_version == 20)
+      return s1;
+  };
+
+  // function for addressing results of "floating point" RegExp matching
+  auto selectNumericalValue = [](QRegExp& re) {
+    QString value   = re.cap(3).trimmed();
+
+    bool ok;
+    return value.toDouble(&ok);
+  };
+
+  auto selectNumericalUnits = [](QRegExp& re) {
+    QString units   = re.cap(2).trimmed().remove(0, 1);
+
+    return units;
+  };
+
   while (i < _lines.size()) {
     QString line = _lines[i];
 
@@ -193,110 +217,49 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
       return;
     }
 
-    if (reStart.indexIn(line) >= 0) {
-      QString all     = reStart.cap(0);
-      QString strt    = reStart.cap(1);
-      QString units   = reStart.cap(2);
-      QString value   = reStart.cap(3).trimmed();
-      QString comment = reStart.cap(5);
+    // for less typing
+    auto& lasRequired = lasFile->lasRequired;
 
-      bool ok;
-
-      lasFile->lasRequired.start = value.toDouble(&ok);
-    } else if (reStop.indexIn(line) >= 0) {
-      QString all     = reStop.cap(0);
-      QString strt    = reStop.cap(1);
-      QString units   = reStop.cap(2).trimmed().remove(0, 1);
-      QString value   = reStop.cap(3).trimmed();
-      QString comment = reStop.cap(5);
-
-      bool ok;
-      lasFile->lasRequired.stop = value.toDouble(&ok);
-    } else if (reStep.indexIn(line) >= 0) {
-      QString all     = reStep.cap(0);
-      QString strt    = reStep.cap(1);
-      QString units   = reStep.cap(2).trimmed().remove(0, 1);
-      QString value   = reStep.cap(3).trimmed();
-      QString comment = reStep.cap(5);
-
-      bool ok;
-      lasFile->lasRequired.step  = value.toDouble(&ok);
-      lasFile->lasRequired.units = units;
-    } else if (reNULL.indexIn(line) >= 0) {
-      QString all     = reNULL.cap(0);
-      QString strt    = reNULL.cap(1);
-      QString units   = reNULL.cap(2).trimmed().remove(0, 1);
-      QString value   = reNULL.cap(3).trimmed();
-      QString comment = reNULL.cap(5);
-
-      bool ok;
-      lasFile->lasRequired.nullValue = value.toDouble(&ok);
-    } else if (reWell.indexIn(line) >= 0) {
-      QString all  = reWell.cap(0);
-      QString well = reWell.cap(3).trimmed();
-      well.chop(1);
-      well = well.trimmed();
-      QString value = reWell.cap(4).trimmed();
-
-      if (_version == "1.2")
-        lasFile->lasRequired.wellName = value;
-      else if (_version == "2.0")
-        lasFile->lasRequired.wellName = well;
-    } else if (reComp.indexIn(line) >= 0) {
-      QString all     = reComp.cap(0);
-      QString company = reComp.cap(3).trimmed();
-      company.chop(1);
-      company = company.trimmed();
-      QString value = reComp.cap(4).trimmed();
-
-      if (_version == "1.2")
-        lasFile->lasRequired.company = value;
-      else if (_version == "2.0")
-        lasFile->lasRequired.company = company;
-    } else if (reServiceComp.indexIn(line) >= 0) {
-      QString all     = reServiceComp.cap(0);
-      QString company = reServiceComp.cap(3).trimmed();
-      company.chop(1);
-      company = company.trimmed();
-      QString value = reServiceComp.cap(4).trimmed();
-
-      if (_version == "1.2")
-        lasFile->lasRequired.serviceCompany = value;
-      else if (_version == "2.0")
-        lasFile->lasRequired.serviceCompany = company;
-    } else if (reField.indexIn(line) >= 0) {
-      QString all   = reField.cap(0);
-      QString field = reField.cap(3).trimmed();
-      field.chop(1);
-      field = field.trimmed();
-      QString value = reField.cap(4).trimmed();
-
-      if (_version == "1.2")
-        lasFile->lasRequired.field = value;
-      else if (_version == "2.0")
-        lasFile->lasRequired.field = field;
-    } else if (reLocation.indexIn(line) >= 0) {
-      QString all      = reLocation.cap(0);
-      QString location = reLocation.cap(3).trimmed();
-      location.chop(1);
-      location = location.trimmed();
-      QString value = reLocation.cap(4).trimmed();
-
-      if (_version == "1.2")
-        lasFile->lasRequired.location = value;
-      else if (_version == "2.0")
-        lasFile->lasRequired.location = location;
-    } else if (reDate.indexIn(line) >= 0) {
-      QString all  = reDate.cap(0);
-      QString date = reDate.cap(3).trimmed();
-      date.chop(1);
-      date = date.trimmed();
-      QString value = reDate.cap(4).trimmed();
-
-      if (_version == "1.2")
-        lasFile->lasRequired.date = value;
-      else if (_version == "2.0")
-        lasFile->lasRequired.date = date;
+    if (reStart.indexIn(line) >= 0) 
+    {
+      lasRequired.start = selectNumericalValue(reStart);
+    } 
+    else if (reStop.indexIn(line) >= 0) 
+    {
+      lasRequired.stop = selectNumericalValue(reStop);
+    } 
+    else if (reStep.indexIn(line) >= 0) 
+    {
+      lasRequired.step  = selectNumericalValue(reStep);
+      lasRequired.units = selectNumericalUnits(reStep);
+    } 
+    else if (reNull.indexIn(line) >= 0) 
+    {
+      lasRequired.nullValue = selectNumericalValue(reNull);
+    } 
+    else if (reWell.indexIn(line) >= 0) 
+    {
+      lasRequired.wellName = selectValue(reWell.cap(3), reWell.cap(4));
+    } 
+    else if (reComp.indexIn(line) >= 0) 
+    {
+      lasRequired.company = selectValue(reComp.cap(3), reComp.cap(4));
+    } 
+    else if (reServiceComp.indexIn(line) >= 0) 
+    {
+      lasRequired.serviceCompany = selectValue(reServiceComp.cap(3), reServiceComp.cap(4));
+    } 
+    else if (reField.indexIn(line) >= 0) 
+    {
+      lasRequired.field = selectValue(reField.cap(3), reField.cap(4));
+    } 
+    else if (reLocation.indexIn(line) >= 0) 
+    {
+      lasRequired.location = selectValue(reLocation.cap(3), reLocation.cap(4));
+    } 
+    else if (reDate.indexIn(line) >= 0) 
+    {
+      lasRequired.date = selectValue(reDate.cap(3), reDate.cap(4));
     }
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {
@@ -310,13 +273,15 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
       entry.name  = reRestEntries.cap(1).trimmed();
       entry.units = reRestEntries.cap(2).trimmed().remove(0, 1);
 
-      if (_version == "1.2") {
+      if (_version == 12) 
+      {
         entry.description = reRestEntries.cap(3).trimmed();
         entry.description.chop(1);
-        entry.description = entry.name.trimmed();
-
+        entry.description = entry.description.trimmed();
         entry.value = reRestEntries.cap(4).trimmed();
-      } else if (_version == "2.0") {
+      } 
+      else if (_version == 20) 
+      {
         entry.description = reRestEntries.cap(4).trimmed();
         entry.value       = reRestEntries.cap(3).trimmed();
         entry.value.chop(1);

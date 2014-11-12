@@ -49,7 +49,7 @@ private:
 private:
   QStringList _lines;
 
-  QString _version;
+  int _version;
   bool    _wrap;
 };
 }
