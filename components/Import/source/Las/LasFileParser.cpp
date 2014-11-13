@@ -174,6 +174,12 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
   QRegExp reField(specificField.arg("FLD"));
   QRegExp reLocation(specificField.arg("LOC"));
   QRegExp reDate(specificField.arg("DATE"));
+  QRegExp reCountry(specificField.arg("CTRY"));
+  QRegExp reState(specificField.arg("STAT"));
+  QRegExp reCounty(specificField.arg("CNTY"));
+  QRegExp reProvince(specificField.arg("PROV"));
+  QRegExp reAPI(specificField.arg("API"));
+  QRegExp reUWI(specificField.arg("UWI"));
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //  name .units   name:value
@@ -185,13 +191,15 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
   ++i;
 
   // function for addressing results of RegExp matching
-  auto selectValue = [&](QString s1, QString s2) {
-    s1 = s1.trimmed(); s1.chop(1); s1 = s1.trimmed();
-    s2 = s2.trimmed();
+  auto selectValue = [&](QRegExp &re) {
+    QString s1 = re.cap(3).trimmed(); s1.chop(1); s1 = s1.trimmed();
+    QString s2 = re.cap(4).trimmed();
+    QString result;
     if (_version == 12)
-      return s2;
+      result = s2;
     else if (_version == 20)
-      return s1;
+      result = s1;
+    return result;
   };
 
   // function for addressing results of "floating point" RegExp matching
@@ -239,27 +247,51 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
     } 
     else if (reWell.indexIn(line) >= 0) 
     {
-      lasRequired.wellName = selectValue(reWell.cap(3), reWell.cap(4));
+      lasRequired.wellName = selectValue(reWell);
     } 
     else if (reComp.indexIn(line) >= 0) 
     {
-      lasRequired.company = selectValue(reComp.cap(3), reComp.cap(4));
+      lasRequired.company = selectValue(reComp);
     } 
     else if (reServiceComp.indexIn(line) >= 0) 
     {
-      lasRequired.serviceCompany = selectValue(reServiceComp.cap(3), reServiceComp.cap(4));
+      lasRequired.serviceCompany = selectValue(reServiceComp);
     } 
     else if (reField.indexIn(line) >= 0) 
     {
-      lasRequired.field = selectValue(reField.cap(3), reField.cap(4));
+      lasRequired.field = selectValue(reField);
     } 
     else if (reLocation.indexIn(line) >= 0) 
     {
-      lasRequired.location = selectValue(reLocation.cap(3), reLocation.cap(4));
+      lasRequired.location = selectValue(reLocation);
     } 
     else if (reDate.indexIn(line) >= 0) 
     {
-      lasRequired.date = selectValue(reDate.cap(3), reDate.cap(4));
+      lasRequired.date = selectValue(reDate);
+    }
+    else if (reCountry.indexIn(line) >= 0) 
+    {
+      lasRequired.country = selectValue(reCountry);
+    }
+    else if (reState.indexIn(line) >= 0) 
+    {
+      lasRequired.state = selectValue(reState);
+    }
+    else if (reCounty.indexIn(line) >= 0) 
+    {
+      lasRequired.county = selectValue(reCounty);
+    }
+    else if (reProvince.indexIn(line) >= 0) 
+    {
+      lasRequired.province = selectValue(reProvince);
+    }
+    else if (reAPI.indexIn(line) >= 0) 
+    {
+      lasRequired.api = selectValue(reAPI);
+    }
+    else if (reUWI.indexIn(line) >= 0) 
+    {
+      lasRequired.uwi = selectValue(reUWI);
     }
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {

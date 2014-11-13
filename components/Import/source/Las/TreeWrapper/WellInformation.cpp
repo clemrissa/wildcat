@@ -54,6 +54,8 @@ data(int role, int column)
     return QVariant();
     break;
   }
+ 
+  return QVariant();
 }
 
 

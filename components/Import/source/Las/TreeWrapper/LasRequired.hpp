@@ -120,6 +120,105 @@ public:
   copyDataToLasToImport() override;
 };
 
+//------------------------------------------------------
+
+
+class WellCountry: public TreeEntry
+{
+public:
+  WellCountry(QSharedPointer<LasFile> lasFile,
+              TreeEntry*              parent);
+
+  QVariant
+  data(int role, int column) override;
+
+  void
+  copyDataToLasToImport() override;
+};
+
+//------------------------------------------------------
+
+
+class WellState: public TreeEntry
+{
+public:
+  WellState(QSharedPointer<LasFile> lasFile,
+            TreeEntry*              parent);
+
+  QVariant
+  data(int role, int column) override;
+
+  void
+  copyDataToLasToImport() override;
+};
+
+
+//------------------------------------------------------
+
+
+class WellCounty: public TreeEntry
+{
+public:
+  WellCounty(QSharedPointer<LasFile> lasFile,
+             TreeEntry*              parent);
+
+  QVariant
+  data(int role, int column) override;
+
+  void
+  copyDataToLasToImport() override;
+};
+
+
+//------------------------------------------------------
+
+
+class WellProvince: public TreeEntry
+{
+public:
+  WellProvince(QSharedPointer<LasFile> lasFile,
+               TreeEntry*              parent);
+
+  QVariant
+  data(int role, int column) override;
+
+  void
+  copyDataToLasToImport() override;
+};
+
+//------------------------------------------------------
+
+
+class WellAPI: public TreeEntry
+{
+public:
+  WellAPI(QSharedPointer<LasFile> lasFile,
+           TreeEntry*              parent);
+
+  QVariant
+  data(int role, int column) override;
+
+  void
+  copyDataToLasToImport() override;
+};
+
+
+//------------------------------------------------------
+
+
+class WellUWI: public TreeEntry
+{
+public:
+  WellUWI(QSharedPointer<LasFile> lasFile,
+           TreeEntry*              parent);
+
+  QVariant
+  data(int role, int column) override;
+
+  void
+  copyDataToLasToImport() override;
+};
+
 
 //------------------------------------------------------
 

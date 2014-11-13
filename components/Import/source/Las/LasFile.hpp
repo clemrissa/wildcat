@@ -44,6 +44,12 @@ public:
     QString field;
     QString location;
     QString date;
+    QString country;
+    QString state;
+    QString county;
+    QString province;
+    QString api;
+    QString uwi;
     double  start;
     double  stop;
     double  step;

@@ -21,6 +21,10 @@ data(int role, int column)
     return tr("WELL");
     break;
 
+  case TreeEntry::Description:
+    return tr("Well name");
+    break;
+
   case TreeEntry::Value:
     return _lasFile->lasRequired.wellName;
     break;
@@ -313,6 +317,324 @@ copyDataToLasToImport()
 }
 
 
+
+//------------------------------------------------------
+
+
+using Geo::Import::TreeWrapper::WellCountry;
+
+WellCountry::
+WellCountry(QSharedPointer<LasFile> lasFile,
+            TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
+{
+}
+
+
+QVariant
+WellCountry::
+data(int role, int column) 
+{
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
+  switch (column) {
+  case TreeEntry::Name:
+    return tr("CTRY");
+    break;
+
+  case TreeEntry::Description:
+    return tr("Country");
+    break;
+
+  case TreeEntry::Value:
+    return _lasFile->lasRequired.country;
+    break;
+
+  case TreeEntry::ImportValue:
+    return _lasFileToImport->lasRequired.country;
+    break;
+
+  default:
+    return QVariant();
+    break;
+  }
+}
+
+
+void
+WellCountry::
+copyDataToLasToImport() 
+{
+  _lasFileToImport->lasRequired.country = 
+    _lasFile->lasRequired.country;
+}
+
+
+//------------------------------------------------------
+
+
+using Geo::Import::TreeWrapper::WellState;
+
+WellState::
+WellState(QSharedPointer<LasFile> lasFile,
+            TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
+{
+}
+
+
+QVariant
+WellState::
+data(int role, int column) 
+{
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
+  switch (column) {
+  case TreeEntry::Name:
+    return tr("STAT");
+    break;
+
+  case TreeEntry::Description:
+    return tr("State");
+    break;
+
+  case TreeEntry::Value:
+    return _lasFile->lasRequired.state;
+    break;
+
+  case TreeEntry::ImportValue:
+    return _lasFileToImport->lasRequired.state;
+    break;
+
+  default:
+    return QVariant();
+    break;
+  }
+}
+
+
+void
+WellState::
+copyDataToLasToImport() 
+{
+  _lasFileToImport->lasRequired.state = 
+    _lasFile->lasRequired.state;
+}
+
+
+//------------------------------------------------------
+
+
+using Geo::Import::TreeWrapper::WellCounty;
+
+WellCounty::
+WellCounty(QSharedPointer<LasFile> lasFile,
+            TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
+{
+}
+
+
+QVariant
+WellCounty::
+data(int role, int column) 
+{
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
+  switch (column) {
+  case TreeEntry::Name:
+    return tr("CNTY");
+    break;
+
+  case TreeEntry::Description:
+    return tr("County");
+    break;
+
+  case TreeEntry::Value:
+    return _lasFile->lasRequired.county;
+    break;
+
+  case TreeEntry::ImportValue:
+    return _lasFileToImport->lasRequired.county;
+    break;
+
+  default:
+    return QVariant();
+    break;
+  }
+}
+
+
+void
+WellCounty::
+copyDataToLasToImport() 
+{
+  _lasFileToImport->lasRequired.county = 
+    _lasFile->lasRequired.county;
+}
+
+
+//------------------------------------------------------
+
+
+using Geo::Import::TreeWrapper::WellProvince;
+
+WellProvince::
+WellProvince(QSharedPointer<LasFile> lasFile,
+            TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
+{
+}
+
+
+QVariant
+WellProvince::
+data(int role, int column) 
+{
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
+  switch (column) {
+  case TreeEntry::Name:
+    return tr("PROV");
+    break;
+
+  case TreeEntry::Description:
+    return tr("Province");
+    break;
+
+  case TreeEntry::Value:
+    return _lasFile->lasRequired.province;
+    break;
+
+  case TreeEntry::ImportValue:
+    return _lasFileToImport->lasRequired.province;
+    break;
+
+  default:
+    return QVariant();
+    break;
+  }
+}
+
+
+void
+WellProvince::
+copyDataToLasToImport() 
+{
+  _lasFileToImport->lasRequired.province = 
+    _lasFile->lasRequired.province;
+}
+
+
+//------------------------------------------------------
+
+
+using Geo::Import::TreeWrapper::WellAPI;
+
+WellAPI::
+WellAPI(QSharedPointer<LasFile> lasFile,
+        TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
+{
+}
+
+
+QVariant
+WellAPI::
+data(int role, int column) 
+{
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
+  switch (column) {
+  case TreeEntry::Name:
+    return tr("API");
+    break;
+
+  case TreeEntry::Description:
+    return tr("API");
+    break;
+
+  case TreeEntry::Value:
+    return _lasFile->lasRequired.api;
+    break;
+
+  case TreeEntry::ImportValue:
+    return _lasFileToImport->lasRequired.api;
+    break;
+
+  default:
+    return QVariant();
+    break;
+  }
+}
+
+
+void
+WellAPI::
+copyDataToLasToImport() 
+{
+  _lasFileToImport->lasRequired.api = 
+    _lasFile->lasRequired.api;
+}
+
+
+//------------------------------------------------------
+
+
+using Geo::Import::TreeWrapper::WellUWI;
+
+WellUWI::
+WellUWI(QSharedPointer<LasFile> lasFile,
+        TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
+{
+}
+
+
+QVariant
+WellUWI::
+data(int role, int column) 
+{
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
+  switch (column) {
+  case TreeEntry::Name:
+    return tr("UWI");
+    break;
+
+  case TreeEntry::Description:
+    return tr("UWI");
+    break;
+
+  case TreeEntry::Value:
+    return _lasFile->lasRequired.uwi;
+    break;
+
+  case TreeEntry::ImportValue:
+    return _lasFileToImport->lasRequired.uwi;
+    break;
+
+  default:
+    return QVariant();
+    break;
+  }
+}
+
+
+void
+WellUWI::
+copyDataToLasToImport() 
+{
+  _lasFileToImport->lasRequired.uwi = 
+    _lasFile->lasRequired.uwi;
+}
+
 //------------------------------------------------------
 
 
@@ -325,16 +647,17 @@ LasRequiredGroup(QSharedPointer<LasFile> lasFile,
   TreeEntry(lasFile, parent)
 {
   _entries.push_back(new WellName(_lasFile, this));
-
   _entries.push_back(new WellCompany(_lasFile, this));
-
   _entries.push_back(new WellServiceCompany(_lasFile, this));
-
   _entries.push_back(new WellField(_lasFile, this));
-
   _entries.push_back(new WellLocation(_lasFile, this));
-
   _entries.push_back(new WellDate(_lasFile, this));
+  _entries.push_back(new WellCountry(_lasFile, this));
+  _entries.push_back(new WellState(_lasFile, this));
+  _entries.push_back(new WellCounty(_lasFile, this));
+  _entries.push_back(new WellProvince(_lasFile, this));
+  _entries.push_back(new WellAPI(_lasFile, this));
+  _entries.push_back(new WellUWI(_lasFile, this));
 }
 
 
