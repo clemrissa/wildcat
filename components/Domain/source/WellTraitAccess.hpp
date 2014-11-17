@@ -4,18 +4,21 @@
 #include <Domain/WellTrait>
 
 #include <QSharedPointer>
-#include <QVector>
 #include <QString>
+#include <QVector>
 
 namespace Geo {
 namespace Domain {
-class WellTraitAccess {
+class WellTraitAccess: public QObject
+{
 public:
   typedef QSharedPointer<WellTraitAccess> Shared;
 
 public:
   virtual
-  ~WellTraitAccess() {}
+  ~WellTraitAccess()
+  {
+  }
 
   virtual void
   insert(WellTrait::Shared wellTrait) = 0;
@@ -34,9 +37,12 @@ public:
 
   virtual WellTrait::Shared
   findByPrimaryKey(QString const& pk) = 0;
+
+public:
+  virtual void
+  createDefaultTraits() = 0;
 };
 }
 }
 
 #endif // Geo_Domain_WellTraitAccess_hpp
-

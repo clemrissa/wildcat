@@ -42,6 +42,10 @@ public:
   WellTrait::Shared
   findByPrimaryKey(QString const& pk);
 
+public:
+  void
+  createDefaultTraits() override;
+
 private:
   Database _db;
 }

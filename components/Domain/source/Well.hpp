@@ -92,6 +92,10 @@ private:
   #pragma db value_not_null inverse(_well)
 #endif
   QMap<QString, WellTraitAbstractValue::Shared> _traits;
+
+private:
+  void
+  createDefaultTraits();
 };
 }
 }

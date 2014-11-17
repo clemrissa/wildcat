@@ -2,10 +2,10 @@
 #define Geo_Domain_Odb_DataAccessFactory_hpp
 
 #include <Domain/Odb/LogAccess>
-#include <Domain/Odb/WellAccess>
-#include <Domain/Odb/WellTraitAccess>
 #include <Domain/Odb/LogParameterAccess>
 #include <Domain/Odb/LogParameterGroupAccess>
+#include <Domain/Odb/WellAccess>
+#include <Domain/Odb/WellTraitAccess>
 
 #include <Domain/DataAccessFactory>
 
@@ -67,6 +67,14 @@ public:
   logParameterAccess() const override
   {
     return Domain::LogParameterAccess::Shared(new LogParameterAccess(_db));
+  }
+
+public:
+  /// Performs some DB-related work after connection is established
+  void
+  afterDBConnected() const override
+  {
+    wellTraitAccess()->createDefaultTraits();
   }
 
 private:

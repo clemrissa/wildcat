@@ -157,7 +157,7 @@ connect()
   }
 
   // create Sqlite db scheme
-  if (_status == Status::Connected)
+  if (_status == Status::Connected) {
     try {
       auto odb_database = _dataAccessFactory->database();
 
@@ -174,4 +174,6 @@ connect()
       setLastError(QString(exc.message().c_str()));
     }
 
+    _dataAccessFactory->afterDBConnected();
+  }
 }

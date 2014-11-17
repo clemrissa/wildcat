@@ -47,6 +47,10 @@ public:
 
   virtual LogParameterAccess::Shared
   logParameterAccess() const = 0;
+
+public:
+  virtual void
+  afterDBConnected() const = 0;
 };
 }
 }

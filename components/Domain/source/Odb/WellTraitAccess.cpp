@@ -6,6 +6,10 @@
 
 #include <odb/transaction.hxx>
 
+#include <QtCore/QStringList>
+
+#include <set>
+
 using Geo::Domain::Odb::WellTraitAccess;
 using odb::core::transaction;
 
@@ -91,8 +95,7 @@ findAll()
 
     Result r(_db->query<WellTrait>());
 
-    for(Result::iterator i(r.begin()); i != r.end(); ++i)
-    {
+    for (Result::iterator i(r.begin()); i != r.end(); ++i) {
       WellTrait::Shared wellTrait(i.load());
 
       vector.push_back(wellTrait);
@@ -113,4 +116,37 @@ WellTraitAccess::
 findByPrimaryKey(QString const& pk)
 {
   return WellTrait::Shared(_db->load<WellTrait>(pk));
+}
+
+
+void
+WellTraitAccess::
+createDefaultTraits()
+{
+  QStringList defaultTraits { tr("WELL"),
+                              tr("FIELD"),
+                              tr("COUNTRY"),
+                              tr("DATE") };
+
+  QVector<WellTrait::Shared> traits = findAll();
+
+  std::set<QString> existingTraits;
+
+  for (WellTrait::Shared t : traits)
+    existingTraits.insert(t->name());
+
+  for (QString traitName : defaultTraits)
+    if (existingTraits.find(traitName) == existingTraits.end()) {
+      WellTrait::Shared emptyTrait(new WellTrait());
+
+      emptyTrait->setName(traitName);
+
+      emptyTrait->setSynonyms(QStringList { traitName }
+                              );
+
+      emptyTrait->setType(WellTrait::String);
+
+      insert(emptyTrait);
+    }
+
 }
