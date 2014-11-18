@@ -124,9 +124,13 @@ WellTraitAccess::
 createDefaultTraits()
 {
   QStringList defaultTraits { tr("WELL"),
+                              tr("COMPANY"),
                               tr("FIELD"),
                               tr("COUNTRY"),
-                              tr("DATE") };
+                              tr("LOCATION"),
+                              tr("DATE"),
+                              tr("API"),
+                              tr("UWI")};
 
   QVector<WellTrait::Shared> traits = findAll();
 
