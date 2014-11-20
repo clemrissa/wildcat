@@ -1,8 +1,6 @@
 #include "WellInformation.hpp"
 
-
 using Geo::Import::TreeWrapper::WellInfo;
-
 
 WellInfo::
 WellInfo(QSharedPointer<LasFile> lasFile,
@@ -12,9 +10,10 @@ WellInfo(QSharedPointer<LasFile> lasFile,
 {
 }
 
+
 QVariant
 WellInfo::
-data(int role, int column) 
+data(int role, int column) const
 {
   if (role != Qt::DisplayRole)
     return QVariant();
@@ -38,12 +37,13 @@ data(int role, int column)
     return _lasFileToImport->wellInformation[key].value;
     break;
 
+  case TreeEntry::Type:
 
-  case TreeEntry::Type: 
     if (!_trait.isNull())
       return _trait->name();
     else
       return QVariant();
+
     break;
 
   case TreeEntry::Units:
@@ -54,14 +54,14 @@ data(int role, int column)
     return QVariant();
     break;
   }
- 
+
   return QVariant();
 }
 
 
 bool
 WellInfo::
-setData(int role, int column, QVariant value) 
+setData(int role, int column, QVariant value)
 {
   QString key = _lasFile->wellInformation.keys()[_position];
 
@@ -78,7 +78,6 @@ setData(int role, int column, QVariant value)
   }
 
   case TreeEntry::Type: {
-
     using Geo::Domain::WellTrait;
 
     auto dataAccessFactory = _connection->dataAccessFactory();
@@ -100,9 +99,9 @@ setData(int role, int column, QVariant value)
 }
 
 
-const QSharedPointer<Geo::Domain::WellTrait> 
+const QSharedPointer<Geo::Domain::WellTrait>
 WellInfo::
-getTrait() const 
+getTrait() const
 {
   return _trait;
 }
@@ -118,7 +117,7 @@ setTrait(QSharedPointer<Geo::Domain::WellTrait> trait)
 
 void
 WellInfo::
-copyDataToLasToImport() 
+copyDataToLasToImport()
 {
   QString key = _lasFile->wellInformation.keys()[_position];
 
@@ -133,8 +132,6 @@ QWidget*
 WellInfo::
 delegateWidget(int column) const
 {
-  using Geo::Domain::WellTrait;
-
   QWidget* result = nullptr;
 
   if (_connection.isNull())
@@ -144,14 +141,14 @@ delegateWidget(int column) const
   case TreeEntry::ImportValue: {
     QLineEdit* line = new QLineEdit();
 
-    QString key = _lasFile->wellInformation.keys()[_position];
-    line->setText(_lasFileToImport->wellInformation[key].value);
-
+    line->setText(data(Qt::DisplayRole, TreeEntry::ImportValue).toString());
     result = line;
     break;
   }
 
   case TreeEntry::Type: {
+    using Geo::Domain::WellTrait;
+
     QComboBox* comboBox = new QComboBox();
 
     auto dataAccessFactory = _connection->dataAccessFactory();
@@ -178,9 +175,9 @@ delegateWidget(int column) const
 
 void
 WellInfo::
-setDataFromWidget(QWidget* editor, 
-                  QModelIndex const & index,
-                  QAbstractItemModel *model) 
+setDataFromWidget(QWidget*            editor,
+                  QModelIndex const&  index,
+                  QAbstractItemModel* model)
 {
   switch (index.column()) {
   case TreeEntry::ImportValue: {
@@ -213,7 +210,7 @@ setConnection(Geo::Database::Connections::Connection::Shared connection)
 }
 
 
-void 
+void
 WellInfo::
 importValueChanged()
 {
@@ -222,7 +219,7 @@ importValueChanged()
   if (_connection.isNull())
     return;
 
-  QString key = _lasFile->wellInformation.keys()[_position];
+  QString key  = _lasFile->wellInformation.keys()[_position];
   QString name = _lasFile->wellInformation[key].name;
 
   auto dataAccessFactory = _connection->dataAccessFactory();
@@ -233,16 +230,14 @@ importValueChanged()
 
   for (WellTrait::Shared t : traits)
     if (t->synonyms().contains(name))
-    {
       _trait = t;
-    }
+
 }
 
 
-//------------------------------------------------------
+// ------------------------------------------------------
 
 using Geo::Import::TreeWrapper::WellInformationGroup;
-
 
 WellInformationGroup::
 WellInformationGroup(QSharedPointer<LasFile> lasFile,
@@ -256,7 +251,7 @@ WellInformationGroup(QSharedPointer<LasFile> lasFile,
 
 QVariant
 WellInformationGroup::
-data(int role, int column) 
+data(int role, int column) const
 {
   if (role != Qt::DisplayRole)
     return QVariant();

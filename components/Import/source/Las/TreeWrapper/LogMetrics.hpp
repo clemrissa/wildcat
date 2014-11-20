@@ -12,35 +12,31 @@ class Start: public TreeEntry
 {
 public:
   Start(QSharedPointer<LasFile> lasFile,
-            TreeEntry*              parent);
+        TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
-
-//------------------------------------------------------
-
+// ------------------------------------------------------
 
 class Stop: public TreeEntry
 {
 public:
   Stop(QSharedPointer<LasFile> lasFile,
-           TreeEntry*              parent);
+       TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
-
-//------------------------------------------------------
-
+// ------------------------------------------------------
 
 class Step: public TreeEntry
 {
@@ -49,37 +45,35 @@ public:
        TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
-
-//------------------------------------------------------
-
+// ------------------------------------------------------
 
 class Null: public TreeEntry
 {
 public:
   Null(QSharedPointer<LasFile> lasFile,
-           TreeEntry*              parent);
+       TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
-
-class LogMetricsGroup: public TreeEntry {
+class LogMetricsGroup: public TreeEntry
+{
 public:
   LogMetricsGroup(QSharedPointer<LasFile> lasFile,
                   TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 };
 }
 }

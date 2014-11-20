@@ -4,7 +4,7 @@ using Geo::Import::TreeWrapper::Start;
 
 Start::
 Start(QSharedPointer<LasFile> lasFile,
-          TreeEntry*              parent):
+      TreeEntry*              parent):
   TreeEntry(lasFile, parent)
 {
 }
@@ -12,7 +12,7 @@ Start(QSharedPointer<LasFile> lasFile,
 
 QVariant
 Start::
-data(int role, int column)
+data(int role, int column) const
 {
   if (role != Qt::DisplayRole)
     return QVariant();
@@ -54,14 +54,13 @@ copyDataToLasToImport()
 }
 
 
-//------------------------------------------------------
+// ------------------------------------------------------
 
 using Geo::Import::TreeWrapper::Stop;
 
-
 Stop::
 Stop(QSharedPointer<LasFile> lasFile,
-         TreeEntry*              parent):
+     TreeEntry*              parent):
   TreeEntry(lasFile, parent)
 {
 }
@@ -69,7 +68,7 @@ Stop(QSharedPointer<LasFile> lasFile,
 
 QVariant
 Stop::
-data(int role, int column)
+data(int role, int column) const
 {
   if (role != Qt::DisplayRole)
     return QVariant();
@@ -111,15 +110,13 @@ copyDataToLasToImport()
 }
 
 
-
-//------------------------------------------------------
+// ------------------------------------------------------
 
 using Geo::Import::TreeWrapper::Step;
 
-
 Step::
 Step(QSharedPointer<LasFile> lasFile,
-         TreeEntry*              parent):
+     TreeEntry*              parent):
   TreeEntry(lasFile, parent)
 {
 }
@@ -127,7 +124,7 @@ Step(QSharedPointer<LasFile> lasFile,
 
 QVariant
 Step::
-data(int role, int column)
+data(int role, int column) const
 {
   if (role != Qt::DisplayRole)
     return QVariant();
@@ -159,6 +156,7 @@ data(int role, int column)
   }
 }
 
+
 void
 Step::
 copyDataToLasToImport()
@@ -168,21 +166,21 @@ copyDataToLasToImport()
 }
 
 
-//------------------------------------------------------
-
+// ------------------------------------------------------
 
 using Geo::Import::TreeWrapper::Null;
 
 Null::
 Null(QSharedPointer<LasFile> lasFile,
-         TreeEntry*              parent):
+     TreeEntry*              parent):
   TreeEntry(lasFile, parent)
 {
 }
 
+
 QVariant
 Null::
-data(int role, int column)
+data(int role, int column) const
 {
   if (role != Qt::DisplayRole)
     return QVariant();
@@ -224,12 +222,9 @@ copyDataToLasToImport()
 }
 
 
-
-//------------------------------------------------------
-
+// ------------------------------------------------------
 
 using Geo::Import::TreeWrapper::LogMetricsGroup;
-
 
 LogMetricsGroup::
 LogMetricsGroup(QSharedPointer<LasFile> lasFile,
@@ -248,7 +243,7 @@ LogMetricsGroup(QSharedPointer<LasFile> lasFile,
 
 QVariant
 LogMetricsGroup::
-data(int role, int column)
+data(int role, int column) const
 {
   if (role != Qt::DisplayRole)
     return QVariant();

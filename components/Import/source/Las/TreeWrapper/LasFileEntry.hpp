@@ -13,7 +13,7 @@ public:
   LasFileEntry(QSharedPointer<LasFile> lasFile);
 
   virtual QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
 private:
   void

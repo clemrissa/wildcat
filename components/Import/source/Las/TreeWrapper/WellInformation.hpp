@@ -12,9 +12,8 @@
 #include <Uni/Logging/Logging>
 
 namespace Geo {
-
 namespace Domain {
-  class WellTrait;
+class WellTrait;
 }
 
 namespace Import {
@@ -29,12 +28,12 @@ public:
            int                     position);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   bool
   setData(int role, int column, QVariant value) override;
 
-  const QSharedPointer<Geo::Domain::WellTrait> 
+  const QSharedPointer<Geo::Domain::WellTrait>
   getTrait() const;
 
   void
@@ -47,8 +46,8 @@ public:
   delegateWidget(int column) const override;
 
   void
-  setDataFromWidget(QWidget* editor, QModelIndex const & index,
-                    QAbstractItemModel *model) override;
+  setDataFromWidget(QWidget* editor, QModelIndex const& index,
+                    QAbstractItemModel* model) override;
 
   void
   setConnection(Geo::Database::Connections::Connection::Shared connection);
@@ -59,13 +58,11 @@ private:
   QSharedPointer<Geo::Domain::WellTrait> _trait;
 
 private slots:
-  void 
+  void
   importValueChanged();
 };
 
-
-//------------------------------------------------------
-
+// ------------------------------------------------------
 
 class WellInformationGroup: public TreeEntry
 {
@@ -74,9 +71,8 @@ public:
                        TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 };
-
 
 //
 }

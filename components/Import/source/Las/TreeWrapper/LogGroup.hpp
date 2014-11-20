@@ -8,18 +8,19 @@ namespace Import {
 namespace TreeWrapper {
 //
 
-
-class LogWrapper: public TreeEntry {
+class LogWrapper: public TreeEntry
+{
 public:
   LogWrapper(QSharedPointer<LasFile> lasFile,
-                       TreeEntry*              parent,
-                       int                     position):
+             TreeEntry*              parent,
+             int                     position):
     TreeEntry(lasFile, parent),
     _position(position)
-  {}
+  {
+  }
 
   QVariant
-  data(int role, int column) override
+  data(int role, int column) const override
   {
     if (role != Qt::DisplayRole)
       return QVariant();
@@ -45,13 +46,12 @@ public:
     }
   }
 
-
 private:
   int _position;
 };
 
-
-class LogGroup: public TreeEntry {
+class LogGroup: public TreeEntry
+{
 public:
   LogGroup(QSharedPointer<LasFile> lasFile,
            TreeEntry*              parent):
@@ -61,9 +61,8 @@ public:
       _entries.push_back(new LogWrapper(_lasFile, this, i));
   }
 
-
   QVariant
-  data(int role, int column) override
+  data(int role, int column) const override
   {
     if (role != Qt::DisplayRole)
       return QVariant();

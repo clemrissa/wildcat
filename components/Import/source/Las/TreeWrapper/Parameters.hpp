@@ -21,7 +21,7 @@ public:
   }
 
   QVariant
-  data(int role, int column) override
+  data(int role, int column) const override
   {
     if (role != Qt::DisplayRole)
       return QVariant();
@@ -80,7 +80,7 @@ public:
   }
 
   QVariant
-  data(int role, int column) override
+  data(int role, int column) const override
   {
     if (role != Qt::DisplayRole)
       return QVariant();

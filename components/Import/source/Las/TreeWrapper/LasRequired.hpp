@@ -12,227 +12,213 @@
 #include <Uni/Logging/Logging>
 
 namespace Geo {
-
 namespace Domain {
-  class WellTrait;
+class WellTrait;
 }
 
 namespace Import {
 namespace TreeWrapper {
 //
 
+class RequiredFieldBase: public TreeEntry
+{
+public:
+  RequiredFieldBase(QSharedPointer<LasFile> lasFile,
+                    TreeEntry*              parent);
 
-class WellName: public TreeEntry
+  virtual QWidget*
+  delegateWidget(int column) const override;
+};
+
+class WellName: public RequiredFieldBase
 {
 public:
   WellName(QSharedPointer<LasFile> lasFile,
            TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
+// ------------------------------------------------------
 
-//------------------------------------------------------
-
-
-class WellCompany: public TreeEntry
+class WellCompany: public RequiredFieldBase
 {
 public:
   WellCompany(QSharedPointer<LasFile> lasFile,
               TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
+// ------------------------------------------------------
 
-//------------------------------------------------------
-
-
-class WellServiceCompany: public TreeEntry
+class WellServiceCompany: public RequiredFieldBase
 {
 public:
   WellServiceCompany(QSharedPointer<LasFile> lasFile,
                      TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
+// ------------------------------------------------------
 
-//------------------------------------------------------
-
-
-class WellField: public TreeEntry
+class WellField: public RequiredFieldBase
 {
 public:
   WellField(QSharedPointer<LasFile> lasFile,
             TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
+// ------------------------------------------------------
 
-//------------------------------------------------------
-
-
-class WellLocation: public TreeEntry
+class WellLocation: public RequiredFieldBase
 {
 public:
   WellLocation(QSharedPointer<LasFile> lasFile,
-            TreeEntry*              parent);
+               TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
+// ------------------------------------------------------
 
-//------------------------------------------------------
-
-
-class WellDate: public TreeEntry
+class WellDate: public RequiredFieldBase
 {
 public:
   WellDate(QSharedPointer<LasFile> lasFile,
            TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
-//------------------------------------------------------
+// ------------------------------------------------------
 
-
-class WellCountry: public TreeEntry
+class WellCountry: public RequiredFieldBase
 {
 public:
   WellCountry(QSharedPointer<LasFile> lasFile,
               TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
-//------------------------------------------------------
+// ------------------------------------------------------
 
-
-class WellState: public TreeEntry
+class WellState: public RequiredFieldBase
 {
 public:
   WellState(QSharedPointer<LasFile> lasFile,
             TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
+// ------------------------------------------------------
 
-//------------------------------------------------------
-
-
-class WellCounty: public TreeEntry
+class WellCounty: public RequiredFieldBase
 {
 public:
   WellCounty(QSharedPointer<LasFile> lasFile,
              TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
+// ------------------------------------------------------
 
-//------------------------------------------------------
-
-
-class WellProvince: public TreeEntry
+class WellProvince: public RequiredFieldBase
 {
 public:
   WellProvince(QSharedPointer<LasFile> lasFile,
                TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
-//------------------------------------------------------
+// ------------------------------------------------------
 
-
-class WellAPI: public TreeEntry
+class WellAPI: public RequiredFieldBase
 {
 public:
   WellAPI(QSharedPointer<LasFile> lasFile,
-           TreeEntry*              parent);
+          TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
+// ------------------------------------------------------
 
-//------------------------------------------------------
-
-
-class WellUWI: public TreeEntry
+class WellUWI: public RequiredFieldBase
 {
 public:
   WellUWI(QSharedPointer<LasFile> lasFile,
-           TreeEntry*              parent);
+          TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 
   void
   copyDataToLasToImport() override;
 };
 
+// ------------------------------------------------------
 
-//------------------------------------------------------
-
-
-class LasRequiredGroup: public TreeEntry
+class LasRequiredGroup: public RequiredFieldBase
 {
 public:
   LasRequiredGroup(QSharedPointer<LasFile> lasFile,
                    TreeEntry*              parent);
 
   QVariant
-  data(int role, int column) override;
+  data(int role, int column) const override;
 };
-
 
 //
 }

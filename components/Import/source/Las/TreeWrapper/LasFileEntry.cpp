@@ -1,10 +1,10 @@
 #include "LasFileEntry.hpp"
 
-#include "LogGroup.hpp"
-#include "Parameters.hpp"
 #include "LasRequired.hpp"
-#include "WellInformation.hpp"
+#include "LogGroup.hpp"
 #include "LogMetrics.hpp"
+#include "Parameters.hpp"
+#include "WellInformation.hpp"
 
 #include <QColor>
 
@@ -40,7 +40,7 @@ createEntries(LasFile::Shared lasFile)
 
 QVariant
 LasFileEntry::
-data(int role, int column)
+data(int role, int column) const
 {
   switch (role) {
   case Qt::DisplayRole: {

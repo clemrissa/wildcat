@@ -18,7 +18,6 @@ namespace Import {
 namespace TreeWrapper {
 //
 
-
 /// @brief Composite pattern. Used to represent LAS file strurcture as a tree.
 /// Every subclass works with sertain data from the LasFile class.
 /// The whole tree is employed then in AbstractItemMoodel for QTreeView
@@ -62,7 +61,7 @@ public:
   lasFileToImport() const { return _lasFileToImport; }
 
   virtual QVariant
-  data(int role, int column) = 0;
+  data(int role, int column) const = 0;
 
   virtual
   bool
@@ -72,8 +71,8 @@ public:
   delegateWidget(int column) const;
 
   virtual void
-  setDataFromWidget(QWidget* editor, QModelIndex const & index,
-                    QAbstractItemModel *model) {}
+  setDataFromWidget(QWidget* editor, QModelIndex const& index,
+                    QAbstractItemModel* model) {}
 
   virtual
   void
