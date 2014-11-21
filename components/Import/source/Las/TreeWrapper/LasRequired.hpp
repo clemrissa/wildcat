@@ -8,6 +8,7 @@
 #include <Domain/WellTrait>
 
 #include "TreeEntry.hpp"
+#include "WellInformation.hpp"
 
 #include <Uni/Logging/Logging>
 
@@ -20,17 +21,8 @@ namespace Import {
 namespace TreeWrapper {
 //
 
-class RequiredFieldBase: public TreeEntry
-{
-public:
-  RequiredFieldBase(QSharedPointer<LasFile> lasFile,
-                    TreeEntry*              parent);
 
-  virtual QWidget*
-  delegateWidget(int column) const override;
-};
-
-class WellName: public RequiredFieldBase
+class WellName: public WellInfoBase
 {
 public:
   WellName(QSharedPointer<LasFile> lasFile,
@@ -45,7 +37,7 @@ public:
 
 // ------------------------------------------------------
 
-class WellCompany: public RequiredFieldBase
+class WellCompany: public WellInfoBase
 {
 public:
   WellCompany(QSharedPointer<LasFile> lasFile,
@@ -60,7 +52,7 @@ public:
 
 // ------------------------------------------------------
 
-class WellServiceCompany: public RequiredFieldBase
+class WellServiceCompany: public WellInfoBase
 {
 public:
   WellServiceCompany(QSharedPointer<LasFile> lasFile,
@@ -75,7 +67,7 @@ public:
 
 // ------------------------------------------------------
 
-class WellField: public RequiredFieldBase
+class WellField: public WellInfoBase
 {
 public:
   WellField(QSharedPointer<LasFile> lasFile,
@@ -90,7 +82,7 @@ public:
 
 // ------------------------------------------------------
 
-class WellLocation: public RequiredFieldBase
+class WellLocation: public WellInfoBase
 {
 public:
   WellLocation(QSharedPointer<LasFile> lasFile,
@@ -105,7 +97,7 @@ public:
 
 // ------------------------------------------------------
 
-class WellDate: public RequiredFieldBase
+class WellDate: public WellInfoBase
 {
 public:
   WellDate(QSharedPointer<LasFile> lasFile,
@@ -120,7 +112,7 @@ public:
 
 // ------------------------------------------------------
 
-class WellCountry: public RequiredFieldBase
+class WellCountry: public WellInfoBase
 {
 public:
   WellCountry(QSharedPointer<LasFile> lasFile,
@@ -135,7 +127,7 @@ public:
 
 // ------------------------------------------------------
 
-class WellState: public RequiredFieldBase
+class WellState: public WellInfoBase
 {
 public:
   WellState(QSharedPointer<LasFile> lasFile,
@@ -150,7 +142,7 @@ public:
 
 // ------------------------------------------------------
 
-class WellCounty: public RequiredFieldBase
+class WellCounty: public WellInfoBase
 {
 public:
   WellCounty(QSharedPointer<LasFile> lasFile,
@@ -165,7 +157,7 @@ public:
 
 // ------------------------------------------------------
 
-class WellProvince: public RequiredFieldBase
+class WellProvince: public WellInfoBase
 {
 public:
   WellProvince(QSharedPointer<LasFile> lasFile,
@@ -180,7 +172,7 @@ public:
 
 // ------------------------------------------------------
 
-class WellAPI: public RequiredFieldBase
+class WellAPI: public WellInfoBase
 {
 public:
   WellAPI(QSharedPointer<LasFile> lasFile,
@@ -195,7 +187,7 @@ public:
 
 // ------------------------------------------------------
 
-class WellUWI: public RequiredFieldBase
+class WellUWI: public WellInfoBase
 {
 public:
   WellUWI(QSharedPointer<LasFile> lasFile,
@@ -210,7 +202,7 @@ public:
 
 // ------------------------------------------------------
 
-class LasRequiredGroup: public RequiredFieldBase
+class LasRequiredGroup: public WellInfoBase
 {
 public:
   LasRequiredGroup(QSharedPointer<LasFile> lasFile,

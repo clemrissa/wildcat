@@ -1,65 +1,12 @@
 #include "LasRequired.hpp"
 
-using Geo::Import::TreeWrapper::RequiredFieldBase;
-
-RequiredFieldBase::
-RequiredFieldBase(QSharedPointer<LasFile> lasFile,
-                  TreeEntry*              parent):
-  TreeEntry(lasFile, parent)
-{
-}
-
-
-QWidget*
-RequiredFieldBase::
-delegateWidget(int column) const
-{
-  QWidget* result = nullptr;
-
-  switch (column) {
-  case TreeEntry::ImportValue: {
-    QLineEdit* line = new QLineEdit();
-
-    line->setText(data(Qt::DisplayRole, TreeEntry::ImportValue).toString());
-
-    result = line;
-    break;
-  }
-
-  case TreeEntry::Type: {
-    using Geo::Domain::WellTrait;
-
-    QComboBox* comboBox = new QComboBox();
-
-    auto dataAccessFactory = _connection->dataAccessFactory();
-
-    auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
-
-    QVector<WellTrait::Shared> traits =
-      wellTraitAccess->findAll();
-
-    for (WellTrait::Shared t : traits)
-      comboBox->addItem(t->name());
-
-    result = comboBox;
-
-    break;
-  }
-
-  default:
-    break;
-  }
-
-  return result;
-}
-
 
 using Geo::Import::TreeWrapper::WellName;
 
 WellName::
 WellName(QSharedPointer<LasFile> lasFile,
          TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -88,6 +35,14 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.wellName;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
+    break;
+
   default:
     return QVariant();
     break;
@@ -111,7 +66,7 @@ using Geo::Import::TreeWrapper::WellCompany;
 WellCompany::
 WellCompany(QSharedPointer<LasFile> lasFile,
             TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -140,6 +95,14 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.company;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
+    break;
+
   default:
     return QVariant();
     break;
@@ -163,7 +126,7 @@ using Geo::Import::TreeWrapper::WellServiceCompany;
 WellServiceCompany::
 WellServiceCompany(QSharedPointer<LasFile> lasFile,
                    TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -192,6 +155,14 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.serviceCompany;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
+    break;
+
   default:
     return QVariant();
     break;
@@ -215,7 +186,7 @@ using Geo::Import::TreeWrapper::WellField;
 WellField::
 WellField(QSharedPointer<LasFile> lasFile,
           TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -244,6 +215,14 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.field;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
+    break;
+
   default:
     return QVariant();
     break;
@@ -267,7 +246,7 @@ using Geo::Import::TreeWrapper::WellLocation;
 WellLocation::
 WellLocation(QSharedPointer<LasFile> lasFile,
              TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -296,6 +275,13 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.location;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
+    break;
   default:
     return QVariant();
     break;
@@ -319,7 +305,7 @@ using Geo::Import::TreeWrapper::WellDate;
 WellDate::
 WellDate(QSharedPointer<LasFile> lasFile,
          TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -348,6 +334,12 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.date;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
   default:
     return QVariant();
     break;
@@ -371,7 +363,7 @@ using Geo::Import::TreeWrapper::WellCountry;
 WellCountry::
 WellCountry(QSharedPointer<LasFile> lasFile,
             TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -400,6 +392,12 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.country;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
   default:
     return QVariant();
     break;
@@ -423,7 +421,7 @@ using Geo::Import::TreeWrapper::WellState;
 WellState::
 WellState(QSharedPointer<LasFile> lasFile,
           TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -452,6 +450,12 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.state;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
   default:
     return QVariant();
     break;
@@ -475,7 +479,7 @@ using Geo::Import::TreeWrapper::WellCounty;
 WellCounty::
 WellCounty(QSharedPointer<LasFile> lasFile,
            TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -504,6 +508,12 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.county;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
   default:
     return QVariant();
     break;
@@ -527,7 +537,7 @@ using Geo::Import::TreeWrapper::WellProvince;
 WellProvince::
 WellProvince(QSharedPointer<LasFile> lasFile,
              TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -556,6 +566,12 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.province;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
   default:
     return QVariant();
     break;
@@ -579,7 +595,7 @@ using Geo::Import::TreeWrapper::WellAPI;
 WellAPI::
 WellAPI(QSharedPointer<LasFile> lasFile,
         TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -608,6 +624,12 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.api;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
   default:
     return QVariant();
     break;
@@ -631,7 +653,7 @@ using Geo::Import::TreeWrapper::WellUWI;
 WellUWI::
 WellUWI(QSharedPointer<LasFile> lasFile,
         TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
 }
 
@@ -660,6 +682,12 @@ data(int role, int column) const
     return _lasFileToImport->lasRequired.uwi;
     break;
 
+  case TreeEntry::Type:
+    if (!_trait.isNull())
+      return _trait->name();
+    else
+      return QVariant();
+
   default:
     return QVariant();
     break;
@@ -683,7 +711,7 @@ using Geo::Import::TreeWrapper::LasRequiredGroup;
 LasRequiredGroup::
 LasRequiredGroup(QSharedPointer<LasFile> lasFile,
                  TreeEntry*              parent):
-  RequiredFieldBase(lasFile, parent)
+  WellInfoBase(lasFile, parent)
 {
   _entries.push_back(new WellName(_lasFile, this));
   _entries.push_back(new WellCompany(_lasFile, this));

@@ -20,7 +20,33 @@ namespace Import {
 namespace TreeWrapper {
 //
 
-class WellInfo: public TreeEntry
+
+class WellInfoBase: public TreeEntry
+{
+public:
+  WellInfoBase(QSharedPointer<LasFile> lasFile,
+               TreeEntry*              parent);
+
+  virtual QWidget*
+  delegateWidget(int column) const override;
+
+  void
+  setConnection(Geo::Database::Connections::Connection::Shared connection);
+protected:
+  virtual QStringList
+  getWellTraitNames() const;
+
+protected slots:
+  void
+  findAppropriateTrait();
+
+protected:
+  QSharedPointer<Geo::Domain::WellTrait> _trait;
+};
+
+// ------------------------------------------------------
+
+class WellInfo: public WellInfoBase
 {
 public:
   WellInfo(QSharedPointer<LasFile> lasFile,
@@ -42,24 +68,13 @@ public:
   void
   copyDataToLasToImport() override;
 
-  QWidget*
-  delegateWidget(int column) const override;
-
   void
   setDataFromWidget(QWidget* editor, QModelIndex const& index,
                     QAbstractItemModel* model) override;
 
-  void
-  setConnection(Geo::Database::Connections::Connection::Shared connection);
 
 private:
   int _position;
-
-  QSharedPointer<Geo::Domain::WellTrait> _trait;
-
-private slots:
-  void
-  importValueChanged();
 };
 
 // ------------------------------------------------------

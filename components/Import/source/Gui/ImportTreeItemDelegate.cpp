@@ -62,5 +62,4 @@ setModelData(QWidget*            editor,
   auto treeEntry = static_cast<TreeEntry*>(index.internalPointer());
 
   treeEntry->setDataFromWidget(editor, index, model);
-  
 }
