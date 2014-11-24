@@ -21,7 +21,6 @@ namespace Import {
 namespace TreeWrapper {
 //
 
-
 class WellName: public WellInfoBase
 {
 public:
@@ -33,6 +32,10 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
@@ -48,6 +51,10 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
@@ -63,6 +70,10 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
@@ -78,6 +89,10 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
@@ -93,6 +108,10 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
@@ -108,6 +127,10 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
@@ -123,6 +146,10 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
@@ -138,6 +165,10 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
@@ -153,6 +184,10 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
@@ -168,6 +203,10 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
@@ -183,6 +222,10 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
@@ -198,11 +241,15 @@ public:
 
   void
   copyDataToLasToImport() override;
+
+protected:
+  void
+  setImportValue(QVariant value) override;
 };
 
 // ------------------------------------------------------
 
-class LasRequiredGroup: public WellInfoBase
+class LasRequiredGroup: public TreeEntry
 {
 public:
   LasRequiredGroup(QSharedPointer<LasFile> lasFile,

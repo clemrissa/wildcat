@@ -14,7 +14,8 @@
 
 extern "C" {
 Geo_Import_PUBLIC void
-registerComponent() {
+registerComponent()
+{
   REGISTER_TYPE(Geo::Import::Gui::ImportWidget);
   REGISTER_TYPE(Geo::Import::ImportUiFactory);
   REGISTER_TYPE(Geo::Import::LasFileParser);

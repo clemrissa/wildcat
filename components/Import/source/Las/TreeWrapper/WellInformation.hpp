@@ -20,7 +20,6 @@ namespace Import {
 namespace TreeWrapper {
 //
 
-
 class WellInfoBase: public TreeEntry
 {
 public:
@@ -32,9 +31,32 @@ public:
 
   void
   setConnection(Geo::Database::Connections::Connection::Shared connection);
+
+  bool
+  setData(int role, int column, QVariant value) override;
+
+  void
+  setDataFromWidget(QWidget* editor, QModelIndex const& index,
+                    QAbstractItemModel* model) override;
+
 protected:
+  virtual QVector<Geo::Domain::WellTrait::Shared>
+  getWellTraits() const;
+
   virtual QStringList
   getWellTraitNames() const;
+
+  virtual void
+  setImportValue(QVariant value) {}
+
+  virtual void
+  setTraitValue(QVariant trait);
+
+  void
+  setTrait(QSharedPointer<Geo::Domain::WellTrait> trait);
+
+  const QSharedPointer<Geo::Domain::WellTrait>
+  getTrait() const;
 
 protected slots:
   void
@@ -56,22 +78,12 @@ public:
   QVariant
   data(int role, int column) const override;
 
-  bool
-  setData(int role, int column, QVariant value) override;
-
-  const QSharedPointer<Geo::Domain::WellTrait>
-  getTrait() const;
-
-  void
-  setTrait(QSharedPointer<Geo::Domain::WellTrait> trait);
-
   void
   copyDataToLasToImport() override;
 
+protected:
   void
-  setDataFromWidget(QWidget* editor, QModelIndex const& index,
-                    QAbstractItemModel* model) override;
-
+  setImportValue(QVariant value) override;
 
 private:
   int _position;

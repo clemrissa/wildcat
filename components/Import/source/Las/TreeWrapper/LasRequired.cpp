@@ -1,6 +1,5 @@
 #include "LasRequired.hpp"
 
-
 using Geo::Import::TreeWrapper::WellName;
 
 WellName::
@@ -36,6 +35,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -56,6 +56,15 @@ copyDataToLasToImport()
 {
   _lasFileToImport->lasRequired.wellName =
     _lasFile->lasRequired.wellName;
+}
+
+
+void
+WellName::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.wellName =
+    value.toString();
 }
 
 
@@ -96,6 +105,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -116,6 +126,15 @@ copyDataToLasToImport()
 {
   _lasFileToImport->lasRequired.company =
     _lasFile->lasRequired.company;
+}
+
+
+void
+WellCompany::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.company =
+    value.toString();
 }
 
 
@@ -156,6 +175,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -176,6 +196,15 @@ copyDataToLasToImport()
 {
   _lasFileToImport->lasRequired.serviceCompany =
     _lasFile->lasRequired.serviceCompany;
+}
+
+
+void
+WellServiceCompany::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.serviceCompany =
+    value.toString();
 }
 
 
@@ -216,6 +245,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -236,6 +266,15 @@ copyDataToLasToImport()
 {
   _lasFileToImport->lasRequired.field =
     _lasFile->lasRequired.field;
+}
+
+
+void
+WellField::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.field =
+    value.toString();
 }
 
 
@@ -276,12 +315,14 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
       return QVariant();
 
     break;
+
   default:
     return QVariant();
     break;
@@ -295,6 +336,15 @@ copyDataToLasToImport()
 {
   _lasFileToImport->lasRequired.location =
     _lasFile->lasRequired.location;
+}
+
+
+void
+WellLocation::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.location =
+    value.toString();
 }
 
 
@@ -335,6 +385,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -353,6 +404,15 @@ copyDataToLasToImport()
 {
   _lasFileToImport->lasRequired.date =
     _lasFile->lasRequired.date;
+}
+
+
+void
+WellDate::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.date =
+    value.toString();
 }
 
 
@@ -393,6 +453,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -411,6 +472,15 @@ copyDataToLasToImport()
 {
   _lasFileToImport->lasRequired.country =
     _lasFile->lasRequired.country;
+}
+
+
+void
+WellCountry::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.country =
+    value.toString();
 }
 
 
@@ -451,6 +521,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -469,6 +540,15 @@ copyDataToLasToImport()
 {
   _lasFileToImport->lasRequired.state =
     _lasFile->lasRequired.state;
+}
+
+
+void
+WellState::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.state =
+    value.toString();
 }
 
 
@@ -509,6 +589,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -527,6 +608,15 @@ copyDataToLasToImport()
 {
   _lasFileToImport->lasRequired.county =
     _lasFile->lasRequired.county;
+}
+
+
+void
+WellCounty::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.county =
+    value.toString();
 }
 
 
@@ -567,6 +657,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -585,6 +676,15 @@ copyDataToLasToImport()
 {
   _lasFileToImport->lasRequired.province =
     _lasFile->lasRequired.province;
+}
+
+
+void
+WellProvince::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.province =
+    value.toString();
 }
 
 
@@ -625,6 +725,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -643,6 +744,15 @@ copyDataToLasToImport()
 {
   _lasFileToImport->lasRequired.api =
     _lasFile->lasRequired.api;
+}
+
+
+void
+WellAPI::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.api =
+    value.toString();
 }
 
 
@@ -683,6 +793,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -704,6 +815,15 @@ copyDataToLasToImport()
 }
 
 
+void
+WellUWI::
+setImportValue(QVariant value)
+{
+  _lasFileToImport->lasRequired.uwi =
+    value.toString();
+}
+
+
 // ------------------------------------------------------
 
 using Geo::Import::TreeWrapper::LasRequiredGroup;
@@ -711,7 +831,7 @@ using Geo::Import::TreeWrapper::LasRequiredGroup;
 LasRequiredGroup::
 LasRequiredGroup(QSharedPointer<LasFile> lasFile,
                  TreeEntry*              parent):
-  WellInfoBase(lasFile, parent)
+  TreeEntry(lasFile, parent)
 {
   _entries.push_back(new WellName(_lasFile, this));
   _entries.push_back(new WellCompany(_lasFile, this));

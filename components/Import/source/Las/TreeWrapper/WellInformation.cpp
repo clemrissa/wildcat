@@ -1,6 +1,5 @@
 #include "WellInformation.hpp"
 
-
 // ------------------------------------------------------
 
 using Geo::Import::TreeWrapper::WellInfoBase;
@@ -60,6 +59,75 @@ setConnection(Geo::Database::Connections::Connection::Shared connection)
 }
 
 
+bool
+WellInfoBase::
+setData(int role, int column, QVariant value)
+{
+  bool result = false;
+
+  switch (column) {
+  case TreeEntry::ImportValue: {
+    setImportValue(value);
+
+    result = true;
+    break;
+  }
+
+  case TreeEntry::Type: {
+    setTraitValue(value);
+
+    result = true;
+    break;
+  }
+
+  default:
+    break;
+  }
+
+  return result;
+}
+
+
+void
+WellInfoBase::
+setDataFromWidget(QWidget*            editor,
+                  QModelIndex const&  index,
+                  QAbstractItemModel* model)
+{
+  switch (index.column()) {
+  case TreeEntry::ImportValue: {
+    auto lineEdit = static_cast<QLineEdit*>(editor);
+
+    model->setData(index, lineEdit->text(), Qt::EditRole);
+    break;
+  }
+
+  case TreeEntry::Type: {
+    auto cbox = static_cast<QComboBox*>(editor);
+
+    model->setData(index, cbox->currentIndex(), Qt::EditRole);
+    break;
+  }
+
+  default:
+    break;
+  }
+}
+
+
+QVector<Geo::Domain::WellTrait::Shared>
+WellInfoBase::
+getWellTraits() const
+{
+  using Geo::Domain::WellTrait;
+
+  auto dataAccessFactory = _connection->dataAccessFactory();
+  auto wellTraitAccess   = dataAccessFactory->wellTraitAccess();
+
+  return wellTraitAccess->findAll();
+}
+
+
 QStringList
 WellInfoBase::
 getWellTraitNames() const
@@ -68,17 +136,42 @@ getWellTraitNames() const
 
   using Geo::Domain::WellTrait;
 
-  auto dataAccessFactory = _connection->dataAccessFactory();
+  QVector<WellTrait::Shared> traits = getWellTraits();
 
-  auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
-
-  QVector<WellTrait::Shared> traits = wellTraitAccess->findAll();
-
-  for(WellTrait::Shared t : traits)
+  for (WellTrait::Shared t : traits)
     result.append(t->name());
 
   return result;
 }
+
+
+void
+WellInfoBase::
+setTraitValue(QVariant trait)
+{
+  using Geo::Domain::WellTrait;
+
+  QVector<WellTrait::Shared> traits = getWellTraits();
+
+  setTrait(traits[trait.toInt()]);
+}
+
+
+void
+WellInfoBase::
+setTrait(QSharedPointer<Geo::Domain::WellTrait> trait)
+{
+  _trait = trait;
+}
+
+
+const QSharedPointer<Geo::Domain::WellTrait>
+WellInfoBase::
+getTrait() const
+{
+  return _trait;
+}
+
 
 void
 WellInfoBase::
@@ -91,19 +184,13 @@ findAppropriateTrait()
 
   QString name = data(Qt::DisplayRole, TreeEntry::Name).toString();
 
-  auto dataAccessFactory = _connection->dataAccessFactory();
-
-  auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
-
-  QVector<WellTrait::Shared> traits = wellTraitAccess->findAll();
+  QVector<WellTrait::Shared> traits = getWellTraits();
 
   for (WellTrait::Shared t : traits)
-    if (t->synonyms().contains(name)) {
-      std::cout << "FOUND " << std::endl;
+    if (t->synonyms().contains(name))
       _trait = t;
-    }
-}
 
+}
 
 
 // ------------------------------------------------------
@@ -114,7 +201,7 @@ WellInfo::
 WellInfo(QSharedPointer<LasFile> lasFile,
          TreeEntry*              parent,
          int                     position):
-  WellInfoBase(lasFile, parent), 
+  WellInfoBase(lasFile, parent),
   _position(position)
 {
 }
@@ -147,6 +234,7 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Type:
+
     if (!_trait.isNull())
       return _trait->name();
     else
@@ -167,60 +255,6 @@ data(int role, int column) const
 }
 
 
-bool
-WellInfo::
-setData(int role, int column, QVariant value)
-{
-  QString key = _lasFile->wellInformation.keys()[_position];
-
-  bool result = false;
-
-  switch (column) {
-  case TreeEntry::ImportValue: {
-    _lasFileToImport->wellInformation[key].value = value.toString();
-
-    result = true;
-    break;
-  }
-
-  case TreeEntry::Type: {
-    using Geo::Domain::WellTrait;
-
-    auto dataAccessFactory = _connection->dataAccessFactory();
-
-    auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
-
-    QVector<WellTrait::Shared> traits = wellTraitAccess->findAll();
-
-    setTrait(traits[value.toInt()]);
-
-    break;
-  }
-
-  default:
-    break;
-  }
-
-  return result;
-}
-
-
-const QSharedPointer<Geo::Domain::WellTrait>
-WellInfo::
-getTrait() const
-{
-  return _trait;
-}
-
-
-void
-WellInfo::
-setTrait(QSharedPointer<Geo::Domain::WellTrait> trait)
-{
-  _trait = trait;
-}
-
-
 void
 WellInfo::
 copyDataToLasToImport()
@@ -234,33 +268,11 @@ copyDataToLasToImport()
 
 void
 WellInfo::
-setDataFromWidget(QWidget*            editor,
-                  QModelIndex const&  index,
-                  QAbstractItemModel* model)
+setImportValue(QVariant value)
 {
-  switch (index.column()) {
-  case TreeEntry::ImportValue: {
-    auto lineEdit = static_cast<QLineEdit*>(editor);
-
-    model->setData(index, lineEdit->text(), Qt::EditRole);
-    break;
-  }
-
-  case TreeEntry::Type: {
-    auto cbox = static_cast<QComboBox*>(editor);
-
-    model->setData(index, cbox->currentIndex(), Qt::EditRole);
-    break;
-  }
-
-  default:
-    break;
-  }
+  QString key = _lasFile->wellInformation.keys()[_position];
+  _lasFileToImport->wellInformation[key].value = value.toString();
 }
-
-
-
-
 
 
 // ------------------------------------------------------
