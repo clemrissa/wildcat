@@ -43,8 +43,8 @@ getText() const
   list << "start:  " + QString::number(lasRequired.start);
   list << "stop:   " + QString::number(lasRequired.stop);
 
-  for (auto entry : wellInformation)
-    list << entry.name + "   " + entry.value;
+  for (auto key : wellInformation.keys())
+    list << key + "   " + wellInformation[key].value;
 
   list << "";
   list << "------";

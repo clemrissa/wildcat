@@ -1,5 +1,4 @@
 #include "LasFileParser.hpp"
-
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QString>
@@ -116,20 +115,14 @@ parseVersionSection(QSharedPointer<LasFile>& lasFile,
 
   line = _lines[i];
 
-  if (reVersion.indexIn(line) >= 0) 
-  {
+  if (reVersion.indexIn(line) >= 0) {
     auto s = reVersion.cap(1).trimmed();
-    if (s == "1.2")
-    {
-      _version = 12;
-    }
-    else if (s == "2.0")
-    {
-      _version = 20;
-    }
-  }
 
-  else
+    if (s == "1.2")
+      _version = 12;
+    else if (s == "2.0")
+      _version = 20;
+  } else
     return false;
 
   // next line with WRAP parameter
@@ -138,8 +131,7 @@ parseVersionSection(QSharedPointer<LasFile>& lasFile,
   QRegExp reWrap("(YES|NO)");
 
   // have information about warpping
-  if (reWrap.indexIn(line) >= 0) 
-  {
+  if (reWrap.indexIn(line) >= 0) {
     QString s = reWrap.cap(1);
     _wrap = s == "YES" ? true : false;
   } else
@@ -162,23 +154,38 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
 
   // STRT.M        583.0:
   QRegExp reStart(numericalField.arg("STRT"));
+
   QRegExp reStop(numericalField.arg("STOP"));
+
   QRegExp reStep(numericalField.arg("STEP"));
+
   QRegExp reNull(numericalField.arg("NULL"));
 
   //  WELL.                WELL:   4832/116
   const QString specificField("(^%1 *)(\\.[^ ]*)( *.* *:)( *.*$)");
+
   QRegExp reWell(specificField.arg("WELL"));
+
   QRegExp reComp(specificField.arg("COMP"));
+
   QRegExp reServiceComp(specificField.arg("SRVC"));
+
   QRegExp reField(specificField.arg("FLD"));
+
   QRegExp reLocation(specificField.arg("LOC"));
+
   QRegExp reDate(specificField.arg("DATE"));
+
   QRegExp reCountry(specificField.arg("CTRY"));
+
   QRegExp reState(specificField.arg("STAT"));
+
   QRegExp reCounty(specificField.arg("CNTY"));
+
   QRegExp reProvince(specificField.arg("PROV"));
+
   QRegExp reAPI(specificField.arg("API"));
+
   QRegExp reUWI(specificField.arg("UWI"));
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
@@ -191,30 +198,37 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
   ++i;
 
   // function for addressing results of RegExp matching
-  auto selectValue = [&](QRegExp &re) {
-    QString s1 = re.cap(3).trimmed(); s1.chop(1); s1 = s1.trimmed();
-    QString s2 = re.cap(4).trimmed();
-    QString result;
-    if (_version == 12)
-      result = s2;
-    else if (_version == 20)
-      result = s1;
-    return result;
-  };
+  auto selectValue =
+    [&](QRegExp& re) {
+      QString s1 = re.cap(3).trimmed(); s1.chop(1); s1 =
+        s1.trimmed();
+      QString s2 = re.cap(4).trimmed();
+      QString result;
+
+      if (_version == 12)
+        result = s2;
+      else if (_version == 20)
+        result = s1;
+
+      return result;
+    };
 
   // function for addressing results of "floating point" RegExp matching
-  auto selectNumericalValue = [](QRegExp& re) {
-    QString value   = re.cap(3).trimmed();
+  auto selectNumericalValue =
+    [](QRegExp& re) {
+      QString value = re.cap(3).trimmed();
 
-    bool ok;
-    return value.toDouble(&ok);
-  };
+      bool ok;
+      return value.toDouble(&ok);
+    };
 
-  auto selectNumericalUnits = [](QRegExp& re) {
-    QString units   = re.cap(2).trimmed().remove(0, 1);
+  auto selectNumericalUnits =
+    [](QRegExp& re) {
+      QString units =
+        re.cap(2).trimmed().remove(0, 1);
 
-    return units;
-  };
+      return units;
+    };
 
   while (i < _lines.size()) {
     QString line = _lines[i];
@@ -228,71 +242,39 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
     // for less typing
     auto& lasRequired = lasFile->lasRequired;
 
-    if (reStart.indexIn(line) >= 0) 
-    {
+    if (reStart.indexIn(line) >= 0)
       lasRequired.start = selectNumericalValue(reStart);
-    } 
-    else if (reStop.indexIn(line) >= 0) 
-    {
+    else if (reStop.indexIn(line) >= 0)
       lasRequired.stop = selectNumericalValue(reStop);
-    } 
-    else if (reStep.indexIn(line) >= 0) 
-    {
+    else if (reStep.indexIn(line) >= 0) {
       lasRequired.step  = selectNumericalValue(reStep);
       lasRequired.units = selectNumericalUnits(reStep);
-    } 
-    else if (reNull.indexIn(line) >= 0) 
-    {
+    } else if (reNull.indexIn(line) >= 0)
       lasRequired.nullValue = selectNumericalValue(reNull);
-    } 
-    else if (reWell.indexIn(line) >= 0) 
-    {
+    else if (reWell.indexIn(line) >= 0)
       lasRequired.wellName = selectValue(reWell);
-    } 
-    else if (reComp.indexIn(line) >= 0) 
-    {
+    else if (reComp.indexIn(line) >= 0)
       lasRequired.company = selectValue(reComp);
-    } 
-    else if (reServiceComp.indexIn(line) >= 0) 
-    {
+    else if (reServiceComp.indexIn(line) >= 0)
       lasRequired.serviceCompany = selectValue(reServiceComp);
-    } 
-    else if (reField.indexIn(line) >= 0) 
-    {
+    else if (reField.indexIn(line) >= 0)
       lasRequired.field = selectValue(reField);
-    } 
-    else if (reLocation.indexIn(line) >= 0) 
-    {
+    else if (reLocation.indexIn(line) >= 0)
       lasRequired.location = selectValue(reLocation);
-    } 
-    else if (reDate.indexIn(line) >= 0) 
-    {
+    else if (reDate.indexIn(line) >= 0)
       lasRequired.date = selectValue(reDate);
-    }
-    else if (reCountry.indexIn(line) >= 0) 
-    {
+    else if (reCountry.indexIn(line) >= 0)
       lasRequired.country = selectValue(reCountry);
-    }
-    else if (reState.indexIn(line) >= 0) 
-    {
+    else if (reState.indexIn(line) >= 0)
       lasRequired.state = selectValue(reState);
-    }
-    else if (reCounty.indexIn(line) >= 0) 
-    {
+    else if (reCounty.indexIn(line) >= 0)
       lasRequired.county = selectValue(reCounty);
-    }
-    else if (reProvince.indexIn(line) >= 0) 
-    {
+    else if (reProvince.indexIn(line) >= 0)
       lasRequired.province = selectValue(reProvince);
-    }
-    else if (reAPI.indexIn(line) >= 0) 
-    {
+    else if (reAPI.indexIn(line) >= 0)
       lasRequired.api = selectValue(reAPI);
-    }
-    else if (reUWI.indexIn(line) >= 0) 
-    {
+    else if (reUWI.indexIn(line) >= 0)
       lasRequired.uwi = selectValue(reUWI);
-    }
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {
       // QRegExp reRestEntries("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
@@ -302,25 +284,22 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
 
       QString all = reRestEntries.cap(0);
 
-      entry.name  = reRestEntries.cap(1).trimmed();
+      QString name = reRestEntries.cap(1).trimmed();
       entry.units = reRestEntries.cap(2).trimmed().remove(0, 1);
 
-      if (_version == 12) 
-      {
+      if (_version == 12) {
         entry.description = reRestEntries.cap(3).trimmed();
         entry.description.chop(1);
         entry.description = entry.description.trimmed();
-        entry.value = reRestEntries.cap(4).trimmed();
-      } 
-      else if (_version == 20) 
-      {
+        entry.value       = reRestEntries.cap(4).trimmed();
+      } else if (_version == 20) {
         entry.description = reRestEntries.cap(4).trimmed();
         entry.value       = reRestEntries.cap(3).trimmed();
         entry.value.chop(1);
         entry.value = entry.value.trimmed();
       }
 
-      lasFile->wellInformation[entry.name] = entry;
+      lasFile->wellInformation[name] = entry;
     }
 
     ++i;

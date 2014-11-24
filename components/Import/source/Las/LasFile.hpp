@@ -11,7 +11,7 @@
 namespace Geo {
 namespace Import {
 /**
- * Class contains all the informaation from a Las file split into special
+ * Class contains all the information from a Las file split into special
  * structures
  */
 class LasFile: public QObject
@@ -22,7 +22,8 @@ public:
   typedef QSharedPointer<LasFile> Shared;
 
 public:
-  LasFile(): valid(false)
+  LasFile():
+    _valid(false)
   {
   }
 
@@ -30,7 +31,6 @@ public:
 
   struct WellInformationEntry
   {
-    QString name; // TODO remove. it is used as a key
     QString units;
     QString value;
     QString description;
@@ -82,7 +82,7 @@ public:
 
   QMap<QString, QVector<double> > data;
 
-  bool valid;
+  bool _valid;
 
 public:
   QString

@@ -227,7 +227,7 @@ data(int role, int column) const
 
   switch (column) {
   case TreeEntry::Name:
-    return _lasFile->wellInformation[key].name;
+    return key;
     break;
 
   case TreeEntry::Description:
