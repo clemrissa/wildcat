@@ -5,11 +5,11 @@
 
 namespace Geo {
 namespace Import {
-
-class ImportTreeModel; 
+class ImportTreeModel;
 
 namespace Gui {
-class ImportWidget: public QWidget {
+class ImportWidget: public QWidget
+{
   Q_OBJECT
 
 public:
@@ -29,17 +29,23 @@ private slots:
   void
   onImportClicked();
 
+  void
+  onConnectionSelected(int index);
+
 private:
   void
   setupUi();
+
+  void
+  connectSignals();
 
 private:
   struct Private;
 
   Private* p;
 };
-//
 
+//
 } // namespace Gui
 } // namespace Import
 } // namespace Geo

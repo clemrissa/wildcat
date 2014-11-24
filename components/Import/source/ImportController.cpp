@@ -67,21 +67,20 @@ selectFilesAndImport()
                                   "/home",
                                   "LAS files (*.las)");
 
-  LasFileParser          lasFileParser;
-  QVector<LasFileEntry*> importTreeWrapperLasFile;
+  LasFileParser            lasFileParser;
+  QVector<LasFile::Shared> lasFiles;
 
   // collect a list of parsed las files
   for (QString fileName : fileList) {
-    auto lasFile = lasFileParser.parse(fileName);
-
-    importTreeWrapperLasFile.append(new LasFileEntry(lasFile));
+    LasFile::Shared lasFile = lasFileParser.parse(fileName);
+    lasFiles.append(lasFile);
   }
 
-  if (importTreeWrapperLasFile.size() == 0)
+  if (lasFiles.size() == 0)
     return;
 
   ImportTreeModel* importTreeModel =
-    new ImportTreeModel(importTreeWrapperLasFile);
+    new ImportTreeModel(lasFiles);
 
   using Geo::Import::Gui::ImportWidget;
 

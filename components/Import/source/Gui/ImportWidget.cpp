@@ -44,6 +44,8 @@ ImportWidget():
 
   setupUi();
 
+  connectSignals();
+
   setupDataBinding();
 }
 
@@ -69,11 +71,11 @@ setupUi()
   p->treeView->header()->show();
   p->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
-  p->treeView->setItemDelegate(new  ImportTreeItemDelegate());
+  p->treeView->setItemDelegate(new ImportTreeItemDelegate());
 
   p->dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok);
 
-  auto okButton =  p->dialogButton->button(QDialogButtonBox::Ok);
+  auto okButton = p->dialogButton->button(QDialogButtonBox::Ok);
   okButton->setText(tr("Import"));
 
   QVBoxLayout* layout = new QVBoxLayout(this);
@@ -81,9 +83,21 @@ setupUi()
   layout->addWidget(p->connectionsComboBox);
   layout->addWidget(p->treeView);
   layout->addWidget(p->dialogButton);
+}
 
+
+void
+ImportWidget::
+connectSignals()
+{
   connect(p->dialogButton, SIGNAL(accepted()),
           this, SLOT(onImportClicked()));
+
+  connect(p->connectionsComboBox, SIGNAL(activated(int)),
+          this, SLOT(onConnectionSelected(int)));
+
+  connect(p->connectionsComboBox, SIGNAL(activated(int)),
+          p->treeView, SLOT(expandAll()));
 }
 
 
@@ -93,16 +107,17 @@ setModel(ImportTreeModel* importModel)
 {
   p->treeView->setModel(importModel);
 
-  p->treeView->expandAll();
-
   using DependencyManager::ApplicationContext;
   using Geo::Database::Connections::ConnectionManager;
 
   auto connectionManager =
-    ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
+    ApplicationContext::create<ConnectionManager>(
+      "Database.ConnectionManager");
 
-  if (connectionManager->size())
+  if (connectionManager->size()) {
     importModel->setConnection(connectionManager->at(0));
+    p->treeView->expandAll();
+  }
 }
 
 
@@ -115,7 +130,8 @@ setupDataBinding()
   using Geo::Database::Connections::ConnectionManager;
 
   auto connectionManager =
-    ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
+    ApplicationContext::create<ConnectionManager>(
+      "Database.ConnectionManager");
 
   for (int i = 0; i < connectionManager->size(); ++i) {
     Connection::Shared c = connectionManager->at(i);
@@ -145,4 +161,22 @@ onImportClicked()
 
   // close import window
   static_cast<QWidget*>(parent())->close();
+}
+
+
+void
+ImportWidget::
+onConnectionSelected(int index)
+{
+  using DependencyManager::ApplicationContext;
+  using Geo::Database::Connections::ConnectionManager;
+
+  auto connectionManager =
+    ApplicationContext::create<ConnectionManager>(
+      "Database.ConnectionManager");
+
+  auto model = static_cast<ImportTreeModel*>(p->treeView->model());
+
+  if (model)
+    model->setConnection(connectionManager->at(index));
 }

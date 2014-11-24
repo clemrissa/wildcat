@@ -15,17 +15,9 @@ using Geo::Import::TreeWrapper::LasFileEntry;
 using Geo::Import::TreeWrapper::TreeEntry;
 
 ImportTreeModel::
-ImportTreeModel(QVector<LasFileEntry*> lasFileEntries):
-  _lasFileEntries(lasFileEntries)
+ImportTreeModel(QVector<LasFile::Shared> lasFiles)
 {
-  //
-}
-
-
-ImportTreeModel::
-ImportTreeModel(QVector<QSharedPointer<LasFile> > lasFiles)
-{
-  for (QSharedPointer<LasFile> lasFile : lasFiles)
+  for (LasFile::Shared lasFile : lasFiles)
     _lasFileEntries.append(new LasFileEntry(lasFile));
 }
 
@@ -52,10 +44,14 @@ void
 ImportTreeModel::
 setConnection(Geo::Database::Connections::Connection::Shared connection)
 {
+  beginResetModel();
+
   _connection = connection;
 
   for (TreeWrapper::TreeEntry* e : _lasFileEntries)
     e->setConnection(connection);
+
+  endResetModel();
 }
 
 

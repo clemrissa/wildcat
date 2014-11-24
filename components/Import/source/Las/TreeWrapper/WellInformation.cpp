@@ -186,10 +186,19 @@ findAppropriateTrait()
 
   QVector<WellTrait::Shared> traits = getWellTraits();
 
-  for (WellTrait::Shared t : traits)
-    if (t->synonyms().contains(name))
-      _trait = t;
+  bool changed = false;
 
+  for (WellTrait::Shared t : traits)
+    if (t->synonyms().contains(name)) {
+      changed = true;
+      _trait  = t;
+      break;
+    }
+
+
+
+  if (!changed)
+    _trait.clear();
 }
 
 

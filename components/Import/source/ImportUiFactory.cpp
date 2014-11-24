@@ -16,12 +16,14 @@
 
 using Geo::Import::ImportUiFactory;
 
-class ImportUiFactory::Private {
+class ImportUiFactory::Private
+{
 public:
   Private():
     _menu(new QMenu(tr("Import"))),
     _toolBar(new QToolBar())
-  {}
+  {
+  }
 
   void
   fillActionList()
@@ -30,7 +32,8 @@ public:
     using Geo::Core::MainWindow;
 
     MainWindow* mainWindow =
-      DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
+      DependencyManager::ApplicationContext::create<MainWindow>(
+        "Core.MainWindow");
 
     QAction* action = nullptr;
 
@@ -44,7 +47,6 @@ public:
     _actionList.append(action);
   }
 
-
   void
   constructMenu()
   {
@@ -52,14 +54,12 @@ public:
       _menu->addAction(action);
   }
 
-
   void
   constructToolBar()
   {
     for (QAction* action : _actionList)
       _toolBar->addAction(action);
   }
-
 
 public:
   QMenu*    _menu;

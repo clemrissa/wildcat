@@ -18,8 +18,6 @@ class LasFileEntry;
 class ImportTreeModel: public QAbstractItemModel
 {
 public:
-  ImportTreeModel(QVector<TreeWrapper::LasFileEntry*> lasFilesEntries);
-
   ImportTreeModel(QVector<LasFile::Shared> lasFiles);
 
   ~ImportTreeModel();

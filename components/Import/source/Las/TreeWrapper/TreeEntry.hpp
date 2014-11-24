@@ -74,8 +74,7 @@ public:
   setDataFromWidget(QWidget* editor, QModelIndex const& index,
                     QAbstractItemModel* model) {}
 
-  virtual
-  void
+  virtual void
   setConnection(Geo::Database::Connections::Connection::Shared connection);
 
   void
