@@ -3,15 +3,16 @@
 #include <Uni/Logging/Logging>
 
 #include <QAbstractItemModel>
-#include <QComboBox>
-#include <QDialogButtonBox>
-#include <QDialogButtonBox>
-#include <QFileDialog>
-#include <QHeaderView>
-#include <QList>
-#include <QPushButton>
-#include <QTreeView>
-#include <QVBoxLayout>
+#include <QPoint>
+#include <QtCore/QList>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QDialogButtonBox>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QTreeView>
+#include <QtWidgets/QVBoxLayout>
 
 #include <Database/Connections/Connection>
 #include <Database/Connections/ConnectionManager>
@@ -23,6 +24,9 @@
 
 #include "Las/LasImporter.hpp"
 #include "Las/TreeWrapper/LasFileEntry.hpp"
+#include "MenuFactory.hpp"
+
+#include <Las/TreeWrapper/WellInformation.hpp>
 
 using Geo::Import::Gui::ImportWidget;
 
@@ -67,6 +71,8 @@ setupUi()
 
   p->treeView = new QTreeView();
 
+  p->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
   p->treeView->setAlternatingRowColors(true);
   p->treeView->header()->show();
   p->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -98,6 +104,9 @@ connectSignals()
 
   connect(p->connectionsComboBox, SIGNAL(activated(int)),
           p->treeView, SLOT(expandAll()));
+
+  connect(p->treeView, SIGNAL(customContextMenuRequested(const QPoint &)),
+          this, SLOT(onTableViewMenuRequested(const QPoint &)));
 }
 
 
@@ -179,4 +188,37 @@ onConnectionSelected(int index)
 
   if (model)
     model->setConnection(connectionManager->at(index));
+}
+
+
+// TODO: remove data processing from GUI
+void
+ImportWidget::
+onTableViewMenuRequested(const QPoint& pos)
+{
+  QModelIndex index = p->treeView->indexAt(pos);
+
+  if (!index.isValid())
+    return;
+
+  using Geo::Import::TreeWrapper::TreeEntry;
+  using Geo::Import::TreeWrapper::WellInfoBase;
+  using MenuFactory = TreeWrapperMenuFactory;
+
+  TreeEntry* treeEntry =
+    static_cast<TreeEntry*>(index.internalPointer());
+
+  WellInfoBase* wellInfo =
+    dynamic_cast<WellInfoBase*>(treeEntry);
+
+  if (wellInfo) {
+    QSharedPointer<QMenu> menu(MenuFactory::getWellInformationBaseMenu(
+                                 wellInfo,
+                                 index.column()));
+
+    if (menu.isNull())
+      return;
+
+    menu->exec(p->treeView->mapToGlobal(pos));
+  }
 }

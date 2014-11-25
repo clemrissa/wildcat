@@ -32,6 +32,9 @@ private slots:
   void
   onConnectionSelected(int index);
 
+  void
+  onTableViewMenuRequested(const QPoint&);
+
 private:
   void
   setupUi();

@@ -39,10 +39,10 @@ public:
   setDataFromWidget(QWidget* editor, QModelIndex const& index,
                     QAbstractItemModel* model) override;
 
-protected:
   virtual QVector<Geo::Domain::WellTrait::Shared>
   getWellTraits() const;
 
+protected:
   virtual QStringList
   getWellTraitNames() const;
 
