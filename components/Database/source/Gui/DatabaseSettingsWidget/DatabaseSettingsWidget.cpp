@@ -4,9 +4,10 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QVBoxLayout>
 
-#include <DependencyManager/ApplicationContext>
 #include <Connections/ConnectionManager.hpp>
+#include <DependencyManager/ApplicationContext>
 
 #include <Uni/Logging/Logging>
 
@@ -50,7 +51,7 @@ DatabaseSettingsWidget::
 setupUi(DatabaseSettingsWidgetModel* tableModel)
 {
   setWindowTitle(tr("Database Settings"));
-  setMinimumSize(800, 400);
+  setMinimumSize(800, 600);
 
   p->tableView = new QTableView();
 
@@ -70,12 +71,14 @@ setupUi(DatabaseSettingsWidgetModel* tableModel)
   verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
   verticalHeader->setDefaultSectionSize(22);
 
-  p->tableView->setMaximumWidth(400);
+  // p->tableView->setMaximumWidth(400);
+  p->tableView->setMaximumHeight(200);
   p->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
   p->traitsWidget = new DatabasePropertiesWidget();
 
-  QHBoxLayout* l = new QHBoxLayout();
+  // QHBoxLayout* l = new QHBoxLayout();
+  auto l = new QVBoxLayout();
 
   l->addWidget(p->tableView);
   l->addWidget(p->traitsWidget);
@@ -100,8 +103,7 @@ connectSignals()
   auto connectionsManager =
     ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
 
-  if (connectionsManager->size( ) > 0)
-  {
+  if (connectionsManager->size() > 0) {
     auto connections =  connectionsManager->connections();
     p->traitsWidget->setConnection(connections[0]);
     p->tableView->selectRow(0);

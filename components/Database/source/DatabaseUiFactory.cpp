@@ -1,11 +1,11 @@
 #include "DatabaseUiFactory.hpp"
 
-#include <QDockWidget>
-#include <QMenu>
-#include <QToolBar>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QDockWidget>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QToolBar>
 
-#include <QAction>
-#include <QList>
+#include <QtCore/QList>
 
 #include <Core/MainWindow>
 #include <DependencyManager/ApplicationContext>
@@ -77,7 +77,7 @@ createActionList() const
 
   // ---------------
 
-  action = new QAction(QIcon(), tr("Settings"), mainWindow);
+  action = new QAction(QIcon(), tr("Well Traits"), mainWindow);
 
   connect(action, &QAction::triggered,
           in, &DatabaseController::showSettingsWidget);

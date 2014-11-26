@@ -1,4 +1,4 @@
-#include "DatabasePropertiesWidget.hpp" 
+#include "DatabasePropertiesWidget.hpp"
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
@@ -86,7 +86,6 @@ createUi()
                                    QHeaderView::Fixed);
   headerView->resizeSection(WellTraitEntry::CloseAction, 20);
 
-
   auto verticalHeader = _p->traitsTable->verticalHeader();
   verticalHeader->setSectionResizeMode(QHeaderView::ResizeToContents);
   verticalHeader->hide();
@@ -94,6 +93,8 @@ createUi()
   _p->traitsTable->setEditTriggers(QAbstractItemView::AllEditTriggers);
 
   QVBoxLayout* l = new QVBoxLayout();
+
+  l->setContentsMargins(0, 0, 0, 0);
 
   l->addWidget(_p->traitsTable);
 
