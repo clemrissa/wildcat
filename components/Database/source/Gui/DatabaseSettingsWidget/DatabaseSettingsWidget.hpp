@@ -13,6 +13,9 @@ class DatabaseSettingsWidgetModel;
 
 namespace Gui {
 namespace DatabaseSettingsWidget {
+//
+
+
 class DatabaseSettingsWidget: public QWidget
 {
   Q_OBJECT
@@ -20,10 +23,13 @@ class DatabaseSettingsWidget: public QWidget
 public:
   DatabaseSettingsWidget(Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel*
                          tableModel);
-
+  virtual
   ~DatabaseSettingsWidget();
 
 public slots:
+  void
+  onOkClicked();
+
   void
   onConnectionClicked(const QModelIndex& index);
 
@@ -40,9 +46,11 @@ private:
 
   Private* p;
 };
-}
-}
-}
-}
+
+//
+} 
+} // Models
+} // Database
+} // Geo
 
 #endif // Geo_Database_DatabaseSettingsWidget_hpp

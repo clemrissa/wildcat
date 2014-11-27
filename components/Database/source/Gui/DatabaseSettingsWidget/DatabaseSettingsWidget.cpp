@@ -5,6 +5,7 @@
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QDialogButtonBox>
 
 #include <Connections/ConnectionManager.hpp>
 #include <DependencyManager/ApplicationContext>
@@ -19,15 +20,16 @@
 using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
 
 using Geo::Database::Gui::DatabaseSettingsWidget::DatabasePropertiesWidget;
-
-using Geo::Database::Models::DatabaseSettingsWidgetModel::
-      DatabaseSettingsWidgetModel;
+using Geo::Database::Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel;
 
 struct DatabaseSettingsWidget::Private
 {
+  //QComboBox* connectionsComboBox;
   QTableView* tableView;
 
   DatabasePropertiesWidget* traitsWidget;
+
+  QDialogButtonBox* dialogButton;
 };
 
 DatabaseSettingsWidget::
@@ -77,11 +79,19 @@ setupUi(DatabaseSettingsWidgetModel* tableModel)
 
   p->traitsWidget = new DatabasePropertiesWidget();
 
+  //
+  p->dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok);
+
+  //auto okButton = p->dialogButton->button(QDialogButtonBox::Ok);
+  //okButton->setText(tr("Import"));
+
+
   // QHBoxLayout* l = new QHBoxLayout();
   auto l = new QVBoxLayout();
 
   l->addWidget(p->tableView);
   l->addWidget(p->traitsWidget);
+  l->addWidget(p->dialogButton);
 
   setLayout(l);
 
@@ -93,6 +103,9 @@ void
 DatabaseSettingsWidget::
 connectSignals()
 {
+  connect(p->dialogButton, SIGNAL(accepted()),
+          this, SLOT(onOkClicked()));
+
   connect(p->tableView, SIGNAL(clicked(const QModelIndex &)),
           this,         SLOT(onConnectionClicked(const QModelIndex &)));
 
@@ -108,6 +121,15 @@ connectSignals()
     p->traitsWidget->setConnection(connections[0]);
     p->tableView->selectRow(0);
   }
+}
+
+
+void
+DatabaseSettingsWidget::
+onOkClicked()
+{
+  // close import window
+  static_cast<QWidget*>(parent())->close();
 }
 
 

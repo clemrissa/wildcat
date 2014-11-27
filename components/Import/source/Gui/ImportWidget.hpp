@@ -8,6 +8,9 @@ namespace Import {
 class ImportTreeModel;
 
 namespace Gui {
+//
+
+
 class ImportWidget: public QWidget
 {
   Q_OBJECT

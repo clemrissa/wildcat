@@ -2,12 +2,12 @@
 
 #include <Uni/Logging/Logging>
 
-#include <QAbstractItemModel>
-#include <QPoint>
+#include <QtCore/QAbstractItemModel>
 #include <QtCore/QList>
+#include <QtCore/QPoint>
+
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialogButtonBox>
-#include <QtWidgets/QFileDialog>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QPushButton>
