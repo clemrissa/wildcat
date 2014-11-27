@@ -1,11 +1,12 @@
 #include "DatabaseSettingsWidget.hpp"
 
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QDialogButtonBox>
 
 #include <Connections/ConnectionManager.hpp>
 #include <DependencyManager/ApplicationContext>
@@ -15,16 +16,20 @@
 #include <Models/DatabaseSettingsWidgetModel/ConnectionEntry.hpp>
 #include <Models/DatabaseSettingsWidgetModel/DatabaseSettingsWidgetModel.hpp>
 
+#include <Models/ConnectionListModel>
+
 #include <Gui/DatabaseSettingsWidget/DatabasePropertiesWidget.hpp>
 
 using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
 
 using Geo::Database::Gui::DatabaseSettingsWidget::DatabasePropertiesWidget;
-using Geo::Database::Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel;
+using Geo::Database::Models::DatabaseSettingsWidgetModel::
+      DatabaseSettingsWidgetModel;
 
 struct DatabaseSettingsWidget::Private
 {
-  //QComboBox* connectionsComboBox;
+  QComboBox* connectionsComboBox;
+
   QTableView* tableView;
 
   DatabasePropertiesWidget* traitsWidget;
@@ -55,8 +60,21 @@ setupUi(DatabaseSettingsWidgetModel* tableModel)
   setWindowTitle(tr("Database Settings"));
   setMinimumSize(800, 600);
 
+  p->connectionsComboBox = new QComboBox();
+
+  using DependencyManager::ApplicationContext;
+  using Geo::Models::ConnectionListModel;
+  auto m =
+    ApplicationContext::create<ConnectionListModel>(
+      "Models.ConnectionListModel");
+
+  // Q_UNUSED(m);
+
+  p->connectionsComboBox->setModel(m);
+
   p->tableView = new QTableView();
 
+  // list with connections
   p->tableView->setModel(tableModel);
 
   p->tableView->setShowGrid(false);
@@ -82,13 +100,13 @@ setupUi(DatabaseSettingsWidgetModel* tableModel)
   //
   p->dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok);
 
-  //auto okButton = p->dialogButton->button(QDialogButtonBox::Ok);
-  //okButton->setText(tr("Import"));
-
+  // auto okButton = p->dialogButton->button(QDialogButtonBox::Ok);
+  // okButton->setText(tr("Import"));
 
   // QHBoxLayout* l = new QHBoxLayout();
   auto l = new QVBoxLayout();
 
+  l->addWidget(p->connectionsComboBox);
   l->addWidget(p->tableView);
   l->addWidget(p->traitsWidget);
   l->addWidget(p->dialogButton);

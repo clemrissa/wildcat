@@ -8,7 +8,10 @@
 namespace Geo {
 namespace Database {
 namespace Connections {
+//
+
 class Connection;
+
 class ConnectionManager: public QObject
 {
   Q_OBJECT

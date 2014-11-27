@@ -13,7 +13,9 @@ namespace DatabaseSettingsWidgetModel {
 class ConnectionEntry: public Entry
 {
 public:
-  enum Column { Type = 0, Database = 1, Size };
+  enum Column { Type     = 0,
+                Database = 1,
+                Size };
 
 public:
   ConnectionEntry(Connections::Connection::Shared connection):

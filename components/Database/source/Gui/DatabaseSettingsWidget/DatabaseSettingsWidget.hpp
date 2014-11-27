@@ -4,6 +4,13 @@
 #include <QWidget>
 
 namespace Geo {
+//
+
+namespace Models {
+class ConnectionListModel;
+}
+//
+
 namespace Database {
 namespace Models {
 namespace DatabaseSettingsWidgetModel {
@@ -14,7 +21,6 @@ class DatabaseSettingsWidgetModel;
 namespace Gui {
 namespace DatabaseSettingsWidget {
 //
-
 
 class DatabaseSettingsWidget: public QWidget
 {
@@ -48,7 +54,7 @@ private:
 };
 
 //
-} 
+}
 } // Models
 } // Database
 } // Geo

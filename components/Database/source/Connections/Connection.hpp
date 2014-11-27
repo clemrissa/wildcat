@@ -9,6 +9,8 @@
 namespace Geo {
 namespace Database {
 namespace Connections {
+//
+
 enum DatabaseType { UnknownDB, SQLite, MySql };
 
 enum Status { Unknown, Connected, Failed };
@@ -54,7 +56,25 @@ public:
 
 public:
   static QString
-  connectionTypeName(DatabaseType type);
+  connectionTypeName(DatabaseType type)
+  {
+    switch (type) {
+    case DatabaseType::SQLite:
+      return tr("SQLite");
+      break;
+
+    case DatabaseType::MySql:
+      return tr("MySQL");
+      break;
+
+    default:
+      Q_ASSERT(false);
+      break;
+    }
+
+    Q_ASSERT(false);
+    return tr("Should not happen");
+  }
 
   static Connection::Shared
   restoreConnectionFromXml(QDomElement& domElement);

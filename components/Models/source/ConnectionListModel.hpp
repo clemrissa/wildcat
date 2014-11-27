@@ -1,58 +1,70 @@
-#ifndef Geo_Models_KeywordWidget_hpp
-#define Geo_Models_KeywordWidget_hpp
+#ifndef Geo_Models_ConnectionListModel_hpp
+#define Geo_Models_ConnectionListModel_hpp
 
+#include <QtCore/QAbstractItemModel>
 #include <QtCore/QStringList>
-#include <QtWidgets/QWidget>
-
-#include "FlowLayout.hpp"
-
-class QLineEdit;
 
 namespace Geo {
+//
+
+namespace Database {
+namespace Connections {
+class ConnectionManager;
+}
+}
+
+//
 namespace Models {
 //
 
+class ConnectionEntry;
 
-class KeywordWidget: public QWidget
+/// TODO: make class abstract, do not link to this library directly
+class ConnectionListModel: public QAbstractItemModel
 {
   Q_OBJECT
 
 public:
   Q_INVOKABLE
-  KeywordWidget(QWidget* parent = nullptr);
+  ConnectionListModel();
 
-  void
-  setKeywords(QStringList keywordList);
+  virtual
+  ~ConnectionListModel();
 
-  QStringList
-  keywords() const;
+public:
+  virtual QVariant
+  data(const QModelIndex& index, int role) const override;
 
-protected:
-  bool
-  eventFilter(QObject* obj, QEvent* event) override;
+  virtual QModelIndex
+  index(int row, int column, const QModelIndex& parent) const override;
+
+  virtual QModelIndex
+  parent(const QModelIndex& index) const override;
+
+  virtual int
+  columnCount(const QModelIndex& parent) const override;
+
+  virtual int
+  rowCount(const QModelIndex& parent) const override;
+
+  QVariant
+  headerData(int             section,
+             Qt::Orientation orientation,
+             int             role = Qt::DisplayRole) const override;
+
+  Qt::ItemFlags
+  flags(const QModelIndex& index) const override;
 
 private:
-  void
-  connectSignals() const;
+  Database::Connections::ConnectionManager* _connectionsManager;
 
-  void
-  addKeyword(QString keyword);
+  QVector<ConnectionEntry*> _entries;
 
-signals:
-  void
-  keywordAdded();
-
-private slots:
-  void
-  onTextChanged(QString const& text);
-
-private:
-  QStringList _keywords;
-
-  QLineEdit* _lineEdit;
-
-  FlowLayout* _flowLayout;
+  int
+  getEntryPosition(ConnectionEntry* entry) const;
 };
+
+//
 }
 }
-#endif //  Geo_Models_KeywordWidget_hpp
+#endif //  Geo_Models_ConnectionListModel_hpp

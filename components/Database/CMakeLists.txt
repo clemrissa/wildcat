@@ -23,6 +23,8 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       Uni
                       DependencyManager
                       Domain
+                      Widgets
+                      Models
                       Qt5::Core
                       Qt5::Widgets
                       Qt5::Qml
@@ -47,6 +49,7 @@ target_include_directories(${TARGET_NAME} PRIVATE "source")
 target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Core,INTERFACE_INCLUDE_DIRECTORIES>)
 target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Import,INTERFACE_INCLUDE_DIRECTORIES>)
 target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Widgets,INTERFACE_INCLUDE_DIRECTORIES>)
+target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Models,INTERFACE_INCLUDE_DIRECTORIES>)
 
 target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
 target_compile_definitions(${TARGET_NAME} PRIVATE "-D${TARGET_NAME}_EXPORTS")

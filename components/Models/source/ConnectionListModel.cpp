@@ -1,153 +1,121 @@
-#include "KeywordWidget.hpp"
+#include "ConnectionListModel.hpp"
 
-#include <QtCore/QEvent>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
+#include <Database/Connections/ConnectionManager>
 
-#include <QtGui/QMouseEvent>
+#include <DependencyManager/ApplicationContext>
 
-using Geo::Widgets::KeywordWidget;
+#include "ConnectionEntry.hpp"
 
-KeywordWidget::
-KeywordWidget(QWidget* parent):
-  QWidget(parent)
+using Geo::Models::ConnectionEntry;
+using Geo::Models::ConnectionListModel;
+
+ConnectionListModel::
+ConnectionListModel()
 {
-  _lineEdit = new QLineEdit();
+  using Database::Connections::ConnectionManager;
+  using DependencyManager::ApplicationContext;
 
-  _lineEdit->setFrame(false);
-  _lineEdit->setAutoFillBackground(true);
+  // defined as Singleton in Database.xml
+  _connectionsManager =
+    ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
 
-  _lineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-  QPalette palette = this->palette();
-  palette.setColor(QPalette::Window, Qt::white);
-
-  setAutoFillBackground(true);
-  setPalette(palette);
-
-  _flowLayout = new FlowLayout();
-
-  _flowLayout->addWidget(_lineEdit);
-  _flowLayout->setMargin(1);
-
-  setLayout(_flowLayout);
-
-  connectSignals();
-
-  QStringList testKeywords;
-  testKeywords << "lalala";
-  testKeywords << "privet";
-  testKeywords << "nuremberg";
-  testKeywords << "muenche";
-
-  setKeywords(testKeywords);
+  for (auto connection : _connectionsManager->connections())
+    _entries.push_back(new ConnectionEntry(connection));
 }
 
 
-void
-KeywordWidget::
-setKeywords(QStringList keywordList)
+ConnectionListModel::
+~ConnectionListModel()
 {
-  _keywords = keywordList;
-
-  for (QString keyword : _keywords)
-    addKeyword(keyword);
+  for (auto entry : _entries)
+    delete entry;
 }
 
 
-QStringList
-KeywordWidget::
-keywords() const
+QVariant
+ConnectionListModel::
+data(const QModelIndex& index, int role) const
 {
-  return _keywords;
+  ConnectionEntry* entry =
+    static_cast<ConnectionEntry*>(index.internalPointer());
+
+  return entry->data(role, index.column());
 }
 
 
-bool
-KeywordWidget::
-eventFilter(QObject* obj, QEvent* event)
+QModelIndex
+ConnectionListModel::
+index(int row, int column, const QModelIndex& parent) const
 {
-  // todo filter just LMB
+  return QAbstractItemModel::createIndex(row, column, _entries[row]);
+}
 
-  if (event->type() == QEvent::MouseButtonDblClick) {
-    QMouseEvent* mouseEvent =
-      static_cast<QMouseEvent*>(event);
 
-    if (mouseEvent->buttons() & Qt::LeftButton) {
-      QLabel* l = static_cast<QLabel*>(obj);
+QModelIndex
+ConnectionListModel::
+parent(const QModelIndex& index) const
+{
+  Q_UNUSED(index);
 
-      int index = _flowLayout->indexOf(l);
+  return QModelIndex();
+}
 
-      // remove label
 
-      _flowLayout->removeWidget(l);
-      delete l;
+int
+ConnectionListModel::
+columnCount(const QModelIndex& parent) const
+{
+  Q_UNUSED(parent);
 
-      _keywords.removeAt(index);
+  // return ConnectionEntry::Size;
 
-      event->accept();
+  return 1;
+}
 
-      return true;
-    }
+
+int
+ConnectionListModel::
+rowCount(const QModelIndex& parent) const
+{
+  return _connectionsManager->size();
+}
+
+
+QVariant
+ConnectionListModel::
+headerData(int             section,
+           Qt::Orientation orientation,
+           int             role)  const
+{
+  QVariant result;
+
+  if (role != Qt::DisplayRole)
+    return result;
+
+  if (orientation == Qt::Vertical)
+    return result;
+
+  switch (section) {
+  case ConnectionEntry::Type:
+    result = tr("Type");
+    break;
+
+  case ConnectionEntry::Database:
+    result = tr("Database");
+    break;
+
+  default:
+    result = QVariant();
+    break;
   }
 
-  event->ignore();
-
-  return false;
+  return result;
 }
 
 
-void
-KeywordWidget::
-connectSignals() const
+Qt::ItemFlags
+ConnectionListModel::
+flags(const QModelIndex& index) const
 {
-  connect(_lineEdit,
-          SIGNAL(textChanged(QString const &)),
-          this,
-          SLOT(onTextChanged(QString const &)));
-}
-
-
-void
-KeywordWidget::
-onTextChanged(QString const& text)
-{
-  if (text.trimmed().endsWith(",")) {
-    QString newKeyword = text.trimmed();
-    newKeyword.chop(1);                           // remove comma
-
-    addKeyword(newKeyword);
-  }
-}
-
-
-void
-KeywordWidget::
-addKeyword(QString keyword)
-{
-  if (keyword.isEmpty())
-    return;
-
-  _keywords.append(keyword);
-
-  _flowLayout->removeWidget(_lineEdit);
-
-  QLabel* label = new QLabel(keyword);
-
-  label->setAutoFillBackground(true);
-
-  label->installEventFilter(this);
-
-  label->setMargin(3);
-
-  label->setAlignment(Qt::AlignCenter);
-  label->setFrameStyle(QFrame::StyledPanel);
-
-  _flowLayout->addWidget(label);
-
-  _flowLayout->addWidget(_lineEdit);
-
-  _lineEdit->clear();
-
-  emit keywordAdded();
+  return QAbstractItemModel::flags(index);
 }

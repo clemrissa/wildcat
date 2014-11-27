@@ -10,6 +10,9 @@ class QLineEdit;
 
 namespace Geo {
 namespace Widgets {
+//
+
+/// TODO: make class abstract, do not link to this library directly
 class KeywordWidget: public QWidget
 {
   Q_OBJECT
