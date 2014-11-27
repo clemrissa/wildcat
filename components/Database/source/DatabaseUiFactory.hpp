@@ -1,5 +1,5 @@
-#ifndef Geo_Database_ConnectionListViewFactory_hpp
-#define Geo_Database_ConnectionListViewFactory_hpp
+#ifndef Geo_Database_DatabaseUiFactory_hpp
+#define Geo_Database_DatabaseUiFactory_hpp
 
 #include <QObject>
 #include <QWidget>
