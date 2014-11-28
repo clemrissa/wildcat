@@ -79,8 +79,7 @@ selectFilesAndImport()
   if (lasFiles.size() == 0)
     return;
 
-  ImportTreeModel* importTreeModel =
-    new ImportTreeModel(lasFiles);
+  ImportTreeModel* importTreeModel = new ImportTreeModel(lasFiles);
 
   using Geo::Import::Gui::ImportWidget;
 

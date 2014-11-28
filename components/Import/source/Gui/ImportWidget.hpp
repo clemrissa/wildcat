@@ -10,7 +10,6 @@ class ImportTreeModel;
 namespace Gui {
 //
 
-
 class ImportWidget: public QWidget
 {
   Q_OBJECT
@@ -24,9 +23,6 @@ public:
 public:
   void
   setModel(ImportTreeModel* importModel);
-
-  void
-  setupDataBinding();
 
 private slots:
   void

@@ -16,6 +16,9 @@
 
 #include <Database/Connections/Connection>
 #include <Database/Connections/ConnectionManager>
+
+#include <Models/ConnectionListModel>
+
 #include <DependencyManager/ApplicationContext>
 
 #include "ImportController.hpp"
@@ -28,6 +31,7 @@
 
 #include <Las/TreeWrapper/WellInformation.hpp>
 
+using AC = DependencyManager::ApplicationContext;
 using Geo::Import::Gui::ImportWidget;
 
 struct ImportWidget::Private
@@ -49,8 +53,6 @@ ImportWidget():
   setupUi();
 
   connectSignals();
-
-  setupDataBinding();
 }
 
 
@@ -67,7 +69,16 @@ setupUi()
 {
   using Geo::Import::Gui::ImportTreeItemDelegate;
 
+  // --------------------
+
   p->connectionsComboBox = new QComboBox();
+
+  using CLM = Geo::Models::ConnectionListModel;
+  auto m = AC::create<CLM>("Models.ConnectionListModel");
+
+  p->connectionsComboBox->setModel(m);
+
+  // --------------------
 
   p->treeView = new QTreeView();
 
@@ -132,25 +143,6 @@ setModel(ImportTreeModel* importModel)
 
 void
 ImportWidget::
-setupDataBinding()
-{
-  using DependencyManager::ApplicationContext;
-  using Geo::Database::Connections::Connection;
-  using Geo::Database::Connections::ConnectionManager;
-
-  auto connectionManager =
-    ApplicationContext::create<ConnectionManager>(
-      "Database.ConnectionManager");
-
-  for (int i = 0; i < connectionManager->size(); ++i) {
-    Connection::Shared c = connectionManager->at(i);
-    p->connectionsComboBox->addItem(c->textDescription());
-  }
-}
-
-
-void
-ImportWidget::
 onImportClicked()
 {
   // take selected database  and push data into there
@@ -177,17 +169,14 @@ void
 ImportWidget::
 onConnectionSelected(int index)
 {
-  using DependencyManager::ApplicationContext;
-  using Geo::Database::Connections::ConnectionManager;
+  using CM = Database::Connections::ConnectionManager;
 
-  auto connectionManager =
-    ApplicationContext::create<ConnectionManager>(
-      "Database.ConnectionManager");
+  auto cm = AC::create<CM>("Database.ConnectionManager");
 
   auto model = static_cast<ImportTreeModel*>(p->treeView->model());
 
   if (model)
-    model->setConnection(connectionManager->at(index));
+    model->setConnection(cm->connections()[index]);
 }
 
 
