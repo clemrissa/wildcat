@@ -2,21 +2,24 @@
 
 #include <QtWidgets/QLabel>
 
-//#include <Core/MainWindow>
-//#include <Uni/Logging/Logging>
+// #include <Core/MainWindow>
+// #include <Uni/Logging/Logging>
 
-//#include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
-//#include <Models/DatabaseSettingsWidgetModel/DatabaseSettingsWidgetModel.hpp>
+// #include
+// <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
+// #include
+// <Models/TypeSystemSettingsWidgetModel/TypeSystemSettingsWidgetModel.hpp>
 
-//#include <Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp>
-//#include <Gui/DatabaseSettingsWidget/DatabaseSettingsWidget.hpp>
+#include <Core/MainWindow>
+#include <DependencyManager/ApplicationContext>
+
+#include <Gui/CurveTypeWidget.hpp>
 
 #include <DependencyManager/ApplicationContext>
 
 namespace Geo {
-namespace  Database {
+namespace TypeSystem {
 //
-
 
 TypeSystemController* TypeSystemController::_instance = nullptr;
 
@@ -47,49 +50,17 @@ TypeSystemController::
 
 void
 TypeSystemController::
-showConnectionsWidget()
+showCurveTypeWidget()
 {
-  //using DependencyManager::ApplicationContext;
-  //using Geo::Core::MainWindow;
-  //using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionsEditorWidget;
-  //using Model =
-          //Geo::Database::Models::ConnectionsEditorWidgetModel::
-          //ConnectionsEditorWidgetModel;
+  using AC = DependencyManager::ApplicationContext;
+  using Geo::Core::MainWindow;
+  using TypeSystem::Gui::CurveTypeWidget;
 
-  //MainWindow* mainWindow =
-    //ApplicationContext::create<MainWindow>("Core.MainWindow");
+  auto mainWindow = AC::create<MainWindow>("Core.MainWindow");
 
-  //// TODO remove model
-  //auto databaseConnectionsTreeModel = new Model();
+  auto curveTypeWidget = new CurveTypeWidget();
 
-  //auto databaseConnectionsWidget = new ConnectionsEditorWidget(
-    //databaseConnectionsTreeModel);
-
-  //mainWindow->toCentralWidget(databaseConnectionsWidget);
-}
-
-
-void
-TypeSystemController::
-showSettingsWidget()
-{
-  //using DependencyManager::ApplicationContext;
-  //using Geo::Core::MainWindow;
-
-  //using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
-  //using Geo::Database::Models::DatabaseSettingsWidgetModel::
-        //DatabaseSettingsWidgetModel;
-
-  //MainWindow* mainWindow =
-    //ApplicationContext::create<MainWindow>("Core.MainWindow");
-
-  //auto databaseSettingsWidgetModel =
-    //new DatabaseSettingsWidgetModel();
-
-  //auto databaseConnectionsWidget =
-    //new DatabaseSettingsWidget(databaseSettingsWidgetModel);
-
-  //mainWindow->toCentralWidget(databaseConnectionsWidget);
+  mainWindow->toCentralWidget(curveTypeWidget);
 }
 
 

@@ -71,8 +71,6 @@ void
 ImportWidget::
 setupUi()
 {
-  using Geo::Import::Gui::ImportTreeItemDelegate;
-
   // --------------------
 
   p->connectionsComboBox = new QComboBox();
@@ -92,6 +90,7 @@ setupUi()
   p->treeView->header()->show();
   p->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
+  using Geo::Import::Gui::ImportTreeItemDelegate;
   p->treeView->setItemDelegate(new ImportTreeItemDelegate());
 
   p->dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok);

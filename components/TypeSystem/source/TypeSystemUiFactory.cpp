@@ -57,35 +57,23 @@ QList<QAction*>
 TypeSystemUiFactory::
 createActionList() const
 {
-  using DependencyManager::ApplicationContext;
+  using AC = DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
 
-  //MainWindow* mainWindow =
-    //DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
+  MainWindow* mainWindow = AC::create<MainWindow>("Core.MainWindow");
 
-  //TypeSystemController* in = TypeSystemController::instance();
+  TypeSystemController* in = TypeSystemController::instance();
 
   QList<QAction*> actionList;
 
   // ---------------
 
-  //QAction* action = new QAction(QIcon(), QString("Connections"), mainWindow);
+  QAction* action = new QAction(QIcon(), tr("Curve Types"), mainWindow);
 
-  //connect(action, &QAction::triggered,
-          //in, &TypeSystemController::showConnectionsWidget);
+  connect(action, &QAction::triggered,
+          in, &TypeSystemController::showCurveTypeWidget);
 
-  //actionList.append(action);
-
-  //// ---------------
-
-  //action = new QAction(QIcon(), tr("Well Traits"), mainWindow);
-
-  //connect(action, &QAction::triggered,
-          //in, &TypeSystemController::showSettingsWidget);
-
-  //actionList.append(action);
-
-  // ---------------
+  actionList.append(action);
 
   return actionList;
 }

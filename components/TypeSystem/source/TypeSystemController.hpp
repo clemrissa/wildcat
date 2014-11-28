@@ -1,10 +1,10 @@
-#ifndef Geo_Database_TypeSystemController_hpp
-#define Geo_Database_TypeSystemController_hpp
+#ifndef Geo_TypeSystem_TypeSystemController_hpp
+#define Geo_TypeSystem_TypeSystemController_hpp
 
 #include <QObject>
 
 namespace Geo {
-namespace  Database {
+namespace  TypeSystem {
 class TypeSystemController: public QObject
 {
   Q_OBJECT
@@ -18,10 +18,7 @@ public:
 
 public slots:
   void
-  showConnectionsWidget();
-
-  void
-  showSettingsWidget();
+  showCurveTypeWidget();
 
 private:
   TypeSystemController();
@@ -32,4 +29,4 @@ private:
 }
 }
 
-#endif //  Geo_Database_TypeSystemController_hpp
+#endif //  Geo_TypeSystem_TypeSystemController_hpp

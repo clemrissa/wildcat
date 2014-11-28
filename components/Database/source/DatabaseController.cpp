@@ -48,9 +48,8 @@ showConnectionsWidget()
   using DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
   using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionsEditorWidget;
-  using Model =
-          Geo::Database::Models::ConnectionsEditorWidgetModel::
-          ConnectionsEditorWidgetModel;
+  using Model = Geo::Database::Models::ConnectionsEditorWidgetModel::
+                ConnectionsEditorWidgetModel;
 
   MainWindow* mainWindow =
     ApplicationContext::create<MainWindow>("Core.MainWindow");

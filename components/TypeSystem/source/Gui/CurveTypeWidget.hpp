@@ -1,28 +1,26 @@
-#ifndef Geo_Import_ImportWidget_hpp
-#define Geo_Import_ImportWidget_hpp
+#ifndef Geo_Import_CurveTypeWidget_hpp
+#define Geo_Import_CurveTypeWidget_hpp
 
 #include <QWidget>
 
 namespace Geo {
-namespace Import {
-class ImportTreeModel;
-
+namespace TypeSystem {
 namespace Gui {
 //
 
-class ImportWidget: public QWidget
+class CurveTypeWidget: public QWidget
 {
   Q_OBJECT
 
 public:
-  ImportWidget();
+  CurveTypeWidget();
 
   virtual
-  ~ImportWidget();
+  ~CurveTypeWidget();
 
-public:
-  void
-  setModel(ImportTreeModel* importModel);
+  // public:
+  // void
+  // setModel(ImportTreeModel* importModel);
 
 private slots:
   void
@@ -52,7 +50,7 @@ private:
 
 //
 } // namespace Gui
-} // namespace Import
+} // namespace TypeSystem
 } // namespace Geo
 
-#endif // Geo_Import_ImportWidget_hpp
+#endif // Geo_Import_CurveTypeWidget_hpp
