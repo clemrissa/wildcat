@@ -3,5 +3,6 @@
   <dll path="Models"/>
   <beans>
     <bean name="Models.ConnectionListModel" class="Geo::Models::ConnectionListModel"/>
+    <bean name="Models.ConnectionTableModel" class="Geo::Models::ConnectionTableModel"/>
   </beans>
 </context>

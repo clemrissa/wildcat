@@ -2,7 +2,9 @@
 #define Geo_Models_ConnectionListModel_hpp
 
 #include <QtCore/QAbstractItemModel>
-#include <QtCore/QStringList>
+#include <QtCore/QSharedPointer>
+
+//#include <Database/Connections/Connection>
 
 namespace Geo {
 //
@@ -10,6 +12,7 @@ namespace Geo {
 namespace Database {
 namespace Connections {
 class ConnectionManager;
+class Connection;
 }
 }
 
@@ -55,7 +58,10 @@ public:
   Qt::ItemFlags
   flags(const QModelIndex& index) const override;
 
-private:
+  QSharedPointer<Database::Connections::Connection>
+  connectionAt(int index);
+
+protected:
   Database::Connections::ConnectionManager* _connectionsManager;
 
   QVector<ConnectionEntry*> _entries;

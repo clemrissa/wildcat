@@ -1,6 +1,7 @@
 #include "ConnectionListModel.hpp"
 
 #include <Database/Connections/ConnectionManager>
+#include <Database/Connections/Connection>
 
 #include <DependencyManager/ApplicationContext>
 
@@ -39,7 +40,7 @@ data(const QModelIndex& index, int role) const
   ConnectionEntry* entry =
     static_cast<ConnectionEntry*>(index.internalPointer());
 
-  return entry->data(role, index.column());
+  return entry->data();
 }
 
 
@@ -66,8 +67,6 @@ ConnectionListModel::
 columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
-
-  // return ConnectionEntry::Size;
 
   return 1;
 }
@@ -118,4 +117,14 @@ ConnectionListModel::
 flags(const QModelIndex& index) const
 {
   return QAbstractItemModel::flags(index);
+}
+
+QSharedPointer<Geo::Database::Connections::Connection>
+ConnectionListModel::
+connectionAt(int index)
+{
+  if (index >= 0 &&  index < _entries.size())
+    return _entries[index]->connection();
+
+  return Database::Connections::Connection::Shared();
 }

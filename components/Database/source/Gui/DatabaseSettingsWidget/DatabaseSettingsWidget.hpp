@@ -6,17 +6,7 @@
 namespace Geo {
 //
 
-namespace Models {
-class ConnectionListModel;
-}
-//
-
 namespace Database {
-namespace Models {
-namespace DatabaseSettingsWidgetModel {
-class DatabaseSettingsWidgetModel;
-}
-}
 
 namespace Gui {
 namespace DatabaseSettingsWidget {
@@ -27,8 +17,8 @@ class DatabaseSettingsWidget: public QWidget
   Q_OBJECT
 
 public:
-  DatabaseSettingsWidget(Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel*
-                         tableModel);
+  DatabaseSettingsWidget();
+
   virtual
   ~DatabaseSettingsWidget();
 
@@ -37,12 +27,11 @@ public slots:
   onOkClicked();
 
   void
-  onConnectionClicked(const QModelIndex& index);
+  onConnectionActivated(int index);
 
 private:
   void
-  setupUi(
-    Models::DatabaseSettingsWidgetModel::DatabaseSettingsWidgetModel* tableModel);
+  setupUi();
 
   void
   connectSignals();

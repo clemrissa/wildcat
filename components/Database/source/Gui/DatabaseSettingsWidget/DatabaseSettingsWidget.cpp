@@ -13,24 +13,18 @@
 
 #include <Uni/Logging/Logging>
 
-#include <Models/DatabaseSettingsWidgetModel/ConnectionEntry.hpp>
-#include <Models/DatabaseSettingsWidgetModel/DatabaseSettingsWidgetModel.hpp>
-
 #include <Models/ConnectionListModel>
+#include <Models/ConnectionTableModel>
 
 #include <Gui/DatabaseSettingsWidget/DatabasePropertiesWidget.hpp>
 
 using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
-
 using Geo::Database::Gui::DatabaseSettingsWidget::DatabasePropertiesWidget;
-using Geo::Database::Models::DatabaseSettingsWidgetModel::
-      DatabaseSettingsWidgetModel;
+using DependencyManager::ApplicationContext;
 
 struct DatabaseSettingsWidget::Private
 {
   QComboBox* connectionsComboBox;
-
-  QTableView* tableView;
 
   DatabasePropertiesWidget* traitsWidget;
 
@@ -38,10 +32,10 @@ struct DatabaseSettingsWidget::Private
 };
 
 DatabaseSettingsWidget::
-DatabaseSettingsWidget(DatabaseSettingsWidgetModel* tableModel):
+DatabaseSettingsWidget():
   p(new DatabaseSettingsWidget::Private())
 {
-  setupUi(tableModel);
+  setupUi();
   connectSignals();
 }
 
@@ -55,45 +49,23 @@ DatabaseSettingsWidget::
 
 void
 DatabaseSettingsWidget::
-setupUi(DatabaseSettingsWidgetModel* tableModel)
+setupUi()
 {
-  setWindowTitle(tr("Database Settings"));
-  setMinimumSize(800, 600);
+  setWindowTitle(tr("Well Traits"));
+  setMinimumSize(800, 400);
+
+  // ----------- combo box with connections 
 
   p->connectionsComboBox = new QComboBox();
 
-  using DependencyManager::ApplicationContext;
   using Geo::Models::ConnectionListModel;
-  auto m =
-    ApplicationContext::create<ConnectionListModel>(
-      "Models.ConnectionListModel");
+  auto m = 
+    ApplicationContext::create<ConnectionListModel>("Models.ConnectionListModel");
 
-  // Q_UNUSED(m);
 
   p->connectionsComboBox->setModel(m);
 
-  p->tableView = new QTableView();
-
-  // list with connections
-  p->tableView->setModel(tableModel);
-
-  p->tableView->setShowGrid(false);
-  p->tableView->setFocusPolicy(Qt::NoFocus);
-
-  QHeaderView* horizontalHeader = p->tableView->horizontalHeader();
-
-  horizontalHeader->setStretchLastSection(true);
-  horizontalHeader->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-  horizontalHeader->setSectionResizeMode(1, QHeaderView::Stretch);
-
-  QHeaderView* verticalHeader = p->tableView->verticalHeader();
-  verticalHeader->hide();
-  verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
-  verticalHeader->setDefaultSectionSize(22);
-
-  // p->tableView->setMaximumWidth(400);
-  p->tableView->setMaximumHeight(200);
-  p->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+  // -----------------
 
   p->traitsWidget = new DatabasePropertiesWidget();
 
@@ -107,7 +79,6 @@ setupUi(DatabaseSettingsWidgetModel* tableModel)
   auto l = new QVBoxLayout();
 
   l->addWidget(p->connectionsComboBox);
-  l->addWidget(p->tableView);
   l->addWidget(p->traitsWidget);
   l->addWidget(p->dialogButton);
 
@@ -121,15 +92,15 @@ void
 DatabaseSettingsWidget::
 connectSignals()
 {
+  connect(p->connectionsComboBox, SIGNAL(activated(int)),
+          this, SLOT(onConnectionActivated(int)));
+
+
   connect(p->dialogButton, SIGNAL(accepted()),
           this, SLOT(onOkClicked()));
 
-  connect(p->tableView, SIGNAL(clicked(const QModelIndex &)),
-          this,         SLOT(onConnectionClicked(const QModelIndex &)));
-
   // "click on first row in connections list
   using Connections::ConnectionManager;
-  using DependencyManager::ApplicationContext;
 
   auto connectionsManager =
     ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
@@ -137,7 +108,6 @@ connectSignals()
   if (connectionsManager->size() > 0) {
     auto connections =  connectionsManager->connections();
     p->traitsWidget->setConnection(connections[0]);
-    p->tableView->selectRow(0);
   }
 }
 
@@ -153,12 +123,13 @@ onOkClicked()
 
 void
 DatabaseSettingsWidget::
-onConnectionClicked(const QModelIndex& index)
+onConnectionActivated(int index)
 {
-  using Geo::Database::Models::DatabaseSettingsWidgetModel::ConnectionEntry;
+  using Connections::ConnectionManager;
+  using DependencyManager::ApplicationContext;
 
-  ConnectionEntry* c =
-    static_cast<ConnectionEntry*>(index.internalPointer());
+  auto connectionsManager =
+    ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
 
-  p->traitsWidget->setConnection(c->connection());
+  p->traitsWidget->setConnection(connectionsManager->connections()[index]);
 }

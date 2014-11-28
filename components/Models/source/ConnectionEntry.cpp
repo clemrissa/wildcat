@@ -25,26 +25,38 @@ data(int role, int column)
   return QVariant();
 }
 
+QVariant
+ConnectionEntry::
+data()
+{
+  return getDisplayRole();
+}
+
+
+QVariant
+ConnectionEntry::
+getDisplayRole()
+{
+  return _connection->textDescription();
+}
+
 
 QVariant
 ConnectionEntry::
 getDisplayRole(int column)
 {
-  // switch (column) {
-  // case Type:
-  // return Database::Connections::Connection::connectionTypeName(
-  // _connection->databaseType());
-  // return _connection->connectionTypeName(_connection->databaseType());
+  switch (column) {
+  case Type:
+    // TODO: change to non-static function
+    return Database::Connections::Connection::connectionTypeName(_connection->databaseType());
+    break;
 
-  return _connection->textDescription();
-  // break;
+  case Database:
+    return _connection->databasePath();
+    break;
+  }
 
-  // case Database:
-  // return _connection->databasePath();
-  // break;
-  // }
-
-  // return QVariant();
+  return QVariant();
 }
 
 

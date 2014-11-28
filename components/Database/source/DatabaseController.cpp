@@ -6,7 +6,6 @@
 #include <Uni/Logging/Logging>
 
 #include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
-#include <Models/DatabaseSettingsWidgetModel/DatabaseSettingsWidgetModel.hpp>
 
 #include <Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp>
 #include <Gui/DatabaseSettingsWidget/DatabaseSettingsWidget.hpp>
@@ -74,17 +73,11 @@ showSettingsWidget()
   using Geo::Core::MainWindow;
 
   using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
-  using Geo::Database::Models::DatabaseSettingsWidgetModel::
-        DatabaseSettingsWidgetModel;
 
   MainWindow* mainWindow =
     ApplicationContext::create<MainWindow>("Core.MainWindow");
 
-  auto databaseSettingsWidgetModel =
-    new DatabaseSettingsWidgetModel();
-
-  auto databaseConnectionsWidget =
-    new DatabaseSettingsWidget(databaseSettingsWidgetModel);
+  auto databaseConnectionsWidget = new DatabaseSettingsWidget();
 
   mainWindow->toCentralWidget(databaseConnectionsWidget);
 }

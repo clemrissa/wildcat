@@ -25,6 +25,9 @@ public:
   QVariant
   data(int role, int column);
 
+  QVariant
+  data();
+
   Database::Connections::Connection::Shared
   connection()
   {
@@ -33,6 +36,10 @@ public:
 
 private:
   Database::Connections::Connection::Shared _connection;
+
+
+  QVariant
+  getDisplayRole();
 
   QVariant
   getDisplayRole(int column);
