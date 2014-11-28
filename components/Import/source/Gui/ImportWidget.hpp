@@ -34,6 +34,9 @@ private slots:
   void
   onTableViewMenuRequested(const QPoint&);
 
+signals:
+  void notifyMainWindow(QString);
+
 private:
   void
   setupUi();

@@ -17,6 +17,8 @@
 #include <Database/Connections/Connection>
 #include <Database/Connections/ConnectionManager>
 
+#include <Core/MainWindow>
+
 #include <Models/ConnectionListModel>
 
 #include <DependencyManager/ApplicationContext>
@@ -53,6 +55,8 @@ ImportWidget():
   setupUi();
 
   connectSignals();
+
+  emit notifyMainWindow(tr("Select a database and check import data"));
 }
 
 
@@ -118,6 +122,13 @@ connectSignals()
 
   connect(p->treeView, SIGNAL(customContextMenuRequested(const QPoint &)),
           this, SLOT(onTableViewMenuRequested(const QPoint &)));
+
+  // -------- main window notification
+  using       Geo::Core::MainWindow;
+  MainWindow* mainWindow = AC::create<MainWindow>("Core.MainWindow");
+
+  connect(this, SIGNAL(notifyMainWindow(QString)),
+          mainWindow, SLOT(setStatus(QString)));
 }
 
 

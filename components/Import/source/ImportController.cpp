@@ -55,11 +55,9 @@ void
 ImportController::
 selectFilesAndImport()
 {
-  using DependencyManager::ApplicationContext;
-  using Geo::Core::MainWindow;
-
-  MainWindow* mainWindow =
-    ApplicationContext::create<MainWindow>("Core.MainWindow");
+  using       AC = DependencyManager::ApplicationContext;
+  using       Geo::Core::MainWindow;
+  MainWindow* mainWindow = AC::create<MainWindow>("Core.MainWindow");
 
   QStringList fileList =
     QFileDialog::getOpenFileNames(mainWindow,

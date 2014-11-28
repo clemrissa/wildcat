@@ -1,19 +1,25 @@
 #ifndef Geo_Core_MainWindow_hpp
 #define Geo_Core_MainWindow_hpp
 
-#include <QMainWindow>
+#include <QtCore/QString>
+#include <QtWidgets/QMainWindow>
 
 namespace Geo {
 namespace Core {
+//
+
 class MainWindow: public QMainWindow
 {
 public:
-  virtual
-  void
+  virtual void
   toCentralWidget(QWidget* widget) = 0;
 
-private:
+public slots:
+  virtual void
+  setStatus(QString status) = 0;
 };
+
+//
 }
 }
 #endif

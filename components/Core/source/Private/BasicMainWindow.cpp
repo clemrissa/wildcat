@@ -4,19 +4,21 @@
 
 #include <QDebug>
 
-#include <QDockWidget>
-#include <QMdiArea>
-#include <QMdiSubWindow>
-#include <QMenu>
-#include <QMenuBar>
-#include <QToolBar>
+#include <QtWidgets/QDockWidget>
+#include <QtWidgets/QMdiArea>
+#include <QtWidgets/QMdiSubWindow>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QToolBar>
 // --
 
 using Geo::Core::Private::BasicMainWindow;
 
 BasicMainWindow::
 BasicMainWindow():
-  _mdiArea(new QMdiArea(this))
+  _mdiArea(new QMdiArea(this)),
+  _statusBar(statusBar())
 {
   setCentralWidget(_mdiArea);
 
@@ -80,4 +82,12 @@ BasicMainWindow::
 addToolBar(QToolBar* toolBar)
 {
   QMainWindow::addToolBar(toolBar);
+}
+
+
+void
+BasicMainWindow::
+setStatus(QString status)
+{
+  _statusBar->showMessage(status, 4000);
 }

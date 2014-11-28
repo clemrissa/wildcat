@@ -7,10 +7,13 @@ class QDockWidget;
 class QMdiArea;
 class QToolBar;
 class QMenu;
+class QStatusBar;
 
 namespace Geo {
 namespace Core {
 namespace Private {
+//
+
 class BasicMainWindow: public Geo::Core::MainWindow
 {
   Q_OBJECT
@@ -40,8 +43,14 @@ public:
   Q_INVOKABLE void
   addToolBar(QToolBar* toolBar);
 
+public slots:
+  virtual void
+  setStatus(QString status) override;
+
 private:
   QMdiArea* _mdiArea;
+
+  QStatusBar* _statusBar;
 };
 }
 }
