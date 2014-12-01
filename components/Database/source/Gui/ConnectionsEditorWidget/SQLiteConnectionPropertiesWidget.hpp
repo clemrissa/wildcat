@@ -27,6 +27,9 @@ private:
   void
   createUi();
 
+  void
+  connectSignals();
+
 private slots:
   void
   onOpenClicked();

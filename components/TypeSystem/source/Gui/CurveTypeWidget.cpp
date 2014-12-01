@@ -8,9 +8,12 @@
 
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialogButtonBox>
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 
@@ -22,6 +25,8 @@
 #include <DependencyManager/ApplicationContext>
 #include <Models/ConnectionListModel>
 
+#include <Models/CurveTypeModel.hpp>
+
 using AC = DependencyManager::ApplicationContext;
 
 using Geo::TypeSystem::Gui::CurveTypeWidget;
@@ -30,6 +35,8 @@ struct CurveTypeWidget::Private
 {
   // list of DB connections
   QComboBox* connectionsComboBox;
+
+  QPushButton* loadXmlButton;
 
   // curve types tree
   QTreeView* treeView;
@@ -70,12 +77,20 @@ setupUi()
 
   using CLM = Geo::Models::ConnectionListModel;
   auto m = AC::create<CLM>("Models.ConnectionListModel");
-
+  // inject connections model
   p->connectionsComboBox->setModel(m);
 
   // --------------------
 
+  p->loadXmlButton = new QPushButton(tr("Load Slb Xml"));
+
+  p->loadXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
+
+  // --------------------
+
   p->treeView = new QTreeView();
+
+  p->treeView->setModel(new Geo::TypeSystem::Models::CurveTypeModel());
 
   p->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -87,9 +102,24 @@ setupUi()
 
   p->dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok);
 
+  // -- horizontal line
+
+  QFrame* f = new QFrame();
+
+  f->setFrameStyle(QFrame::HLine | QFrame::Sunken);
+  f->setLineWidth(3);
+
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   layout->addWidget(p->connectionsComboBox);
+  layout->addWidget(f);
+
+  auto ll = new QHBoxLayout();
+
+  ll->addWidget(p->loadXmlButton);
+  ll->addStretch();
+  layout->addLayout(ll);
+
   layout->addWidget(p->treeView);
   layout->addWidget(p->dialogButton);
 }
@@ -105,15 +135,12 @@ connectSignals()
   connect(p->connectionsComboBox, SIGNAL(activated(int)),
           this, SLOT(onConnectionSelected(int)));
 
-  // connect(p->connectionsComboBox, SIGNAL(activated(int)),
-  // p->treeView, SLOT(expandAll()));
-
-  // connect(p->treeView, SIGNAL(customContextMenuRequested(const QPoint &)),
-  // this, SLOT(onTableViewMenuRequested(const QPoint &)));
+  connect(p->loadXmlButton, SIGNAL(released()),
+          this, SLOT(onloadXmlClicked()));
 
   // -------- main window notification
-  using       Geo::Core::MainWindow;
-  MainWindow* mainWindow = AC::create<MainWindow>("Core.MainWindow");
+  using Geo::Core::MainWindow;
+  auto mainWindow = AC::create<MainWindow>("Core.MainWindow");
 
   connect(this, SIGNAL(notifyMainWindow(QString)),
           mainWindow, SLOT(setStatus(QString)));
@@ -156,7 +183,8 @@ onConnectionSelected(int index)
 
   // auto cm = AC::create<CM>("Database.ConnectionManager");
 
-  // auto model = static_cast<ImportTreeModel*>(p->treeView->model());
+  // auto model =
+  // static_cast<ImportTreeModel*>(p->treeView->model());
 
   // if (model)
   // model->setConnection(cm->connections()[index]);
@@ -184,7 +212,8 @@ onTableViewMenuRequested(const QPoint& pos)
   // dynamic_cast<WellInfoBase*>(treeEntry);
 
   // if (wellInfo) {
-  // QSharedPointer<QMenu> menu(MenuFactory::getWellInformationBaseMenu(
+  // QSharedPointer<QMenu>
+  // menu(MenuFactory::getWellInformationBaseMenu(
   // wellInfo,
   // index.column()));
 

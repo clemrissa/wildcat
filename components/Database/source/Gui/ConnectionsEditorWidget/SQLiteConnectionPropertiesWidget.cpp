@@ -34,6 +34,7 @@ SQLiteConnectionPropertiesWidget():
   p(new Private)
 {
   createUi();
+  connectSignals();
 }
 
 
@@ -73,38 +74,23 @@ createUi()
 
   p->databasePath->setReadOnly(true);
 
+  QVBoxLayout* ll = new QVBoxLayout(this);
+
   QHBoxLayout* l = new QHBoxLayout();
 
   l->addWidget(p->openButton);
   l->addWidget(p->createButton);
   l->addWidget(p->databasePath);
 
-  QVBoxLayout* ll = new QVBoxLayout();
-
   ll->addLayout(l);
-
-  using DependencyManager::ApplicationContext;
-
-  using Geo::Widgets::KeywordWidget;
-
-  // KeywordWidget* w =
-  // ApplicationContext::create<KeywordWidget>("Widgets.KeywordWidget");
-
-  // QStringList list;
-  // list << "hello";
-
-  // w->setKeywords(list);
-
-  // Q_ASSERT(list.size());
-
-  // ll->addWidget(w);
-
   ll->addStretch();
+}
 
-  this->setLayout(ll);
 
-  // ---------------------
-
+void
+SQLiteConnectionPropertiesWidget::
+connectSignals()
+{
   connect(p->openButton, SIGNAL(released()),
           this, SLOT(onOpenClicked()));
 
