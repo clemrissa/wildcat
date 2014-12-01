@@ -2,7 +2,7 @@
 <context>
   <dll path="Models"/>
   <beans>
-    <bean name="Models.ConnectionListModel" class="Geo::Models::ConnectionListModel"/>
-    <bean name="Models.ConnectionTableModel" class="Geo::Models::ConnectionTableModel"/>
+    <bean name="Models.ConnectionListModel" class="Geo::Models::Implementation::ConnectionListModel"/>
+    <bean name="Models.ConnectionTableModel" class="Geo::Models::Implementation::ConnectionTableModel"/>
   </beans>
 </context>

@@ -7,19 +7,17 @@
 
 #include "ConnectionEntry.hpp"
 
-using Geo::Models::ConnectionEntry;
-using Geo::Models::ConnectionTableModel;
+using Geo::Models::Implementation::ConnectionEntry;
+using Geo::Models::Implementation::ConnectionTableModel;
+
 
 ConnectionTableModel::
 ConnectionTableModel()
   : ConnectionListModel()
 {
+
 }
 
-
-ConnectionTableModel::
-~ConnectionTableModel()
-{ }
 
 int
 ConnectionTableModel::

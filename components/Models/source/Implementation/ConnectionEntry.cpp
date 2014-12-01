@@ -2,7 +2,7 @@
 
 #include <QtGui/QColor>
 
-using Geo::Models::ConnectionEntry;
+using Geo::Models::Implementation::ConnectionEntry;
 
 QVariant
 ConnectionEntry::

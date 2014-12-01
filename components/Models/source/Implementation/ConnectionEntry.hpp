@@ -7,6 +7,7 @@
 
 namespace Geo {
 namespace Models {
+namespace Implementation {
 //
 
 class ConnectionEntry
@@ -49,6 +50,7 @@ private:
 };
 
 //
+}
 }
 }
 #endif //  Geo_Models_ConnectionEntry_hpp

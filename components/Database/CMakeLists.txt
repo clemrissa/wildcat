@@ -24,7 +24,6 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       DependencyManager
                       Domain
                       Widgets
-                      Models
                       Qt5::Core
                       Qt5::Widgets
                       Qt5::Qml

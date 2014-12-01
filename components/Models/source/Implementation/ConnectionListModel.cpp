@@ -7,8 +7,8 @@
 
 #include "ConnectionEntry.hpp"
 
-using Geo::Models::ConnectionEntry;
-using Geo::Models::ConnectionListModel;
+using Geo::Models::Implementation::ConnectionEntry;
+using Geo::Models::Implementation::ConnectionListModel;
 
 ConnectionListModel::
 ConnectionListModel()

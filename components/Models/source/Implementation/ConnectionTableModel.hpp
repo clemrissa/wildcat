@@ -5,14 +5,20 @@
 
 namespace Geo {
 namespace Models {
+namespace Implementation {
+
 //
 
 /// TODO: make class abstract, do not link to this library directly
 class ConnectionTableModel: public ConnectionListModel
 {
+  Q_OBJECT
+
 public:
+  ConnectionTableModel();
+
   virtual
-  ~ConnectionTableModel();
+  ~ConnectionTableModel() {}
 
 public:
   virtual int
@@ -23,6 +29,7 @@ public:
 };
 
 //
+}
 }
 }
 #endif //  Geo_Models_ConnectionTableModel_hpp
