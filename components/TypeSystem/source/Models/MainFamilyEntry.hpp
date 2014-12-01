@@ -3,8 +3,8 @@
 
 #include "TreeEntry.hpp"
 
-#include <QtXml/QDomElement>
 #include <QtCore/QSet>
+#include <QtXml/QDomElement>
 
 namespace Geo {
 namespace TypeSystem {
@@ -21,12 +21,10 @@ public:
   virtual
   ~MainFamilyEntry();
 
-
   virtual QVariant
   data(int role, int column) const override;
 
 public:
-
   /// Fetches Family, checks if it duplicates an existing entry
   /// adds to children if not
   void

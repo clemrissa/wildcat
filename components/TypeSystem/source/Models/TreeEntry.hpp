@@ -26,12 +26,13 @@ class TreeEntry: public QObject
 {
 public:
   enum Column { MainFamily = 0,
-                Family     = 1,
-                Units      = 2,
-                Min        = 3,
-                Max        = 4,
-                Scale      = 5,
-                Continuity = 6,
+                CurveType  = 1,
+                Mnemonics  = 2,
+                Units      = 3,
+                Min        = 4,
+                Max        = 5,
+                Scale      = 6,
+                Continuity = 7,
                 Size };
 
 public:

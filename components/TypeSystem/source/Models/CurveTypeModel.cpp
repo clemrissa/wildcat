@@ -4,8 +4,8 @@
 
 #include <QtCore/QFile>
 
-using Geo::TypeSystem::Models::TreeEntry;
 using Geo::TypeSystem::Models::MainFamilyEntry;
+using Geo::TypeSystem::Models::TreeEntry;
 
 using Geo::TypeSystem::Models::CurveTypeModel;
 
@@ -148,8 +148,12 @@ headerData(int             section,
     result = tr("Main Family");
     break;
 
-  case TreeEntry::Family:
-    result = tr("Family");
+  case TreeEntry::CurveType:
+    result = tr("Curve Type");
+    break;
+
+  case TreeEntry::Mnemonics:
+    result = tr("Mnemonics");
     break;
 
   case TreeEntry::Units:
@@ -191,7 +195,6 @@ flags(const QModelIndex& index) const
 }
 
 
-
 void
 CurveTypeModel::
 loadXml(QString fileName)
@@ -224,21 +227,20 @@ loadXml(QString fileName)
       // try to convert the node to an element.
       QDomElement loginfo = n.toElement();
 
-
       QDomElement e = loginfo.firstChildElement("MainFamily");
-      Q_ASSERT(!e.isNull());
+
+      if (e.isNull())
+        e = loginfo.firstChildElement("CurveMnemonic");
 
       QString mainFamilyName = e.text();
 
       MainFamilyEntry* mainFamilyEntry = nullptr;
 
       if (mainFamilyEntryMap.contains(mainFamilyName))
-      {
         mainFamilyEntry = mainFamilyEntryMap[mainFamilyName];
-      }
-      else
-      {
+      else {
         mainFamilyEntry = new MainFamilyEntry(loginfo);
+
         mainFamilyEntryMap[mainFamilyName] = mainFamilyEntry;
 
         _curveTypeEntries.append(mainFamilyEntry);
@@ -248,10 +250,9 @@ loadXml(QString fileName)
 
       n = n.nextSibling();
     }
-
   }
   endResetModel();
-  // 
+  //
 }
 
 
