@@ -3,9 +3,9 @@
 
 #include "Connection.hpp"
 
-#include <QObject>
-#include <QSharedPointer>
-#include <QString>
+#include <QtCore/QObject>
+#include <QtCore/QSharedPointer>
+#include <QtCore/QString>
 
 namespace Geo {
 namespace Database {

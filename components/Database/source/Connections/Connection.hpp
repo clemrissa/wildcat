@@ -3,8 +3,8 @@
 
 #include <Domain/DataAccessFactory>
 
-#include <QDomDocument>
-#include <QDomElement>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
 
 namespace Geo {
 namespace Database {
