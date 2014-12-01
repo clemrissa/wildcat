@@ -7,7 +7,10 @@
 namespace Geo {
 namespace TypeSystem {
 namespace Models {
+//
+
 class TreeEntry;
+class MainFamilyEntry;
 //
 
 class CurveTypeModel: public QAbstractItemModel
@@ -62,7 +65,7 @@ private:
   getEntryPosition(TreeEntry* const entry) const;
 
 private:
-  QVector<TreeEntry*> _curveTypeEntries;
+  QVector<MainFamilyEntry*> _curveTypeEntries;
 };
 
 //

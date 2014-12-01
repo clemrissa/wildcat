@@ -15,6 +15,21 @@ TreeEntry(CurveType::Shared curveType,
 
 
 TreeEntry::
+TreeEntry(TreeEntry* parent):
+  _parent(parent)
+{
+
+}
+
+TreeEntry::
+TreeEntry():
+  _parent(nullptr)
+{
+  //
+}
+
+
+TreeEntry::
 ~TreeEntry()
 {
   for (TreeEntry* entry : _entries)

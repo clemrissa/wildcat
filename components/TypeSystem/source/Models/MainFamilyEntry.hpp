@@ -1,32 +1,46 @@
-#ifndef Geo_TypeSystem_TreeWrapper_MainFamilyEntry_hpp
-#define Geo_TypeSystem_TreeWrapper_MainFamilyEntry_hpp
+#ifndef Geo_TypeSystem_Models_MainFamilyEntry_hpp
+#define Geo_TypeSystem_Models_MainFamilyEntry_hpp
 
 #include "TreeEntry.hpp"
 
+#include <QtXml/QDomElement>
+#include <QtCore/QSet>
 
 namespace Geo {
 namespace TypeSystem {
 namespace Models {
 //
 
-class MainFamily: public TreeEntry
+class MainFamilyEntry: public TreeEntry
 {
 public:
-  MainFamily(Geo::Domain::CurveType::Shared curveType);
+  MainFamilyEntry(Geo::Domain::CurveType::Shared curveType);
+
+  MainFamilyEntry(QDomElement& domElement);
 
   virtual
-  ~MainFamily();
+  ~MainFamilyEntry();
 
 
   virtual QVariant
   data(int role, int column) const override;
 
+public:
+
+  /// Fetches Family, checks if it duplicates an existing entry
+  /// adds to children if not
+  void
+  addChild(QDomElement& domElement);
+
 protected:
-  QString mainFamilyName;
+  QString _mainFamilyName;
+
+  // prevents Family duplicates
+  QSet<QString> _familyNames;
 };
 
 //
 }
 }
 }
-#endif // Geo_TypeSystem_TreeWrapper_MainFamilyEntry_hpp
+#endif // Geo_TypeSystem_Models_MainFamilyEntry_hpp

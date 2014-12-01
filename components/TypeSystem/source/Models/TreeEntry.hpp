@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 
+#include <QtCore/QObject>
 #include <QtCore/QSharedPointer>
 #include <QtCore/QVariant>
 
@@ -36,6 +37,10 @@ public:
 public:
   TreeEntry(Geo::Domain::CurveType::Shared curveType,
             TreeEntry*                     parent = nullptr);
+
+  TreeEntry(TreeEntry* parent);
+
+  TreeEntry();
 
   virtual
   ~TreeEntry();

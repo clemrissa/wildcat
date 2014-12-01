@@ -1,27 +1,71 @@
 #include "MainFamilyEntry.hpp"
 
 
-using Geo::TypeSystem::Models::MainFamily;
+#include "FamilyEntry.hpp"
+
+using Geo::TypeSystem::Models::MainFamilyEntry;
+using Geo::TypeSystem::Models::FamilyEntry;
 
 
-MainFamily::
-MainFamily(Geo::Domain::CurveType::Shared curveType):
+MainFamilyEntry::
+MainFamilyEntry(Geo::Domain::CurveType::Shared curveType):
   TreeEntry(curveType)
 {
 
 }
 
 
-MainFamily::
-~MainFamily()
+MainFamilyEntry::
+MainFamilyEntry(QDomElement& domElement):
+  TreeEntry()
+{
+  _mainFamilyName = domElement.firstChildElement("MainFamily").text();
+}
+
+
+MainFamilyEntry::
+~MainFamilyEntry()
 {
 
 }
 
 
 QVariant
-MainFamily::
+MainFamilyEntry::
 data(int role, int column) const 
 {
-//
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
+  switch(column)
+  {
+    case TreeEntry::MainFamily:
+      return _mainFamilyName;
+      break;
+
+    default:
+      return QVariant();
+      break;
+  }
+
+  return QVariant();
 }
+
+
+
+void
+MainFamilyEntry::
+addChild(QDomElement& domElement) 
+{
+  auto family = domElement.firstChildElement("Family");
+
+  if (family.isNull())
+    return;
+
+  if (!_familyNames.contains(family.text()))
+  {
+    _familyNames.insert(family.text());
+    _entries.push_back(new FamilyEntry(domElement, this));
+  }
+}
+
