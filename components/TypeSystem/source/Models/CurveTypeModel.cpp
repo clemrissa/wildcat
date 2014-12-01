@@ -176,13 +176,22 @@ Qt::ItemFlags
 CurveTypeModel::
 flags(const QModelIndex& index) const
 {
-  Qt::ItemFlags flags =   QAbstractItemModel::flags(index);
+  Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
   flags |= Qt::ItemIsEditable;
 
   // flags ^= Qt::ItemIsSelectable;
 
   return flags;
+}
+
+
+
+void
+CurveTypeModel::
+loadXml(QString fileName)
+{
+  // 
 }
 
 

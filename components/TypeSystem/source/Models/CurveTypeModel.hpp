@@ -53,6 +53,10 @@ public:
   Qt::ItemFlags
   flags(const QModelIndex& index) const override;
 
+public:
+  void
+  loadXml(QString fileName);
+
 private:
   int
   getEntryPosition(TreeEntry* const entry) const;

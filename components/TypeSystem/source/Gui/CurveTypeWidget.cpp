@@ -6,6 +6,7 @@
 #include <QtCore/QList>
 #include <QtCore/QPoint>
 
+#include <QtWidgets/QFileDialog>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFrame>
@@ -136,7 +137,7 @@ connectSignals()
           this, SLOT(onConnectionSelected(int)));
 
   connect(p->loadXmlButton, SIGNAL(released()),
-          this, SLOT(onloadXmlClicked()));
+          this, SLOT(onLoadXmlClicked()));
 
   // -------- main window notification
   using Geo::Core::MainWindow;
@@ -222,4 +223,29 @@ onTableViewMenuRequested(const QPoint& pos)
 
   // menu->exec(p->treeView->mapToGlobal(pos));
   // }
+}
+
+
+void
+CurveTypeWidget::
+onLoadXmlClicked()
+{
+  QString fileName =
+    QFileDialog::getOpenFileName(this, 
+                                 tr("Select a Schlumberger Xml file"),
+                                 QString(),
+                                 tr("Database files (*.xml)"));
+
+  if (fileName.isEmpty())
+    return;
+
+
+  using Geo::TypeSystem::Models::CurveTypeModel;
+
+  auto curveTypeModel = static_cast<CurveTypeModel*>(p->treeView->model());
+
+  if (curveTypeModel)
+      curveTypeModel->loadXml(fileName);
+
+
 }
