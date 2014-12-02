@@ -58,6 +58,31 @@ operator/(Dimensions const& dimensions) const
 }
 
 
+bool
+Dimensions::
+operator==(Dimensions const& dimensions) const
+{
+  for (int i = 0; i < Dimension::AllUnitsSize; ++i)
+    if (_dimensions[i] != dimensions._dimensions[i])
+      return false;
+
+  return true;
+}
+
+
+/// compares just fundamental units
+bool
+Dimensions::
+compatible(Dimensions const& dimensions) const
+{
+  for (int i = 0; i < Dimension::FundamentalUnitsSize; ++i)
+    if (_dimensions[i] != dimensions._dimensions[i])
+      return false;
+
+  return true;
+}
+
+
 void
 Dimensions::
 updateFundamentalUnits()

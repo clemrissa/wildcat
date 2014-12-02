@@ -71,6 +71,14 @@ public:
   Dimensions
   operator/(Dimensions const& dimensions) const;
 
+  /// full equality, compares all dimensions
+  bool
+  operator==(Dimensions const& dimensions) const;
+
+  /// compares just fundamental units
+  bool
+  compatible(Dimensions const& dimensions) const;
+
 public:
   static Dimensions
   None() { return Dimensions(); }
