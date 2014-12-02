@@ -2,9 +2,9 @@
 #define Geo_Domain_Log_hpp
 
 #include <QtCore/QSharedPointer>
-#include <QtCore/QWeakPointer>
 #include <QtCore/QString>
 #include <QtCore/QVector>
+#include <QtCore/QWeakPointer>
 
 #include <odb/core.hxx>
 
@@ -17,7 +17,8 @@ class Well;
 #ifdef ODB
   #pragma db object
 #endif
-class Log {
+class Log
+{
 public:
   typedef QSharedPointer<Log> Shared;
 
@@ -45,7 +46,8 @@ public:
 
   inline
   double
-  getBottomDepth() const {
+  getBottomDepth() const
+  {
     return _topDepth + _values.size() * _step;
   }
 
@@ -72,8 +74,9 @@ public:
   QVectorIterator<double>
   getValuesIterator();
 
-  void 
-  setWell(QSharedPointer<Well> well) {
+  void
+  setWell(QSharedPointer<Well> well)
+  {
     _well = well;
   }
 
@@ -92,9 +95,7 @@ private:
   double _topDepth;
   double _step;
 
-
   QVector<double> _values;
-
 
 #ifdef ODB_COMPILER
   #pragma db not_null
@@ -102,7 +103,6 @@ private:
   QWeakPointer<Geo::Domain::Well> _well;
 
 private:
-
   void
   generateData();
 };
@@ -111,6 +111,6 @@ private:
 
 #ifdef ODB_COMPILER
   #include "Well.hpp"
-#endif 
+#endif
 
 #endif

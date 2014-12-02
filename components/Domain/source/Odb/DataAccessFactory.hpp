@@ -75,6 +75,9 @@ public:
   afterDBConnected() const override
   {
     wellTraitAccess()->createDefaultTraits();
+
+    // TODO: create default units
+    // unitAccess()->createDefaultUnits();
   }
 
 private:

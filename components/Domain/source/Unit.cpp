@@ -1,5 +1,6 @@
 #include "Unit.hpp"
 
+using Geo::Domain::Dimensions;
 using Geo::Domain::Unit;
 
 Unit::

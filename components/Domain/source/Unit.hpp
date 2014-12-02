@@ -19,11 +19,20 @@ class Unit
 public:
   typedef QSharedPointer<Unit> Shared;
 
+  Unit()
+  {
+  }
+
   Unit(QString const    name,
        QString const    symbol,
        double const     offset,
        double const     scale,
        Dimensions const dimensions);
+
+  virtual
+  ~Unit()
+  {
+  }
 
   /// Takes "normal" value and convers to this non-standard unit
   /// Meter -> Foot
@@ -66,6 +75,11 @@ public:
 
 private:
   friend class odb::access;
+
+#ifdef ODB_COMPILER
+  #pragma db id auto
+#endif
+  unsigned int _id;
 
   QString _name;
   QString _symbol;

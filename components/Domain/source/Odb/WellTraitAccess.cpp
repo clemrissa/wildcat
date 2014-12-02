@@ -130,7 +130,7 @@ createDefaultTraits()
                               tr("LOCATION"),
                               tr("DATE"),
                               tr("API"),
-                              tr("UWI")};
+                              tr("UWI") };
 
   QVector<WellTrait::Shared> traits = findAll();
 

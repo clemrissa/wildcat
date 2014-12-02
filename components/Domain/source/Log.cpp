@@ -18,7 +18,8 @@ using boost::math::constants::pi;
 // }}} Using Declarations
 
 Log::
-Log() {
+Log()
+{
   _name = QString("Log") + QString::number(qrand() % 10);
   _unit = QString("C");
   _tool = QString("Thermometer");
@@ -26,29 +27,35 @@ Log() {
   generateData();
 }
 
+
 Log::
 Log(QString const& name,
     QString const& unit,
     QString const& tool):
   _name(name),
   _unit(unit),
-  _tool(tool) {
+  _tool(tool)
+{
   // here we generate moch data for a curve
   generateData();
 }
+
 
 Log::
 ~Log() {}
 
 QVectorIterator<double>
 Log::
-getValuesIterator() {
+getValuesIterator()
+{
   return QVectorIterator<double>(_values);
 }
 
+
 void
 Log::
-generateData() {
+generateData()
+{
   _topDepth = 200.0 + qrand() % 20;
   _step     = 0.50; // half meter
 

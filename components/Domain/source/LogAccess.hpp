@@ -1,20 +1,25 @@
 #ifndef Geo_Domain_LogAccessObject_hpp
 #define Geo_Domain_LogAccessObject_hpp
 
-#include <Domain/Log>
+#include "Log.hpp"
 
 #include <QSharedPointer>
 #include <QVector>
 
 namespace Geo {
 namespace Domain {
-class LogAccess {
+//
+
+class LogAccess
+{
 public:
   typedef QSharedPointer<LogAccess> Shared;
 
 public:
   virtual
-  ~LogAccess() {}
+  ~LogAccess()
+  {
+  }
 
   virtual void
   insert(Log::Shared log) = 0;

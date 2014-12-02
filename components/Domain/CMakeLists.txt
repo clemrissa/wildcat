@@ -19,6 +19,8 @@ set(ODB_HEADERS ${PROJECT_SOURCE_DIR}/source/Well.hpp
                 ${PROJECT_SOURCE_DIR}/source/LogParameter.hpp
                 ${PROJECT_SOURCE_DIR}/source/LogParameterGroup.hpp
                 ${PROJECT_SOURCE_DIR}/source/CurveType.hpp
+                ${PROJECT_SOURCE_DIR}/source/Dimensions.hpp
+                ${PROJECT_SOURCE_DIR}/source/Unit.hpp
                 )
 
 
