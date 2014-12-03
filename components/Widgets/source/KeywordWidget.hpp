@@ -4,55 +4,35 @@
 #include <QtCore/QStringList>
 #include <QtWidgets/QWidget>
 
-#include "FlowLayout.hpp"
-
 class QLineEdit;
 
 namespace Geo {
 namespace Widgets {
 //
 
-/// TODO: make class abstract, do not link to this library directly
 class KeywordWidget: public QWidget
 {
-  Q_OBJECT
-
+  //Q_OBJECT
 public:
-  Q_INVOKABLE
-  KeywordWidget(QWidget* parent = nullptr);
+  virtual
+  ~KeywordWidget() {}
 
-  void
-  setKeywords(QStringList keywordList);
+  virtual void
+  setKeywords(QStringList keywordList) = 0;
 
-  QStringList
-  keywords() const;
-
-protected:
-  bool
-  eventFilter(QObject* obj, QEvent* event) override;
-
-private:
-  void
-  connectSignals() const;
-
-  void
-  addKeyword(QString keyword);
+  virtual QStringList
+  keywords() const = 0;
 
 signals:
-  void
-  keywordAdded();
+  virtual void
+  keywordAdded() = 0;
 
 private slots:
-  void
-  onTextChanged(QString const& text);
-
-private:
-  QStringList _keywords;
-
-  QLineEdit* _lineEdit;
-
-  FlowLayout* _flowLayout;
+  virtual void
+  onTextChanged(QString const& text) =  0;
 };
+
+//
 }
 }
 #endif //  Geo_Widgets_KeywordWidget_hpp

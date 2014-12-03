@@ -6,11 +6,10 @@
 
 #include <QtGui/QMouseEvent>
 
-using Geo::Widgets::KeywordWidget;
+using Geo::Widgets::Implementation::KeywordWidget;
 
 KeywordWidget::
-KeywordWidget(QWidget* parent):
-  QWidget(parent)
+KeywordWidget(QWidget* parent)
 {
   _lineEdit = new QLineEdit();
 

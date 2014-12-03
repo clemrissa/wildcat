@@ -2,6 +2,6 @@
 <context>
   <dll path="Widgets"/>
   <beans>
-    <bean name="Widgets.KeywordWidget" class="Geo::Widgets::KeywordWidget"/>
+    <bean name="Widgets.KeywordWidget" class="Geo::Widgets::Implementation::KeywordWidget"/>
   </beans>
 </context>

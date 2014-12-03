@@ -23,7 +23,6 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       Uni
                       DependencyManager
                       Domain
-                      Widgets
                       Qt5::Core
                       Qt5::Widgets
                       Qt5::Qml

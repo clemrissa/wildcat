@@ -1,5 +1,5 @@
-#include "FlowLayout.hpp"
-#include "KeywordWidget.hpp"
+#include "Implementation/KeywordWidget.hpp"
+//#include "Implementation/FlowLayout.hpp"
 
 #include "Auxiliary/Visibility.hpp"
 
@@ -9,7 +9,7 @@ extern "C" {
 Geo_Widgets_PUBLIC void
 registerComponent()
 {
-  REGISTER_TYPE(Geo::Widgets::FlowLayout);
-  REGISTER_TYPE(Geo::Widgets::KeywordWidget);
+  //REGISTER_TYPE(Geo::Widgets::FlowLayout);
+  REGISTER_TYPE(Geo::Widgets::Implementation::KeywordWidget);
 }
 }
