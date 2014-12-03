@@ -15,17 +15,17 @@
 
 #include <Models/ConnectionListModel>
 
-#include <Gui/DatabaseSettingsWidget/DatabasePropertiesWidget.hpp>
+#include <Gui/DatabaseSettingsWidget/TraitsWidget.hpp>
 
 using AC = DependencyManager::ApplicationContext;
-using Geo::Database::Gui::DatabaseSettingsWidget::DatabasePropertiesWidget;
 using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
+using Geo::Database::Gui::DatabaseSettingsWidget::TraitsWidget;
 
 struct DatabaseSettingsWidget::Private
 {
   QComboBox* connectionsComboBox;
 
-  DatabasePropertiesWidget* traitsWidget;
+  TraitsWidget* traitsWidget;
 
   QDialogButtonBox* dialogButton;
 };
@@ -64,7 +64,7 @@ setupUi()
 
   // -----------------
 
-  p->traitsWidget = new DatabasePropertiesWidget();
+  p->traitsWidget = new TraitsWidget();
 
   //
   p->dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok);

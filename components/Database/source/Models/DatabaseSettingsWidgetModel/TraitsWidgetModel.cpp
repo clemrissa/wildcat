@@ -1,21 +1,21 @@
-#include "DatabasePropertiesWidgetModel.hpp"
+#include "TraitsWidgetModel.hpp"
 
 #include "WellTraitEntry.hpp"
 
 #include <Uni/Logging/Logging>
 
 using Geo::Database::Models::DatabaseSettingsWidgetModel::
-      DatabasePropertiesWidgetModel;
+      TraitsWidgetModel;
 
-DatabasePropertiesWidgetModel::
-DatabasePropertiesWidgetModel()
+TraitsWidgetModel::
+TraitsWidgetModel()
 {
   reloadTraits();
 }
 
 
-DatabasePropertiesWidgetModel::
-~DatabasePropertiesWidgetModel()
+TraitsWidgetModel::
+~TraitsWidgetModel()
 {
   saveTraits();
 
@@ -24,7 +24,7 @@ DatabasePropertiesWidgetModel::
 
 
 QVariant
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 data(const QModelIndex& index, int role) const
 {
   Q_UNUSED(role);
@@ -45,7 +45,7 @@ data(const QModelIndex& index, int role) const
 
 
 bool
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 setData(const QModelIndex& index,
         const QVariant&    value,
         int                role)
@@ -110,7 +110,7 @@ setData(const QModelIndex& index,
 
 
 QModelIndex
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 index(int row, int column, const QModelIndex& parent) const
 {
   Q_UNUSED(row);
@@ -128,7 +128,7 @@ index(int row, int column, const QModelIndex& parent) const
 
 
 QModelIndex
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 parent(const QModelIndex& index) const
 {
   Q_UNUSED(index);
@@ -138,7 +138,7 @@ parent(const QModelIndex& index) const
 
 
 int
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
@@ -148,7 +148,7 @@ columnCount(const QModelIndex& parent) const
 
 
 int
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
@@ -157,7 +157,7 @@ rowCount(const QModelIndex& parent) const
 
 
 QVariant
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 headerData(int             section,
            Qt::Orientation orientation,
            int             role)  const
@@ -193,7 +193,7 @@ headerData(int             section,
 
 
 Qt::ItemFlags
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 flags(const QModelIndex& index) const
 {
   Qt::ItemFlags flags =   QAbstractItemModel::flags(index);
@@ -208,7 +208,7 @@ flags(const QModelIndex& index) const
 
 
 void
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 setConnection(Connections::Connection::Shared connection)
 {
   if (!_connection.isNull())
@@ -221,7 +221,7 @@ setConnection(Connections::Connection::Shared connection)
 
 
 void
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 onClicked(const QModelIndex& index)
 {
   if (!index.parent().isValid() &&
@@ -238,7 +238,7 @@ onClicked(const QModelIndex& index)
 
 
 void
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 reloadTraits()
 {
   if (_connection.isNull())
@@ -270,7 +270,7 @@ reloadTraits()
 
 
 void
-DatabasePropertiesWidgetModel::
+TraitsWidgetModel::
 saveTraits()
 {
   using Geo::Domain::WellTrait;

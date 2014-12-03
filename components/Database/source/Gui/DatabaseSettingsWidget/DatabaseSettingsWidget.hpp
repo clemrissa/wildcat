@@ -7,7 +7,6 @@ namespace Geo {
 //
 
 namespace Database {
-
 namespace Gui {
 namespace DatabaseSettingsWidget {
 //

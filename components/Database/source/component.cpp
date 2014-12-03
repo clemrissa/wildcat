@@ -1,5 +1,6 @@
 #include "Connections/ConnectionManager.hpp"
 #include "Connections/SQLiteConnection.hpp"
+
 #include "DatabaseUiFactory.hpp"
 
 // #include "Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp"

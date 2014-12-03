@@ -1,4 +1,4 @@
-#include "DatabasePropertiesWidget.hpp"
+#include "TraitsWidget.hpp"
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
@@ -6,28 +6,28 @@
 #include <QtWidgets/QVBoxLayout>
 
 #include <Gui/DatabaseSettingsWidget/WellTraitItemDelegate.hpp>
-#include <Models/DatabaseSettingsWidgetModel/DatabasePropertiesWidgetModel.hpp>
+#include <Models/DatabaseSettingsWidgetModel/TraitsWidgetModel.hpp>
 
 #include <Models/DatabaseSettingsWidgetModel/WellTraitEntry.hpp>
 
 using Geo::Database::Connections::Connection;
-using Geo::Database::Gui::DatabaseSettingsWidget::DatabasePropertiesWidget;
+using Geo::Database::Gui::DatabaseSettingsWidget::TraitsWidget;
 using Geo::Database::Models::DatabaseSettingsWidgetModel::
-      DatabasePropertiesWidgetModel;
+      TraitsWidgetModel;
 
 using Geo::Database::Gui::DatabaseSettingsWidget::WellTraitItemDelegate;
 
-struct DatabasePropertiesWidget::Private
+struct TraitsWidget::Private
 {
   QTableView* traitsTable;
 
-  DatabasePropertiesWidgetModel* propertiesWidgetModel;
+  TraitsWidgetModel* propertiesWidgetModel;
 
   Connections::Connection::Shared c;
 };
 
-DatabasePropertiesWidget::
-DatabasePropertiesWidget():
+TraitsWidget::
+TraitsWidget():
   _p(new Private)
 {
   createUi();
@@ -35,8 +35,8 @@ DatabasePropertiesWidget():
 }
 
 
-DatabasePropertiesWidget::
-~DatabasePropertiesWidget()
+TraitsWidget::
+~TraitsWidget()
 {
   delete _p;
 
@@ -45,7 +45,7 @@ DatabasePropertiesWidget::
 
 
 void
-DatabasePropertiesWidget::
+TraitsWidget::
 setConnection(Connections::Connection::Shared connection)
 {
   _p->c = connection;
@@ -55,11 +55,11 @@ setConnection(Connections::Connection::Shared connection)
 
 
 void
-DatabasePropertiesWidget::
+TraitsWidget::
 createUi()
 {
   using Models::DatabaseSettingsWidgetModel::WellTraitEntry;
-  _p->propertiesWidgetModel = new DatabasePropertiesWidgetModel();
+  _p->propertiesWidgetModel = new TraitsWidgetModel();
 
   // --------------
 
@@ -103,7 +103,7 @@ createUi()
 
 
 void
-DatabasePropertiesWidget::
+TraitsWidget::
 connectSignals()
 {
   // for deleting rows

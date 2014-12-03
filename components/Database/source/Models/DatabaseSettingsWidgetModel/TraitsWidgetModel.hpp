@@ -1,5 +1,5 @@
-#ifndef Geo_Database_DatabasePropertiesWidgetModel_hpp
-#define Geo_Database_DatabasePropertiesWidgetModel_hpp
+#ifndef Geo_Database_TraitsWidgetModel_hpp
+#define Geo_Database_TraitsWidgetModel_hpp
 
 #include <Connections/Connection.hpp>
 
@@ -19,19 +19,18 @@ class WellTraitEntry;
 
 //
 
-class DatabasePropertiesWidgetModel: public QAbstractItemModel
+class TraitsWidgetModel: public QAbstractItemModel
 {
   Q_OBJECT
 
 public:
-  DatabasePropertiesWidgetModel();
+  TraitsWidgetModel();
 
   virtual
-  ~DatabasePropertiesWidgetModel();
+  ~TraitsWidgetModel();
 
 public:
-  virtual
-  QVariant
+  virtual QVariant
   data(const QModelIndex& index, int role) const override;
 
   bool
@@ -39,20 +38,16 @@ public:
           const QVariant&    value,
           int                role = Qt::EditRole) override;
 
-  virtual
-  QModelIndex
+  virtual QModelIndex
   index(int row, int column, const QModelIndex& parent) const override;
 
-  virtual
-  QModelIndex
+  virtual QModelIndex
   parent(const QModelIndex& index) const override;
 
-  virtual
-  int
+  virtual int
   columnCount(const QModelIndex& parent) const override;
 
-  virtual
-  int
+  virtual int
   rowCount(const QModelIndex& parent) const override;
 
   QVariant
@@ -91,4 +86,4 @@ private:
 }
 }
 
-#endif //  Geo_Database_DatabasePropertiesWidgetModel_hpp
+#endif //  Geo_Database_TraitsWidgetModel_hpp
