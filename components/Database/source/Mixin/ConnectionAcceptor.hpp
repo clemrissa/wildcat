@@ -1,12 +1,11 @@
 #ifndef Geo_Database_Mixin_ConnectionAcceptor_hpp
 #define Geo_Database_Mixin_ConnectionAcceptor_hpp
 
-#include <Connections/Connection.hpp>
+#include <Database/Connections/Connection>
 #include <QWidget>
 
 namespace Geo {
 namespace Database {
-namespace Gui {
 namespace Mixin {
 //
 
@@ -25,7 +24,6 @@ public slots:
 };
 
 //
-}
 }
 }
 }

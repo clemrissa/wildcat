@@ -1,7 +1,8 @@
-#ifndef Geo_Import_ImportWidget_hpp
-#define Geo_Import_ImportWidget_hpp
+#ifndef Geo_Import_LasWidget_hpp
+#define Geo_Import_LasWidget_hpp
 
 #include <QtWidgets/QWidget>
+
 #include <Database/Mixin/ConnectionAcceptor>
 
 namespace Geo {
@@ -13,26 +14,31 @@ class ImportTreeModel;
 namespace Gui {
 //
 
-class ImportWidget: public QWidget
+class LasWidget: 
+  public QWidget,
+  public Database::Mixin::ConnectionAcceptor 
 {
   Q_OBJECT
 
 public:
-  ImportWidget();
+  LasWidget();
 
   virtual
-  ~ImportWidget();
+  ~LasWidget();
 
 public:
   void
   setModel(ImportTreeModel* importModel);
 
-private slots:
-  void
-  onImportClicked();
+  void 
+  setConnection(Database::Connections::Connection::Shared connection) override;
 
-  void
-  onConnectionSelected(int index);
+private slots:
+  //void
+  //onImportClicked();
+
+  //void
+  //onConnectionSelected(int index);
 
   void
   onTableViewMenuRequested(const QPoint&);
@@ -50,7 +56,7 @@ private:
 private:
   struct Private;
 
-  Private* p;
+  Private* _p;
 };
 
 //
@@ -58,4 +64,4 @@ private:
 } // namespace Import
 } // namespace Geo
 
-#endif // Geo_Import_ImportWidget_hpp
+#endif // Geo_Import_LasWidget_hpp

@@ -1,7 +1,7 @@
 #ifndef Geo_Database_SQLiteConnectionPropertiesWidget_hpp
 #define Geo_Database_SQLiteConnectionPropertiesWidget_hpp
 
-#include <Gui/Mixin/ConnectionAcceptor.hpp>
+#include <Mixin/ConnectionAcceptor.hpp>
 
 #include <Connections/SQLiteConnection.hpp>
 

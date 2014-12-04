@@ -8,7 +8,6 @@
 #include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
 
 #include <Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp>
-// #include <Gui/DatabaseSettingsWidget/DatabaseSettingsWidget.hpp>
 #include <Gui/DatabaseSettingsWidget/TraitsWidget.hpp>
 
 #include <DependencyManager/ApplicationContext>

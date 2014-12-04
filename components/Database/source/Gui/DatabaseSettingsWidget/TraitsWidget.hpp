@@ -1,7 +1,7 @@
 #ifndef Geo_Database_TraitsWidget_hpp
 #define Geo_Database_TraitsWidget_hpp
 
-#include <Gui/Mixin/ConnectionAcceptor.hpp>
+#include <Mixin/ConnectionAcceptor.hpp>
 
 namespace Geo {
 namespace Database {

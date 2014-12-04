@@ -19,11 +19,14 @@ using Geo::Database::Gui::DatabaseSettingsWidget::WellTraitItemDelegate;
 
 struct TraitsWidget::Private
 {
+  Private(): 
+    traitsTable(nullptr),
+    traitsWidgetModel(nullptr)
+  {}
+
   QTableView* traitsTable;
 
   TraitsWidgetModel* traitsWidgetModel;
-
-  Connections::Connection::Shared c;
 };
 
 TraitsWidget::
@@ -38,10 +41,11 @@ TraitsWidget():
 TraitsWidget::
 ~TraitsWidget()
 {
-  delete _p;
-
   // TODO: check delete models everywhere
-  delete _p->traitsWidgetModel;
+  if (_p->traitsWidgetModel)
+    delete _p->traitsWidgetModel;
+
+  delete _p;
 }
 
 
@@ -49,8 +53,6 @@ void
 TraitsWidget::
 setConnection(Connections::Connection::Shared connection)
 {
-  _p->c = connection;
-
   _p->traitsWidgetModel->setConnection(connection);
 }
 
