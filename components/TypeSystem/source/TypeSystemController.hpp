@@ -20,6 +20,9 @@ public slots:
   void
   showCurveTypeWidget();
 
+  void 
+  showUnitsWidget();
+
 private:
   TypeSystemController();
 

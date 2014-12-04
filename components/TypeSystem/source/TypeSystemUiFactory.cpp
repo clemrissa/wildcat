@@ -68,10 +68,19 @@ createActionList() const
 
   // ---------------
 
-  QAction* action = new QAction(QIcon(), tr("Curve Types"), mainWindow);
+  auto action = new QAction(QIcon(), tr("Curve Types"), mainWindow);
 
   connect(action, &QAction::triggered,
           in, &TypeSystemController::showCurveTypeWidget);
+
+  actionList.append(action);
+
+  // ---------------
+
+  action = new QAction(QIcon(), tr("Units"), mainWindow);
+
+  connect(action, &QAction::triggered,
+          in, &TypeSystemController::showUnitsWidget);
 
   actionList.append(action);
 

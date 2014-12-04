@@ -17,6 +17,8 @@
 
 #include <DependencyManager/ApplicationContext>
 
+#include <Widgets/ConnectionSettingsWidget>
+
 namespace Geo {
 namespace TypeSystem {
 //
@@ -63,6 +65,29 @@ showCurveTypeWidget()
   mainWindow->toCentralWidget(curveTypeWidget);
 }
 
+
+void
+TypeSystemController::
+showUnitsWidget()
+{
+  using AC = DependencyManager::ApplicationContext;
+  using Geo::Core::MainWindow;
+
+  using TypeSystem::Gui::CurveTypeWidget;
+
+  auto mainWindow = AC::create<MainWindow>("Core.MainWindow");
+
+  auto settingsWidget =
+    AC::create<Geo::Widgets::ConnectionSettingsWidget>(
+      "Widgets.ConnectionSettingsWidget");
+
+  // inject widget here
+  auto curveTypeWidget = new CurveTypeWidget();
+
+  //settingsWidget->setEditorWidget(traitsWidget);
+
+  mainWindow->toCentralWidget(settingsWidget);
+}
 
 //
 }

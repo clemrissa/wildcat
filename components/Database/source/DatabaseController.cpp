@@ -73,12 +73,8 @@ showSettingsWidget()
   using AC = DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
 
-  // using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
+  auto mainWindow = AC::create<MainWindow>("Core.MainWindow");
 
-  MainWindow* mainWindow =
-    AC::create<MainWindow>("Core.MainWindow");
-
-  // auto databaseConnectionsWidget = new DatabaseSettingsWidget();
   auto settingsWidget =
     AC::create<Geo::Widgets::ConnectionSettingsWidget>(
       "Widgets.ConnectionSettingsWidget");
