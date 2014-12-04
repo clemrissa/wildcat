@@ -21,7 +21,7 @@ struct TraitsWidget::Private
 {
   QTableView* traitsTable;
 
-  TraitsWidgetModel* propertiesWidgetModel;
+  TraitsWidgetModel* traitsWidgetModel;
 
   Connections::Connection::Shared c;
 };
@@ -40,7 +40,8 @@ TraitsWidget::
 {
   delete _p;
 
-  delete _p->propertiesWidgetModel;
+  // TODO: check delete models everywhere
+  delete _p->traitsWidgetModel;
 }
 
 
@@ -50,7 +51,7 @@ setConnection(Connections::Connection::Shared connection)
 {
   _p->c = connection;
 
-  _p->propertiesWidgetModel->setConnection(connection);
+  _p->traitsWidgetModel->setConnection(connection);
 }
 
 
@@ -59,13 +60,13 @@ TraitsWidget::
 createUi()
 {
   using Models::DatabaseSettingsWidgetModel::WellTraitEntry;
-  _p->propertiesWidgetModel = new TraitsWidgetModel();
+  _p->traitsWidgetModel = new TraitsWidgetModel();
 
   // --------------
 
   _p->traitsTable = new QTableView();
 
-  _p->traitsTable->setModel(_p->propertiesWidgetModel);
+  _p->traitsTable->setModel(_p->traitsWidgetModel);
 
   // temporarily use standard edit tool
   _p->traitsTable->setItemDelegate(new WellTraitItemDelegate());
@@ -108,5 +109,5 @@ connectSignals()
 {
   // for deleting rows
   connect(_p->traitsTable, SIGNAL(clicked(const QModelIndex &)),
-          _p->propertiesWidgetModel,   SLOT(onClicked(const QModelIndex &)));
+          _p->traitsWidgetModel,   SLOT(onClicked(const QModelIndex &)));
 }

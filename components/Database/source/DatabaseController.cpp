@@ -8,9 +8,12 @@
 #include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
 
 #include <Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp>
-#include <Gui/DatabaseSettingsWidget/DatabaseSettingsWidget.hpp>
+// #include <Gui/DatabaseSettingsWidget/DatabaseSettingsWidget.hpp>
+#include <Gui/DatabaseSettingsWidget/TraitsWidget.hpp>
 
 #include <DependencyManager/ApplicationContext>
+
+#include <Widgets/ConnectionSettingsWidget>
 
 namespace Geo {
 namespace  Database {
@@ -68,17 +71,25 @@ void
 DatabaseController::
 showSettingsWidget()
 {
-  using DependencyManager::ApplicationContext;
+  using AC = DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
 
-  using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
+  // using Geo::Database::Gui::DatabaseSettingsWidget::DatabaseSettingsWidget;
 
   MainWindow* mainWindow =
-    ApplicationContext::create<MainWindow>("Core.MainWindow");
+    AC::create<MainWindow>("Core.MainWindow");
 
-  auto databaseConnectionsWidget = new DatabaseSettingsWidget();
+  // auto databaseConnectionsWidget = new DatabaseSettingsWidget();
+  auto settingsWidget =
+    AC::create<Geo::Widgets::ConnectionSettingsWidget>(
+      "Widgets.ConnectionSettingsWidget");
 
-  mainWindow->toCentralWidget(databaseConnectionsWidget);
+  using Geo::Database::Gui::DatabaseSettingsWidget::TraitsWidget;
+  auto traitsWidget = new TraitsWidget();
+
+  settingsWidget->setEditorWidget(traitsWidget);
+
+  mainWindow->toCentralWidget(settingsWidget);
 }
 
 

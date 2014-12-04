@@ -1,7 +1,7 @@
 #include "ConnectionListModel.hpp"
 
-#include <Database/Connections/ConnectionManager>
 #include <Database/Connections/Connection>
+#include <Database/Connections/ConnectionManager>
 
 #include <DependencyManager/ApplicationContext>
 
@@ -119,12 +119,16 @@ flags(const QModelIndex& index) const
   return QAbstractItemModel::flags(index);
 }
 
-QSharedPointer<Geo::Database::Connections::Connection>
-ConnectionListModel::
-connectionAt(int index)
-{
-  if (index >= 0 &&  index < _entries.size())
-    return _entries[index]->connection();
 
-  return Database::Connections::Connection::Shared();
-}
+// QSharedPointer<Geo::Database::Connections::Connection>
+// ConnectionListModel::
+// connectionAt(int index)
+// {
+// if (index >= 0 &&  index < _entries.size()) {
+// emit connectionChanged(_entries[index]->connection());
+
+// return _entries[index]->connection();
+// }
+
+// return Database::Connections::Connection::Shared();
+// }

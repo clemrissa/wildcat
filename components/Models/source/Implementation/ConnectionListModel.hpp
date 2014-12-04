@@ -9,7 +9,6 @@
 namespace Geo {
 //
 
-
 //
 namespace Models {
 namespace Implementation {
@@ -19,7 +18,7 @@ class ConnectionEntry;
 
 /// TODO: make class abstract, do not link to this library directly
 
-class ConnectionListModel: public  Models::ConnectionListModel
+class ConnectionListModel: public Models::ConnectionListModel
 {
   Q_OBJECT
 
@@ -54,8 +53,14 @@ public:
   Qt::ItemFlags
   flags(const QModelIndex& index) const override;
 
-  QSharedPointer<Database::Connections::Connection>
-  connectionAt(int index) override;
+  // Database::Connections::Connection::Shared
+  // connectionAt(int index) override;
+
+signals:
+  void
+    connectionChanged(Database::Connections::Connection::Shared);
+
+  // override;
 
 protected:
   Database::Connections::ConnectionManager* _connectionsManager;

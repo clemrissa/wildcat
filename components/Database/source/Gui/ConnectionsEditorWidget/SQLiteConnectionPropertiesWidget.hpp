@@ -1,7 +1,7 @@
 #ifndef Geo_Database_SQLiteConnectionPropertiesWidget_hpp
 #define Geo_Database_SQLiteConnectionPropertiesWidget_hpp
 
-#include <Gui/ConnectionPropertiesWidget.hpp>
+#include <Gui/Mixin/ConnectionAcceptor.hpp>
 
 #include <Connections/SQLiteConnection.hpp>
 
@@ -10,7 +10,9 @@ namespace Database {
 namespace Gui {
 //
 
-class SQLiteConnectionPropertiesWidget: public ConnectionPropertiesWidget
+class SQLiteConnectionPropertiesWidget:
+  public QWidget,
+  public Mixin::ConnectionAcceptor
 {
   Q_OBJECT
 

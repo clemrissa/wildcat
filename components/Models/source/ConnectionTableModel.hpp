@@ -7,7 +7,7 @@ namespace Geo {
 namespace Models {
 //
 
-/// TODO: make class abstract, do not link to this library directly
+/// TODO: change base class to QAbstractItemModel
 class ConnectionTableModel: public ConnectionListModel
 {
 public:

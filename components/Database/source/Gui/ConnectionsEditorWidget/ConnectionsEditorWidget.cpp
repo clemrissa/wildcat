@@ -130,8 +130,8 @@ onConnectionClicked(const QModelIndex& index)
     if (c && type != Connections::UnknownDB) {
       QWidget* w =  p->stackedWidget->widget(type);
 
-      ConnectionPropertiesWidget* cpw =
-        static_cast<ConnectionPropertiesWidget*>(w);
+      Mixin::ConnectionAcceptor* cpw =
+        dynamic_cast<Mixin::ConnectionAcceptor*>(w);
 
       cpw->setConnection(c->connection());
     }
