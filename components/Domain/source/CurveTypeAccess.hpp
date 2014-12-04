@@ -38,6 +38,10 @@ public:
 
   virtual CurveType::Shared
   findByPrimaryKey(unsigned int const& pk) = 0;
+
+public:
+  virtual void
+  createDefaultCurveTypes() = 0;
 };
 
 //

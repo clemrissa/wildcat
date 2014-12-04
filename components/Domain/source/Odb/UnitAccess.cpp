@@ -17,12 +17,12 @@ UnitAccess(Database db): _db(db) {}
 
 void
 UnitAccess::
-insert(Geo::Domain::Unit::Shared log)
+insert(Geo::Domain::Unit::Shared unit)
 {
   try {
     transaction t(_db->begin());
 
-    _db->persist(*log);
+    _db->persist(*unit);
     t.commit();
   } catch (odb::exception const& e) {
     FATAL << "Odb error happened: "
@@ -33,12 +33,12 @@ insert(Geo::Domain::Unit::Shared log)
 
 void
 UnitAccess::
-update(Geo::Domain::Unit::Shared log)
+update(Geo::Domain::Unit::Shared unit)
 {
   try {
     transaction t(_db->begin());
 
-    _db->update(*log);
+    _db->update(*unit);
     t.commit();
   } catch (odb::exception const& e) {
     FATAL << "Odb error happened: "
@@ -49,12 +49,12 @@ update(Geo::Domain::Unit::Shared log)
 
 void
 UnitAccess::
-remove(Geo::Domain::Unit::Shared log)
+remove(Geo::Domain::Unit::Shared unit)
 {
   try {
     transaction t(_db->begin());
 
-    _db->erase(*log);
+    _db->erase(*unit);
     t.commit();
   } catch (odb::exception const& e) {
     FATAL << "Odb error happened: "
@@ -92,9 +92,9 @@ findAll()
     Result r(_db->query<Unit>());
 
     for (Result::iterator i(r.begin()); i != r.end(); ++i) {
-      Unit::Shared log(i.load());
+      Unit::Shared unit(i.load());
 
-      vector.push_back(log);
+      vector.push_back(unit);
     }
 
     t.commit();
@@ -113,4 +113,35 @@ findByPrimaryKey(unsigned int const& pk)
 {
   using Geo::Domain::Unit;
   return Unit::Shared(_db->load<Unit>(pk));
+}
+
+
+void
+UnitAccess::
+createDefaultUnits()
+{
+
+  // create list of units
+  QList<Unit::Shared> unitsToBeCreated;
+  {
+  }
+
+  // insert list of units
+  {
+    auto existingUnits = findAll();
+
+    QSet<QString> existingUnitNames;
+
+    for (Unit::Shared u : existingUnits)
+      existingUnitNames.insert(u->getName());
+
+
+    for (Unit::Shared u : unitsToBeCreated)
+      if (!existingUnitNames.contains(u->getName()))
+      {
+        insert(u);
+      }
+  }
+
+  
 }

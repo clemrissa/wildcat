@@ -114,3 +114,17 @@ findByPrimaryKey(unsigned int const& pk)
   using Geo::Domain::CurveType;
   return CurveType::Shared(_db->load<CurveType>(pk));
 }
+
+
+
+void
+CurveTypeAccess::
+createDefaultCurveTypes()
+{
+  //auto existingCurveTypes = findAll();
+
+  //QSet<Qstring> existingCurveTypeNames;
+
+  //for (CurveType::Shared ct : existingCurveTypes)
+    //existingCurveTypeNames.insert(cd->)
+}

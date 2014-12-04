@@ -152,5 +152,4 @@ createDefaultTraits()
 
       insert(emptyTrait);
     }
-
 }

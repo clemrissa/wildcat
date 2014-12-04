@@ -44,6 +44,10 @@ public:
   Geo::Domain::Unit::Shared
   findByPrimaryKey(unsigned int const& pk);
 
+public:
+  void
+  createDefaultUnits() override;
+
 private:
   Database _db;
 };

@@ -38,7 +38,13 @@ public:
 
   virtual Unit::Shared
   findByPrimaryKey(unsigned int const& pk) = 0;
+
+public:
+  virtual void
+  createDefaultUnits() = 0;
 };
+
+//
 }
 }
 

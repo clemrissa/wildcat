@@ -44,9 +44,15 @@ public:
   Geo::Domain::CurveType::Shared
   findByPrimaryKey(unsigned int const& pk);
 
+public:
+  void
+  createDefaultCurveTypes() override;
+
 private:
   Database _db;
 };
+
+//
 }
 }
 }
