@@ -2,6 +2,7 @@
 #define Geo_Database_TraitsWidgetModel_hpp
 
 #include <Connections/Connection.hpp>
+#include <Mixin/ConnectionAcceptor.hpp>
 
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QVariant>
@@ -19,7 +20,9 @@ class WellTraitEntry;
 
 //
 
-class TraitsWidgetModel: public QAbstractItemModel
+class TraitsWidgetModel: 
+  public QAbstractItemModel,
+  public Database::Mixin::ConnectionAcceptor
 {
   Q_OBJECT
 
@@ -58,9 +61,9 @@ public:
   Qt::ItemFlags
   flags(const QModelIndex& index) const override;
 
-public:
+public slots:
   void
-  setConnection(Connections::Connection::Shared connection);
+  setConnection(Database::Connections::Connection::Shared connection) override;
 
 public slots:
   void

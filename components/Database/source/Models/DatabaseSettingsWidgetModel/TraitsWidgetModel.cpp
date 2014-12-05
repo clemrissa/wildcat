@@ -209,7 +209,7 @@ flags(const QModelIndex& index) const
 
 void
 TraitsWidgetModel::
-setConnection(Connections::Connection::Shared connection)
+setConnection(Database::Connections::Connection::Shared connection)
 {
   if (!_connection.isNull())
     saveTraits();

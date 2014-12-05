@@ -25,7 +25,7 @@ public:
 
 public slots:
   void
-  setConnection(Database::Connections::Connection::Shared connection);
+  setConnection(Database::Connections::Connection::Shared connection) override;
 
 private:
   void
