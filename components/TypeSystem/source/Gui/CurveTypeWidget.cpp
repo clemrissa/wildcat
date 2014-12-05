@@ -31,19 +31,16 @@
 using AC = DependencyManager::ApplicationContext;
 
 using Geo::TypeSystem::Gui::CurveTypeWidget;
+using Geo::TypeSystem::Models::CurveTypeModel;
 
 struct CurveTypeWidget::Private
 {
-  // list of DB connections
-  QComboBox* connectionsComboBox;
-
   QPushButton* loadXmlButton;
 
   // curve types tree
   QTreeView* treeView;
 
-  // Press OK to ok
-  QDialogButtonBox* dialogButton;
+  CurveTypeModel* curveTypeModel;
 };
 
 CurveTypeWidget::
@@ -64,6 +61,9 @@ CurveTypeWidget():
 CurveTypeWidget::
 ~CurveTypeWidget()
 {
+  if (p->curveTypeModel)
+    delete p->curveTypeModel;
+
   delete p;
 }
 
@@ -72,26 +72,17 @@ void
 CurveTypeWidget::
 setupUi()
 {
-  // --------------------
-
-  p->connectionsComboBox = new QComboBox();
-
-  using CLM = Geo::Models::ConnectionListModel;
-  auto m = AC::create<CLM>("Models.ConnectionListModel");
-  // inject connections model
-  p->connectionsComboBox->setModel(m);
-
-  // --------------------
-
   p->loadXmlButton = new QPushButton(tr("Load Slb Xml"));
 
   p->loadXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
 
   // --------------------
 
+  p->curveTypeModel = new CurveTypeModel();
+
   p->treeView = new QTreeView();
 
-  p->treeView->setModel(new Geo::TypeSystem::Models::CurveTypeModel());
+  p->treeView->setModel(p->curveTypeModel);
 
   p->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -100,8 +91,6 @@ setupUi()
   p->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
   // p->treeView->setItemDelegate(new ImportTreeItemDelegate());
-
-  p->dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok);
 
   // -- horizontal line
 
@@ -112,7 +101,6 @@ setupUi()
 
   QVBoxLayout* layout = new QVBoxLayout(this);
 
-  layout->addWidget(p->connectionsComboBox);
   layout->addWidget(f);
 
   auto ll = new QHBoxLayout();
@@ -122,7 +110,6 @@ setupUi()
   layout->addLayout(ll);
 
   layout->addWidget(p->treeView);
-  layout->addWidget(p->dialogButton);
 }
 
 
@@ -130,12 +117,6 @@ void
 CurveTypeWidget::
 connectSignals()
 {
-  connect(p->dialogButton, SIGNAL(accepted()),
-          this, SLOT(onImportClicked()));
-
-  connect(p->connectionsComboBox, SIGNAL(activated(int)),
-          this, SLOT(onConnectionSelected(int)));
-
   connect(p->loadXmlButton, SIGNAL(released()),
           this, SLOT(onLoadXmlClicked()));
 
@@ -166,30 +147,6 @@ connectSignals()
 // p->treeView->expandAll();
 // }
 // }
-
-void
-CurveTypeWidget::
-onImportClicked()
-{
-  // close import window
-  static_cast<QWidget*>(parent())->close();
-}
-
-
-void
-CurveTypeWidget::
-onConnectionSelected(int index)
-{
-  // using CM = Database::Connections::ConnectionManager;
-
-  // auto cm = AC::create<CM>("Database.ConnectionManager");
-
-  // auto model =
-  // static_cast<ImportTreeModel*>(p->treeView->model());
-
-  // if (model)
-  // model->setConnection(cm->connections()[index]);
-}
 
 
 // TODO: remove data processing from GUI
@@ -248,4 +205,11 @@ onLoadXmlClicked()
       curveTypeModel->loadXml(fileName);
 
 
+}
+
+void
+CurveTypeWidget::
+setConnection(Database::Connections::Connection::Shared connection) 
+{
+  p->curveTypeModel->setConnection(connection);
 }

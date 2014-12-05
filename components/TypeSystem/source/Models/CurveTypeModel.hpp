@@ -4,6 +4,9 @@
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QVector>
 
+#include <Database/Mixin/ConnectionAcceptor>
+#include <Database/Connections/Connection>
+
 namespace Geo {
 namespace TypeSystem {
 namespace Models {
@@ -13,7 +16,9 @@ class TreeEntry;
 class MainFamilyEntry;
 //
 
-class CurveTypeModel: public QAbstractItemModel
+class CurveTypeModel: 
+  public QAbstractItemModel,
+  public Database::Mixin::ConnectionAcceptor
 {
 public:
   CurveTypeModel();
@@ -56,9 +61,13 @@ public:
   Qt::ItemFlags
   flags(const QModelIndex& index) const override;
 
-public:
+public slots:
   void
   loadXml(QString fileName);
+
+  void
+  setConnection(Database::Connections::Connection::Shared connection) override;
+
 
 private:
   int

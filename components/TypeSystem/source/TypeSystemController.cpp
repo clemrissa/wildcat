@@ -56,13 +56,19 @@ showCurveTypeWidget()
 {
   using AC = DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
+  using Geo::Widgets::ConnectionSettingsWidget;
   using TypeSystem::Gui::CurveTypeWidget;
 
   auto mainWindow = AC::create<MainWindow>("Core.MainWindow");
 
+  auto settingsWidget =
+    AC::create<ConnectionSettingsWidget>("Widgets.ConnectionSettingsWidget");
+
   auto curveTypeWidget = new CurveTypeWidget();
 
-  mainWindow->toCentralWidget(curveTypeWidget);
+  settingsWidget->setEditorWidget(curveTypeWidget);
+
+  mainWindow->toCentralWidget(settingsWidget);
 }
 
 
@@ -72,17 +78,16 @@ showUnitsWidget()
 {
   using AC = DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
-
-  using TypeSystem::Gui::CurveTypeWidget;
+  using Geo::Widgets::ConnectionSettingsWidget;
+  //using TypeSystem::Gui::UnitsWidget;
 
   auto mainWindow = AC::create<MainWindow>("Core.MainWindow");
 
   auto settingsWidget =
-    AC::create<Geo::Widgets::ConnectionSettingsWidget>(
-      "Widgets.ConnectionSettingsWidget");
+    AC::create<ConnectionSettingsWidget>("Widgets.ConnectionSettingsWidget");
 
   // inject widget here
-  auto curveTypeWidget = new CurveTypeWidget();
+  //auto curveTypeWidget = new CurveTypeWidget();
 
   //settingsWidget->setEditorWidget(traitsWidget);
 

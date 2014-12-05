@@ -255,6 +255,13 @@ loadXml(QString fileName)
   //
 }
 
+void
+CurveTypeModel::
+setConnection(Database::Connections::Connection::Shared connection)
+{
+  Q_UNUSED(connection);
+}
+
 
 int
 CurveTypeModel::

@@ -2,13 +2,17 @@
 #define Geo_Import_CurveTypeWidget_hpp
 
 #include <QWidget>
+#include <Database/Mixin/ConnectionAcceptor>
 
 namespace Geo {
 namespace TypeSystem {
 namespace Gui {
 //
 
-class CurveTypeWidget: public QWidget
+class CurveTypeWidget: 
+  public QWidget,
+  public Database::Mixin::ConnectionAcceptor
+
 {
   Q_OBJECT
 
@@ -18,22 +22,16 @@ public:
   virtual
   ~CurveTypeWidget();
 
-  // public:
-  // void
-  // setModel(ImportTreeModel* importModel);
-
 private slots:
-  void
-  onImportClicked();
-
-  void
-  onConnectionSelected(int index);
-
   void
   onTableViewMenuRequested(const QPoint&);
 
   void 
   onLoadXmlClicked();
+
+public slots:
+  void
+  setConnection(Database::Connections::Connection::Shared connection) override;
 
 signals:
   void notifyMainWindow(QString);
