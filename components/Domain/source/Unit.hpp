@@ -19,14 +19,36 @@ class Unit
 public:
   typedef QSharedPointer<Unit> Shared;
 
+  // template <typename... Ts>
+  // static Shared
+  // create(Ts... args)
+  // {
+  // return Shared(new Unit(args...));
+  // }
+
+  static Shared
+  create(QString const    name,
+         QString const    symbol,
+         double const     scale,
+         double const     offset,
+         Dimensions const dimensions)
+  {
+    return Shared(new Unit(name,
+                           symbol,
+                           scale,
+                           offset,
+                           dimensions));
+  }
+
+public:
   Unit()
   {
   }
 
   Unit(QString const    name,
        QString const    symbol,
-       double const     offset,
        double const     scale,
+       double const     offset,
        Dimensions const dimensions);
 
   virtual
@@ -34,15 +56,17 @@ public:
   {
   }
 
+  /// For example: Celsius -> Kelvin
+  ///              Inch -> Meter
+  ///              Lbm -> Kg
+  double
+  standardize(double value) const;
+
   /// Takes "normal" value and convers to this non-standard unit
   /// Meter -> Foot
   /// Radian -> Degree
   double
-  convert(double value) const;
-
-  /// For example Celsius -> Kelvin or Inch -> Meter
-  double
-  unconvert(double value) const;
+  destandardize(double value) const;
 
 public:
   // getters
@@ -84,9 +108,11 @@ private:
   QString _name;
   QString _symbol;
 
-  /// For non-standard units like Celsius Degree, cm, torque in pound-foot
-  double _offset;
+  /// For non-standard units like Celsius Degree,
+  /// cm, torque in pound-foot.
+  /// Standard units (SI) have 1.0 and 1.0
   double _scale;
+  double _offset;
 
   Dimensions _dimensions;
 };

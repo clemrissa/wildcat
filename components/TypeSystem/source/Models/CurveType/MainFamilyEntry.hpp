@@ -9,6 +9,7 @@
 namespace Geo {
 namespace TypeSystem {
 namespace Models {
+namespace CurveTypes {
 //
 
 class MainFamilyEntry: public TreeEntry
@@ -38,6 +39,7 @@ protected:
 };
 
 //
+}
 }
 }
 }

@@ -12,7 +12,9 @@ namespace Domain {
 namespace Odb {
 //
 
-class UnitAccess: public Geo::Domain::UnitAccess
+class UnitAccess:
+  public QObject,
+  public Geo::Domain::UnitAccess
 {
 public:
   typedef typename Geo::Domain::UnitAccess::Shared Shared;

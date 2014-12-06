@@ -2,22 +2,13 @@
 
 #include <QtWidgets/QLabel>
 
-// #include <Core/MainWindow>
-// #include <Uni/Logging/Logging>
-
-// #include
-// <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
-// #include
-// <Models/TypeSystemSettingsWidgetModel/TypeSystemSettingsWidgetModel.hpp>
-
 #include <Core/MainWindow>
 #include <DependencyManager/ApplicationContext>
 
-#include <Gui/CurveTypeWidget.hpp>
-
-#include <DependencyManager/ApplicationContext>
-
 #include <Widgets/ConnectionSettingsWidget>
+
+#include "Gui/CurveTypeWidget.hpp"
+#include "Gui/UnitWidget.hpp"
 
 namespace Geo {
 namespace TypeSystem {
@@ -79,7 +70,7 @@ showUnitsWidget()
   using AC = DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
   using Geo::Widgets::ConnectionSettingsWidget;
-  //using TypeSystem::Gui::UnitsWidget;
+  using TypeSystem::Gui::UnitWidget;
 
   auto mainWindow = AC::create<MainWindow>("Core.MainWindow");
 
@@ -87,12 +78,13 @@ showUnitsWidget()
     AC::create<ConnectionSettingsWidget>("Widgets.ConnectionSettingsWidget");
 
   // inject widget here
-  //auto curveTypeWidget = new CurveTypeWidget();
+  auto unitWidget = new UnitWidget();
 
-  //settingsWidget->setEditorWidget(traitsWidget);
+  settingsWidget->setEditorWidget(unitWidget);
 
   mainWindow->toCentralWidget(settingsWidget);
 }
+
 
 //
 }

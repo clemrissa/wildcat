@@ -1,5 +1,5 @@
-#ifndef Geo_Import_CurveTypeWidget_hpp
-#define Geo_Import_CurveTypeWidget_hpp
+#ifndef Geo_Import_UnitWidget_hpp
+#define Geo_Import_UnitWidget_hpp
 
 #include <Database/Mixin/ConnectionAcceptor>
 #include <QWidget>
@@ -9,24 +9,21 @@ namespace TypeSystem {
 namespace Gui {
 //
 
-class CurveTypeWidget:
+class UnitWidget:
   public QWidget,
   public Database::Mixin::ConnectionAcceptor
 {
   Q_OBJECT
 
 public:
-  CurveTypeWidget();
+  UnitWidget();
 
   virtual
-  ~CurveTypeWidget();
+  ~UnitWidget();
 
 private slots:
   void
   onTableViewMenuRequested(const QPoint&);
-
-  void
-  onLoadXmlClicked();
 
 public slots:
   void
@@ -45,7 +42,7 @@ private:
 private:
   struct Private;
 
-  Private* p;
+  Private* _p;
 };
 
 //
@@ -53,4 +50,4 @@ private:
 } // namespace TypeSystem
 } // namespace Geo
 
-#endif // Geo_Import_CurveTypeWidget_hpp
+#endif // Geo_Import_UnitWidget_hpp

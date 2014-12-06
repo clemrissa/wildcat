@@ -1,14 +1,14 @@
 #include "TreeEntry.hpp"
 
-using Geo::TypeSystem::Models::TreeEntry;
+using Geo::TypeSystem::Models::Units::TreeEntry;
 
-using Geo::Domain::CurveType;
+using Geo::Domain::Unit;
 
 TreeEntry::
-TreeEntry(CurveType::Shared curveType,
-          TreeEntry*        parent):
+TreeEntry(Unit::Shared unit,
+          TreeEntry*   parent):
   _parent(parent),
-  _curveType(curveType)
+  _unit(unit)
 {
   //
 }
@@ -18,8 +18,8 @@ TreeEntry::
 TreeEntry(TreeEntry* parent):
   _parent(parent)
 {
-
 }
+
 
 TreeEntry::
 TreeEntry():

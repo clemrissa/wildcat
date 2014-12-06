@@ -20,7 +20,7 @@ public slots:
   void
   showCurveTypeWidget();
 
-  void 
+  void
   showUnitsWidget();
 
 private:

@@ -1,7 +1,7 @@
 #include "FamilyEntry.hpp"
 
-using Geo::TypeSystem::Models::FamilyEntry;
-using Geo::TypeSystem::Models::TreeEntry;
+using Geo::TypeSystem::Models::CurveTypes::FamilyEntry;
+using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 
 FamilyEntry::
 FamilyEntry(Geo::Domain::CurveType::Shared curveType,

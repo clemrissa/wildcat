@@ -4,6 +4,7 @@
 #include <Domain/Odb/LogAccess>
 #include <Domain/Odb/LogParameterAccess>
 #include <Domain/Odb/LogParameterGroupAccess>
+#include <Domain/Odb/UnitAccess>
 #include <Domain/Odb/WellAccess>
 #include <Domain/Odb/WellTraitAccess>
 
@@ -16,6 +17,8 @@
 namespace Geo {
 namespace Domain {
 namespace Odb {
+//
+
 class DataAccessFactory: public Domain::DataAccessFactory
 {
 private:
@@ -69,6 +72,12 @@ public:
     return Domain::LogParameterAccess::Shared(new LogParameterAccess(_db));
   }
 
+  Domain::UnitAccess::Shared
+  unitAccess() const override
+  {
+    return Domain::UnitAccess::Shared(new UnitAccess(_db));
+  }
+
 public:
   /// Performs some DB-related work after connection is established
   void
@@ -76,13 +85,14 @@ public:
   {
     wellTraitAccess()->createDefaultTraits();
 
-    // TODO: create default units
-    // unitAccess()->createDefaultUnits();
+    unitAccess()->createDefaultUnits();
   }
 
 private:
   Database _db;
 };
+
+//
 }
 }
 }

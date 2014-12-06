@@ -4,6 +4,7 @@
 #include <Domain/LogAccess>
 #include <Domain/LogParameterAccess>
 #include <Domain/LogParameterGroupAccess>
+#include <Domain/UnitAccess>
 #include <Domain/WellAccess>
 #include <Domain/WellTraitAccess>
 
@@ -47,6 +48,9 @@ public:
 
   virtual LogParameterAccess::Shared
   logParameterAccess() const = 0;
+
+  virtual UnitAccess::Shared
+  unitAccess() const = 0;
 
 public:
   virtual void

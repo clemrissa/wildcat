@@ -4,10 +4,10 @@
 
 #include <QtCore/QFile>
 
-using Geo::TypeSystem::Models::MainFamilyEntry;
-using Geo::TypeSystem::Models::TreeEntry;
+using Geo::TypeSystem::Models::CurveTypes::MainFamilyEntry;
+using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 
-using Geo::TypeSystem::Models::CurveTypeModel;
+using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
 
 CurveTypeModel::
 CurveTypeModel()
@@ -254,6 +254,7 @@ loadXml(QString fileName)
   endResetModel();
   //
 }
+
 
 void
 CurveTypeModel::

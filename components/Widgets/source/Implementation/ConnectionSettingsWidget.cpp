@@ -57,22 +57,7 @@ void
 ConnectionSettingsWidget::
 setEditorWidget(QWidget* editorWidget)
 {
-  // ------ setup connection model
-  using AC = DependencyManager::ApplicationContext;
-  // using CLM = Geo::Models::ConnectionListModel;
-
-  // auto m = AC::create<CLM>("Models.ConnectionListModel");
-
-  //// remove old model
-
-  // auto oldModel = editorWidget->model();
-
-  // if (oldModel)
-  // delete oldModel;
-
-  // editorWidget->setModel(m);
-
-  //// set GUI
+  // set GUI
 
   p->editorWidget = editorWidget;
 
@@ -88,6 +73,7 @@ setEditorWidget(QWidget* editorWidget)
   connectSignals();
 
   // select first connection
+  using AC = DependencyManager::ApplicationContext;
   using Database::Connections::ConnectionManager;
   auto cm = AC::create<ConnectionManager>("Database.ConnectionManager");
 

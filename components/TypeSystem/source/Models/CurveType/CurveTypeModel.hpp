@@ -4,19 +4,20 @@
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QVector>
 
-#include <Database/Mixin/ConnectionAcceptor>
 #include <Database/Connections/Connection>
+#include <Database/Mixin/ConnectionAcceptor>
 
 namespace Geo {
 namespace TypeSystem {
 namespace Models {
+namespace CurveTypes {
 //
 
 class TreeEntry;
 class MainFamilyEntry;
 //
 
-class CurveTypeModel: 
+class CurveTypeModel:
   public QAbstractItemModel,
   public Database::Mixin::ConnectionAcceptor
 {
@@ -68,7 +69,6 @@ public slots:
   void
   setConnection(Database::Connections::Connection::Shared connection) override;
 
-
 private:
   int
   getEntryPosition(TreeEntry* const entry) const;
@@ -78,6 +78,7 @@ private:
 };
 
 //
+}
 }
 }
 }

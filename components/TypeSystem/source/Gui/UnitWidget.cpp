@@ -1,4 +1,4 @@
-#include "CurveTypeWidget.hpp"
+#include "UnitWidget.hpp"
 
 #include <Uni/Logging/Logging>
 
@@ -23,68 +23,68 @@
 #include <DependencyManager/ApplicationContext>
 #include <Models/ConnectionListModel>
 
-#include <Models/CurveType/CurveTypeModel.hpp>
+#include <Models/Units/UnitModel.hpp>
 
 using AC = DependencyManager::ApplicationContext;
 
-using Geo::TypeSystem::Gui::CurveTypeWidget;
-using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
+using Geo::TypeSystem::Gui::UnitWidget;
+using Geo::TypeSystem::Models::Units::UnitModel;
 
-struct CurveTypeWidget::Private
+struct UnitWidget::Private
 {
   QPushButton* loadXmlButton;
 
   // curve types tree
   QTreeView* treeView;
 
-  CurveTypeModel* curveTypeModel;
+  UnitModel* unitsModel;
 };
 
-CurveTypeWidget::
-CurveTypeWidget():
-  p(new Private)
+UnitWidget::
+UnitWidget():
+  _p(new Private)
 {
   setupUi();
 
   connectSignals();
 
-  emit notifyMainWindow(tr("Configure available Curve Types"));
+  emit notifyMainWindow(tr("Configure available Units"));
 }
 
 
-CurveTypeWidget::
-~CurveTypeWidget()
+UnitWidget::
+~UnitWidget()
 {
-  if (p->curveTypeModel)
-    delete p->curveTypeModel;
+  if (_p->unitsModel)
+    delete _p->unitsModel;
 
-  delete p;
+  delete _p;
 }
 
 
 void
-CurveTypeWidget::
+UnitWidget::
 setupUi()
 {
-  p->loadXmlButton = new QPushButton(tr("Load Slb Xml"));
+  _p->loadXmlButton = new QPushButton(tr("Load Slb Xml"));
 
-  p->loadXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
+  _p->loadXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
 
   // --------------------
 
-  p->curveTypeModel = new CurveTypeModel();
+  _p->unitsModel = new UnitModel();
 
-  p->treeView = new QTreeView();
+  _p->treeView = new QTreeView();
 
-  p->treeView->setModel(p->curveTypeModel);
+  _p->treeView->setModel(_p->unitsModel);
 
-  p->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+  _p->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-  p->treeView->setAlternatingRowColors(true);
-  p->treeView->header()->show();
-  p->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+  _p->treeView->setAlternatingRowColors(true);
+  _p->treeView->header()->show();
+  _p->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
-  // p->treeView->setItemDelegate(new ImportTreeItemDelegate());
+  // _p->treeView->setItemDelegate(new ImportTreeItemDelegate());
 
   // -- horizontal line
 
@@ -99,19 +99,19 @@ setupUi()
 
   auto ll = new QHBoxLayout();
 
-  ll->addWidget(p->loadXmlButton);
+  ll->addWidget(_p->loadXmlButton);
   ll->addStretch();
   layout->addLayout(ll);
 
-  layout->addWidget(p->treeView);
+  layout->addWidget(_p->treeView);
 }
 
 
 void
-CurveTypeWidget::
+UnitWidget::
 connectSignals()
 {
-  connect(p->loadXmlButton, SIGNAL(released()),
+  connect(_p->loadXmlButton, SIGNAL(released()),
           this, SLOT(onLoadXmlClicked()));
 
   // -------- main window notification
@@ -125,11 +125,12 @@ connectSignals()
 
 // TODO: remove data processing from GUI
 void
-CurveTypeWidget::
+UnitWidget::
 onTableViewMenuRequested(const QPoint& pos)
 {
   Q_UNUSED(pos);
-  // QModelIndex index = p->treeView->indexAt(pos);
+
+  // QModelIndex index = _p->treeView->indexAt(pos);
 
   // if (!index.isValid())
   // return;
@@ -153,36 +154,14 @@ onTableViewMenuRequested(const QPoint& pos)
   // if (menu.isNull())
   // return;
 
-  // menu->exec(p->treeView->mapToGlobal(pos));
+  // menu->exec(_p->treeView->mapToGlobal(pos));
   // }
 }
 
 
 void
-CurveTypeWidget::
-onLoadXmlClicked()
-{
-  QString fileName =
-    QFileDialog::getOpenFileName(this,
-                                 tr("Select a Schlumberger Xml file"),
-                                 QString(),
-                                 tr("Database files (*.xml)"));
-
-  if (fileName.isEmpty())
-    return;
-
-  using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
-
-  auto curveTypeModel = static_cast<CurveTypeModel*>(p->treeView->model());
-
-  if (curveTypeModel)
-    curveTypeModel->loadXml(fileName);
-}
-
-
-void
-CurveTypeWidget::
+UnitWidget::
 setConnection(Database::Connections::Connection::Shared connection)
 {
-  p->curveTypeModel->setConnection(connection);
+  _p->unitsModel->setConnection(connection);
 }

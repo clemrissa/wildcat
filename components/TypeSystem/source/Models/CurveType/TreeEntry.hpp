@@ -17,6 +17,7 @@ class QAbstractItemModel;
 namespace Geo {
 namespace TypeSystem {
 namespace Models {
+namespace CurveTypes {
 //
 
 /// @brief Composite pattern. Used to represent CurveType structure as a tree.
@@ -88,6 +89,7 @@ protected:
 };
 
 //
+}
 }
 }
 }

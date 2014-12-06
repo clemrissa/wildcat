@@ -6,6 +6,8 @@
 
 #include <odb/transaction.hxx>
 
+#include <QtCore/QSet>
+
 using Geo::Domain::Odb::UnitAccess;
 using odb::core::transaction;
 
@@ -120,28 +122,30 @@ void
 UnitAccess::
 createDefaultUnits()
 {
-
   // create list of units
   QList<Unit::Shared> unitsToBeCreated;
-  {
-  }
+
+  unitsToBeCreated
+    << Unit::create(tr("Meter"), tr("m"), 1., 0., Dimensions::Length())
+    << Unit::create(tr("Kilogram"), tr("kg"), 1., 0., Dimensions::Mass())
+    << Unit::create(tr("Second"), tr("s"), 1., 0., Dimensions::Time())
+    << Unit::create(tr("Ampere"), tr("A"), 1., 0., Dimensions::Current())
+    << Unit::create(tr("Kelvin"), tr("K"), 1., 0., Dimensions::Temperature())
+    << Unit::create(tr("Mole"), tr(
+                    "mol"), 1., 0., Dimensions::AmountOfSubstance())
+    << Unit::create(tr("Candela"), tr(
+                    "cd"), 1., 0., Dimensions::LuminousIntensity());
 
   // insert list of units
-  {
-    auto existingUnits = findAll();
+  auto existingUnits = findAll();
 
-    QSet<QString> existingUnitNames;
+  QSet<QString> existingUnitNames;
 
-    for (Unit::Shared u : existingUnits)
-      existingUnitNames.insert(u->getName());
+  for (Unit::Shared u : existingUnits)
+    existingUnitNames.insert(u->getName());
 
+  for (Unit::Shared u : unitsToBeCreated)
+    if (!existingUnitNames.contains(u->getName()))
+      insert(u);
 
-    for (Unit::Shared u : unitsToBeCreated)
-      if (!existingUnitNames.contains(u->getName()))
-      {
-        insert(u);
-      }
-  }
-
-  
 }
