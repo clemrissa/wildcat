@@ -13,7 +13,7 @@ namespace Models {
 namespace Units {
 //
 
-class TreeEntry;
+class UnitTableEntry;
 //
 
 class UnitModel:
@@ -70,10 +70,15 @@ public slots:
 
 private:
   int
-  getEntryPosition(TreeEntry* const entry) const;
+  getEntryPosition(UnitTableEntry* const entry) const;
+
+  void
+  reloadUnits();
 
 private:
-  QVector<TreeEntry*> _units;
+  Database::Connections::Connection::Shared _connection;
+
+  QVector<UnitTableEntry*> _unitEntries;
 };
 
 //

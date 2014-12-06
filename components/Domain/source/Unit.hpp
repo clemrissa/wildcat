@@ -41,9 +41,7 @@ public:
   }
 
 public:
-  Unit()
-  {
-  }
+  Unit();
 
   Unit(QString const    name,
        QString const    symbol,
@@ -67,6 +65,9 @@ public:
   /// Radian -> Degree
   double
   destandardize(double value) const;
+
+  bool
+  isValid() const;
 
 public:
   // getters

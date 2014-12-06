@@ -1,8 +1,8 @@
 #ifndef Geo_Import_ImportWidget_hpp
 #define Geo_Import_ImportWidget_hpp
 
-#include <QtWidgets/QWidget>
 #include <Database/Mixin/ConnectionAcceptor>
+#include <QtWidgets/QWidget>
 
 namespace Geo {
 namespace Import {

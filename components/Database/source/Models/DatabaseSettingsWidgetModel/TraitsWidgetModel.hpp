@@ -20,7 +20,7 @@ class WellTraitEntry;
 
 //
 
-class TraitsWidgetModel: 
+class TraitsWidgetModel:
   public QAbstractItemModel,
   public Database::Mixin::ConnectionAcceptor
 {

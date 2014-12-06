@@ -41,11 +41,12 @@ struct LasWidget::Private
   Private():
     treeView(nullptr),
     importTreeModel(nullptr)
-  {}
+  {
+  }
 
   QTreeView* treeView;
 
-  ImportTreeModel *importTreeModel;
+  ImportTreeModel* importTreeModel;
 };
 
 LasWidget::
@@ -74,20 +75,8 @@ LasWidget::
 setModel(ImportTreeModel* importModel)
 {
   _p->treeView->setModel(importModel);
-
-
-  //using DependencyManager::ApplicationContext;
-  //using Geo::Database::Connections::ConnectionManager;
-
-  //auto connectionManager =
-    //ApplicationContext::create<ConnectionManager>(
-      //"Database.ConnectionManager");
-
-  //if (connectionManager->size()) {
-    //importModel->setConnection(connectionManager->at(0));
-   //_p->treeView->expandAll();
-  //}
 }
+
 
 void
 LasWidget::
@@ -96,6 +85,7 @@ setConnection(Database::Connections::Connection::Shared connection)
   if (_p->importTreeModel)
     _p->importTreeModel->setConnection(connection);
 }
+
 
 void
 LasWidget::
@@ -134,54 +124,49 @@ connectSignals()
 }
 
 
+// void
+// LasWidget::
+// onImportClicked()
+// {
+//// take selected database  and push data into there
 
+// auto importTreeModel =
+// static_cast<ImportTreeModel*>(p->treeView->model());
+// auto lasFileEntries = importTreeModel->getLasFileEntries();
 
-//void
-//LasWidget::
-//onImportClicked()
-//{
-  //// take selected database  and push data into there
+// QVector<LasFile::Shared> lasFiles;
 
-  //auto importTreeModel =
-    //static_cast<ImportTreeModel*>(p->treeView->model());
-  //auto lasFileEntries = importTreeModel->getLasFileEntries();
+// for (auto lasFileEntry : lasFileEntries)
+// lasFiles.append(lasFileEntry->lasFile());
 
-  //QVector<LasFile::Shared> lasFiles;
+// int databaseIndex =_p->connectionsComboBox->currentIndex();
 
-  //for (auto lasFileEntry : lasFileEntries)
-    //lasFiles.append(lasFileEntry->lasFile());
+// LasImporter(databaseIndex).import(lasFiles);
 
-  //int databaseIndex =_p->connectionsComboBox->currentIndex();
+//// close import window
+// static_cast<QWidget*>(parent())->close();
+// }
 
-  //LasImporter(databaseIndex).import(lasFiles);
+// void
+// LasWidget::
+// onConnectionSelected(int index)
+// {
+// using CM = Database::Connections::ConnectionManager;
 
-  //// close import window
-  //static_cast<QWidget*>(parent())->close();
-//}
+// auto cm = AC::create<CM>("Database.ConnectionManager");
 
+// auto model = static_cast<ImportTreeModel*>(p->treeView->model());
 
-
-//void
-//LasWidget::
-//onConnectionSelected(int index)
-//{
-  //using CM = Database::Connections::ConnectionManager;
-
-  //auto cm = AC::create<CM>("Database.ConnectionManager");
-
-  //auto model = static_cast<ImportTreeModel*>(p->treeView->model());
-
-  //if (model)
-    //model->setConnection(cm->connections()[index]);
-//}
-
+// if (model)
+// model->setConnection(cm->connections()[index]);
+// }
 
 // TODO: remove data processing from GUI
 void
 LasWidget::
 onTableViewMenuRequested(const QPoint& pos)
 {
-  QModelIndex index =_p->treeView->indexAt(pos);
+  QModelIndex index = _p->treeView->indexAt(pos);
 
   if (!index.isValid())
     return;

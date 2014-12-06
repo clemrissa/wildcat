@@ -4,6 +4,15 @@ using Geo::Domain::Dimensions;
 using Geo::Domain::Unit;
 
 Unit::
+Unit():
+  _scale(0.0),
+  _offset(0.0),
+  _dimensions(Dimensions::None())
+{
+}
+
+
+Unit::
 Unit(QString const    name,
      QString const    symbol,
      double const     scale,
@@ -32,4 +41,14 @@ Unit::
 destandardize(double value) const
 {
   return (value - _offset) / _scale;
+}
+
+
+bool
+Unit::
+isValid() const
+{
+  return !_name.isEmpty() &&
+         !_symbol.isEmpty() &&
+         _scale != 0.0;
 }

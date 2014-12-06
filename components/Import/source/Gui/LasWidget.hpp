@@ -14,9 +14,9 @@ class ImportTreeModel;
 namespace Gui {
 //
 
-class LasWidget: 
+class LasWidget:
   public QWidget,
-  public Database::Mixin::ConnectionAcceptor 
+  public Database::Mixin::ConnectionAcceptor
 {
   Q_OBJECT
 
@@ -30,16 +30,10 @@ public:
   void
   setModel(ImportTreeModel* importModel);
 
-  void 
+  void
   setConnection(Database::Connections::Connection::Shared connection) override;
 
 private slots:
-  //void
-  //onImportClicked();
-
-  //void
-  //onConnectionSelected(int index);
-
   void
   onTableViewMenuRequested(const QPoint&);
 

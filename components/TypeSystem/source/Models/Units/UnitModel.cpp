@@ -2,25 +2,24 @@
 
 #include <QtCore/QFile>
 
-#include "TreeEntry.hpp"
+#include "UnitTableEntry.hpp"
 
-using Geo::TypeSystem::Models::Units::TreeEntry;
+#include <Domain/Unit>
+
 using Geo::TypeSystem::Models::Units::UnitModel;
+using Geo::TypeSystem::Models::Units::UnitTableEntry;
 
 UnitModel::
 UnitModel()
 {
-  // for (LasFile::Shared lasFile : lasFiles)
-  // _lasFileEntries.append(new LasFileEntry(lasFile));
-
-  // TODO: load existing CurveTypes from database
+  reloadUnits();
 }
 
 
 UnitModel::
 ~UnitModel()
 {
-  for (TreeEntry* entry : _units)
+  for (UnitTableEntry* entry : _unitEntries)
     delete entry;
 }
 
@@ -32,8 +31,8 @@ data(const QModelIndex& index, int role) const
   if (!index.isValid())
     return QVariant();
 
-  TreeEntry* entry =
-    static_cast<TreeEntry*>(index.internalPointer());
+  UnitTableEntry* entry =
+    static_cast<UnitTableEntry*>(index.internalPointer());
 
   return entry->data(role, index.column());
 }
@@ -43,17 +42,8 @@ QModelIndex
 UnitModel::
 index(int row, int column, const QModelIndex& parent) const
 {
-  if (!parent.isValid())
-    return QAbstractItemModel::createIndex(row, column,
-                                           _units[row]);
-
-  TreeEntry* entry =
-    static_cast<TreeEntry*>(parent.internalPointer());
-
-  if (entry->entries().size() == 0)
-    return QModelIndex();
-
-  return QAbstractItemModel::createIndex(row, column, entry->entries()[row]);
+  return QAbstractItemModel::createIndex(row, column,
+                                         _unitEntries[row]);
 }
 
 
@@ -67,7 +57,7 @@ setData(const QModelIndex& index,
     return false;
 
   auto treeEntry =
-    static_cast<TreeEntry*>(index.internalPointer());
+    static_cast<UnitTableEntry*>(index.internalPointer());
 
   bool result = treeEntry->setData(role, index.column(), value);
 
@@ -82,26 +72,7 @@ QModelIndex
 UnitModel::
 parent(const QModelIndex& index) const
 {
-  TreeEntry* entry =
-    static_cast<TreeEntry*>(index.internalPointer());
-
-  Q_ASSERT(entry);
-
-  TreeEntry* parentEntry = entry->parent();
-
-  if (parentEntry == nullptr)
-    return QModelIndex();
-
-  TreeEntry* parentParentEntry = parentEntry->parent();
-
-  int position = 0;
-
-  if (parentParentEntry == nullptr)
-    position = getEntryPosition(parentEntry);
-  else
-    position = parentParentEntry->positionOfChildEntry(parentEntry);
-
-  return QAbstractItemModel::createIndex(position, 0, parentEntry);
+  return QModelIndex();
 }
 
 
@@ -110,7 +81,7 @@ UnitModel::
 columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
-  return TreeEntry::Column::Size;
+  return UnitTableEntry::Column::Size;
 }
 
 
@@ -118,13 +89,8 @@ int
 UnitModel::
 rowCount(const QModelIndex& parent) const
 {
-  if (!parent.isValid())
-    return _units.size();
-
-  TreeEntry* entry =
-    static_cast<TreeEntry*>(parent.internalPointer());
-
-  return entry->entries().size();
+  Q_UNUSED(parent);
+  return _unitEntries.size();
 }
 
 
@@ -143,23 +109,23 @@ headerData(int             section,
     return result;
 
   switch (section) {
-  case TreeEntry::Name:
+  case UnitTableEntry::Name:
     result = tr("Name");
     break;
 
-  case TreeEntry::Symbol:
+  case UnitTableEntry::Symbol:
     result = tr("Symbol");
     break;
 
-  case TreeEntry::Offset:
+  case UnitTableEntry::Offset:
     result = tr("Offset");
     break;
 
-  case TreeEntry::Scale:
+  case UnitTableEntry::Scale:
     result = tr("Scale");
     break;
 
-  case TreeEntry::Dimensions:
+  case UnitTableEntry::Dimensions:
     result = tr("Dimensions");
     break;
 
@@ -178,7 +144,7 @@ flags(const QModelIndex& index) const
 {
   Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
-  flags |= Qt::ItemIsEditable;
+  // flags |= Qt::ItemIsEditable;
 
   // flags ^= Qt::ItemIsSelectable;
 
@@ -198,17 +164,55 @@ void
 UnitModel::
 setConnection(Database::Connections::Connection::Shared connection)
 {
-  Q_UNUSED(connection);
+  // if (!_connection.isNull())
+  // saveTraits();
+
+  _connection = connection;
+
+  reloadUnits();
 }
 
 
 int
 UnitModel::
-getEntryPosition(TreeEntry* const entry) const
+getEntryPosition(UnitTableEntry* const entry) const
 {
-  auto it = std::find(_units.begin(),
-                      _units.end(), entry);
+  auto it = std::find(_unitEntries.begin(),
+                      _unitEntries.end(), entry);
 
-  return it - _units.begin();
+  return it - _unitEntries.begin();
+  //
+}
+
+
+void
+UnitModel::
+reloadUnits()
+{
+  if (_connection.isNull())
+    return;
+
+  beginResetModel();
+  {
+    qDeleteAll(_unitEntries);
+    _unitEntries.resize(0);
+
+    using Geo::Domain::Unit;
+
+    auto dataAccessFactory = _connection->dataAccessFactory();
+
+    auto unitAccess = dataAccessFactory->unitAccess();
+
+    QVector<Unit::Shared> traits = unitAccess->findAll();
+
+    for (Unit::Shared t : traits)
+      _unitEntries.append(new UnitTableEntry(t));
+
+    // we add one more empty trait
+    Unit::Shared emptyTrait(new Unit());
+
+    _unitEntries.append(new UnitTableEntry(emptyTrait));
+  }
+  endResetModel();
   //
 }

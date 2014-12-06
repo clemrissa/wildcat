@@ -12,7 +12,6 @@ namespace Geo {
 namespace Domain {
 //
 
-
 #ifdef ODB_COMPILER
   #pragma db object
 #endif
@@ -85,7 +84,6 @@ private:
 
   bool _mandatory;
 };
-
 
 //
 }

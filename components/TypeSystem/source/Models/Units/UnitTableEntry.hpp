@@ -1,5 +1,5 @@
-#ifndef Geo_TypeSystem_Unit_TreeEntry_hpp
-#define Geo_TypeSystem_Unit_TreeEntry_hpp
+#ifndef Geo_TypeSystem_Unit_UnitTableEntry_hpp
+#define Geo_TypeSystem_Unit_UnitTableEntry_hpp
 
 #include <algorithm>
 #include <vector>
@@ -24,46 +24,46 @@ namespace Units {
 /// @brief Composite pattern. Used to represent CurveType structure as a tree.
 /// Every subclass works with sertain data from the CurveType class.
 /// The whole tree is employed then in AbstractItemMoodel for QTreeView
-class TreeEntry:
+class UnitTableEntry:
   public QObject,
   public Database::Mixin::ConnectionAcceptor
 {
 public:
-  enum Column { Name       = 0,
-                Symbol     = 1,
-                Offset     = 2,
-                Scale      = 3,
-                Dimensions = 4,
+  enum Column { Name        = 0,
+                Symbol      = 1,
+                Scale       = 2,
+                Offset      = 3,
+                Dimensions  = 4,
+                CloseAction = 5,
                 Size };
 
 public:
-  TreeEntry(Geo::Domain::Unit::Shared curveType,
-            TreeEntry*                parent = nullptr);
+  UnitTableEntry(Geo::Domain::Unit::Shared unit,
+                 UnitTableEntry*           parent = nullptr);
 
-  TreeEntry(TreeEntry* parent);
+  UnitTableEntry(UnitTableEntry* parent);
 
-  TreeEntry();
+  UnitTableEntry();
 
   virtual
-  ~TreeEntry();
+  ~UnitTableEntry();
 
-  TreeEntry*
+  UnitTableEntry*
   parent() { return _parent; }
 
-  std::vector<TreeEntry*> const
+  std::vector<UnitTableEntry*> const
   entries() const { return _entries; }
 
   int
-  positionOfChildEntry(TreeEntry* const childEntry) const;
+  positionOfChildEntry(UnitTableEntry* const childEntry) const;
 
   Geo::Domain::Unit::Shared const
   curveType() const { return _unit; }
 
   virtual QVariant
-  data(int role, int column) const = 0;
+  data(int role, int column) const;
 
-  virtual
-  bool
+  virtual bool
   setData(int role, int column, QVariant value)
   { Q_UNUSED(role); Q_UNUSED(column); Q_UNUSED(value); return false; }
 
@@ -79,14 +79,21 @@ public slots:
   virtual void
   setConnection(Geo::Database::Connections::Connection::Shared connection);
 
-protected:
-  TreeEntry* _parent;
+private:
+  UnitTableEntry* _parent;
 
   Geo::Domain::Unit::Shared _unit;
 
   Geo::Database::Connections::Connection::Shared _connection;
 
-  std::vector<TreeEntry*> _entries;
+  std::vector<UnitTableEntry*> _entries;
+
+private:
+  QVariant
+  getDisplayOrEditRole(int column) const;
+
+  QVariant
+  getDecorationRole(int column) const;
 };
 
 //
@@ -94,4 +101,4 @@ protected:
 }
 }
 }
-#endif // Geo_TypeSystem_Unit_TreeEntry_hpp
+#endif // Geo_TypeSystem_Unit_UnitTableEntry_hpp
