@@ -8,7 +8,7 @@
 #include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
 
 #include <Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp>
-#include <Gui/DatabaseSettingsWidget/TraitsWidget.hpp>
+#include <Gui/Traits/TraitsWidget.hpp>
 
 #include <DependencyManager/ApplicationContext>
 
@@ -79,7 +79,7 @@ showSettingsWidget()
     AC::create<Geo::Widgets::ConnectionSettingsWidget>(
       "Widgets.ConnectionSettingsWidget");
 
-  using Geo::Database::Gui::DatabaseSettingsWidget::TraitsWidget;
+  using Geo::Database::Gui::Traits::TraitsWidget;
   auto traitsWidget = new TraitsWidget();
 
   settingsWidget->setEditorWidget(traitsWidget);

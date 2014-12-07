@@ -4,8 +4,7 @@
 
 #include <Uni/Logging/Logging>
 
-using Geo::Database::Models::DatabaseSettingsWidgetModel::
-      TraitsWidgetModel;
+using Geo::Database::Models::Traits::TraitsWidgetModel;
 
 TraitsWidgetModel::
 TraitsWidgetModel()

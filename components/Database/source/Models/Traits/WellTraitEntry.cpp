@@ -4,7 +4,7 @@
 
 #include <Uni/Logging/Logging>
 
-using Geo::Database::Models::DatabaseSettingsWidgetModel::WellTraitEntry;
+using Geo::Database::Models::Traits::WellTraitEntry;
 
 QVariant
 WellTraitEntry::

@@ -13,7 +13,7 @@ using Geo::Database::Connections::Connection;
 namespace Geo {
 namespace Database {
 namespace Models {
-namespace DatabaseSettingsWidgetModel {
+namespace Traits {
 //
 
 class WellTraitEntry;

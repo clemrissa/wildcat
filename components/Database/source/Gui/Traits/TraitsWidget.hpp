@@ -10,7 +10,9 @@ namespace Gui {
 
 class ConnectionPropertiesWiget;
 
-namespace DatabaseSettingsWidget {
+namespace Traits {
+//
+
 class TraitsWidget:
   public QWidget,
   public Mixin::ConnectionAcceptor

@@ -1,5 +1,5 @@
-#ifndef Geo_Database_Gui_DatabaseSettingsWidget_WellTraitItemDelegate_hpp
-#define Geo_Database_Gui_DatabaseSettingsWidget_WellTraitItemDelegate_hpp
+#ifndef Geo_Database_Gui_Traits_WellTraitItemDelegate_hpp
+#define Geo_Database_Gui_Traits_WellTraitItemDelegate_hpp
 
 #include <QtWidgets/QStyledItemDelegate>
 
@@ -11,7 +11,7 @@ class QWidget;
 namespace Geo {
 namespace Database {
 namespace Gui {
-namespace DatabaseSettingsWidget {
+namespace Traits {
 //
 
 class WellTraitItemDelegate: public QStyledItemDelegate
@@ -51,4 +51,4 @@ private:
 }
 }
 
-#endif //  Geo_Database_Gui_DatabaseSettingsWidget_WellTraitItemDelegate_hpp
+#endif //  Geo_Database_Gui_Traits_WellTraitItemDelegate_hpp

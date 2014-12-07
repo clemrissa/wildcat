@@ -4,7 +4,7 @@
 
 #include <Widgets/KeywordWidget>
 
-#include <Models/DatabaseSettingsWidgetModel/WellTraitEntry.hpp>
+#include <Models/Traits/WellTraitEntry.hpp>
 
 #include <Domain/WellTrait>
 
@@ -12,8 +12,8 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QTableView>
 
-using Geo::Database::Gui::DatabaseSettingsWidget::WellTraitItemDelegate;
-using Geo::Database::Models::DatabaseSettingsWidgetModel::WellTraitEntry;
+using Geo::Database::Gui::Traits::WellTraitItemDelegate;
+using Geo::Database::Models::Traits::WellTraitEntry;
 
 QWidget*
 WellTraitItemDelegate::
@@ -76,8 +76,8 @@ updateEditorGeometry(QWidget*                    editor,
   // editor->setFixedWidth(option.rect.width());
   // editor->move(option.rect.x(), option.rect.y());
 
-   //_sizeHints[std::make_pair(index.row(), index.column())] =
-     //editor->size();
+  // _sizeHints[std::make_pair(index.row(), index.column())] =
+  // editor->size();
 }
 
 
@@ -192,13 +192,13 @@ sizeHint(const QStyleOptionViewItem& option,
 {
   return QStyledItemDelegate::sizeHint(option, index);
 
-  //Q_UNUSED(option);
-  //auto iterator =
-    //_sizeHints.find(std::make_pair(index.row(),
-                                   //index.column()));
+  // Q_UNUSED(option);
+  // auto iterator =
+  // _sizeHints.find(std::make_pair(index.row(),
+  // index.column()));
 
-  //if (iterator != _sizeHints.end())
-    //return iterator->second;
-  //else
-    //return QSize();
+  // if (iterator != _sizeHints.end())
+  // return iterator->second;
+  // else
+  // return QSize();
 }

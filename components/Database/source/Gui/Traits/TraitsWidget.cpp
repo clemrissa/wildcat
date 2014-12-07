@@ -5,24 +5,23 @@
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
 
-#include <Gui/DatabaseSettingsWidget/WellTraitItemDelegate.hpp>
-#include <Models/DatabaseSettingsWidgetModel/TraitsWidgetModel.hpp>
-
-#include <Models/DatabaseSettingsWidgetModel/WellTraitEntry.hpp>
+#include <Gui/Traits/WellTraitItemDelegate.hpp>
+#include <Models/Traits/TraitsWidgetModel.hpp>
+#include <Models/Traits/WellTraitEntry.hpp>
 
 using Geo::Database::Connections::Connection;
-using Geo::Database::Gui::DatabaseSettingsWidget::TraitsWidget;
-using Geo::Database::Models::DatabaseSettingsWidgetModel::
-      TraitsWidgetModel;
+using Geo::Database::Gui::Traits::TraitsWidget;
+using Geo::Database::Models::Traits::TraitsWidgetModel;
 
-using Geo::Database::Gui::DatabaseSettingsWidget::WellTraitItemDelegate;
+using Geo::Database::Gui::Traits::WellTraitItemDelegate;
 
 struct TraitsWidget::Private
 {
-  Private(): 
+  Private():
     traitsTable(nullptr),
     traitsWidgetModel(nullptr)
-  {}
+  {
+  }
 
   QTableView* traitsTable;
 
@@ -61,7 +60,6 @@ void
 TraitsWidget::
 createUi()
 {
-  using Models::DatabaseSettingsWidgetModel::WellTraitEntry;
   _p->traitsWidgetModel = new TraitsWidgetModel();
 
   // --------------
@@ -75,6 +73,7 @@ createUi()
 
   auto headerView = _p->traitsTable->horizontalHeader();
 
+  using Models::Traits::WellTraitEntry;
   headerView->setStretchLastSection(false);
   headerView->setSectionResizeMode(WellTraitEntry::Trait,
                                    QHeaderView::ResizeToContents);

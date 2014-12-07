@@ -1,15 +1,15 @@
-#ifndef Geo_Database_DatabaseSettingsWidgetModel_WellTrait_hpp
-#define Geo_Database_DatabaseSettingsWidgetModel_WellTrait_hpp
+#ifndef Geo_Database_Traits_WellTrait_hpp
+#define Geo_Database_Traits_WellTrait_hpp
 
 #include <Database/Connections/Connection>
 #include <Domain/WellTrait>
 
-#include <Models/DatabaseSettingsWidgetModel/Entry.hpp>
+#include <Models/Traits/Entry.hpp>
 
 namespace Geo {
 namespace Database {
 namespace Models {
-namespace DatabaseSettingsWidgetModel {
+namespace Traits {
 //
 
 class WellTraitEntry: public Entry
@@ -53,4 +53,4 @@ private:
 }
 }
 
-#endif //  Geo_Database_DatabaseSettingsWidgetModel_WellTrait_hpp
+#endif //  Geo_Database_Traits_WellTrait_hpp

@@ -1,5 +1,5 @@
-#ifndef Geo_Database_Connections_DatabaseSettingsWidgetModel_Entry_hpp
-#define Geo_Database_Connections_DatabaseSettingsWidgetModel_Entry_hpp
+#ifndef Geo_Database_Connections_Traits_Entry_hpp
+#define Geo_Database_Connections_Traits_Entry_hpp
 
 #include <QVariant>
 
@@ -9,7 +9,7 @@
 namespace Geo {
 namespace Database {
 namespace Models {
-namespace DatabaseSettingsWidgetModel {
+namespace Traits {
 //
 
 class Entry: public QObject
@@ -60,4 +60,4 @@ protected:
 }
 }
 }
-#endif // Geo_Database_Connections_DatabaseSettingsWidgetModel_Entry_hpp
+#endif // Geo_Database_Connections_Traits_Entry_hpp
