@@ -126,6 +126,7 @@ createDefaultUnits()
   QList<Unit::Shared> unitsToBeCreated;
 
   unitsToBeCreated
+    << Unit::create(tr("Dimensionless"), tr(" "), 1., 0., Dimensions::None())
     << Unit::create(tr("Meter"), tr("m"), 1., 0., Dimensions::Length())
     << Unit::create(tr("Kilogram"), tr("kg"), 1., 0., Dimensions::Mass())
     << Unit::create(tr("Second"), tr("s"), 1., 0., Dimensions::Time())

@@ -8,17 +8,15 @@ Dimensions::
 Dimensions()
 {
   _dimensions.fill(0);
-
-  updateFundamentalUnits();
 }
 
 
 Dimensions::
 Dimensions(Dimension d, int const times)
 {
-  _dimensions[d] = times;
+  _dimensions.fill(0);
 
-  updateFundamentalUnits();
+  _dimensions[d] = times;
 }
 
 
@@ -28,7 +26,7 @@ Dimensions(Dimensions const& dimensions)
   for (int i = 0; i < Dimension::AllUnitsSize; ++i)
     _dimensions[i] = dimensions._dimensions[i];
 
-  updateFundamentalUnits();
+  // updateFundamentalUnits();
 }
 
 
@@ -83,11 +81,25 @@ compatible(Dimensions const& dimensions) const
 }
 
 
+QString
+Dimensions::
+getFundamentalAsString() const
+{
+  QString result = QString("[%1 %2 %3 %4 %5 %6 %7]");
+
+  for (int i = 0; i < Dimension::FundamentalUnitsSize; ++i)
+    result = result.arg(_dimensions[i], 2);
+
+  return result;
+}
+
+
 void
 Dimensions::
 updateFundamentalUnits()
 {
-  std::fill_n(_dimensions.begin(), FundamentalUnitsSize, 0);
+  std::fill_n(_dimensions.begin(),
+              FundamentalUnitsSize, 0);
 
   for (int i = DAngle; i < AllUnitsSize; ++i) {
     int n = _dimensions[i];

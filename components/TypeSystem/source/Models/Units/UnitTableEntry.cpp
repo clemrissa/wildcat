@@ -17,20 +17,6 @@ UnitTableEntry(Unit::Shared    unit,
 }
 
 
-// UnitTableEntry::
-// UnitTableEntry(UnitTableEntry* parent):
-// _parent(parent),
-// _state(Active)
-// {
-// }
-
-// UnitTableEntry::
-// UnitTableEntry():
-// _parent(nullptr)
-// {
-////
-// }
-
 UnitTableEntry::
 ~UnitTableEntry()
 {
@@ -144,6 +130,9 @@ getDisplayOrEditRole(int column) const
   case UnitTableEntry::Offset:
     result = _unit->getOffset();
     break;
+
+  case UnitTableEntry::Dimensions:
+    result = _unit->getDimensions().getFundamentalAsString();
 
   default:
     break;

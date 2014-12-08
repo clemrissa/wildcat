@@ -80,6 +80,10 @@ public:
   compatible(Dimensions const& dimensions) const;
 
 public:
+  QString
+  getFundamentalAsString() const;
+
+public:
   static Dimensions
   None() { return Dimensions(); }
 

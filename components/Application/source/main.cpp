@@ -4,8 +4,8 @@
 #include <DependencyManager/XmlApplicationContextLoader>
 
 #include <QDir>
-#include <QString>
-#include <QStringList>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
 
 #include <QtWidgets/QStyleFactory>
 

@@ -44,10 +44,6 @@ public:
   UnitTableEntry(Geo::Domain::Unit::Shared unit,
                  UnitTableEntry*           parent = nullptr);
 
-  // UnitTableEntry(UnitTableEntry* parent);
-
-  // UnitTableEntry();
-
   virtual
   ~UnitTableEntry();
 
