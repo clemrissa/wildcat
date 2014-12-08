@@ -4,6 +4,7 @@
 
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialogButtonBox>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -26,6 +27,8 @@ struct ConnectionSettingsWidget::Private
   }
 
   QComboBox* connectionsComboBox;
+
+  QGroupBox* groupBox;
 
   QWidget* editorWidget;
 
@@ -58,16 +61,18 @@ ConnectionSettingsWidget::
 setEditorWidget(QWidget* editorWidget)
 {
   // set GUI
+  setWindowTitle(editorWidget->windowTitle());
+  p->groupBox->setTitle(editorWidget->windowTitle());
 
   p->editorWidget = editorWidget;
 
-  auto l = static_cast<QVBoxLayout*>(layout());
+  auto l = static_cast<QVBoxLayout*>(p->groupBox->layout());
 
   // remove existing widget
-  if (l->count() == 3)
-    delete l->takeAt(1);
+  if (l->count())
+    delete l->takeAt(0);
 
-  l->insertWidget(1, editorWidget);
+  l->addWidget(editorWidget);
 
   // connect signals
   connectSignals();
@@ -101,6 +106,10 @@ setupUi()
   p->connectionsComboBox->setModel(m);
   // ---
 
+  p->groupBox = new QGroupBox();
+
+  // ---
+
   p->dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok);
 
   // auto okButton = p->dialogButton->button(QDialogButtonBox::Ok);
@@ -109,7 +118,14 @@ setupUi()
   auto l = new QVBoxLayout();
 
   l->addWidget(p->connectionsComboBox);
-  // l->addWidget(p->traitsWidget);
+  l->addWidget(p->groupBox);
+
+  auto ll = new QVBoxLayout();
+
+  // ll->setContentsMargins(0, 0, 0, 0);
+
+  p->groupBox->setLayout(ll);
+
   l->addWidget(p->dialogButton);
 
   setLayout(l);

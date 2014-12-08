@@ -66,6 +66,8 @@ void
 CurveTypeWidget::
 setupUi()
 {
+  setWindowTitle("Curve Types");
+
   p->loadXmlButton = new QPushButton(tr("Load Slb Xml"));
 
   p->loadXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
@@ -84,18 +86,9 @@ setupUi()
   p->treeView->header()->show();
   p->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
-  // p->treeView->setItemDelegate(new ImportTreeItemDelegate());
-
-  // -- horizontal line
-
-  QFrame* f = new QFrame();
-
-  f->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-  f->setLineWidth(3);
-
   QVBoxLayout* layout = new QVBoxLayout(this);
 
-  layout->addWidget(f);
+  layout->setContentsMargins(0, 0, 0, 0);
 
   auto ll = new QHBoxLayout();
 

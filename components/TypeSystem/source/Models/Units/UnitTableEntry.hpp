@@ -37,6 +37,9 @@ public:
                 CloseAction = 5,
                 Size };
 
+  enum State { Active,
+               Deleted };
+
 public:
   UnitTableEntry(Geo::Domain::Unit::Shared unit,
                  UnitTableEntry*           parent = nullptr);
@@ -60,6 +63,9 @@ public:
   Geo::Domain::Unit::Shared const
   curveType() const { return _unit; }
 
+  State
+  getState() const { return _state; }
+
   virtual QVariant
   data(int role, int column) const;
 
@@ -79,8 +85,13 @@ public slots:
   virtual void
   setConnection(Geo::Database::Connections::Connection::Shared connection);
 
+  void
+  switchState();
+
 private:
   UnitTableEntry* _parent;
+
+  State _state;
 
   Geo::Domain::Unit::Shared _unit;
 
@@ -94,6 +105,9 @@ private:
 
   QVariant
   getDecorationRole(int column) const;
+
+  QVariant
+  getForegroundRole(int column) const;
 };
 
 //

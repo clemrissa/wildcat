@@ -65,7 +65,6 @@ public slots:
   void
   setConnection(Database::Connections::Connection::Shared connection) override;
 
-public slots:
   void
   onClicked(const QModelIndex& index);
 

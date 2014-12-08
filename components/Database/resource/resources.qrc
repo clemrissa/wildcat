@@ -3,5 +3,6 @@
     <file>delete.png</file>
     <file>new_file.png</file>
     <file>open.png</file>
+    <file>revert.png</file>
 </qresource>
 </RCC>

@@ -42,6 +42,7 @@ QModelIndex
 UnitModel::
 index(int row, int column, const QModelIndex& parent) const
 {
+  Q_UNUSED(parent);
   return QAbstractItemModel::createIndex(row, column,
                                          _unitEntries[row]);
 }
@@ -72,6 +73,7 @@ QModelIndex
 UnitModel::
 parent(const QModelIndex& index) const
 {
+  Q_UNUSED(index);
   return QModelIndex();
 }
 
@@ -170,6 +172,24 @@ setConnection(Database::Connections::Connection::Shared connection)
   _connection = connection;
 
   reloadUnits();
+}
+
+
+void
+UnitModel::
+onClicked(const QModelIndex& index)
+{
+  if (!index.parent().isValid() &&
+      index.column() == UnitTableEntry::CloseAction &&
+      index.row() != _unitEntries.size() - 1) {
+    auto unitEntry = _unitEntries[(index.row())];
+
+    unitEntry->switchState();
+
+    int  row = index.row();
+    emit dataChanged(this->index(UnitTableEntry::Name, row),
+                     this->index(UnitTableEntry::CloseAction, row));
+  }
 }
 
 

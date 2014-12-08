@@ -10,6 +10,7 @@ UnitTableEntry::
 UnitTableEntry(Unit::Shared    unit,
                UnitTableEntry* parent):
   _parent(parent),
+  _state(Active),
   _unit(unit)
 {
   //
@@ -71,6 +72,10 @@ data(int role, int column) const
     return getDecorationRole(column);
     break;
 
+  case Qt::ForegroundRole:
+    return getForegroundRole(column);
+    break;
+
   default:
     return QVariant();
     break;
@@ -88,6 +93,22 @@ setConnection(Database::Connections::Connection::Shared connection)
 
   for (UnitTableEntry* e : _entries)
     e->setConnection(connection);
+}
+
+
+void
+UnitTableEntry::
+switchState()
+{
+  switch (_state) {
+  case Active:
+    _state = Deleted;
+    break;
+
+  case Deleted:
+    _state = Active;
+    break;
+  }
 }
 
 
@@ -138,7 +159,36 @@ UnitTableEntry::
 getDecorationRole(int column) const
 {
   if (column == CloseAction)
-    return QIcon(":/delete.png");
+
+    switch (_state) {
+    case Active:
+      return QIcon(":/delete.png");
+      break;
+
+    case Deleted:
+      return QIcon(":/revert.png");
+      break;
+    }
 
   return QVariant();
+}
+
+
+QVariant
+UnitTableEntry::
+getForegroundRole(int column) const
+{
+  Q_UNUSED(column);
+
+  switch (_state) {
+  case Active: {
+    QPalette palette;
+    return QColor(palette.color(QPalette::WindowText));
+    break;
+  }
+
+  case Deleted:
+    return QColor(Qt::lightGray);
+    break;
+  }
 }

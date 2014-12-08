@@ -20,6 +20,8 @@ class UnitModel:
   public QAbstractItemModel,
   public Database::Mixin::ConnectionAcceptor
 {
+  Q_OBJECT
+
 public:
   UnitModel();
 
@@ -32,7 +34,8 @@ public:
 
   virtual
   QModelIndex
-  index(int row, int column, const QModelIndex& parent) const override;
+  index(int row, int column, const QModelIndex& parent =
+          QModelIndex()) const override;
 
   bool
   setData(const QModelIndex& index,
@@ -67,6 +70,9 @@ public slots:
 
   void
   setConnection(Database::Connections::Connection::Shared connection) override;
+
+  void
+  onClicked(const QModelIndex& index);
 
 private:
   int

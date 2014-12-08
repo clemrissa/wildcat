@@ -60,6 +60,8 @@ void
 TraitsWidget::
 createUi()
 {
+  setWindowTitle(tr("Well Traits Settings"));
+
   _p->traitsWidgetModel = new TraitsWidgetModel();
 
   // --------------

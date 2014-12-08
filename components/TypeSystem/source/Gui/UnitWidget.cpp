@@ -38,7 +38,7 @@ struct UnitWidget::Private
   QPushButton* loadXmlButton;
 
   // curve types tree
-  QTableView* tableView;
+  QTableView* unitsTable;
 
   UnitModel* unitsModel;
 };
@@ -69,6 +69,8 @@ void
 UnitWidget::
 setupUi()
 {
+  setWindowTitle("Unit Types");
+
   _p->loadXmlButton = new QPushButton(tr("Load Slb Xml"));
 
   _p->loadXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
@@ -77,22 +79,23 @@ setupUi()
 
   _p->unitsModel = new UnitModel();
 
-  _p->tableView = new QTableView();
+  _p->unitsTable = new QTableView();
 
-  _p->tableView->setModel(_p->unitsModel);
+  _p->unitsTable->setModel(_p->unitsModel);
 
-  _p->tableView->setContextMenuPolicy(Qt::CustomContextMenu);
+  _p->unitsTable->setContextMenuPolicy(Qt::CustomContextMenu);
 
-  _p->tableView->setAlternatingRowColors(true);
-  _p->tableView->verticalHeader()->setSectionResizeMode(
+  _p->unitsTable->setAlternatingRowColors(true);
+  _p->unitsTable->verticalHeader()->setSectionResizeMode(
     QHeaderView::ResizeToContents);
 
-  _p->tableView->verticalHeader()->hide();
+  _p->unitsTable->verticalHeader()->hide();
 
-  _p->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-  _p->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+  _p->unitsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+  // _p->unitsTable->setSelectionMode(QAbstractItemView::SingleSelection);
+  _p->unitsTable->setSelectionMode(QAbstractItemView::NoSelection);
 
-  auto horizHeader = _p->tableView->horizontalHeader();
+  auto horizHeader = _p->unitsTable->horizontalHeader();
 
   horizHeader->setSectionResizeMode(QHeaderView::Stretch);
 
@@ -100,30 +103,10 @@ setupUi()
   horizHeader->setSectionResizeMode(UnitTableEntry::CloseAction,
                                     QHeaderView::Fixed);
   horizHeader->resizeSection(UnitTableEntry::CloseAction, 20);
-  // horizHeader->setSectionResizeMode(UnitTableEntry::Name,
-  // QHeaderView::ResizeToContents);
-  // horizHeader->setSectionResizeMode(UnitTableEntry::Symbol,
-  // QHeaderView::ResizeToContents);
-  // horizHeader->setSectionResizeMode(UnitTableEntry::Scale,
-  // QHeaderView::ResizeToContents);
-  // horizHeader->setSectionResizeMode(UnitTableEntry::Offset,
-  // QHeaderView::ResizeToContents);
-
-  // _p->tableView->horizontalHeader()->setSectionResizeMode(
-  // QHeaderView::ResizeToContents);
-
-  // _p->tableView->setItemDelegate(new ImportTreeItemDelegate());
-
-  // -- horizontal line
-
-  QFrame* f = new QFrame();
-
-  f->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-  f->setLineWidth(3);
 
   QVBoxLayout* layout = new QVBoxLayout(this);
 
-  layout->addWidget(f);
+  layout->setContentsMargins(0, 0, 0, 0);
 
   auto ll = new QHBoxLayout();
 
@@ -131,7 +114,7 @@ setupUi()
   ll->addStretch();
   layout->addLayout(ll);
 
-  layout->addWidget(_p->tableView);
+  layout->addWidget(_p->unitsTable);
 }
 
 
@@ -141,6 +124,10 @@ connectSignals()
 {
   connect(_p->loadXmlButton, SIGNAL(released()),
           this, SLOT(onLoadXmlClicked()));
+
+  // for deleting rows
+  connect(_p->unitsTable, SIGNAL(clicked(const QModelIndex &)),
+          _p->unitsModel,   SLOT(onClicked(const QModelIndex &)));
 
   // -------- main window notification
   using Geo::Core::MainWindow;
@@ -158,7 +145,7 @@ onTableViewMenuRequested(const QPoint& pos)
 {
   Q_UNUSED(pos);
 
-  // QModelIndex index = _p->tableView->indexAt(pos);
+  // QModelIndex index = _p->unitsTable->indexAt(pos);
 
   // if (!index.isValid())
   // return;
@@ -182,7 +169,7 @@ onTableViewMenuRequested(const QPoint& pos)
   // if (menu.isNull())
   // return;
 
-  // menu->exec(_p->tableView->mapToGlobal(pos));
+  // menu->exec(_p->unitsTable->mapToGlobal(pos));
   // }
 }
 
