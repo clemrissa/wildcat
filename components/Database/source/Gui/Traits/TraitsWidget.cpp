@@ -73,6 +73,8 @@ createUi()
   // temporarily use standard edit tool
   _p->traitsTable->setItemDelegate(new WellTraitItemDelegate());
 
+  _p->traitsTable->setAlternatingRowColors(true);
+
   auto headerView = _p->traitsTable->horizontalHeader();
 
   using Models::Traits::WellTraitEntry;
