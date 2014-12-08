@@ -17,20 +17,19 @@ UnitTableEntry(Unit::Shared    unit,
 }
 
 
-UnitTableEntry::
-UnitTableEntry(UnitTableEntry* parent):
-  _parent(parent)
-{
-}
+// UnitTableEntry::
+// UnitTableEntry(UnitTableEntry* parent):
+// _parent(parent),
+// _state(Active)
+// {
+// }
 
-
-UnitTableEntry::
-UnitTableEntry():
-  _parent(nullptr)
-{
-  //
-}
-
+// UnitTableEntry::
+// UnitTableEntry():
+// _parent(nullptr)
+// {
+////
+// }
 
 UnitTableEntry::
 ~UnitTableEntry()
@@ -180,15 +179,19 @@ getForegroundRole(int column) const
 {
   Q_UNUSED(column);
 
+  QVariant result;
+
   switch (_state) {
   case Active: {
     QPalette palette;
-    return QColor(palette.color(QPalette::WindowText));
+    result =  QColor(palette.color(QPalette::WindowText));
     break;
   }
 
   case Deleted:
-    return QColor(Qt::lightGray);
+    result = QColor(Qt::lightGray);
     break;
   }
+
+  return result;
 }

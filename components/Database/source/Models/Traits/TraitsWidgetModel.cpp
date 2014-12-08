@@ -226,12 +226,13 @@ onClicked(const QModelIndex& index)
   if (!index.parent().isValid() &&
       index.column() == WellTraitEntry::CloseAction &&
       index.row() != _entries.size() - 1) {
-    beginRemoveRows(QModelIndex(), index.row(), index.row());
+    auto wellTraitEntry = _entries[index.row()];
 
-    auto connectionWrapper = _entries.takeAt(index.row());
-    delete connectionWrapper;
+    wellTraitEntry->switchState();
 
-    endRemoveRows();
+    int  row = index.row();
+    emit dataChanged(this->index(WellTraitEntry::Trait, row),
+                     this->index(WellTraitEntry::CloseAction, row));
   }
 }
 
@@ -286,10 +287,11 @@ saveTraits()
   int counter = 0;
 
   for (WellTraitEntry* e : _entries) {
-    bool valid = e->trait()->isValid();
+    bool valid  = e->trait()->isValid();
+    bool active = e->getState() == WellTraitEntry::Active;
 
     // if (e->trait()->isValid())
-    if (valid)
+    if  (valid && active)
       wellTraitAccess->insert(e->trait());
 
     counter++;

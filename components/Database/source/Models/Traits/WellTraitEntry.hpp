@@ -21,15 +21,13 @@ public:
                 CloseAction = 3,
                 Size };
 
-public:
-  WellTraitEntry(Geo::Domain::WellTrait::Shared trait):
-    _trait(trait)
-  {
-  }
+  enum State { Active,
+               Deleted };
 
-  WellTraitEntry()
-  {
-  }
+public:
+  WellTraitEntry(Geo::Domain::WellTrait::Shared trait);
+
+  // WellTraitEntry();
 
   QVariant
   data(int role, int column) override;
@@ -37,14 +35,27 @@ public:
   Geo::Domain::WellTrait::Shared
   trait() const;
 
+  State
+  getState() const { return _state; }
+
+public slots:
+  void
+  switchState();
+
 private:
   Geo::Domain::WellTrait::Shared _trait;
 
+  State _state;
+
+private:
   QVariant
   getDisplayOrEditRole(int column) const;
 
   QVariant
   getDecorationRole(int column) const;
+
+  QVariant
+  getForegroundRole(int column) const;
 };
 
 //

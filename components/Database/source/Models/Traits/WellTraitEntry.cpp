@@ -1,10 +1,24 @@
 #include "WellTraitEntry.hpp"
 
 #include <QtGui/QIcon>
+#include <QtGui/QPalette>
 
 #include <Uni/Logging/Logging>
 
 using Geo::Database::Models::Traits::WellTraitEntry;
+
+WellTraitEntry::
+WellTraitEntry(Geo::Domain::WellTrait::Shared trait):
+  _trait(trait),
+  _state(Active)
+{
+}
+
+
+// WellTraitEntry::
+// WellTraitEntry()
+// {
+// }
 
 QVariant
 WellTraitEntry::
@@ -26,6 +40,10 @@ data(int role, int column)
 
   case Qt::DecorationRole:
     return getDecorationRole(column);
+    break;
+
+  case Qt::ForegroundRole:
+    return getForegroundRole(column);
     break;
 
   default:
@@ -68,9 +86,41 @@ WellTraitEntry::
 getDecorationRole(int column) const
 {
   if (column == CloseAction)
-    return QIcon(":/delete.png");
+    switch (_state) {
+    case Active:
+      return QIcon(":/delete.png");
+      break;
+
+    case Deleted:
+      return QIcon(":/revert.png");
+      break;
+    }
 
   return QVariant();
+}
+
+
+QVariant
+WellTraitEntry::
+getForegroundRole(int column) const
+{
+  Q_UNUSED(column);
+
+  QVariant result;
+
+  switch (_state) {
+  case Active: {
+    QPalette palette;
+    result =  QColor(palette.color(QPalette::WindowText));
+    break;
+  }
+
+  case Deleted:
+    result = QColor(Qt::lightGray);
+    break;
+  }
+
+  return result;
 }
 
 
@@ -79,6 +129,22 @@ WellTraitEntry::
 trait() const
 {
   return _trait;
+}
+
+
+void
+WellTraitEntry::
+switchState()
+{
+  switch (_state) {
+  case Active:
+    _state = Deleted;
+    break;
+
+  case Deleted:
+    _state = Active;
+    break;
+  }
 }
 
 

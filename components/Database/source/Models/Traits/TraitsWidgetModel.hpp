@@ -42,7 +42,8 @@ public:
           int                role = Qt::EditRole) override;
 
   virtual QModelIndex
-  index(int row, int column, const QModelIndex& parent) const override;
+  index(int row, int column, const QModelIndex& parent =
+          QModelIndex()) const override;
 
   virtual QModelIndex
   parent(const QModelIndex& index) const override;
