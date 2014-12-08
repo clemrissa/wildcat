@@ -10,7 +10,8 @@ using Geo::Database::Models::Traits::WellTraitEntry;
 WellTraitEntry::
 WellTraitEntry(Geo::Domain::WellTrait::Shared trait):
   _trait(trait),
-  _state(Active)
+  _state(Active),
+  _persisted(trait->isValid())
 {
 }
 
@@ -26,9 +27,6 @@ data(int role, int column)
 {
   using Domain::WellTrait;
 
-  if (!_trait->isValid())
-    return QVariant();
-
   switch (role) {
   case Qt::DisplayRole:
     return getDisplayOrEditRole(column);
@@ -39,7 +37,12 @@ data(int role, int column)
     break;
 
   case Qt::DecorationRole:
-    return getDecorationRole(column);
+
+    if (!_trait->isValid())
+      return QVariant();
+    else
+      return getDecorationRole(column);
+
     break;
 
   case Qt::ForegroundRole:

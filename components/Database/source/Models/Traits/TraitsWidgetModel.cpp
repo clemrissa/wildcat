@@ -16,7 +16,7 @@ TraitsWidgetModel()
 TraitsWidgetModel::
 ~TraitsWidgetModel()
 {
-  saveTraits();
+  deleteMarkedEntries();
 
   qDeleteAll(_entries);
 }
@@ -49,6 +49,8 @@ setData(const QModelIndex& index,
         const QVariant&    value,
         int                role)
 {
+  using Geo::Domain::WellTrait;
+
   if (role != Qt::EditRole)
     return false;
 
@@ -75,8 +77,6 @@ setData(const QModelIndex& index,
   }
 
   case WellTraitEntry::Type: {
-    using Geo::Domain::WellTrait;
-
     traitEntry->trait()->setType(static_cast<WellTrait::Type>(value.toInt()));
 
     break;
@@ -85,24 +85,35 @@ setData(const QModelIndex& index,
 
   bool newTraitStatus = traitEntry->trait()->isValid();
 
+  bool becameValid = (!oldTraitStatus && newTraitStatus);
+  // bool becameInvalid = (oldTraitStatus && !newTraitStatus);
+
   // if a trait became valid
-  if (!oldTraitStatus && newTraitStatus) {
-    // add new data if necessary
-    beginResetModel();
-    {
-      using Geo::Domain::WellTrait;
+
+  beginResetModel();
+  {
+    auto dataAccessFactory = _connection->dataAccessFactory();
+
+    auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
+
+    // not yet in the DB
+    if (!traitEntry->getPersisted() &&
+        becameValid) {
+      wellTraitAccess->insert(traitEntry->trait());
+
+      traitEntry->setPersisted(true);
 
       // we add one more empty trait
       WellTrait::Shared emptyTrait(new WellTrait());
 
       _entries.append(new WellTraitEntry(emptyTrait));
     }
-    endResetModel();
+
+    if (newTraitStatus)
+      wellTraitAccess->update(traitEntry->trait());
   }
 
-  saveTraits();
-
-  emit dataChanged(index, index);
+  endResetModel();
 
   return true;
 }
@@ -210,9 +221,6 @@ void
 TraitsWidgetModel::
 setConnection(Database::Connections::Connection::Shared connection)
 {
-  if (!_connection.isNull())
-    saveTraits();
-
   _connection = connection;
 
   reloadTraits();
@@ -271,29 +279,15 @@ reloadTraits()
 
 void
 TraitsWidgetModel::
-saveTraits()
+deleteMarkedEntries()
 {
-  using Geo::Domain::WellTrait;
-
   auto dataAccessFactory = _connection->dataAccessFactory();
 
   auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
 
-  QVector<WellTrait::Shared> traits = wellTraitAccess->findAll();
+  for (WellTraitEntry* entry : _entries)
+    if (entry->getPersisted() &&
+        entry->getState() == WellTraitEntry::Deleted)
+      wellTraitAccess->remove(entry->trait());
 
-  for (WellTrait::Shared t : traits)
-    wellTraitAccess->remove(t);
-
-  int counter = 0;
-
-  for (WellTraitEntry* e : _entries) {
-    bool valid  = e->trait()->isValid();
-    bool active = e->getState() == WellTraitEntry::Active;
-
-    // if (e->trait()->isValid())
-    if  (valid && active)
-      wellTraitAccess->insert(e->trait());
-
-    counter++;
-  }
 }

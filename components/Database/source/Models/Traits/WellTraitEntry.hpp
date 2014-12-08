@@ -38,6 +38,12 @@ public:
   State
   getState() const { return _state; }
 
+  bool
+  getPersisted() const { return _persisted; }
+
+  void
+  setPersisted(bool const persisted) { _persisted = persisted; }
+
 public slots:
   void
   switchState();
@@ -46,6 +52,9 @@ private:
   Geo::Domain::WellTrait::Shared _trait;
 
   State _state;
+
+  // if object in DB already?
+  bool _persisted;
 
 private:
   QVariant

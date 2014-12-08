@@ -74,7 +74,7 @@ private:
   reloadTraits();
 
   void
-  saveTraits();
+  deleteMarkedEntries();
 
 private:
   // database traits

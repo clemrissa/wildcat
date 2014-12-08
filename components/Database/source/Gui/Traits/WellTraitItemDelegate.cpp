@@ -138,6 +138,7 @@ setModelData(QWidget*            editor,
 {
   switch (index.column()) {
   case WellTraitEntry::Trait:
+  // fall through
   case WellTraitEntry::Synonyms: {
     using Geo::Widgets::KeywordWidget;
 
@@ -145,23 +146,6 @@ setModelData(QWidget*            editor,
 
     model->setData(index, lineEdit->text(),
                    Qt::EditRole);
-
-    // auto w = static_cast<KeywordWidget*>(editor);
-
-    // Q_ASSERT(w);
-
-    // auto traitEntry = static_cast<WellTraitEntry*>(index.internalPointer());
-
-    // if (!traitEntry)
-    // return;
-
-    // auto trait = traitEntry->trait();
-
-    // QStringList l = w->keywords();
-
-    // Q_ASSERT(l.size());
-
-    // trait->setSynonyms(w->keywords());
 
     break;
   }
@@ -177,28 +161,10 @@ setModelData(QWidget*            editor,
 }
 
 
-// void
-// WellTraitItemDelegate::
-// paint(QPainter*                   painter,
-// const QStyleOptionViewItem& option,
-// const QModelIndex&          index) const
-// {
-// }
-
 QSize
 WellTraitItemDelegate::
 sizeHint(const QStyleOptionViewItem& option,
          const QModelIndex&          index) const
 {
   return QStyledItemDelegate::sizeHint(option, index);
-
-  // Q_UNUSED(option);
-  // auto iterator =
-  // _sizeHints.find(std::make_pair(index.row(),
-  // index.column()));
-
-  // if (iterator != _sizeHints.end())
-  // return iterator->second;
-  // else
-  // return QSize();
 }
