@@ -4,11 +4,12 @@
 #include <Domain/WellTrait>
 
 #include <QSharedPointer>
-#include <QString>
 #include <QVector>
 
 namespace Geo {
 namespace Domain {
+//
+
 class WellTraitAccess: public QObject
 {
 public:
@@ -30,13 +31,13 @@ public:
   remove(WellTrait::Shared wellTrait) = 0;
 
   virtual void
-  remove(QString const& uuid) = 0;
+  remove(unsigned int  const& uuid) = 0;
 
   virtual QVector<WellTrait::Shared>
   findAll() = 0;
 
   virtual WellTrait::Shared
-  findByPrimaryKey(QString const& pk) = 0;
+  findByPrimaryKey(unsigned int const& pk) = 0;
 
 public:
   virtual void

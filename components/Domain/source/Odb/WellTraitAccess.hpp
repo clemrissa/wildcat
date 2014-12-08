@@ -5,16 +5,25 @@
 #include <QSharedPointer>
 
 #include <odb/database.hxx>
+#include <odb/query.hxx>
+
+// TODO fix
+// typedef odb::query<Geo::Domain::WellTrait>  ___Query;
+// typedef odb::result<Geo::Domain::WellTrait> Result;
 
 namespace Geo {
 namespace Domain {
+//
+
 namespace Odb {
+//
+
 class WellTraitAccess: public Geo::Domain::WellTraitAccess
 {
 public:
   typedef typename Geo::Domain::WellTraitAccess::Shared Shared;
   typedef QSharedPointer<odb::core::database>           Database;
-  typedef Geo::Domain::WellTrait                        WellTrait;
+  // typedef Geo::Domain::WellTrait                        WellTrait;
 
 public:
   WellTraitAccess(Database db);
@@ -34,13 +43,15 @@ public:
   remove(WellTrait::Shared wellTrait);
 
   void
-  remove(QString const& pk);
+  remove(unsigned int const& pk);
 
   QVector<WellTrait::Shared>
   findAll();
 
+  // findByQuery()
+
   WellTrait::Shared
-  findByPrimaryKey(QString const& pk);
+  findByPrimaryKey(unsigned int const& pk);
 
 public:
   void

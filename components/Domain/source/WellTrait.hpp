@@ -74,8 +74,10 @@ private:
   friend class odb::access;
 
 #ifdef ODB_COMPILER
-  #pragma db id
+  #pragma db id auto
 #endif
+  unsigned int _id;
+
   QString _name;
 
   QList<QString> _synonyms;
