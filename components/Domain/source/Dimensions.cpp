@@ -12,11 +12,13 @@ Dimensions()
 
 
 Dimensions::
-Dimensions(Dimension d, int const times)
+Dimensions(Dimension d, int const nTimes)
 {
   _dimensions.fill(0);
 
-  _dimensions[d] = times;
+  _dimensions[d] = nTimes;
+
+  updateFundamentalUnits();
 }
 
 
@@ -25,8 +27,6 @@ Dimensions(Dimensions const& dimensions)
 {
   for (int i = 0; i < Dimension::AllUnitsSize; ++i)
     _dimensions[i] = dimensions._dimensions[i];
-
-  // updateFundamentalUnits();
 }
 
 

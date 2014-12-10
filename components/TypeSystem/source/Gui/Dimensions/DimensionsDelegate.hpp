@@ -1,14 +1,15 @@
-#ifndef Geo_TypeSystem_Gui_UnitTableEntryDelegate_hpp
-#define Geo_TypeSystem_Gui_UnitTableEntryDelegate_hpp
+#ifndef Geo_TypeSystem_Gui_Dimensions_DimensionsDelegate_hpp
+#define Geo_TypeSystem_Gui_Dimensions_DimensionsDelegate_hpp
 
 #include <QtWidgets/QStyledItemDelegate>
 
 namespace Geo {
 namespace TypeSystem {
 namespace Gui {
+namespace Dimensions {
 //
 
-class UnitTableEntryDelegate: public QStyledItemDelegate
+class DimensionsDelegate: public QStyledItemDelegate
 {
   Q_OBJECT
 
@@ -33,8 +34,9 @@ public:
 };
 
 //
+}
 } // namespace Gui
 } // namespace TypeSystem
 } // namespace Geo
 
-#endif // Geo_TypeSystem_Gui_UnitTableEntryDelegate_hpp
+#endif // Geo_TypeSystem_Gui_Dimensions_DimensionsDelegate_hpp
