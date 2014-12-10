@@ -81,6 +81,9 @@ private:
   void
   reloadUnits();
 
+  void
+  deleteMarkedEntries();
+
 private:
   Database::Connections::Connection::Shared _connection;
 

@@ -159,12 +159,3 @@ setModelData(QWidget*            editor,
   }
   }
 }
-
-
-QSize
-WellTraitItemDelegate::
-sizeHint(const QStyleOptionViewItem& option,
-         const QModelIndex&          index) const
-{
-  return QStyledItemDelegate::sizeHint(option, index);
-}

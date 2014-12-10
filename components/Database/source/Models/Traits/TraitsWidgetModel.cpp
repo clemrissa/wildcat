@@ -84,36 +84,35 @@ setData(const QModelIndex& index,
   }
 
   bool newTraitStatus = traitEntry->trait()->isValid();
-
   bool becameValid = (!oldTraitStatus && newTraitStatus);
-  // bool becameInvalid = (oldTraitStatus && !newTraitStatus);
 
   // if a trait became valid
 
-  beginResetModel();
-  {
-    auto dataAccessFactory = _connection->dataAccessFactory();
+  auto dataAccessFactory = _connection->dataAccessFactory();
 
-    auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
+  auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
 
-    // not yet in the DB
-    if (!traitEntry->getPersisted() &&
-        becameValid) {
-      wellTraitAccess->insert(traitEntry->trait());
+  // not yet in the DB
+  if (!traitEntry->getPersisted()) {
+    if (becameValid) {
+      beginResetModel();
+      {
+        wellTraitAccess->insert(traitEntry->trait());
 
-      traitEntry->setPersisted(true);
+        traitEntry->setPersisted(true);
 
-      // we add one more empty trait
-      WellTrait::Shared emptyTrait(new WellTrait());
+        // we add one more empty trait
+        WellTrait::Shared emptyTrait(new WellTrait());
 
-      _entries.append(new WellTraitEntry(emptyTrait));
+        _entries.append(new WellTraitEntry(emptyTrait));
+      }
+      endResetModel();
     }
-
-    if (newTraitStatus)
-      wellTraitAccess->update(traitEntry->trait());
   }
-
-  endResetModel();
+  else if (newTraitStatus) // it was persisted and stays valid
+  {
+    wellTraitAccess->update(traitEntry->trait());
+  }
 
   return true;
 }
@@ -281,6 +280,9 @@ void
 TraitsWidgetModel::
 deleteMarkedEntries()
 {
+  if (_connection.isNull())
+    return;
+
   auto dataAccessFactory = _connection->dataAccessFactory();
 
   auto wellTraitAccess = dataAccessFactory->wellTraitAccess();

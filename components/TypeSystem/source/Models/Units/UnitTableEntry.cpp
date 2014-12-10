@@ -10,8 +10,9 @@ UnitTableEntry::
 UnitTableEntry(Unit::Shared    unit,
                UnitTableEntry* parent):
   _parent(parent),
+  _unit(unit),
   _state(Active),
-  _unit(unit)
+  _persisted(unit->isValid())
 {
   //
 }
@@ -22,6 +23,13 @@ UnitTableEntry::
 {
   for (UnitTableEntry* entry : _entries)
     delete entry;
+}
+
+Geo::Domain::Unit::Shared
+UnitTableEntry::
+unit() const
+{
+  return _unit;
 }
 
 
@@ -41,9 +49,6 @@ QVariant
 UnitTableEntry::
 data(int role, int column) const
 {
-  if (!_unit->isValid())
-    return QVariant();
-
   switch (role) {
   case Qt::DisplayRole:
     return getDisplayOrEditRole(column);
@@ -146,6 +151,9 @@ QVariant
 UnitTableEntry::
 getDecorationRole(int column) const
 {
+  if (!_unit->isValid())
+    return QVariant();
+
   if (column == CloseAction)
 
     switch (_state) {

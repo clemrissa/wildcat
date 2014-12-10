@@ -26,10 +26,12 @@
 
 #include <Models/Units/UnitModel.hpp>
 #include <Models/Units/UnitTableEntry.hpp>
+#include <Gui/UnitTableEntryDelegate.hpp>
 
 using AC = DependencyManager::ApplicationContext;
 
 using Geo::TypeSystem::Gui::UnitWidget;
+using Geo::TypeSystem::Gui::UnitTableEntryDelegate;
 using Geo::TypeSystem::Models::Units::UnitModel;
 using Geo::TypeSystem::Models::Units::UnitTableEntry;
 
@@ -82,6 +84,8 @@ setupUi()
   _p->unitsTable = new QTableView();
 
   _p->unitsTable->setModel(_p->unitsModel);
+
+  _p->unitsTable->setItemDelegate(new UnitTableEntryDelegate);
 
   _p->unitsTable->setContextMenuPolicy(Qt::CustomContextMenu);
 

@@ -19,8 +19,9 @@ UnitModel()
 UnitModel::
 ~UnitModel()
 {
-  for (UnitTableEntry* entry : _unitEntries)
-    delete entry;
+  deleteMarkedEntries();
+
+  qDeleteAll(_unitEntries);
 }
 
 
@@ -54,18 +55,67 @@ setData(const QModelIndex& index,
         const QVariant&    value,
         int                role)
 {
+  using Geo::Domain::Unit;
+
   if (role != Qt::EditRole)
     return false;
 
-  auto treeEntry =
+  auto unitEntry =
     static_cast<UnitTableEntry*>(index.internalPointer());
 
-  bool result = treeEntry->setData(role, index.column(), value);
+  bool oldUnitStatus = unitEntry->unit()->isValid();
 
-  if (result)
-    emit dataChanged(index, index);
+  switch(index.column()) {
+  case UnitTableEntry::Name: 
+    unitEntry->unit()->setName(value.toString());
+    break;
 
-  return result;
+  case UnitTableEntry::Symbol:
+    unitEntry->unit()->setSymbol(value.toString());
+    break;
+
+  case UnitTableEntry::Scale:
+  {
+    std::cout << "SCALE " << std::endl;
+    bool ok;
+    unitEntry->unit()->setScale(value.toDouble(&ok));
+    break;
+  }
+
+  default:
+    break;
+  }
+
+  bool newUnitStatus = unitEntry->unit()->isValid();
+
+  bool becameValid = (!oldUnitStatus && newUnitStatus);
+
+  auto dataAccessFactory = _connection->dataAccessFactory();
+  auto unitAccess = dataAccessFactory->unitAccess();
+
+  // not yet in the DB
+  if (!unitEntry->getPersisted()) {
+    if (becameValid) {
+      beginResetModel();
+      {
+        unitAccess->insert(unitEntry->unit());
+
+        unitEntry->setPersisted(true);
+
+        // we add one more empty trait
+        Unit::Shared emptyUnit(new Unit());
+
+        _unitEntries.append(new UnitTableEntry(emptyUnit));
+      }
+      endResetModel();
+    }
+  }
+  else if (newUnitStatus) // it was persisted and stays valid
+  {
+    unitAccess->update(unitEntry->unit());
+  }
+
+  return true;
 }
 
 
@@ -146,9 +196,10 @@ flags(const QModelIndex& index) const
 {
   Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
-  // flags |= Qt::ItemIsEditable;
+  if (index.column() != UnitTableEntry::CloseAction)
+   flags |= Qt::ItemIsEditable;
 
-  // flags ^= Qt::ItemIsSelectable;
+   flags ^= Qt::ItemIsSelectable;
 
   return flags;
 }
@@ -166,9 +217,6 @@ void
 UnitModel::
 setConnection(Database::Connections::Connection::Shared connection)
 {
-  // if (!_connection.isNull())
-  // saveTraits();
-
   _connection = connection;
 
   reloadUnits();
@@ -223,16 +271,34 @@ reloadUnits()
 
     auto unitAccess = dataAccessFactory->unitAccess();
 
-    QVector<Unit::Shared> traits = unitAccess->findAll();
+    QVector<Unit::Shared> units = unitAccess->findAll();
 
-    for (Unit::Shared t : traits)
+    for (Unit::Shared t : units)
       _unitEntries.append(new UnitTableEntry(t));
 
-    // we add one more empty trait
-    Unit::Shared emptyTrait(new Unit());
+    // we add one more emptyunit 
+    Unit::Shared emptyUnit(new Unit());
 
-    _unitEntries.append(new UnitTableEntry(emptyTrait));
+    _unitEntries.append(new UnitTableEntry(emptyUnit));
   }
   endResetModel();
   //
+}
+
+
+void
+UnitModel::
+deleteMarkedEntries()
+{
+  if (_connection.isNull())
+    return;
+
+  auto dataAccessFactory = _connection->dataAccessFactory();
+
+  auto unitAccess = dataAccessFactory->unitAccess();
+
+  for (UnitTableEntry* entry : _unitEntries)
+    if (entry->getPersisted() &&
+        entry->getState() == UnitTableEntry::Deleted)
+      unitAccess->remove(entry->unit());
 }

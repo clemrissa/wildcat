@@ -77,6 +77,18 @@ public:
                     QAbstractItemModel* model)
   { Q_UNUSED(editor); Q_UNUSED(index); Q_UNUSED(model); }
 
+
+public:
+
+  Geo::Domain::Unit::Shared
+  unit() const;
+
+  bool
+  getPersisted() const { return _persisted; }
+
+  void
+  setPersisted(bool const persisted) { _persisted = persisted; }
+
 public slots:
   virtual void
   setConnection(Geo::Database::Connections::Connection::Shared connection);
@@ -87,9 +99,11 @@ public slots:
 private:
   UnitTableEntry* _parent;
 
+  Geo::Domain::Unit::Shared _unit;
+
   State _state;
 
-  Geo::Domain::Unit::Shared _unit;
+  bool _persisted;
 
   Geo::Database::Connections::Connection::Shared _connection;
 

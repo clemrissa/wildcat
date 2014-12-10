@@ -16,11 +16,6 @@ WellTraitEntry(Geo::Domain::WellTrait::Shared trait):
 }
 
 
-// WellTraitEntry::
-// WellTraitEntry()
-// {
-// }
-
 QVariant
 WellTraitEntry::
 data(int role, int column)

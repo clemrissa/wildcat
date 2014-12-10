@@ -1,20 +1,14 @@
-#ifndef Geo_Database_Gui_Traits_WellTraitItemDelegate_hpp
-#define Geo_Database_Gui_Traits_WellTraitItemDelegate_hpp
+#ifndef Geo_Import_UnitTableEntryDelegate_hpp
+#define Geo_Import_UnitTableEntryDelegate_hpp
 
 #include <QtWidgets/QStyledItemDelegate>
 
-#include <map>
-#include <utility>
-
-class QWidget;
-
 namespace Geo {
-namespace Database {
+namespace TypeSystem {
 namespace Gui {
-namespace Traits {
 //
 
-class WellTraitItemDelegate: public QStyledItemDelegate
+class UnitTableEntryDelegate: public QStyledItemDelegate
 {
   Q_OBJECT
 
@@ -36,16 +30,12 @@ public:
   setModelData(QWidget*            editor,
                QAbstractItemModel* model,
                const QModelIndex&  index) const override;
-
-  //QSize
-  //sizeHint(const QStyleOptionViewItem& option,
-           //const QModelIndex&          index) const override;
 };
 
-//
-}
-}
-}
-}
 
-#endif //  Geo_Database_Gui_Traits_WellTraitItemDelegate_hpp
+//
+} // namespace Gui
+} // namespace TypeSystem
+} // namespace Geo
+
+#endif // Geo_Import_UnitTableEntryDelegate_hpp
