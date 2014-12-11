@@ -81,8 +81,11 @@ public:
   double
   getScale() const { return _scale; }
 
-  Dimensions
+  Dimensions const&
   getDimensions() const { return _dimensions; }
+
+  Dimensions&
+  getDimensions() { return _dimensions; }
 
   // setters
   void

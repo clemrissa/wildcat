@@ -20,7 +20,10 @@ QVariant
 DimensionsEditorModel::
 data(const QModelIndex& index, int role) const
 {
-  return QVariant();
+  if (role != Qt::DisplayRole)
+    return QVariant();
+
+  return QString("Ololo");
 }
 
 
@@ -28,8 +31,19 @@ QModelIndex
 DimensionsEditorModel::
 index(int row, int column, const QModelIndex& parent) const
 {
-  // return QAbstractItemModel::createIndex(row, column, _entries[row]);
+   return QAbstractItemModel::createIndex(row, column, row);
 }
+
+
+bool
+DimensionsEditorModel::
+setData(const QModelIndex& index,
+        const QVariant&    value,
+        int                role)
+{
+  return false;
+}
+
 
 
 QModelIndex
@@ -56,7 +70,9 @@ int
 DimensionsEditorModel::
 rowCount(const QModelIndex& parent) const
 {
-  return _connectionsManager->size();
+  //return Geo::Domain::Dimensions::FundamentalUnitsSize;
+
+  return 5;
 }
 
 
@@ -68,27 +84,8 @@ headerData(int             section,
 {
   QVariant result;
 
-  if (role != Qt::DisplayRole)
+  //if (role != Qt::DisplayRole)
     return result;
-
-  if (orientation == Qt::Vertical)
-    return result;
-
-  switch (section) {
-  case ConnectionEntry::Type:
-    result = tr("Type");
-    break;
-
-  case ConnectionEntry::Database:
-    result = tr("Database");
-    break;
-
-  default:
-    result = QVariant();
-    break;
-  }
-
-  return result;
 }
 
 

@@ -6,7 +6,6 @@
 namespace Geo {
 namespace TypeSystem {
 namespace Gui {
-namespace Dimensions {
 //
 
 class DimensionsDelegate: public QStyledItemDelegate
@@ -34,7 +33,6 @@ public:
 };
 
 //
-}
 } // namespace Gui
 } // namespace TypeSystem
 } // namespace Geo

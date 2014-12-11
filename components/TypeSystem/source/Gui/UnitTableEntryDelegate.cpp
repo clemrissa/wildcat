@@ -1,14 +1,17 @@
 #include "UnitTableEntryDelegate.hpp"
 
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QTableView>
+#include <QtGui/QDoubleValidator>
 
 #include <DependencyManager/ApplicationContext>
 
 #include <Models/Units/UnitTableEntry.hpp>
 
-#include <QtWidgets/QComboBox>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QTableView>
-#include <QtGui/QDoubleValidator>
+#include <Gui/Dimensions/DimensionsDelegate.hpp>
+#include <Models/Dimensions/DimensionsEditorModel.hpp>
+
 
 using Geo::TypeSystem::Gui::UnitTableEntryDelegate;
 using Geo::TypeSystem::Models::Units::UnitTableEntry;
@@ -47,6 +50,25 @@ createEditor(QWidget*                    parent,
     result = l;
 
     break;
+  }
+
+  case UnitTableEntry::Dimensions:
+  {
+    auto unitEntry = static_cast<UnitTableEntry*>(index.internalPointer());
+
+    if (!unitEntry) return nullptr;
+
+    auto c = new QComboBox();
+    c->setParent(parent);
+
+    //c->setModel(new Geo::TypeSystem::Models::DimensionsEditorModel(unitEntry->unit()->getDimensions()));
+    c->setItemDelegate(new Geo::TypeSystem::Gui::DimensionsDelegate());
+
+    c->addItem("Lalalal");
+    c->addItem("Trololol");
+
+    result = c;
+
   }
 
   default:

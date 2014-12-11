@@ -2,8 +2,11 @@
 
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QSpinBox>
+#include <QtWidgets/QLabel>
 
-using Geo::TypeSystem::Gui::Dimensions::DimensionsDelegate;
+#include <iostream>
+
+using Geo::TypeSystem::Gui::DimensionsDelegate;
 
 QWidget*
 DimensionsDelegate::
@@ -14,7 +17,20 @@ createEditor(QWidget*                    parent,
   Q_UNUSED(parent);
   Q_UNUSED(option);
 
-  return nullptr;
+  //QWidget* w = new QWidget(parent);
+
+  //auto* la0 = new QLabel("Test");
+  auto* la1 = new QLabel("Test");
+
+
+  //auto l = new QHBoxLayout(w);
+  //l->addWidget(la0);
+  //l->addWidget(la1);
+
+  std::cout <<"EDITOR DELEGATE " << std::endl;
+
+  //return w;
+  return la1;
 }
 
 
