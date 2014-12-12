@@ -1,9 +1,10 @@
 #include "UnitTableEntryDelegate.hpp"
 
+#include <QtGui/QDoubleValidator>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QListView>
 #include <QtWidgets/QTableView>
-#include <QtGui/QDoubleValidator>
 
 #include <DependencyManager/ApplicationContext>
 
@@ -11,7 +12,6 @@
 
 #include <Gui/Dimensions/DimensionsDelegate.hpp>
 #include <Models/Dimensions/DimensionsEditorModel.hpp>
-
 
 using Geo::TypeSystem::Gui::UnitTableEntryDelegate;
 using Geo::TypeSystem::Models::Units::UnitTableEntry;
@@ -31,9 +31,7 @@ createEditor(QWidget*                    parent,
 
   switch (index.column()) {
   case UnitTableEntry::Name:
-  case UnitTableEntry::Symbol:
-  {
-
+  case UnitTableEntry::Symbol: {
     result = new QLineEdit();
 
     result->setParent(parent);
@@ -41,34 +39,31 @@ createEditor(QWidget*                    parent,
     break;
   }
 
-  case UnitTableEntry::Scale:
-  {
+  case UnitTableEntry::Scale: {
     auto l = new QLineEdit();
+
     l->setParent(parent);
     l->setValidator(new QDoubleValidator());
-    
+
     result = l;
 
     break;
   }
 
-  case UnitTableEntry::Dimensions:
-  {
+  case UnitTableEntry::Dimensions: {
     auto unitEntry = static_cast<UnitTableEntry*>(index.internalPointer());
 
-    if (!unitEntry) return nullptr;
+    if (!unitEntry)
+      return nullptr;
 
-    auto c = new QComboBox();
+    using Geo::TypeSystem::Gui::DimensionsDelegate;
+
+    auto c =
+      new DimensionsDelegate(unitEntry->unit()->getDimensions());
+
     c->setParent(parent);
 
-    //c->setModel(new Geo::TypeSystem::Models::DimensionsEditorModel(unitEntry->unit()->getDimensions()));
-    c->setItemDelegate(new Geo::TypeSystem::Gui::DimensionsDelegate());
-
-    c->addItem("Lalalal");
-    c->addItem("Trololol");
-
     result = c;
-
   }
 
   default:
@@ -87,7 +82,10 @@ updateEditorGeometry(QWidget*                    editor,
 {
   Q_UNUSED(index);
 
-  editor->setGeometry(option.rect);
+  QRect r = option.rect;
+  r.setHeight(r.height() + 210);
+
+  editor->setGeometry(r);
 }
 
 
@@ -100,7 +98,7 @@ setEditorData(QWidget*           editor,
 
   switch (index.column()) {
   case UnitTableEntry::Name:
-  case UnitTableEntry::Symbol: 
+  case UnitTableEntry::Symbol:
   case UnitTableEntry::Scale: {
     auto unitEntry =
       static_cast<UnitTableEntry*>(index.internalPointer());
@@ -111,11 +109,10 @@ setEditorData(QWidget*           editor,
     auto lineEdit = static_cast<QLineEdit*>(editor);
 
     lineEdit->setText(unitEntry->data(Qt::DisplayRole,
-                                       index.column()).toString());
+                                      index.column()).toString());
 
     break;
   }
-
 
   default:
     break;
@@ -131,9 +128,8 @@ setModelData(QWidget*            editor,
 {
   switch (index.column()) {
   case UnitTableEntry::Name:
-  case UnitTableEntry::Symbol: 
-  case UnitTableEntry::Scale:
-    {
+  case UnitTableEntry::Symbol:
+  case UnitTableEntry::Scale: {
     auto lineEdit = static_cast<QLineEdit*>(editor);
 
     model->setData(index, lineEdit->text(),
@@ -142,9 +138,7 @@ setModelData(QWidget*            editor,
     break;
   }
 
-
   default:
     break;
   }
 }
-

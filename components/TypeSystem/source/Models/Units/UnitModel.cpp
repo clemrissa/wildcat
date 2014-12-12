@@ -65,8 +65,8 @@ setData(const QModelIndex& index,
 
   bool oldUnitStatus = unitEntry->unit()->isValid();
 
-  switch(index.column()) {
-  case UnitTableEntry::Name: 
+  switch (index.column()) {
+  case UnitTableEntry::Name:
     unitEntry->unit()->setName(value.toString());
     break;
 
@@ -74,8 +74,7 @@ setData(const QModelIndex& index,
     unitEntry->unit()->setSymbol(value.toString());
     break;
 
-  case UnitTableEntry::Scale:
-  {
+  case UnitTableEntry::Scale: {
     std::cout << "SCALE " << std::endl;
     bool ok;
     unitEntry->unit()->setScale(value.toDouble(&ok));
@@ -91,7 +90,7 @@ setData(const QModelIndex& index,
   bool becameValid = (!oldUnitStatus && newUnitStatus);
 
   auto dataAccessFactory = _connection->dataAccessFactory();
-  auto unitAccess = dataAccessFactory->unitAccess();
+  auto unitAccess        = dataAccessFactory->unitAccess();
 
   // not yet in the DB
   if (!unitEntry->getPersisted()) {
@@ -109,11 +108,9 @@ setData(const QModelIndex& index,
       }
       endResetModel();
     }
-  }
-  else if (newUnitStatus) // it was persisted and stays valid
-  {
+  } else if (newUnitStatus) // it was persisted and stays valid
+
     unitAccess->update(unitEntry->unit());
-  }
 
   return true;
 }
@@ -197,9 +194,9 @@ flags(const QModelIndex& index) const
   Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
   if (index.column() != UnitTableEntry::CloseAction)
-   flags |= Qt::ItemIsEditable;
+    flags |= Qt::ItemIsEditable;
 
-   flags ^= Qt::ItemIsSelectable;
+  flags ^= Qt::ItemIsSelectable;
 
   return flags;
 }
@@ -276,7 +273,7 @@ reloadUnits()
     for (Unit::Shared t : units)
       _unitEntries.append(new UnitTableEntry(t));
 
-    // we add one more emptyunit 
+    // we add one more emptyunit
     Unit::Shared emptyUnit(new Unit());
 
     _unitEntries.append(new UnitTableEntry(emptyUnit));
@@ -301,4 +298,5 @@ deleteMarkedEntries()
     if (entry->getPersisted() &&
         entry->getState() == UnitTableEntry::Deleted)
       unitAccess->remove(entry->unit());
+
 }

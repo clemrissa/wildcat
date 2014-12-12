@@ -94,6 +94,102 @@ getFundamentalAsString() const
 }
 
 
+QString
+Dimensions::
+getDimensionName(const int d) const
+{
+  switch (d) {
+  case DLength:
+
+    return QObject::tr("Length");
+    break;
+
+  case DMass:
+    return QObject::tr("Mass");
+    break;
+
+  case DTime:
+    return QObject::tr("Time");
+    break;
+
+  case  DCurrent:
+    return QObject::tr("Current");
+    break;
+
+  case DTemperature:
+    return QObject::tr("Temperature");
+    break;
+
+  case DLuminousIntensity:
+    return QObject::tr("Luminous Intensity");
+    break;
+
+  case DAmountOfSubstance:
+    return QObject::tr("Amount Of Substance");
+    break;
+
+  case DAngle:
+    break;
+
+  case DSolidAngle:
+    break;
+
+  case DFrequency:
+    break;
+
+  case DForce:
+    break;
+
+  case DPressure:
+    break;
+
+  case DEnergy:
+    break;
+
+  case DPower:
+    break;
+
+  case DCharge:
+    break;
+
+  case DVoltage:
+    break;
+
+  case DElectricCapacitance:
+    break;
+
+  case DElectricResistance:
+    break;
+
+  case DElectricalConductance:
+    break;
+
+  case DMagneticFlux:
+    break;
+
+  case DMagneticField:
+    break;
+
+  case DInductance:
+    break;
+
+  case DLuminousFlux:
+    break;
+
+  case DIlluminance:
+    break;
+
+  case DRadioactivity:
+    break;
+
+  case DAbsorbedDose:
+    break;
+  }
+
+  return QString();
+}
+
+
 void
 Dimensions::
 updateFundamentalUnits()

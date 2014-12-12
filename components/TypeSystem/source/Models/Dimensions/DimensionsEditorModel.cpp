@@ -31,7 +31,7 @@ QModelIndex
 DimensionsEditorModel::
 index(int row, int column, const QModelIndex& parent) const
 {
-   return QAbstractItemModel::createIndex(row, column, row);
+  return QAbstractItemModel::createIndex(row, column, row);
 }
 
 
@@ -43,7 +43,6 @@ setData(const QModelIndex& index,
 {
   return false;
 }
-
 
 
 QModelIndex
@@ -70,7 +69,7 @@ int
 DimensionsEditorModel::
 rowCount(const QModelIndex& parent) const
 {
-  //return Geo::Domain::Dimensions::FundamentalUnitsSize;
+  // return Geo::Domain::Dimensions::FundamentalUnitsSize;
 
   return 5;
 }
@@ -84,8 +83,8 @@ headerData(int             section,
 {
   QVariant result;
 
-  //if (role != Qt::DisplayRole)
-    return result;
+  // if (role != Qt::DisplayRole)
+  return result;
 }
 
 

@@ -14,7 +14,7 @@ namespace Domain {
 #ifdef ODB_COMPILER
   #pragma db value
 #endif
-class Dimensions
+class Dimensions: public QObject
 {
 public:
   typedef QSharedPointer<Dimensions> Shared;

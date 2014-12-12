@@ -3,33 +3,27 @@
 
 #include <QtWidgets/QStyledItemDelegate>
 
+#include <Domain/Dimensions>
+
 namespace Geo {
 namespace TypeSystem {
 namespace Gui {
 //
 
-class DimensionsDelegate: public QStyledItemDelegate
+class DimensionsDelegate: public QWidget
 {
   Q_OBJECT
 
 public:
-  QWidget*
-  createEditor(QWidget*                    parent,
-               const QStyleOptionViewItem& option,
-               const QModelIndex&          index) const override;
+  DimensionsDelegate(Domain::Dimensions& dimensions,
+                     QWidget*            parent = nullptr);
 
+private:
   void
-  updateEditorGeometry(QWidget*                    editor,
-                       const QStyleOptionViewItem& option,
-                       const QModelIndex&          index) const override;
+  setupUi();
 
-  void
-  setEditorData(QWidget* editor, const QModelIndex& index) const override;
-
-  void
-  setModelData(QWidget*            editor,
-               QAbstractItemModel* model,
-               const QModelIndex&  index) const override;
+private:
+  Domain::Dimensions& _dimensions;
 };
 
 //
