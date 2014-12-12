@@ -108,6 +108,10 @@ setupUi()
                                     QHeaderView::Fixed);
   horizHeader->resizeSection(UnitTableEntry::CloseAction, 20);
 
+  horizHeader->setSectionResizeMode(UnitTableEntry::Dimensions,
+                                    QHeaderView::ResizeToContents);
+
+
   QVBoxLayout* layout = new QVBoxLayout(this);
 
   layout->setContentsMargins(0, 0, 0, 0);

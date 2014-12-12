@@ -83,8 +83,6 @@ updateEditorGeometry(QWidget*                    editor,
   Q_UNUSED(index);
 
   QRect r = option.rect;
-  r.setHeight(r.height() + 210);
-
   editor->setGeometry(r);
 }
 

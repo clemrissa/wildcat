@@ -1,6 +1,7 @@
 #include "Dimensions.hpp"
 
 #include <algorithm>
+#include <iostream>
 
 using Geo::Domain::Dimensions;
 
@@ -18,7 +19,8 @@ Dimensions(Dimension d, int const nTimes)
 
   _dimensions[d] = nTimes;
 
-  updateFundamentalUnits();
+  if ( d >= Dimensions::FundamentalUnitsSize )
+    updateFundamentalUnits();
 }
 
 
@@ -85,7 +87,7 @@ QString
 Dimensions::
 getFundamentalAsString() const
 {
-  QString result = QString("[%1 %2 %3 %4 %5 %6 %7]");
+  QString result = QString("[%1 %2 %3 %4 %5 %6 %7 %8 %9]");
 
   for (int i = 0; i < Dimension::FundamentalUnitsSize; ++i)
     result = result.arg(_dimensions[i], 2);
@@ -96,7 +98,7 @@ getFundamentalAsString() const
 
 QString
 Dimensions::
-getDimensionName(const int d) const
+getDimensionName(const int d)
 {
   switch (d) {
   case DLength:

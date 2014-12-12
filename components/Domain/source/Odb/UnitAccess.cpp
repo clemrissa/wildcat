@@ -132,10 +132,10 @@ createDefaultUnits()
     << Unit::create(tr("Second"), tr("s"), 1., 0., Dimensions::Time())
     << Unit::create(tr("Ampere"), tr("A"), 1., 0., Dimensions::Current())
     << Unit::create(tr("Kelvin"), tr("K"), 1., 0., Dimensions::Temperature())
-    << Unit::create(tr("Mole"), tr(
-                    "mol"), 1., 0., Dimensions::AmountOfSubstance())
-    << Unit::create(tr("Candela"), tr(
-                    "cd"), 1., 0., Dimensions::LuminousIntensity());
+    << Unit::create(tr("Mole"), tr("mol"), 1., 0., Dimensions::AmountOfSubstance())
+    << Unit::create(tr("Candela"), tr("cd"), 1., 0., Dimensions::LuminousIntensity())
+    << Unit::create(tr("Angle"), tr("rad"), 1., 0., Dimensions::Angle())
+    << Unit::create(tr("Solid Angle"), tr("sr"), 1., 0., Dimensions::SolidAngle());
 
   // insert list of units
   auto existingUnits = findAll();

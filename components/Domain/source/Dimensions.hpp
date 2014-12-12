@@ -30,12 +30,12 @@ public:
     DTemperature,
     DLuminousIntensity,
     DAmountOfSubstance,
+    DAngle,
+    DSolidAngle,
 
     FundamentalUnitsSize,
 
-    DAngle = FundamentalUnitsSize,
-    DSolidAngle,
-    DFrequency,
+    DFrequency = FundamentalUnitsSize,
     DForce,
     DPressure,
     DEnergy,
@@ -83,8 +83,8 @@ public:
   QString
   getFundamentalAsString() const;
 
-  QString
-  getDimensionName(const int d) const;
+  static QString
+  getDimensionName(const int d);
 
 public:
   static Dimensions

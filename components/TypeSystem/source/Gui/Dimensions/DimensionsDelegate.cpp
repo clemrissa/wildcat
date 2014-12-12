@@ -23,16 +23,22 @@ void
 DimensionsDelegate::
 setupUi()
 {
+  using Geo::Domain::Dimensions;
+
   this->setAutoFillBackground(true);
 
   auto l = new QFormLayout(this);
 
-  l->setContentsMargins(0, 0, 0, 0);
+  l->setContentsMargins(1, 1, 1, 1);
+  l->setSpacing(1);
 
-  l->addRow(new QLabel("Label"), new QSpinBox());
-  l->addRow(new QLabel("Label"), new QSpinBox());
-  l->addRow(new QLabel("Label"), new QSpinBox());
-  l->addRow(new QLabel("Label"), new QSpinBox());
-  l->addRow(new QLabel("Label"), new QSpinBox());
-  l->addRow(new QLabel("Label"), new QSpinBox());
+  for (int i = Dimensions::DLength; i < Dimensions::AllUnitsSize; ++i)
+  {
+    auto sb = new QSpinBox();
+    sb->setRange(-100, 100);
+
+    l->addRow(new QLabel(Dimensions::getDimensionName(i)), sb);
+  }
+
+  setMinimumHeight(Dimensions::AllUnitsSize * 20 );
 }
