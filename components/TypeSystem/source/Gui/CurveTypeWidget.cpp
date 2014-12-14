@@ -86,6 +86,9 @@ setupUi()
 
   p->treeView->setAlternatingRowColors(true);
 
+  p->treeView->setSelectionBehavior(QAbstractItemView::SelectRows);
+  p->treeView->setSelectionMode(QAbstractItemView::NoSelection);
+
   auto header = p->treeView->header();
   header->setSectionResizeMode(QHeaderView::Stretch);
 
@@ -122,6 +125,10 @@ connectSignals()
 {
   connect(p->loadXmlButton, SIGNAL(released()),
           this, SLOT(onLoadXmlClicked()));
+
+  // for deleting rows
+  connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
+          p->curveTypeModel,   SLOT(onClicked(const QModelIndex &)));
 
   // -------- main window notification
   using Geo::Core::MainWindow;

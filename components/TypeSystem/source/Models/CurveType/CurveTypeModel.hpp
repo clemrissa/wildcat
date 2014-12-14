@@ -21,6 +21,8 @@ class CurveTypeModel:
   public QAbstractItemModel,
   public Database::Mixin::ConnectionAcceptor
 {
+  Q_OBJECT
+
 public:
   CurveTypeModel();
 
@@ -33,7 +35,8 @@ public:
 
   virtual
   QModelIndex
-  index(int row, int column, const QModelIndex& parent) const override;
+  index(int row, int column, const QModelIndex& parent =
+          QModelIndex()) const override;
 
   bool
   setData(const QModelIndex& index,
@@ -67,7 +70,11 @@ public slots:
   loadXml(QString fileName);
 
   void
-  setConnection(Database::Connections::Connection::Shared connection) override;
+  setConnection(Database::Connections::Connection::Shared connection)
+  override;
+
+  void
+  onClicked(const QModelIndex& index);
 
 private:
   int

@@ -38,6 +38,16 @@ protected:
 
   // prevents Family duplicates
   QMap<QString, CurveTypeEntry*> _curveTypes;
+
+private:
+  QVariant
+  getDisplayOrEditRole(int column) const;
+
+  QVariant
+  getDecorationRole(int column) const;
+
+  QVariant
+  getForegroundRole(int column) const;
 };
 
 //

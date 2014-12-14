@@ -37,6 +37,7 @@ protected:
   QString _min;
   QString _max;
   QString _scale;
+  QString _continuity;
 };
 
 //

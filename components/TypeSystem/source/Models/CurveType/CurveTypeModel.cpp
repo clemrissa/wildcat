@@ -240,12 +240,8 @@ loadXml(QString fileName)
       if (mnem.isNull())
         family = loginfo.firstChildElement("MainFamily");
       // work with Family-SubFamily
-      else {
+      else
         family = loginfo.firstChildElement("Family");
-
-        if (family.text() == "Diameter")
-          std::cout << "family DIAMETER" << std::endl;
-      }
 
       //
 
@@ -253,12 +249,10 @@ loadXml(QString fileName)
 
       FamilyEntry* familyEntry = nullptr;
 
-      if (_familyEntryMap.contains(familyName)) {
+      if (_familyEntryMap.contains(familyName))
         familyEntry = _familyEntryMap[familyName];
 
-        if (familyName == "Diameter")
-          std::cout << "---------- DIAMETER" << std::endl;
-      } else {
+      else {
         familyEntry = new FamilyEntry(loginfo);
 
         _familyEntryMap[familyName] = familyEntry;
@@ -281,6 +275,27 @@ CurveTypeModel::
 setConnection(Database::Connections::Connection::Shared connection)
 {
   Q_UNUSED(connection);
+
+  // TODO
+}
+
+
+void
+CurveTypeModel::
+onClicked(const QModelIndex& index)
+{
+  auto treeEntry =
+    static_cast<TreeEntry*>(index.internalPointer());
+
+  if (index.column() == TreeEntry::CloseAction
+      // && index.row() != _unitEntries.size() - 1)
+      ) {
+    treeEntry->switchState();
+
+    int  row = index.row();
+    emit dataChanged(this->index(TreeEntry::Family, row),
+                     this->index(TreeEntry::CloseAction, row));
+  }
 }
 
 

@@ -38,13 +38,16 @@ public:
                 CloseAction,
                 Size };
 
+  enum State { Active,
+               Deleted };
+
 public:
   TreeEntry(Geo::Domain::CurveType::Shared curveType,
             TreeEntry*                     parent = nullptr);
 
-  TreeEntry(TreeEntry* parent);
+  TreeEntry(TreeEntry* parent = nullptr);
 
-  TreeEntry();
+  // TreeEntry();
 
   virtual
   ~TreeEntry();
@@ -80,6 +83,13 @@ public:
   virtual void
   setConnection(Geo::Database::Connections::Connection::Shared connection);
 
+public:
+  State
+  getState() const { return _state; }
+
+  void
+  switchState();
+
 protected:
   TreeEntry* _parent;
 
@@ -88,6 +98,8 @@ protected:
   Geo::Database::Connections::Connection::Shared _connection;
 
   std::vector<TreeEntry*> _entries;
+
+  State _state;
 };
 
 //

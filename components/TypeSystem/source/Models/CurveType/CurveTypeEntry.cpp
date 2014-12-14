@@ -26,11 +26,12 @@ CurveTypeEntry(QDomElement& de,
     _curveType  = de.firstChildElement("SubFamily").text();
   }
 
-  _mnemonic = de.firstChildElement("CurveMnemonic").text();
-  _units    = de.firstChildElement("Unit").text();
-  _min      = de.firstChildElement("Min").text();
-  _max      = de.firstChildElement("Max").text();
-  _scale    = de.firstChildElement("Scale").text().toLower();
+  _mnemonic   = de.firstChildElement("CurveMnemonic").text();
+  _units      = de.firstChildElement("Unit").text();
+  _min        = de.firstChildElement("Min").text();
+  _max        = de.firstChildElement("Max").text();
+  _scale      = de.firstChildElement("Scale").text().toLower();
+  _continuity = de.firstChildElement("Type").text();
 }
 
 
@@ -81,6 +82,10 @@ data(int role, int column) const
 
   case TreeEntry::Scale:
     return _scale;
+    break;
+
+  case TreeEntry::Continuity:
+    return _continuity;
     break;
 
   default:

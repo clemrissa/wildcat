@@ -8,7 +8,8 @@ TreeEntry::
 TreeEntry(CurveType::Shared curveType,
           TreeEntry*        parent):
   _parent(parent),
-  _curveType(curveType)
+  _curveType(curveType),
+  _state(Active)
 {
   //
 }
@@ -16,18 +17,20 @@ TreeEntry(CurveType::Shared curveType,
 
 TreeEntry::
 TreeEntry(TreeEntry* parent):
-  _parent(parent)
-{
-}
-
-
-TreeEntry::
-TreeEntry():
-  _parent(nullptr)
+  _parent(parent),
+  _state(Active)
 {
   //
 }
 
+
+// TreeEntry::
+// TreeEntry():
+// _parent(nullptr)
+// _state(Active),
+// {
+////
+// }
 
 TreeEntry::
 ~TreeEntry()
@@ -57,6 +60,25 @@ setConnection(Database::Connections::Connection::Shared connection)
 
   for (TreeEntry* e : _entries)
     e->setConnection(connection);
+}
+
+
+void
+TreeEntry::
+switchState()
+{
+  switch (_state) {
+  case Active:
+    _state = Deleted;
+    break;
+
+  case Deleted:
+    _state = Active;
+    break;
+  }
+
+  for (TreeEntry* e : _entries)
+    e->switchState();
 }
 
 
