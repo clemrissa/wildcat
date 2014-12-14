@@ -1,10 +1,10 @@
 #include "CurveTypeModel.hpp"
 
-#include "MainFamilyEntry.hpp"
+#include "FamilyEntry.hpp"
 
 #include <QtCore/QFile>
 
-using Geo::TypeSystem::Models::CurveTypes::MainFamilyEntry;
+using Geo::TypeSystem::Models::CurveTypes::FamilyEntry;
 using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 
 using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
@@ -221,7 +221,7 @@ loadXml(QString fileName)
 
     QDomNode n = docElem.firstChild();
 
-    QMap<QString, MainFamilyEntry*> mainFamilyEntryMap;
+    QMap<QString, FamilyEntry*> familyEntryMap;
 
     while (!n.isNull()) {
       // try to convert the node to an element.
@@ -234,19 +234,19 @@ loadXml(QString fileName)
 
       QString mainFamilyName = e.text();
 
-      MainFamilyEntry* mainFamilyEntry = nullptr;
+      FamilyEntry* familyEntry = nullptr;
 
-      if (mainFamilyEntryMap.contains(mainFamilyName))
-        mainFamilyEntry = mainFamilyEntryMap[mainFamilyName];
+      if (familyEntryMap.contains(mainFamilyName))
+        familyEntry = familyEntryMap[mainFamilyName];
       else {
-        mainFamilyEntry = new MainFamilyEntry(loginfo);
+        familyEntry = new FamilyEntry(loginfo);
 
-        mainFamilyEntryMap[mainFamilyName] = mainFamilyEntry;
+        familyEntryMap[mainFamilyName] = familyEntry;
 
-        _curveTypeEntries.append(mainFamilyEntry);
+        _curveTypeEntries.append(familyEntry);
       }
 
-      mainFamilyEntry->addChild(loginfo);
+      familyEntry->addChild(loginfo);
 
       n = n.nextSibling();
     }

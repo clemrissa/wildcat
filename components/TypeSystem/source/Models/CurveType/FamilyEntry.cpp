@@ -1,22 +1,25 @@
 #include "FamilyEntry.hpp"
 
+#include "CurveTypeEntry.hpp"
+
+using Geo::TypeSystem::Models::CurveTypes::CurveTypeEntry;
 using Geo::TypeSystem::Models::CurveTypes::FamilyEntry;
-using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 
 FamilyEntry::
-FamilyEntry(Geo::Domain::CurveType::Shared curveType,
-            TreeEntry*                     parent):
-  TreeEntry(curveType, parent)
+FamilyEntry(Geo::Domain::CurveType::Shared curveType):
+  TreeEntry(curveType)
 {
 }
 
 
 FamilyEntry::
-FamilyEntry(QDomElement& domElement,
-            TreeEntry*   parent):
-  TreeEntry(parent)
+FamilyEntry(QDomElement& domElement):
+  TreeEntry()
 {
-  _familyName = domElement.firstChildElement("Family").text();
+  _mainFamilyName = domElement.firstChildElement("MainFamily").text();
+
+  if (_mainFamilyName.isEmpty())
+    _mainFamilyName = domElement.firstChildElement("CurveMnemonic").text();
 }
 
 
@@ -34,8 +37,8 @@ data(int role, int column) const
     return QVariant();
 
   switch (column) {
-  case TreeEntry::CurveType:
-    return _familyName;
+  case TreeEntry::MainFamily:
+    return _mainFamilyName;
     break;
 
   default:
@@ -44,4 +47,20 @@ data(int role, int column) const
   }
 
   return QVariant();
+}
+
+
+void
+FamilyEntry::
+addChild(QDomElement& domElement)
+{
+  auto family = domElement.firstChildElement("Family");
+
+  if (family.isNull())
+    return;
+
+  if (!_curveNames.contains(family.text())) {
+    _curveNames.insert(family.text());
+    _entries.push_back(new CurveTypeEntry(domElement, this));
+  }
 }

@@ -14,7 +14,7 @@ namespace CurveTypes {
 //
 
 class TreeEntry;
-class MainFamilyEntry;
+class FamilyEntry;
 //
 
 class CurveTypeModel:
@@ -74,7 +74,7 @@ private:
   getEntryPosition(TreeEntry* const entry) const;
 
 private:
-  QVector<MainFamilyEntry*> _curveTypeEntries;
+  QVector<FamilyEntry*> _curveTypeEntries;
 };
 
 //

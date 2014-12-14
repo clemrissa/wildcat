@@ -3,6 +3,7 @@
 
 #include "TreeEntry.hpp"
 
+#include <QtCore/QSet>
 #include <QtXml/QDomElement>
 
 namespace Geo {
@@ -14,11 +15,9 @@ namespace CurveTypes {
 class FamilyEntry: public TreeEntry
 {
 public:
-  FamilyEntry(Geo::Domain::CurveType::Shared curveType,
-              TreeEntry*                     parent);
+  FamilyEntry(Geo::Domain::CurveType::Shared curveType);
 
-  FamilyEntry(QDomElement& domElement,
-              TreeEntry*   parent);
+  FamilyEntry(QDomElement& domElement);
 
   virtual
   ~FamilyEntry();
@@ -26,8 +25,17 @@ public:
   virtual QVariant
   data(int role, int column) const override;
 
+public:
+  /// Fetches Family, checks if it duplicates an existing entry
+  /// adds to children if not
+  void
+  addChild(QDomElement& domElement);
+
 protected:
-  QString _familyName;
+  QString _mainFamilyName;
+
+  // prevents Family duplicates
+  QSet<QString> _curveNames;
 };
 
 //
