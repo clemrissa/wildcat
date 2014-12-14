@@ -17,7 +17,7 @@ public:
   CurveTypeEntry(Geo::Domain::CurveType::Shared curveType,
                  TreeEntry*                     parent);
 
-  CurveTypeEntry(QDomElement& domElement,
+  CurveTypeEntry(QDomElement& de,
                  TreeEntry*   parent);
 
   virtual
@@ -26,12 +26,17 @@ public:
   virtual QVariant
   data(int role, int column) const override;
 
+  void
+  addXmlData(QDomElement& de);
+
 protected:
   QString _familyName;
-  QString _mnemonics;
+  QString _curveType;
+  QString _mnemonic;
   QString _units;
   QString _min;
   QString _max;
+  QString _scale;
 };
 
 //

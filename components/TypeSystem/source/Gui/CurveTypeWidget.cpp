@@ -24,11 +24,13 @@
 #include <Models/ConnectionListModel>
 
 #include <Models/CurveType/CurveTypeModel.hpp>
+#include <Models/CurveType/TreeEntry.hpp>
 
 using AC = DependencyManager::ApplicationContext;
 
 using Geo::TypeSystem::Gui::CurveTypeWidget;
 using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
+using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 
 struct CurveTypeWidget::Private
 {
@@ -83,8 +85,22 @@ setupUi()
   p->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
   p->treeView->setAlternatingRowColors(true);
-  p->treeView->header()->show();
-  p->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+  auto header = p->treeView->header();
+  header->setSectionResizeMode(QHeaderView::Stretch);
+
+  header->setSectionResizeMode(TreeEntry::Family,
+                               QHeaderView::ResizeToContents);
+
+  header->setSectionResizeMode(TreeEntry::CurveType,
+                               QHeaderView::ResizeToContents);
+
+  header->setStretchLastSection(false);
+
+  header->setSectionResizeMode(TreeEntry::CloseAction,
+                               QHeaderView::Fixed);
+
+  header->resizeSection(TreeEntry::CloseAction, 20);
 
   QVBoxLayout* layout = new QVBoxLayout(this);
 

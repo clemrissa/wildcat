@@ -26,15 +26,16 @@ namespace CurveTypes {
 class TreeEntry: public QObject
 {
 public:
-  enum Column { MainFamily  = 0,
-                CurveType   = 1,
-                Mnemonics   = 2,
-                Units       = 3,
-                Min         = 4,
-                Max         = 5,
-                Scale       = 6,
-                Continuity  = 7,
-                CloseAction = 8,
+  enum Column { Family,
+                CurveType,
+                Mnemonic,
+                Synonims,
+                Units,
+                Min,
+                Max,
+                Scale,
+                Continuity,
+                CloseAction,
                 Size };
 
 public:

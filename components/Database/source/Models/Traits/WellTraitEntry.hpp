@@ -15,10 +15,10 @@ namespace Traits {
 class WellTraitEntry: public Entry
 {
 public:
-  enum Column { Trait       = 0,
-                Synonyms    = 1,
-                Type        = 2,
-                CloseAction = 3,
+  enum Column { Trait,
+                Synonyms,
+                Type,
+                CloseAction,
                 Size };
 
   enum State { Active,

@@ -55,7 +55,8 @@ index(int row, int column, const QModelIndex& parent) const
   if (entry->entries().size() == 0)
     return QModelIndex();
 
-  return QAbstractItemModel::createIndex(row, column, entry->entries()[row]);
+  return QAbstractItemModel::createIndex(row, column,
+                                         entry->entries()[row]);
 }
 
 
@@ -111,6 +112,8 @@ int
 CurveTypeModel::
 columnCount(const QModelIndex& parent) const
 {
+  Q_UNUSED(parent);
+
   return TreeEntry::Column::Size;
 }
 
@@ -144,16 +147,20 @@ headerData(int             section,
     return result;
 
   switch (section) {
-  case TreeEntry::MainFamily:
-    result = tr("Main Family");
+  case TreeEntry::Family:
+    result = tr("Family");
     break;
 
   case TreeEntry::CurveType:
     result = tr("Curve Type");
     break;
 
-  case TreeEntry::Mnemonics:
-    result = tr("Mnemonics");
+  case TreeEntry::Mnemonic:
+    result = tr("Mnemonic");
+    break;
+
+  case TreeEntry::Synonims:
+    result = tr("Synonims");
     break;
 
   case TreeEntry::Units:
@@ -221,27 +228,40 @@ loadXml(QString fileName)
 
     QDomNode n = docElem.firstChild();
 
-    QMap<QString, FamilyEntry*> familyEntryMap;
-
     while (!n.isNull()) {
       // try to convert the node to an element.
       QDomElement loginfo = n.toElement();
 
-      QDomElement e = loginfo.firstChildElement("MainFamily");
+      QDomElement mnem = loginfo.firstChildElement("CurveMnemonic");
 
-      if (e.isNull())
-        e = loginfo.firstChildElement("CurveMnemonic");
+      QDomElement family;
 
-      QString mainFamilyName = e.text();
+      // work with pair MainFamily-Family
+      if (mnem.isNull())
+        family = loginfo.firstChildElement("MainFamily");
+      // work with Family-SubFamily
+      else {
+        family = loginfo.firstChildElement("Family");
+
+        if (family.text() == "Diameter")
+          std::cout << "family DIAMETER" << std::endl;
+      }
+
+      //
+
+      QString familyName = family.text();
 
       FamilyEntry* familyEntry = nullptr;
 
-      if (familyEntryMap.contains(mainFamilyName))
-        familyEntry = familyEntryMap[mainFamilyName];
-      else {
+      if (_familyEntryMap.contains(familyName)) {
+        familyEntry = _familyEntryMap[familyName];
+
+        if (familyName == "Diameter")
+          std::cout << "---------- DIAMETER" << std::endl;
+      } else {
         familyEntry = new FamilyEntry(loginfo);
 
-        familyEntryMap[mainFamilyName] = familyEntry;
+        _familyEntryMap[familyName] = familyEntry;
 
         _curveTypeEntries.append(familyEntry);
       }

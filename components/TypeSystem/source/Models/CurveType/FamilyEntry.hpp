@@ -3,7 +3,7 @@
 
 #include "TreeEntry.hpp"
 
-#include <QtCore/QSet>
+#include <QtCore/QMap>
 #include <QtXml/QDomElement>
 
 namespace Geo {
@@ -11,6 +11,8 @@ namespace TypeSystem {
 namespace Models {
 namespace CurveTypes {
 //
+
+class CurveTypeEntry;
 
 class FamilyEntry: public TreeEntry
 {
@@ -32,10 +34,10 @@ public:
   addChild(QDomElement& domElement);
 
 protected:
-  QString _mainFamilyName;
+  QString _familyName;
 
   // prevents Family duplicates
-  QSet<QString> _curveNames;
+  QMap<QString, CurveTypeEntry*> _curveTypes;
 };
 
 //

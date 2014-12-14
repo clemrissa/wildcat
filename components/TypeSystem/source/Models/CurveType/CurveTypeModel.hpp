@@ -75,6 +75,8 @@ private:
 
 private:
   QVector<FamilyEntry*> _curveTypeEntries;
+
+  QMap<QString, FamilyEntry*> _familyEntryMap;
 };
 
 //

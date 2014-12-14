@@ -12,21 +12,42 @@ CurveTypeEntry(Geo::Domain::CurveType::Shared curveType,
 
 
 CurveTypeEntry::
-CurveTypeEntry(QDomElement& domElement,
+CurveTypeEntry(QDomElement& de,
                TreeEntry*   parent):
   TreeEntry(parent)
 {
-  _familyName = domElement.firstChildElement("Family").text();
-  _mnemonics  = domElement.firstChildElement("Mnemonics").text();
-  _units      = domElement.firstChildElement("Unit").text();
-  _min        = domElement.firstChildElement("Min").text();
-  _max        = domElement.firstChildElement("Max").text();
+  QDomElement mnem = de.firstChildElement("CurveMnemonic");
+
+  if (mnem.isNull()) {
+    _familyName = de.firstChildElement("MainFamily").text();
+    _curveType  = de.firstChildElement("Family").text();
+  } else {
+    _familyName = de.firstChildElement("Family").text();
+    _curveType  = de.firstChildElement("SubFamily").text();
+  }
+
+  _mnemonic = de.firstChildElement("CurveMnemonic").text();
+  _units    = de.firstChildElement("Unit").text();
+  _min      = de.firstChildElement("Min").text();
+  _max      = de.firstChildElement("Max").text();
+  _scale    = de.firstChildElement("Scale").text().toLower();
 }
 
 
 CurveTypeEntry::
 ~CurveTypeEntry()
 {
+}
+
+
+void
+CurveTypeEntry::
+addXmlData(QDomElement& de)
+{
+  QDomElement mnem = de.firstChildElement("CurveMnemonic");
+
+  if (_mnemonic.isEmpty())
+    _mnemonic = de.firstChildElement("CurveMnemonic").text();
 }
 
 
@@ -39,11 +60,11 @@ data(int role, int column) const
 
   switch (column) {
   case TreeEntry::CurveType:
-    return _familyName;
+    return _curveType;
     break;
 
-  case TreeEntry::Mnemonics:
-    return _mnemonics;
+  case TreeEntry::Mnemonic:
+    return _mnemonic;
     break;
 
   case TreeEntry::Units:
@@ -56,6 +77,10 @@ data(int role, int column) const
 
   case TreeEntry::Max:
     return _max;
+    break;
+
+  case TreeEntry::Scale:
+    return _scale;
     break;
 
   default:
