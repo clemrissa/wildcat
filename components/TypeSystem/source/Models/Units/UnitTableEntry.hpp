@@ -77,9 +77,7 @@ public:
                     QAbstractItemModel* model)
   { Q_UNUSED(editor); Q_UNUSED(index); Q_UNUSED(model); }
 
-
 public:
-
   Geo::Domain::Unit::Shared
   unit() const;
 

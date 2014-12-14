@@ -24,20 +24,22 @@
 #include <DependencyManager/ApplicationContext>
 #include <Models/ConnectionListModel>
 
+#include <Gui/UnitTableEntryDelegate.hpp>
 #include <Models/Units/UnitModel.hpp>
 #include <Models/Units/UnitTableEntry.hpp>
-#include <Gui/UnitTableEntryDelegate.hpp>
 
 using AC = DependencyManager::ApplicationContext;
 
-using Geo::TypeSystem::Gui::UnitWidget;
 using Geo::TypeSystem::Gui::UnitTableEntryDelegate;
+using Geo::TypeSystem::Gui::UnitWidget;
 using Geo::TypeSystem::Models::Units::UnitModel;
 using Geo::TypeSystem::Models::Units::UnitTableEntry;
 
 struct UnitWidget::Private
 {
   QPushButton* loadXmlButton;
+
+  QPushButton* saveXmlButton;
 
   // curve types tree
   QTableView* unitsTable;
@@ -73,9 +75,13 @@ setupUi()
 {
   setWindowTitle("Unit Types");
 
-  _p->loadXmlButton = new QPushButton(tr("Load Slb Xml"));
+  _p->loadXmlButton = new QPushButton(tr("Load Xml"));
 
-  _p->loadXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
+  _p->loadXmlButton->setToolTip(tr("Loads Xml file"));
+
+  _p->saveXmlButton = new QPushButton(tr("Save Xml"));
+
+  _p->saveXmlButton->setToolTip(tr("Save Xml file"));
 
   // --------------------
 
@@ -102,15 +108,26 @@ setupUi()
   auto horizHeader = _p->unitsTable->horizontalHeader();
 
   horizHeader->setSectionResizeMode(QHeaderView::Stretch);
+  //
 
+  horizHeader->setSectionResizeMode(UnitTableEntry::Name,
+                                    QHeaderView::ResizeToContents);
+  horizHeader->setSectionResizeMode(UnitTableEntry::Symbol,
+                                    QHeaderView::ResizeToContents);
+  horizHeader->setSectionResizeMode(UnitTableEntry::Scale,
+                                    QHeaderView::ResizeToContents);
+  horizHeader->setSectionResizeMode(UnitTableEntry::Offset,
+                                    QHeaderView::ResizeToContents);
+  // horizHeader->setSectionResizeMode(UnitTableEntry::Dimensions,
+  // QHeaderView::ResizeToContents);
+
+  //
   horizHeader->setStretchLastSection(false);
+
   horizHeader->setSectionResizeMode(UnitTableEntry::CloseAction,
                                     QHeaderView::Fixed);
+
   horizHeader->resizeSection(UnitTableEntry::CloseAction, 20);
-
-  horizHeader->setSectionResizeMode(UnitTableEntry::Dimensions,
-                                    QHeaderView::ResizeToContents);
-
 
   QVBoxLayout* layout = new QVBoxLayout(this);
 
@@ -119,6 +136,7 @@ setupUi()
   auto ll = new QHBoxLayout();
 
   ll->addWidget(_p->loadXmlButton);
+  ll->addWidget(_p->saveXmlButton);
   ll->addStretch();
   layout->addLayout(ll);
 

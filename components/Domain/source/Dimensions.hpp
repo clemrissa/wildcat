@@ -61,7 +61,7 @@ public:
   Dimensions();
 
   /// Sets d-th dimension to times
-  Dimensions(Dimension d, int const times = 1);
+  Dimensions(Dimension d, int const nTimes = 1);
 
   Dimensions(Dimensions const& dimensions);
 
@@ -74,6 +74,12 @@ public:
   /// full equality, compares all dimensions
   bool
   operator==(Dimensions const& dimensions) const;
+
+  int
+  operator[](const int d) const;
+
+  void
+  setDimension(Dimension d, int const nTimes);
 
   /// compares just fundamental units
   bool

@@ -25,6 +25,7 @@ UnitTableEntry::
     delete entry;
 }
 
+
 Geo::Domain::Unit::Shared
 UnitTableEntry::
 unit() const

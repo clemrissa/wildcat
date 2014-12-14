@@ -75,13 +75,19 @@ setData(const QModelIndex& index,
     break;
 
   case UnitTableEntry::Scale: {
-    std::cout << "SCALE " << std::endl;
     bool ok;
     unitEntry->unit()->setScale(value.toDouble(&ok));
     break;
   }
 
+  case UnitTableEntry::Offset: {
+    bool ok;
+    unitEntry->unit()->setOffset(value.toDouble(&ok));
+    break;
+  }
+
   default:
+    // fake dimensions set falls here
     break;
   }
 

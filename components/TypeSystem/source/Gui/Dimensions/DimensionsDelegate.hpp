@@ -1,6 +1,8 @@
 #ifndef Geo_TypeSystem_Gui_Dimensions_DimensionsDelegate_hpp
 #define Geo_TypeSystem_Gui_Dimensions_DimensionsDelegate_hpp
 
+#include <QtCore/QMap>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStyledItemDelegate>
 
 #include <Domain/Dimensions>
@@ -18,12 +20,21 @@ public:
   DimensionsDelegate(Domain::Dimensions& dimensions,
                      QWidget*            parent = nullptr);
 
-private:
+private slots:
   void
   setupUi();
 
+  void
+  setValues();
+
+  void
+  onValueChanged(int d);
+
 private:
   Domain::Dimensions& _dimensions;
+
+  // maps certain spin box to its corresponding dimension
+  QMap<QSpinBox*, int> _spinBoxMap;
 };
 
 //

@@ -39,7 +39,8 @@ createEditor(QWidget*                    parent,
     break;
   }
 
-  case UnitTableEntry::Scale: {
+  case UnitTableEntry::Scale:
+  case UnitTableEntry::Offset: {
     auto l = new QLineEdit();
 
     l->setParent(parent);
@@ -97,7 +98,8 @@ setEditorData(QWidget*           editor,
   switch (index.column()) {
   case UnitTableEntry::Name:
   case UnitTableEntry::Symbol:
-  case UnitTableEntry::Scale: {
+  case UnitTableEntry::Scale:
+  case UnitTableEntry::Offset: {
     auto unitEntry =
       static_cast<UnitTableEntry*>(index.internalPointer());
 
@@ -127,7 +129,8 @@ setModelData(QWidget*            editor,
   switch (index.column()) {
   case UnitTableEntry::Name:
   case UnitTableEntry::Symbol:
-  case UnitTableEntry::Scale: {
+  case UnitTableEntry::Scale:
+  case UnitTableEntry::Offset: {
     auto lineEdit = static_cast<QLineEdit*>(editor);
 
     model->setData(index, lineEdit->text(),
@@ -135,6 +138,13 @@ setModelData(QWidget*            editor,
 
     break;
   }
+
+  /// fake "set data" to trigger save procedure
+  case UnitTableEntry::Dimensions:
+    model->setData(index, QString("Set Dimensions"),
+                   Qt::EditRole);
+
+    break;
 
   default:
     break;

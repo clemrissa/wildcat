@@ -3,7 +3,6 @@
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QSpinBox>
 
 #include <iostream>
 
@@ -16,6 +15,8 @@ DimensionsDelegate(Geo::Domain::Dimensions& dimensions,
   _dimensions(dimensions)
 {
   setupUi();
+
+  setValues();
 }
 
 
@@ -32,13 +33,47 @@ setupUi()
   l->setContentsMargins(1, 1, 1, 1);
   l->setSpacing(1);
 
-  for (int i = Dimensions::DLength; i < Dimensions::AllUnitsSize; ++i)
-  {
+  for (int i = Dimensions::DLength; i < Dimensions::AllUnitsSize; ++i) {
     auto sb = new QSpinBox();
+
     sb->setRange(-100, 100);
+
+    // sb->setValue(_dimensions[i]);
+
+    connect(sb, SIGNAL(valueChanged(int)),
+            this, SLOT(onValueChanged(int)));
+
+    _spinBoxMap[sb] = i;
 
     l->addRow(new QLabel(Dimensions::getDimensionName(i)), sb);
   }
 
-  setMinimumHeight(Dimensions::AllUnitsSize * 20 );
+  setMinimumHeight(Dimensions::AllUnitsSize * 22);
+}
+
+
+void
+DimensionsDelegate::
+setValues()
+{
+  for (auto sb : _spinBoxMap.keys()) {
+    int d = _spinBoxMap[sb];
+    sb->setValue(_dimensions[d]);
+  }
+}
+
+
+void
+DimensionsDelegate::
+onValueChanged(int d)
+{
+  using Geo::Domain::Dimensions;
+
+  auto sb = static_cast<QSpinBox*>(sender());
+
+  int dim = _spinBoxMap[sb];
+
+  _dimensions.setDimension((Dimensions::Dimension)dim, d);
+
+  setValues();
 }
