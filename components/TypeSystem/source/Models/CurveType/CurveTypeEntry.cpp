@@ -1,5 +1,9 @@
 #include "CurveTypeEntry.hpp"
 
+#include <QtGui/QColor>
+#include <QtGui/QIcon>
+#include <QtGui/QPalette>
+
 using Geo::TypeSystem::Models::CurveTypes::CurveTypeEntry;
 using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 
@@ -56,9 +60,36 @@ QVariant
 CurveTypeEntry::
 data(int role, int column) const
 {
-  if (role != Qt::DisplayRole)
-    return QVariant();
+  switch (role) {
+  case Qt::DisplayRole:
+    return getDisplayOrEditRole(column);
+    break;
 
+  case Qt::EditRole:
+    return getDisplayOrEditRole(column);
+    break;
+
+  case Qt::DecorationRole:
+    return getDecorationRole(column);
+    break;
+
+  case Qt::ForegroundRole:
+    return getForegroundRole(column);
+    break;
+
+  default:
+    break;
+  }
+
+  return QVariant();
+}
+
+
+
+QVariant
+CurveTypeEntry::
+getDisplayOrEditRole(int column) const
+{
   switch (column) {
   case TreeEntry::CurveType:
     return _curveType;
@@ -94,4 +125,52 @@ data(int role, int column) const
   }
 
   return QVariant();
+
+}
+
+QVariant
+CurveTypeEntry::
+getDecorationRole(int column) const
+{
+  // TODO
+  // if (!_unit->isValid())
+  // return QVariant();
+
+  if (column == CloseAction)
+
+    switch (_state) {
+    case Active:
+      return QIcon(":/delete.png");
+      break;
+
+    case Deleted:
+      return QIcon(":/revert.png");
+      break;
+    }
+
+  return QVariant();
+}
+
+QVariant
+CurveTypeEntry::
+getForegroundRole(int column) const
+{
+  Q_UNUSED(column);
+
+  QVariant result;
+
+  switch (_state) {
+  case Active: {
+    QPalette palette;
+    result =  QColor(palette.color(QPalette::WindowText));
+    break;
+  }
+
+  case Deleted:
+    result = QColor(Qt::lightGray);
+    break;
+  }
+
+  return result;
+
 }

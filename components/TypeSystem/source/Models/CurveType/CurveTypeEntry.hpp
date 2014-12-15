@@ -38,6 +38,17 @@ protected:
   QString _max;
   QString _scale;
   QString _continuity;
+
+private:
+  QVariant
+  getDisplayOrEditRole(int column) const;
+
+  QVariant
+  getDecorationRole(int column) const;
+
+  QVariant
+  getForegroundRole(int column) const;
+
 };
 
 //
