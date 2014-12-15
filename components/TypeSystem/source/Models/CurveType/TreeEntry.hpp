@@ -11,6 +11,7 @@
 #include <Domain/CurveType>
 
 #include <Database/Connections/Connection>
+#include <Database/Mixin/ConnectionAcceptor>
 
 class QAbstractItemModel;
 
@@ -23,11 +24,12 @@ namespace CurveTypes {
 /// @brief Composite pattern. Used to represent CurveType structure as a tree.
 /// Every subclass works with sertain data from the CurveType class.
 /// The whole tree is employed then in AbstractItemMoodel for QTreeView
-class TreeEntry: public QObject
+class TreeEntry:
+  public QObject,
+  public Database::Mixin::ConnectionAcceptor
 {
 public:
-  enum Column { Family,
-                CurveType,
+  enum Column { FamilyOrCurveType,
                 Mnemonic,
                 Synonims,
                 Units,
@@ -42,12 +44,7 @@ public:
                Deleted };
 
 public:
-  TreeEntry(Geo::Domain::CurveType::Shared curveType,
-            TreeEntry*                     parent = nullptr);
-
   TreeEntry(TreeEntry* parent = nullptr);
-
-  // TreeEntry();
 
   virtual
   ~TreeEntry();
@@ -61,9 +58,6 @@ public:
   int
   positionOfChildEntry(TreeEntry* const childEntry) const;
 
-  Geo::Domain::CurveType::Shared const
-  curveType() const { return _curveType; }
-
   virtual QVariant
   data(int role, int column) const = 0;
 
@@ -75,13 +69,15 @@ public:
   virtual QWidget*
   delegateWidget(int column) const;
 
-  virtual void
-  setDataFromWidget(QWidget* editor, QModelIndex const& index,
-                    QAbstractItemModel* model)
-  { Q_UNUSED(editor); Q_UNUSED(index); Q_UNUSED(model); }
+  // virtual void
+  // setDataFromWidget(QWidget* editor, QModelIndex const& index,
+  // QAbstractItemModel* model)
+  // { Q_UNUSED(editor); Q_UNUSED(index); Q_UNUSED(model); }
 
+public slots:
   virtual void
-  setConnection(Geo::Database::Connections::Connection::Shared connection);
+  setConnection(Geo::Database::Connections::Connection::Shared connection)
+  override;
 
 public:
   State
@@ -90,10 +86,19 @@ public:
   void
   switchState();
 
+  void
+  setState(State state);
+
+protected:
+  // propagates Active status update recursively to parent
+  void
+  setParentStateActive();
+
+  void
+  setChildState(State state);
+
 protected:
   TreeEntry* _parent;
-
-  Geo::Domain::CurveType::Shared _curveType;
 
   Geo::Database::Connections::Connection::Shared _connection;
 

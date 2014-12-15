@@ -147,12 +147,8 @@ headerData(int             section,
     return result;
 
   switch (section) {
-  case TreeEntry::Family:
-    result = tr("Family");
-    break;
-
-  case TreeEntry::CurveType:
-    result = tr("Curve Type");
+  case TreeEntry::FamilyOrCurveType:
+    result = tr("Family / Curve Type");
     break;
 
   case TreeEntry::Mnemonic:
@@ -293,7 +289,7 @@ onClicked(const QModelIndex& index)
     treeEntry->switchState();
 
     int  row = index.row();
-    emit dataChanged(this->index(TreeEntry::Family, row),
+    emit dataChanged(this->index(TreeEntry::FamilyOrCurveType, row),
                      this->index(TreeEntry::CloseAction, row));
   }
 }

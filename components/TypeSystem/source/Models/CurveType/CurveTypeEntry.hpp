@@ -5,6 +5,8 @@
 
 #include <QtXml/QDomElement>
 
+#include <Domain/CurveType>
+
 namespace Geo {
 namespace TypeSystem {
 namespace Models {
@@ -29,13 +31,11 @@ public:
   void
   addXmlData(QDomElement& de);
 
-protected:
-  QString _familyName;
-  QString _curveType;
-  QString _mnemonic;
-  QString _units;
-  QString _min;
-  QString _max;
+private:
+  Geo::Domain::CurveType::Shared _curveType;
+
+  bool _persisted;
+
   QString _scale;
   QString _continuity;
 
@@ -48,7 +48,6 @@ private:
 
   QVariant
   getForegroundRole(int column) const;
-
 };
 
 //

@@ -5,17 +5,6 @@ using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 using Geo::Domain::CurveType;
 
 TreeEntry::
-TreeEntry(CurveType::Shared curveType,
-          TreeEntry*        parent):
-  _parent(parent),
-  _curveType(curveType),
-  _state(Active)
-{
-  //
-}
-
-
-TreeEntry::
 TreeEntry(TreeEntry* parent):
   _parent(parent),
   _state(Active)
@@ -23,14 +12,6 @@ TreeEntry(TreeEntry* parent):
   //
 }
 
-
-// TreeEntry::
-// TreeEntry():
-// _parent(nullptr)
-// _state(Active),
-// {
-////
-// }
 
 TreeEntry::
 ~TreeEntry()
@@ -70,15 +51,49 @@ switchState()
   switch (_state) {
   case Active:
     _state = Deleted;
+
     break;
 
   case Deleted:
     _state = Active;
+
+    if (_parent)
+      _parent->setParentStateActive();
+
     break;
   }
 
+  setChildState(_state);
+}
+
+
+void
+TreeEntry::
+setParentStateActive()
+{
+  _state = Active;
+
+  if (_parent)
+    _parent->setParentStateActive();
+}
+
+
+void
+TreeEntry::
+setChildState(State state)
+{
+  _state = state;
+
   for (TreeEntry* e : _entries)
-    e->switchState();
+    e->setChildState(state);
+}
+
+
+void
+TreeEntry::
+setState(State state)
+{
+  _state = state;
 }
 
 

@@ -44,6 +44,8 @@ public:
   UnitTableEntry(Geo::Domain::Unit::Shared unit,
                  UnitTableEntry*           parent = nullptr);
 
+  UnitTableEntry(UnitTableEntry* parent = nullptr);
+
   virtual
   ~UnitTableEntry();
 
@@ -95,6 +97,16 @@ public slots:
   switchState();
 
 private:
+  QVariant
+  getDisplayOrEditRole(int column) const;
+
+  QVariant
+  getDecorationRole(int column) const;
+
+  QVariant
+  getForegroundRole(int column) const;
+
+private:
   UnitTableEntry* _parent;
 
   Geo::Domain::Unit::Shared _unit;
@@ -106,16 +118,6 @@ private:
   Geo::Database::Connections::Connection::Shared _connection;
 
   std::vector<UnitTableEntry*> _entries;
-
-private:
-  QVariant
-  getDisplayOrEditRole(int column) const;
-
-  QVariant
-  getDecorationRole(int column) const;
-
-  QVariant
-  getForegroundRole(int column) const;
 };
 
 //

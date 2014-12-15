@@ -108,9 +108,7 @@ setData(const QModelIndex& index,
         unitEntry->setPersisted(true);
 
         // we add one more empty trait
-        Unit::Shared emptyUnit(new Unit());
-
-        _unitEntries.append(new UnitTableEntry(emptyUnit));
+        _unitEntries.append(new UnitTableEntry());
       }
       endResetModel();
     }

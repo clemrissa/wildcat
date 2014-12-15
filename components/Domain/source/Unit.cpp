@@ -49,6 +49,6 @@ Unit::
 isValid() const
 {
   return !_name.isEmpty() &&
-         !_symbol.isEmpty() && 
+         !_symbol.isEmpty() &&
          _scale != 0.0;
 }

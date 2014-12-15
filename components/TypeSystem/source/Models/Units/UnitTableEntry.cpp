@@ -19,6 +19,17 @@ UnitTableEntry(Unit::Shared    unit,
 
 
 UnitTableEntry::
+UnitTableEntry(UnitTableEntry* parent):
+  _parent(parent),
+  _unit(new Unit()),
+  _state(Active),
+  _persisted(_unit->isValid())
+{
+  //
+}
+
+
+UnitTableEntry::
 ~UnitTableEntry()
 {
   for (UnitTableEntry* entry : _entries)

@@ -9,13 +9,6 @@ using Geo::TypeSystem::Models::CurveTypes::CurveTypeEntry;
 using Geo::TypeSystem::Models::CurveTypes::FamilyEntry;
 
 FamilyEntry::
-FamilyEntry(Geo::Domain::CurveType::Shared curveType):
-  TreeEntry(curveType)
-{
-}
-
-
-FamilyEntry::
 FamilyEntry(QDomElement& de):
   TreeEntry()
 {
@@ -95,7 +88,7 @@ getDisplayOrEditRole(int column) const
   QVariant result;
 
   switch (column) {
-  case TreeEntry::Family:
+  case TreeEntry::FamilyOrCurveType:
     return _familyName;
     break;
 

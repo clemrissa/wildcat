@@ -4,13 +4,16 @@
 #include <QtGui/QIcon>
 #include <QtGui/QPalette>
 
+using Geo::Domain::CurveType;
 using Geo::TypeSystem::Models::CurveTypes::CurveTypeEntry;
 using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 
 CurveTypeEntry::
 CurveTypeEntry(Geo::Domain::CurveType::Shared curveType,
                TreeEntry*                     parent):
-  TreeEntry(curveType, parent)
+  TreeEntry(parent),
+  _curveType(curveType),
+  _persisted(_curveType->isValid())
 {
 }
 
@@ -18,22 +21,34 @@ CurveTypeEntry(Geo::Domain::CurveType::Shared curveType,
 CurveTypeEntry::
 CurveTypeEntry(QDomElement& de,
                TreeEntry*   parent):
-  TreeEntry(parent)
+  TreeEntry(parent),
+  _curveType(new CurveType()),
+  _persisted(_curveType->isValid())
 {
   QDomElement mnem = de.firstChildElement("CurveMnemonic");
 
+  QString familyName;
+  QString curveType;
+
   if (mnem.isNull()) {
-    _familyName = de.firstChildElement("MainFamily").text();
-    _curveType  = de.firstChildElement("Family").text();
+    familyName = de.firstChildElement("MainFamily").text();
+    curveType  = de.firstChildElement("Family").text();
   } else {
-    _familyName = de.firstChildElement("Family").text();
-    _curveType  = de.firstChildElement("SubFamily").text();
+    familyName = de.firstChildElement("Family").text();
+    curveType  = de.firstChildElement("SubFamily").text();
   }
 
-  _mnemonic   = de.firstChildElement("CurveMnemonic").text();
-  _units      = de.firstChildElement("Unit").text();
-  _min        = de.firstChildElement("Min").text();
-  _max        = de.firstChildElement("Max").text();
+  _curveType->setFamily(familyName);
+  _curveType->setCurveType(curveType);
+
+  _curveType->setMnemonic(de.firstChildElement("CurveMnemonic").text());
+  _curveType->setUnit(de.firstChildElement("Unit").text());
+
+  bool ok;
+  _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
+  _curveType->setMax(de.firstChildElement("Max").text().toDouble(&ok));
+
+  // TODO scale
   _scale      = de.firstChildElement("Scale").text().toLower();
   _continuity = de.firstChildElement("Type").text();
 }
@@ -49,10 +64,22 @@ void
 CurveTypeEntry::
 addXmlData(QDomElement& de)
 {
-  QDomElement mnem = de.firstChildElement("CurveMnemonic");
+  // QDomElement mnem = de.firstChildElement("CurveMnemonic");
 
-  if (_mnemonic.isEmpty())
-    _mnemonic = de.firstChildElement("CurveMnemonic").text();
+  QString mnem = de.firstChildElement("CurveMnemonic").text();
+
+  if (_curveType->mnemonic().isEmpty())
+    _curveType->setMnemonic(mnem);
+
+  else {
+    QStringList synonyms = _curveType->synonyms();
+
+    if (!synonyms.contains(mnem)) {
+      synonyms.append(mnem);
+
+      _curveType->setSynonyms(synonyms);
+    }
+  }
 }
 
 
@@ -85,30 +112,33 @@ data(int role, int column) const
 }
 
 
-
 QVariant
 CurveTypeEntry::
 getDisplayOrEditRole(int column) const
 {
   switch (column) {
-  case TreeEntry::CurveType:
-    return _curveType;
+  case TreeEntry::FamilyOrCurveType:
+
+    return _curveType->curveType();
     break;
 
   case TreeEntry::Mnemonic:
-    return _mnemonic;
+    return _curveType->mnemonic();
     break;
 
+  case TreeEntry::Synonims:
+    return QStringList(_curveType->synonyms()).join(",");
+
   case TreeEntry::Units:
-    return _units;
+    return _curveType->unit();
     break;
 
   case TreeEntry::Min:
-    return _min;
+    return _curveType->min();
     break;
 
   case TreeEntry::Max:
-    return _max;
+    return _curveType->max();
     break;
 
   case TreeEntry::Scale:
@@ -125,8 +155,8 @@ getDisplayOrEditRole(int column) const
   }
 
   return QVariant();
-
 }
+
 
 QVariant
 CurveTypeEntry::
@@ -151,6 +181,7 @@ getDecorationRole(int column) const
   return QVariant();
 }
 
+
 QVariant
 CurveTypeEntry::
 getForegroundRole(int column) const
@@ -172,5 +203,4 @@ getForegroundRole(int column) const
   }
 
   return result;
-
 }

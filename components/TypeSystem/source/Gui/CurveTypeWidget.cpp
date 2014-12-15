@@ -92,10 +92,10 @@ setupUi()
   auto header = p->treeView->header();
   header->setSectionResizeMode(QHeaderView::Stretch);
 
-  header->setSectionResizeMode(TreeEntry::Family,
+  header->setSectionResizeMode(TreeEntry::FamilyOrCurveType,
                                QHeaderView::ResizeToContents);
 
-  header->setSectionResizeMode(TreeEntry::CurveType,
+  header->setSectionResizeMode(TreeEntry::Synonims,
                                QHeaderView::ResizeToContents);
 
   header->setStretchLastSection(false);

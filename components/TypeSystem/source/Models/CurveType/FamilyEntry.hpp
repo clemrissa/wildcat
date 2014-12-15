@@ -17,8 +17,6 @@ class CurveTypeEntry;
 class FamilyEntry: public TreeEntry
 {
 public:
-  FamilyEntry(Geo::Domain::CurveType::Shared curveType);
-
   FamilyEntry(QDomElement& domElement);
 
   virtual
