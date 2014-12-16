@@ -70,6 +70,9 @@ public slots:
   loadXml(QString fileName);
 
   void
+  saveXml(QString fileName);
+
+  void
   setConnection(Database::Connections::Connection::Shared connection)
   override;
 
@@ -81,7 +84,7 @@ private:
   getEntryPosition(TreeEntry* const entry) const;
 
 private:
-  QVector<FamilyEntry*> _curveTypeEntries;
+  QVector<FamilyEntry*> _familyEntries;
 
   QMap<QString, FamilyEntry*> _familyEntryMap;
 };

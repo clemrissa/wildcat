@@ -52,7 +52,7 @@ private slots:
   loadFromXml();
 
   void
-  storeToXml();
+  saveToXml();
 
   QString
   getDefaultConfigFile() const;

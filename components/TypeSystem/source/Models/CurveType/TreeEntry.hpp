@@ -7,6 +7,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QSharedPointer>
 #include <QtCore/QVariant>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
 
 #include <Domain/CurveType>
 
@@ -73,6 +75,10 @@ public:
   // setDataFromWidget(QWidget* editor, QModelIndex const& index,
   // QAbstractItemModel* model)
   // { Q_UNUSED(editor); Q_UNUSED(index); Q_UNUSED(model); }
+
+public:
+  virtual QDomElement
+  getXmlDescription(QDomDocument& doc) = 0;
 
 public slots:
   virtual void

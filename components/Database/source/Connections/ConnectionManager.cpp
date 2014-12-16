@@ -2,13 +2,13 @@
 
 #include "SQLiteConnection.hpp"
 
-#include <QDir>
-#include <QDomDocument>
-#include <QDomElement>
-#include <QDomText>
-#include <QFile>
-#include <QStandardPaths>
 #include <QTextStream>
+#include <QtCore/QDir>
+#include <QtCore/QFile>
+#include <QtCore/QStandardPaths>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
+#include <QtXml/QDomText>
 
 #include <Uni/Logging/Logging>
 
@@ -41,10 +41,10 @@ ConnectionManager::
 appendConnection(QSharedPointer<Connection> c)
 {
   connect(c.data(), SIGNAL(databaseChanged(QString)),
-          this, SLOT(storeToXml()));
+          this, SLOT(saveToXml()));
 
   _connections.append(c);
-  storeToXml();
+  saveToXml();
 }
 
 
@@ -54,7 +54,7 @@ removeConnection(int i)
 {
   _connections.remove(i);
 
-  storeToXml();
+  saveToXml();
 }
 
 
@@ -103,7 +103,7 @@ loadFromXml()
 
 void
 ConnectionManager::
-storeToXml()
+saveToXml()
 {
   QDomDocument doc("Connections");
 
@@ -113,7 +113,7 @@ storeToXml()
   for (auto connection : _connections)
     root.appendChild(connection->xmlDescription(doc));
 
-  QString xml = doc.toString();
+  // -
 
   QString fileName = getDefaultConfigFile();
 
@@ -124,7 +124,7 @@ storeToXml()
 
   QTextStream out(&file);
 
-  out << xml;
+  out << doc.toString();
 }
 
 

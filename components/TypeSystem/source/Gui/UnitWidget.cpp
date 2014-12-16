@@ -80,7 +80,7 @@ setupUi()
 
   _p->saveXmlButton = new QPushButton(tr("Save Xml"));
 
-  _p->saveXmlButton->setToolTip(tr("Save Xml file"));
+  _p->saveXmlButton->setToolTip(tr("Save Geo Xml file"));
 
   // --------------------
 
@@ -147,8 +147,11 @@ void
 UnitWidget::
 connectSignals()
 {
-  connect(_p->loadXmlButton, SIGNAL(released()),
-          this, SLOT(onLoadXmlClicked()));
+  // connect(_p->loadXmlButton, SIGNAL(released()),
+  // this, SLOT(onLoadXmlClicked()));
+
+  // connect(_p->saveXmlButton, SIGNAL(released()),
+  // this, SLOT(onSaveXmlClicked()));
 
   // for deleting rows
   connect(_p->unitsTable, SIGNAL(clicked(const QModelIndex &)),

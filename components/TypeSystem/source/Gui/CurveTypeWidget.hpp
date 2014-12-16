@@ -21,6 +21,10 @@ public:
   virtual
   ~CurveTypeWidget();
 
+public slots:
+  void
+  setConnection(Database::Connections::Connection::Shared connection) override;
+
 private slots:
   void
   onTableViewMenuRequested(const QPoint&);
@@ -28,9 +32,8 @@ private slots:
   void
   onLoadXmlClicked();
 
-public slots:
   void
-  setConnection(Database::Connections::Connection::Shared connection) override;
+  onSaveXmlClicked();
 
 signals:
   void notifyMainWindow(QString);

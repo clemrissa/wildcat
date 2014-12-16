@@ -3,6 +3,10 @@
 #include "FamilyEntry.hpp"
 
 #include <QtCore/QFile>
+#include <QtCore/QTextStream>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
+#include <QtXml/QDomText>
 
 using Geo::TypeSystem::Models::CurveTypes::FamilyEntry;
 using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
@@ -22,7 +26,7 @@ CurveTypeModel()
 CurveTypeModel::
 ~CurveTypeModel()
 {
-  for (TreeEntry* entry : _curveTypeEntries)
+  for (TreeEntry* entry : _familyEntries)
     delete entry;
 }
 
@@ -47,7 +51,7 @@ index(int row, int column, const QModelIndex& parent) const
 {
   if (!parent.isValid())
     return QAbstractItemModel::createIndex(row, column,
-                                           _curveTypeEntries[row]);
+                                           _familyEntries[row]);
 
   TreeEntry* entry =
     static_cast<TreeEntry*>(parent.internalPointer());
@@ -123,7 +127,7 @@ CurveTypeModel::
 rowCount(const QModelIndex& parent) const
 {
   if (!parent.isValid())
-    return _curveTypeEntries.size();
+    return _familyEntries.size();
 
   TreeEntry* entry =
     static_cast<TreeEntry*>(parent.internalPointer());
@@ -253,7 +257,7 @@ loadXml(QString fileName)
 
         _familyEntryMap[familyName] = familyEntry;
 
-        _curveTypeEntries.append(familyEntry);
+        _familyEntries.append(familyEntry);
       }
 
       familyEntry->addChild(loginfo);
@@ -263,6 +267,31 @@ loadXml(QString fileName)
   }
   endResetModel();
   //
+}
+
+
+void
+CurveTypeModel::
+saveXml(QString fileName)
+{
+  QDomDocument doc("CurveTypes");
+
+  QDomElement root = doc.createElement("CurveTypes");
+  doc.appendChild(root);
+
+  for (auto e : _familyEntries)
+    root.appendChild(e->getXmlDescription(doc));
+
+  // -
+
+  QFile file(fileName);
+
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    return;
+
+  QTextStream out(&file);
+
+  out << doc.toString();
 }
 
 
@@ -299,9 +328,9 @@ int
 CurveTypeModel::
 getEntryPosition(TreeEntry* const entry) const
 {
-  auto it = std::find(_curveTypeEntries.begin(),
-                      _curveTypeEntries.end(), entry);
+  auto it = std::find(_familyEntries.begin(),
+                      _familyEntries.end(), entry);
 
-  return it - _curveTypeEntries.begin();
+  return it - _familyEntries.begin();
   //
 }

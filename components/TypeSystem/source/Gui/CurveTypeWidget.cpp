@@ -36,6 +36,8 @@ struct CurveTypeWidget::Private
 {
   QPushButton* loadXmlButton;
 
+  QPushButton* saveXmlButton;
+
   // curve types tree
   QTreeView* treeView;
 
@@ -73,6 +75,10 @@ setupUi()
   p->loadXmlButton = new QPushButton(tr("Load Slb Xml"));
 
   p->loadXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
+
+  p->saveXmlButton = new QPushButton(tr("Save Geo Xml"));
+
+  p->saveXmlButton->setToolTip(tr("Saves curve types to Geo Xml file"));
 
   // --------------------
 
@@ -112,6 +118,7 @@ setupUi()
   auto ll = new QHBoxLayout();
 
   ll->addWidget(p->loadXmlButton);
+  ll->addWidget(p->saveXmlButton);
   ll->addStretch();
   layout->addLayout(ll);
 
@@ -125,6 +132,9 @@ connectSignals()
 {
   connect(p->loadXmlButton, SIGNAL(released()),
           this, SLOT(onLoadXmlClicked()));
+
+  connect(p->saveXmlButton, SIGNAL(released()),
+          this, SLOT(onSaveXmlClicked()));
 
   // for deleting rows
   connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
@@ -182,7 +192,7 @@ onLoadXmlClicked()
     QFileDialog::getOpenFileName(this,
                                  tr("Select a Schlumberger Xml file"),
                                  QString(),
-                                 tr("Database files (*.xml)"));
+                                 tr("Curve Type files (*.xml)"));
 
   if (fileName.isEmpty())
     return;
@@ -193,6 +203,29 @@ onLoadXmlClicked()
 
   if (curveTypeModel)
     curveTypeModel->loadXml(fileName);
+}
+
+
+void
+CurveTypeWidget::
+onSaveXmlClicked()
+{
+  QString fileName =
+    QFileDialog::getSaveFileName(this,
+                                 tr("Save Geo curve type Xml file"),
+                                 QString(),
+                                 tr("Database files (*.xml )"));
+
+  if (fileName.isEmpty())
+    return;
+
+  using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
+
+  auto curveTypeModel =
+    static_cast<CurveTypeModel*>(p->treeView->model());
+
+  if (curveTypeModel)
+    curveTypeModel->saveXml(fileName);
 }
 
 

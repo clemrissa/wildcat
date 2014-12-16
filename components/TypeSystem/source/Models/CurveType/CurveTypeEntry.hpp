@@ -28,8 +28,12 @@ public:
   virtual QVariant
   data(int role, int column) const override;
 
+public:
   void
   addXmlData(QDomElement& de);
+
+  QDomElement
+  getXmlDescription(QDomDocument& doc) override;
 
 private:
   Geo::Domain::CurveType::Shared _curveType;

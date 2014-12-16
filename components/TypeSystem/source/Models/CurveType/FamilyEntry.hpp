@@ -31,6 +31,9 @@ public:
   void
   addChild(QDomElement& domElement);
 
+  virtual QDomElement
+  getXmlDescription(QDomDocument& doc) override;
+
 protected:
   QString _familyName;
 

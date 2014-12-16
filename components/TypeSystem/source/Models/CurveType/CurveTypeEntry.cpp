@@ -83,6 +83,22 @@ addXmlData(QDomElement& de)
 }
 
 
+QDomElement
+CurveTypeEntry::
+getXmlDescription(QDomDocument& doc)
+{
+  QDomElement tag = doc.createElement("CurveType");
+
+  QDomElement e = doc.createElement("Name");
+  tag.appendChild(e);
+
+  QDomText t = doc.createTextNode(_curveType->curveType());
+  e.appendChild(t);
+
+  return tag;
+}
+
+
 QVariant
 CurveTypeEntry::
 data(int role, int column) const

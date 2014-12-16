@@ -81,6 +81,21 @@ addChild(QDomElement& de)
 }
 
 
+QDomElement
+FamilyEntry::
+getXmlDescription(QDomDocument& doc)
+{
+  QDomElement tag = doc.createElement("Family");
+
+  tag.setAttribute("Name", _familyName);
+
+  for (auto e : _entries)
+    tag.appendChild(e->getXmlDescription(doc));
+
+  return tag;
+}
+
+
 QVariant
 FamilyEntry::
 getDisplayOrEditRole(int column) const
