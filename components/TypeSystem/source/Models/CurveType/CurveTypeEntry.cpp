@@ -89,11 +89,21 @@ getXmlDescription(QDomDocument& doc)
 {
   QDomElement tag = doc.createElement("CurveType");
 
-  QDomElement e = doc.createElement("Name");
-  tag.appendChild(e);
 
-  QDomText t = doc.createTextNode(_curveType->curveType());
-  e.appendChild(t);
+  auto addValue = [&](QString n, QString v)
+  {
+    QDomElement e = doc.createElement(n);
+    tag.appendChild(e);
+
+    QDomText t = doc.createTextNode(v);
+    e.appendChild(t);
+  };
+
+  addValue("Name", _curveType->curveType());
+  addValue("Mnemonic", _curveType->mnemonic());
+  addValue("Unit", _curveType->unit());
+  addValue("Min", QString("%1").arg(_curveType->min(), 0, 'g', 3));
+  addValue("Max", QString("%1").arg(_curveType->max(), 0, 'g', 3));
 
   return tag;
 }
