@@ -23,8 +23,8 @@
 #include <DependencyManager/ApplicationContext>
 #include <Models/ConnectionListModel>
 
-#include <Models/CurveType/CurveTypeModel.hpp>
-#include <Models/CurveType/TreeEntry.hpp>
+#include <Models/CurveTypes/CurveTypeModel.hpp>
+#include <Models/CurveTypes/TreeEntry.hpp>
 
 using AC = DependencyManager::ApplicationContext;
 

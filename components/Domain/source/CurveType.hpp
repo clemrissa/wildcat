@@ -6,6 +6,8 @@
 
 #include <odb/core.hxx>
 
+#include "Unit.hpp"
+
 namespace Geo {
 namespace Domain {
 //
@@ -45,7 +47,11 @@ public:
   QString
   mnemonic() const { return _mnemonic; }
   QString
+  textUnit() const { return _textUnit; }
+
+  Unit::Shared
   unit() const { return _unit; }
+
   double
   min() const { return _min; }
   double
@@ -70,7 +76,11 @@ public:
   }
 
   void
-  setUnit(QString const unit) { _unit = unit; }
+  setTextUnit(QString const textUnit) { _textUnit = textUnit; }
+
+  void
+  setUnit(Unit::Shared unit) { _unit = unit; }
+
   void
   setMin(double const min) { _min = min; }
   void
@@ -99,9 +109,12 @@ private:
   QString        _curveType;
   QString        _mnemonic;
   QList<QString> _synonyms;
-  QString        _unit; // TODO: change to unit data type
-  double         _min;
-  double         _max;
+  QString        _textUnit;
+
+  Unit::Shared _unit;
+
+  double _min;
+  double _max;
 
   Scale      _scale;
   Continuity _continuity;

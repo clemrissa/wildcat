@@ -42,7 +42,7 @@ CurveTypeEntry(QDomElement& de,
   _curveType->setCurveType(curveType);
 
   _curveType->setMnemonic(de.firstChildElement("CurveMnemonic").text());
-  _curveType->setUnit(de.firstChildElement("Unit").text());
+  _curveType->setTextUnit(de.firstChildElement("Unit").text());
 
   bool ok;
   _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
@@ -89,19 +89,18 @@ getXmlDescription(QDomDocument& doc)
 {
   QDomElement tag = doc.createElement("CurveType");
 
-
   auto addValue = [&](QString n, QString v)
-  {
-    QDomElement e = doc.createElement(n);
-    tag.appendChild(e);
+                  {
+                    QDomElement e = doc.createElement(n);
+                    tag.appendChild(e);
 
-    QDomText t = doc.createTextNode(v);
-    e.appendChild(t);
-  };
+                    QDomText t = doc.createTextNode(v);
+                    e.appendChild(t);
+                  };
 
   addValue("Name", _curveType->curveType());
   addValue("Mnemonic", _curveType->mnemonic());
-  addValue("Unit", _curveType->unit());
+  addValue("TextUnit", _curveType->textUnit());
   addValue("Min", QString("%1").arg(_curveType->min(), 0, 'g', 3));
   addValue("Max", QString("%1").arg(_curveType->max(), 0, 'g', 3));
 
@@ -156,7 +155,7 @@ getDisplayOrEditRole(int column) const
     return QStringList(_curveType->synonyms()).join(",");
 
   case TreeEntry::Units:
-    return _curveType->unit();
+    return _curveType->textUnit();
     break;
 
   case TreeEntry::Min:

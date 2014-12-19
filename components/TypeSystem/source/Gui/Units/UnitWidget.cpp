@@ -23,7 +23,7 @@
 #include <DependencyManager/ApplicationContext>
 #include <Models/ConnectionListModel>
 
-#include <Gui/UnitTableEntryDelegate.hpp>
+#include <Gui/Units/UnitTableEntryDelegate.hpp>
 #include <Models/Units/UnitModel.hpp>
 #include <Models/Units/UnitTableEntry.hpp>
 

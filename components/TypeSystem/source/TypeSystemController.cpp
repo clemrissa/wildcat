@@ -7,8 +7,8 @@
 
 #include <Widgets/ConnectionSettingsWidget>
 
-#include "Gui/CurveTypeWidget.hpp"
-#include "Gui/UnitWidget.hpp"
+#include "Gui/CurveTypes/CurveTypeWidget.hpp"
+#include "Gui/Units/UnitWidget.hpp"
 
 namespace Geo {
 namespace TypeSystem {

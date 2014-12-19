@@ -11,7 +11,6 @@
 #include <Models/Units/UnitTableEntry.hpp>
 
 #include <Gui/Dimensions/DimensionsDelegate.hpp>
-#include <Models/Dimensions/DimensionsEditorModel.hpp>
 
 using Geo::TypeSystem::Gui::UnitTableEntryDelegate;
 using Geo::TypeSystem::Models::Units::UnitTableEntry;
