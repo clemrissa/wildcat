@@ -20,6 +20,8 @@
 
 #include <Core/MainWindow>
 
+#include <Gui/CurveTypes/CurveTypeEntryDelegate.hpp>
+
 #include <DependencyManager/ApplicationContext>
 #include <Models/ConnectionListModel>
 
@@ -28,6 +30,7 @@
 
 using AC = DependencyManager::ApplicationContext;
 
+using Geo::TypeSystem::Gui::CurveTypeEntryDelegate;
 using Geo::TypeSystem::Gui::CurveTypeWidget;
 using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
 using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
@@ -88,6 +91,8 @@ setupUi()
 
   p->treeView->setModel(p->curveTypeModel);
 
+  p->treeView->setItemDelegate(new CurveTypeEntryDelegate());
+
   p->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
   p->treeView->setAlternatingRowColors(true);
@@ -98,10 +103,10 @@ setupUi()
   auto header = p->treeView->header();
   header->setSectionResizeMode(QHeaderView::Stretch);
 
-  header->setSectionResizeMode(TreeEntry::FamilyOrCurveType,
+  header->setSectionResizeMode(TreeEntry::FamilyOrCurveName,
                                QHeaderView::ResizeToContents);
 
-  header->setSectionResizeMode(TreeEntry::Synonims,
+  header->setSectionResizeMode(TreeEntry::Synonyms,
                                QHeaderView::ResizeToContents);
 
   header->setStretchLastSection(false);

@@ -3,9 +3,14 @@
 #include <QtGui/QColor>
 #include <QtGui/QIcon>
 #include <QtGui/QPalette>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QLineEdit>
+
+#include "FamilyEntry.hpp"
 
 using Geo::Domain::CurveType;
 using Geo::TypeSystem::Models::CurveTypes::CurveTypeEntry;
+using Geo::TypeSystem::Models::CurveTypes::FamilyEntry;
 using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 
 CurveTypeEntry::
@@ -19,40 +24,53 @@ CurveTypeEntry(Geo::Domain::CurveType::Shared curveType,
 
 
 CurveTypeEntry::
-CurveTypeEntry(QDomElement& de,
-               TreeEntry*   parent):
+CurveTypeEntry(QString    curveTypeName,
+               TreeEntry* parent):
   TreeEntry(parent),
   _curveType(new CurveType()),
   _persisted(_curveType->isValid())
 {
-  QDomElement mnem = de.firstChildElement("CurveMnemonic");
+  auto f = static_cast<FamilyEntry*>(parent);
 
-  QString familyName;
-  QString curveType;
-
-  if (mnem.isNull()) {
-    familyName = de.firstChildElement("MainFamily").text();
-    curveType  = de.firstChildElement("Family").text();
-  } else {
-    familyName = de.firstChildElement("Family").text();
-    curveType  = de.firstChildElement("SubFamily").text();
-  }
-
-  _curveType->setFamily(familyName);
-  _curveType->setCurveType(curveType);
-
-  _curveType->setMnemonic(de.firstChildElement("CurveMnemonic").text());
-  _curveType->setTextUnit(de.firstChildElement("Unit").text());
-
-  bool ok;
-  _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
-  _curveType->setMax(de.firstChildElement("Max").text().toDouble(&ok));
-
-  // TODO scale
-  _scale      = de.firstChildElement("Scale").text().toLower();
-  _continuity = de.firstChildElement("Type").text();
+  _curveType->setFamily(f->getFamily());
+  _curveType->setName(curveTypeName);
 }
 
+
+// CurveTypeEntry::
+// CurveTypeEntry(QDomElement& de,
+// TreeEntry*   parent):
+// TreeEntry(parent),
+// _curveType(new CurveType()),
+// _persisted(_curveType->isValid())
+// {
+// QDomElement mnem = de.firstChildElement("CurveMnemonic");
+
+// QString family;
+// QString name;
+
+// if (mnem.isNull()) {
+// family = de.firstChildElement("MainFamily").text();
+// name   = de.firstChildElement("Family").text();
+// } else {
+// family = de.firstChildElement("Family").text();
+// name   = de.firstChildElement("SubFamily").text();
+// }
+
+// _curveType->setFamily(family);
+// _curveType->setName(name);
+
+// _curveType->setMnemonic(de.firstChildElement("CurveMnemonic").text());
+// _curveType->setTextUnit(de.firstChildElement("Unit").text());
+
+// bool ok;
+// _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
+// _curveType->setMax(de.firstChildElement("Max").text().toDouble(&ok));
+
+//// TODO scale
+// _scale      = de.firstChildElement("Scale").text().toLower();
+// _continuity = de.firstChildElement("Type").text();
+// }
 
 CurveTypeEntry::
 ~CurveTypeEntry()
@@ -64,8 +82,6 @@ void
 CurveTypeEntry::
 addXmlData(QDomElement& de)
 {
-  // QDomElement mnem = de.firstChildElement("CurveMnemonic");
-
   QString mnem = de.firstChildElement("CurveMnemonic").text();
 
   if (_curveType->mnemonic().isEmpty())
@@ -80,6 +96,16 @@ addXmlData(QDomElement& de)
       _curveType->setSynonyms(synonyms);
     }
   }
+
+  _curveType->setTextUnit(de.firstChildElement("Unit").text());
+
+  bool ok;
+  _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
+  _curveType->setMax(de.firstChildElement("Max").text().toDouble(&ok));
+
+  // TODO scale
+  _scale      = de.firstChildElement("Scale").text().toLower();
+  _continuity = de.firstChildElement("Type").text();
 }
 
 
@@ -98,7 +124,7 @@ getXmlDescription(QDomDocument& doc)
                     e.appendChild(t);
                   };
 
-  addValue("Name", _curveType->curveType());
+  addValue("Name", _curveType->name());
   addValue("Mnemonic", _curveType->mnemonic());
   addValue("TextUnit", _curveType->textUnit());
   addValue("Min", QString("%1").arg(_curveType->min(), 0, 'g', 3));
@@ -129,6 +155,10 @@ data(int role, int column) const
     return getForegroundRole(column);
     break;
 
+  case Qt::BackgroundRole:
+    return getBackgroundRole(column);
+    break;
+
   default:
     break;
   }
@@ -137,21 +167,56 @@ data(int role, int column) const
 }
 
 
+QWidget*
+CurveTypeEntry::
+delegateWidget(int column) const
+{
+  QWidget* result = nullptr;
+
+  switch (column) {
+  case TreeEntry::FamilyOrCurveName:
+  case TreeEntry::Mnemonic:
+  case TreeEntry::Synonyms:
+    result = new QLineEdit();
+
+    break;
+
+  case TreeEntry::Units: {
+    auto comboBox = new QComboBox();
+
+    auto unitNames = getUnitNames();
+
+    for (QString s : unitNames)
+      comboBox->addItem(s);
+
+    result = comboBox;
+
+    break;
+  }
+
+  default:
+    break;
+  }
+
+  return result;
+}
+
+
 QVariant
 CurveTypeEntry::
 getDisplayOrEditRole(int column) const
 {
   switch (column) {
-  case TreeEntry::FamilyOrCurveType:
+  case TreeEntry::FamilyOrCurveName:
 
-    return _curveType->curveType();
+    return _curveType->name();
     break;
 
   case TreeEntry::Mnemonic:
     return _curveType->mnemonic();
     break;
 
-  case TreeEntry::Synonims:
+  case TreeEntry::Synonyms:
     return QStringList(_curveType->synonyms()).join(",");
 
   case TreeEntry::Units:
@@ -226,6 +291,60 @@ getForegroundRole(int column) const
     result = QColor(Qt::lightGray);
     break;
   }
+
+  return result;
+}
+
+
+QVariant
+CurveTypeEntry::
+getBackgroundRole(int column) const
+{
+  QVariant result;
+
+  if (column != CurveTypeEntry::Units)
+    return result;
+
+  if (_curveType->unit().isNull())
+    result = QColor(0xFF, 0xD0, 0xC0);
+
+  return result;
+}
+
+
+QVector<Geo::Domain::Unit::Shared>
+CurveTypeEntry::
+getUnits() const
+{
+  QVector<Geo::Domain::Unit::Shared> result;
+
+  if (_connection.isNull())
+    return result;
+
+  using Geo::Domain::WellTrait;
+
+  auto dataAccessFactory = _connection->dataAccessFactory();
+  auto unitAccess        = dataAccessFactory->unitAccess();
+  result = unitAccess->findAll();
+
+  std::cout << " UNITS LENGTH " << result.size() << std::endl;
+
+  return result;
+}
+
+
+QStringList
+CurveTypeEntry::
+getUnitNames() const
+{
+  QStringList result;
+
+  using Geo::Domain::Unit;
+
+  auto units = getUnits();
+
+  for (Unit::Shared u : units)
+    result.append(u->getName());
 
   return result;
 }

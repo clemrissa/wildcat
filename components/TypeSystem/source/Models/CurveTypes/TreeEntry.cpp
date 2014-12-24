@@ -95,12 +95,3 @@ setState(State state)
 {
   _state = state;
 }
-
-
-QWidget*
-TreeEntry::
-delegateWidget(int column) const
-{
-  Q_UNUSED(column);
-  return nullptr;
-}

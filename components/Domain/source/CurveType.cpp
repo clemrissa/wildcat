@@ -18,5 +18,5 @@ CurveType::
 isValid() const
 {
   return !_family.isEmpty() &&
-         !_curveType.isEmpty();
+         !_name.isEmpty();
 }

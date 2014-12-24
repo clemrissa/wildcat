@@ -17,7 +17,7 @@ class CurveTypeEntry;
 class FamilyEntry: public TreeEntry
 {
 public:
-  FamilyEntry(QDomElement& domElement);
+  FamilyEntry(QString familyName);
 
   virtual
   ~FamilyEntry();
@@ -25,20 +25,35 @@ public:
   virtual QVariant
   data(int role, int column) const override;
 
+  virtual QWidget*
+  delegateWidget(int column) const override;
+
+  void
+  setFamily(QString family);
+
+  QString
+  getFamily() const { return _family; }
+
 public:
   /// Fetches Family, checks if it duplicates an existing entry
   /// adds to children if not
   void
   addChild(QDomElement& domElement);
 
+  void
+  addChild(Domain::CurveType::Shared curveType);
+
+  void
+  addChild();
+
   virtual QDomElement
   getXmlDescription(QDomDocument& doc) override;
 
 protected:
-  QString _familyName;
+  QString _family;
 
   // prevents Family duplicates
-  QMap<QString, CurveTypeEntry*> _curveTypes;
+  QMap<QString, CurveTypeEntry*> _curveTypeMap;
 
 private:
   QVariant
@@ -49,6 +64,9 @@ private:
 
   QVariant
   getForegroundRole(int column) const;
+
+  Geo::TypeSystem::Models::CurveTypes::CurveTypeEntry*
+  getCachedCurveTypeEntry(QString curveTypeName);
 };
 
 //

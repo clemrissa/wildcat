@@ -4,18 +4,18 @@
 
 #include <QtGui/QIcon>
 #include <QtGui/QPalette>
+#include <QtWidgets/QLineEdit>
 
 using Geo::TypeSystem::Models::CurveTypes::CurveTypeEntry;
 using Geo::TypeSystem::Models::CurveTypes::FamilyEntry;
 
 FamilyEntry::
-FamilyEntry(QDomElement& de):
-  TreeEntry()
+FamilyEntry(QString family):
+  _family(family)
 {
-  _familyName = de.firstChildElement("MainFamily").text();
+  QString emptyCurveName("New Curve");
 
-  if (_familyName.isEmpty())
-    _familyName = de.firstChildElement("Family").text();
+  getCachedCurveTypeEntry(emptyCurveName);
 }
 
 
@@ -54,30 +54,88 @@ data(int role, int column) const
 }
 
 
+QWidget*
+FamilyEntry::
+delegateWidget(int column) const
+{
+  QLineEdit* result = nullptr;
+
+  if (column == TreeEntry::FamilyOrCurveName)
+    result = new QLineEdit();
+
+  return result;
+}
+
+
+void
+FamilyEntry::
+setFamily(QString family)
+{
+  _family = family;
+}
+
+
 void
 FamilyEntry::
 addChild(QDomElement& de)
 {
   QDomElement mnem = de.firstChildElement("CurveMnemonic");
 
-  QString curveType;
+  QString curveName;
 
   if (mnem.isNull())
-    curveType = de.firstChildElement("Family").text();
+    curveName = de.firstChildElement("Family").text();
   else
-    curveType = de.firstChildElement("SubFamily").text();
+    curveName = de.firstChildElement("SubFamily").text();
 
-  if (!_curveTypes.contains(curveType)) {
-    auto curveTypeEntry = new CurveTypeEntry(de, this);
+  auto curveTypeEntry = getCachedCurveTypeEntry(curveName);
 
-    _curveTypes[curveType] = curveTypeEntry;
+  curveTypeEntry->addXmlData(de);
+}
 
-    _entries.push_back(curveTypeEntry);
-  } else {
-    auto curveTypeEntry = _curveTypes[curveType];
 
-    curveTypeEntry->addXmlData(de);
-  }
+void
+FamilyEntry::
+addChild(Domain::CurveType::Shared curveType)
+{
+  QString curveName = curveType->name();
+  _curveTypeMap.remove(curveName);
+
+  auto curveTypeEntry = new CurveTypeEntry(curveType, this);
+
+  _curveTypeMap[curveName] = curveTypeEntry;
+  _entries.push_back(curveTypeEntry);
+}
+
+
+void
+FamilyEntry::
+addChild()
+{
+  QString emptyCurveName("New Curve");
+
+  getCachedCurveTypeEntry(emptyCurveName);
+}
+
+
+CurveTypeEntry*
+FamilyEntry::
+getCachedCurveTypeEntry(QString curveTypeName)
+{
+  CurveTypeEntry* result = nullptr;
+
+  if (!_curveTypeMap.contains(curveTypeName)) {
+    result = new CurveTypeEntry(curveTypeName, this);
+
+    _curveTypeMap[curveTypeName] = result;
+
+    _entries.push_back(result);
+  } else
+    result = _curveTypeMap[curveTypeName];
+
+  result->curveType()->setFamily(_family);
+
+  return result;
 }
 
 
@@ -87,7 +145,7 @@ getXmlDescription(QDomDocument& doc)
 {
   QDomElement tag = doc.createElement("Family");
 
-  tag.setAttribute("Name", _familyName);
+  tag.setAttribute("Name", _family);
 
   for (auto e : _entries)
     tag.appendChild(e->getXmlDescription(doc));
@@ -103,8 +161,8 @@ getDisplayOrEditRole(int column) const
   QVariant result;
 
   switch (column) {
-  case TreeEntry::FamilyOrCurveType:
-    return _familyName;
+  case TreeEntry::FamilyOrCurveName:
+    return _family;
     break;
 
   default:
@@ -118,10 +176,6 @@ QVariant
 FamilyEntry::
 getDecorationRole(int column) const
 {
-  // TODO
-  // if (!_unit->isValid())
-  // return QVariant();
-
   if (column == CloseAction)
 
     switch (_state) {

@@ -43,7 +43,7 @@ public:
   QString
   family() const { return _family; }
   QString
-  curveType() const { return _curveType; }
+  name() const { return _name; }
   QString
   mnemonic() const { return _mnemonic; }
   QString
@@ -66,8 +66,7 @@ public:
   void
   setFamily(QString const family) { _family = family; }
   void
-  setCurveType(QString const curveType)
-  { _curveType = curveType; }
+  setName(QString const name) { _name = name; }
 
   void
   setMnemonic(QString const mnemonic)
@@ -106,7 +105,7 @@ private:
   unsigned int _id;
 
   QString        _family;
-  QString        _curveType;
+  QString        _name;
   QString        _mnemonic;
   QList<QString> _synonyms;
   QString        _textUnit;

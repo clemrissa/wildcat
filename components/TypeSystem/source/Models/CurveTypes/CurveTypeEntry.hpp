@@ -19,14 +19,29 @@ public:
   CurveTypeEntry(Geo::Domain::CurveType::Shared curveType,
                  TreeEntry*                     parent);
 
-  CurveTypeEntry(QDomElement& de,
-                 TreeEntry*   parent);
+  CurveTypeEntry(QString    cureTypeName,
+                 TreeEntry* parent);
+
+  // CurveTypeEntry(QDomElement& de,
+  // TreeEntry*   parent);
 
   virtual
   ~CurveTypeEntry();
 
   virtual QVariant
   data(int role, int column) const override;
+
+  QWidget*
+  delegateWidget(int column) const override;
+
+  Geo::Domain::CurveType::Shared
+  curveType() const { return _curveType; }
+
+  bool
+  getPersisted() const { return _persisted; }
+
+  void
+  setPersisted(const bool persisted) { _persisted = persisted; }
 
 public:
   void
@@ -52,6 +67,15 @@ private:
 
   QVariant
   getForegroundRole(int column) const;
+
+  QVariant
+  getBackgroundRole(int column) const;
+
+  QVector<Geo::Domain::Unit::Shared>
+  getUnits() const;
+
+  QStringList
+  getUnitNames() const;
 };
 
 //

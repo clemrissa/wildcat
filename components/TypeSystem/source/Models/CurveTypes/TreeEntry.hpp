@@ -31,9 +31,9 @@ class TreeEntry:
   public Database::Mixin::ConnectionAcceptor
 {
 public:
-  enum Column { FamilyOrCurveType,
+  enum Column { FamilyOrCurveName,
                 Mnemonic,
-                Synonims,
+                Synonyms,
                 Units,
                 Min,
                 Max,
@@ -69,7 +69,7 @@ public:
   { Q_UNUSED(role); Q_UNUSED(column); Q_UNUSED(value); return false; }
 
   virtual QWidget*
-  delegateWidget(int column) const;
+  delegateWidget(int column) const = 0;
 
   // virtual void
   // setDataFromWidget(QWidget* editor, QModelIndex const& index,

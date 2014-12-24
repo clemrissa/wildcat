@@ -95,6 +95,9 @@ setData(const QModelIndex& index,
 
   bool becameValid = (!oldUnitStatus && newUnitStatus);
 
+  if (_connection.isNull())
+    return false;
+
   auto dataAccessFactory = _connection->dataAccessFactory();
   auto unitAccess        = dataAccessFactory->unitAccess();
 

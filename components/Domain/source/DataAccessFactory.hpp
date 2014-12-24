@@ -1,6 +1,7 @@
 #ifndef Geo_Domain_DataAccessFactory_hpp
 #define Geo_Domain_DataAccessFactory_hpp
 
+#include <Domain/CurveTypeAccess>
 #include <Domain/LogAccess>
 #include <Domain/LogParameterAccess>
 #include <Domain/LogParameterGroupAccess>
@@ -51,6 +52,9 @@ public:
 
   virtual UnitAccess::Shared
   unitAccess() const = 0;
+
+  virtual CurveTypeAccess::Shared
+  curveTypeAccess() const = 0;
 
 public:
   virtual void

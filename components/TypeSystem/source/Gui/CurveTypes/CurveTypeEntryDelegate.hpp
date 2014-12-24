@@ -1,12 +1,14 @@
-#ifndef Geo_Import_Gui_ImportTreeWidget_hpp
-#define Geo_Import_Gui_ImportTreeWidget_hpp
+#ifndef Geo_TypeSystem_Gui_CurveTypeEntryDelegate_hpp
+#define Geo_TypeSystem_Gui_CurveTypeEntryDelegate_hpp
 
 #include <QtWidgets/QStyledItemDelegate>
 
 namespace Geo {
-namespace Import {
+namespace TypeSystem {
 namespace Gui {
-class ImportTreeItemDelegate: public QStyledItemDelegate
+//
+
+class CurveTypeEntryDelegate: public QStyledItemDelegate
 {
   Q_OBJECT
 
@@ -31,8 +33,8 @@ public:
 };
 
 //
-}
-}
-}
+} // namespace Gui
+} // namespace TypeSystem
+} // namespace Geo
 
-#endif //  Geo_Import_Gui_ImportTreeWidget_hpp
+#endif // Geo_TypeSystem_Gui_CurveTypeEntryDelegate_hpp

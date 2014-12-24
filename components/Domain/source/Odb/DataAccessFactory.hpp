@@ -1,6 +1,7 @@
 #ifndef Geo_Domain_Odb_DataAccessFactory_hpp
 #define Geo_Domain_Odb_DataAccessFactory_hpp
 
+#include <Domain/Odb/CurveTypeAccess>
 #include <Domain/Odb/LogAccess>
 #include <Domain/Odb/LogParameterAccess>
 #include <Domain/Odb/LogParameterGroupAccess>
@@ -76,6 +77,12 @@ public:
   unitAccess() const override
   {
     return Domain::UnitAccess::Shared(new UnitAccess(_db));
+  }
+
+  Domain::CurveTypeAccess::Shared
+  curveTypeAccess() const override
+  {
+    return Domain::CurveTypeAccess::Shared(new CurveTypeAccess(_db));
   }
 
 public:

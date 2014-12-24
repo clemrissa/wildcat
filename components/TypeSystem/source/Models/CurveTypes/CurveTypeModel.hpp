@@ -83,7 +83,25 @@ private:
   int
   getEntryPosition(TreeEntry* const entry) const;
 
+  bool
+  setDataToCurveNode(const QModelIndex& index,
+                     const QVariant&    value,
+                     int                role);
+
+  bool
+  setDataToFamilyNode(const QModelIndex& index,
+                      const QVariant&    value,
+                      int                role);
+
+  void
+  reloadCurveTypes();
+
+  FamilyEntry*
+  getCachedFamilyEntry(QString familyName);
+
 private:
+  Database::Connections::Connection::Shared _connection;
+
   QVector<FamilyEntry*> _familyEntries;
 
   QMap<QString, FamilyEntry*> _familyEntryMap;
