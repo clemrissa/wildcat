@@ -22,6 +22,7 @@ public:
 
 public:
   enum Scale {
+    UndefinedScale,
     Linear,
     Log2,
     Log10,
@@ -29,9 +30,10 @@ public:
   };
 
   enum Continuity {
+    UndefinedCon,
     Continuous,
     TopBottom,
-    Blocks,
+    // Blocks,
     ContinuitySize
   };
 
@@ -58,8 +60,10 @@ public:
   max() const { return _max; }
   Scale
   scale() const { return _scale; }
+
   Continuity
-  type() const { return _continuity; }
+  continuity() const { return _continuity; }
+
   QList<QString>
   synonyms() const { return _synonyms; }
 
@@ -70,9 +74,7 @@ public:
 
   void
   setMnemonic(QString const mnemonic)
-  {
-    _mnemonic = mnemonic;
-  }
+  { _mnemonic = mnemonic; }
 
   void
   setTextUnit(QString const textUnit) { _textUnit = textUnit; }
@@ -91,6 +93,13 @@ public:
   { _continuity = continuity; }
   void
   setSynonyms(QList<QString> synonyms) { _synonyms = synonyms; }
+
+  // ------
+  static QString
+  textScale(Scale s);
+
+  static QString
+  textContinuity(Continuity c);
 
 public:
   bool

@@ -58,25 +58,8 @@ CurveTypeEntryDelegate::
 setEditorData(QWidget*           editor,
               const QModelIndex& index) const
 {
+  Q_UNUSED(editor);
   Q_UNUSED(index);
-
-  switch (index.column()) {
-  case TreeEntry::FamilyOrCurveName: {
-    auto lineEdit = static_cast<QLineEdit*>(editor);
-
-    auto entry = static_cast<TreeEntry*>(index.internalPointer());
-
-    if (!entry)
-      return;
-
-    lineEdit->setText(entry->data(Qt::DisplayRole,
-                                  index.column()).toString());
-    break;
-  }
-
-  default:
-    break;
-  }
 }
 
 
@@ -86,21 +69,9 @@ setModelData(QWidget*            editor,
              QAbstractItemModel* model,
              const QModelIndex&  index) const
 {
-  Q_UNUSED(editor);
-  Q_UNUSED(model);
-  Q_UNUSED(index);
+  using Geo::Domain::WellTrait;
 
-  switch (index.column()) {
-  case TreeEntry::FamilyOrCurveName: {
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+  auto entry = static_cast<TreeEntry*>(index.internalPointer());
 
-    model->setData(index, lineEdit->text(),
-                   Qt::EditRole);
-
-    break;
-  }
-
-  default:
-    break;
-  }
+  entry->setDataFromWidget(editor, index, model);
 }

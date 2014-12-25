@@ -29,6 +29,11 @@ public:
   delegateWidget(int column) const override;
 
   void
+  setDataFromWidget(QWidget*            editor,
+                    QModelIndex const&  index,
+                    QAbstractItemModel* model) override;
+
+  void
   setFamily(QString family);
 
   QString

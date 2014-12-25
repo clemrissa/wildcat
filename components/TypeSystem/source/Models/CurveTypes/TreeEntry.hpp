@@ -65,16 +65,16 @@ public:
 
   virtual
   bool
-  setData(int role, int column, QVariant value)
-  { Q_UNUSED(role); Q_UNUSED(column); Q_UNUSED(value); return false; }
+  setData(int column, QVariant value)
+  { Q_UNUSED(column); Q_UNUSED(value); return false; }
 
   virtual QWidget*
   delegateWidget(int column) const = 0;
 
-  // virtual void
-  // setDataFromWidget(QWidget* editor, QModelIndex const& index,
-  // QAbstractItemModel* model)
-  // { Q_UNUSED(editor); Q_UNUSED(index); Q_UNUSED(model); }
+  virtual void
+  setDataFromWidget(QWidget*            editor,
+                    QModelIndex const&  index,
+                    QAbstractItemModel* model) = 0;
 
 public:
   virtual QDomElement
@@ -82,7 +82,8 @@ public:
 
 public slots:
   virtual void
-  setConnection(Geo::Database::Connections::Connection::Shared connection)
+  setConnection(Geo::Database::Connections::Connection::
+                Shared connection)
   override;
 
 public:

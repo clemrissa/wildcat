@@ -78,9 +78,9 @@ setData(const QModelIndex& index,
   bool result = false;
 
   if (index.parent().isValid())
-    result = setDataToCurveNode(index, value, role);
+    result = setDataToCurveNode(index, value);
   else
-    result = setDataToFamilyNode(index, value, role);
+    result = setDataToFamilyNode(index, value);
 
   if (result)
     emit dataChanged(index, index);
@@ -356,11 +356,8 @@ getEntryPosition(TreeEntry* const entry) const
 bool
 CurveTypeModel::
 setDataToCurveNode(const QModelIndex& index,
-                   const QVariant&    value,
-                   int                role)
+                   const QVariant&    value)
 {
-  Q_UNUSED(role);
-
   if (_connection.isNull())
     return false;
 
@@ -372,42 +369,7 @@ setDataToCurveNode(const QModelIndex& index,
 
   bool oldCurveTypeStatus = curveTypeEntry->curveType()->isValid();
 
-  switch (index.column()) {
-  case TreeEntry::FamilyOrCurveName:
-    curveTypeEntry->curveType()->setName(value.toString());
-    break;
-
-  case TreeEntry::Mnemonic:
-    curveTypeEntry->curveType()->setMnemonic(value.toString());
-    break;
-
-  case TreeEntry::Synonyms: {
-    auto list = value.toString().split(",", QString::SkipEmptyParts);
-    curveTypeEntry->curveType()->setSynonyms(list);
-
-    break;
-  }
-
-  case TreeEntry::Units:
-    break;
-
-  case TreeEntry::Min: {
-    bool   ok;
-    double min = value.toDouble(&ok);
-    curveTypeEntry->curveType()->setMin(min);
-    break;
-  }
-
-  case TreeEntry::Max: {
-    bool   ok;
-    double max = value.toDouble(&ok);
-    curveTypeEntry->curveType()->setMax(max);
-    break;
-  }
-
-  default:
-    break;
-  }
+  curveTypeEntry->setData(index.column(), value);
 
   bool newCurveTypeStatus = curveTypeEntry->curveType()->isValid();
 
@@ -440,11 +402,8 @@ setDataToCurveNode(const QModelIndex& index,
 bool
 CurveTypeModel::
 setDataToFamilyNode(const QModelIndex& index,
-                    const QVariant&    value,
-                    int                role)
+                    const QVariant&    value)
 {
-  Q_UNUSED(role);
-
   auto familyEntry =
     static_cast<FamilyEntry*>(index.internalPointer());
 
@@ -471,7 +430,7 @@ setDataToFamilyNode(const QModelIndex& index,
 
     bool oldCurveTypeStatus = curveTypeEntry->curveType()->isValid();
 
-    curveTypeEntry->curveType()->setFamily(value.toString());
+    curveTypeEntry->setData(index.column(), value);
 
     bool newCurveTypeStatus = curveTypeEntry->curveType()->isValid();
 

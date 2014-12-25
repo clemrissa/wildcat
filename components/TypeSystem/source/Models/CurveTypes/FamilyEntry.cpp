@@ -2,6 +2,7 @@
 
 #include "CurveTypeEntry.hpp"
 
+#include <QtCore/QAbstractItemModel>
 #include <QtGui/QIcon>
 #include <QtGui/QPalette>
 #include <QtWidgets/QLineEdit>
@@ -60,10 +61,26 @@ delegateWidget(int column) const
 {
   QLineEdit* result = nullptr;
 
-  if (column == TreeEntry::FamilyOrCurveName)
-    result = new QLineEdit();
+  if (column == TreeEntry::FamilyOrCurveName) {
+    QString d = data(Qt::EditRole, column).toString();
+    result = new QLineEdit(d);
+  }
 
   return result;
+}
+
+
+void
+FamilyEntry::
+setDataFromWidget(QWidget*            editor,
+                  QModelIndex const&  index,
+                  QAbstractItemModel* model)
+{
+  if (index.column() != TreeEntry::FamilyOrCurveName)
+    return;
+
+  auto lineEdit = static_cast<QLineEdit*>(editor);
+  model->setData(index, lineEdit->text(), Qt::EditRole);
 }
 
 

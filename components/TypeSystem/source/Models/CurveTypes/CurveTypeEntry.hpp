@@ -31,8 +31,16 @@ public:
   virtual QVariant
   data(int role, int column) const override;
 
+  bool
+  setData(int column, QVariant value) override;
+
   QWidget*
   delegateWidget(int column) const override;
+
+  void
+  setDataFromWidget(QWidget*            editor,
+                    QModelIndex const&  index,
+                    QAbstractItemModel* model) override;
 
   Geo::Domain::CurveType::Shared
   curveType() const { return _curveType; }

@@ -85,13 +85,11 @@ private:
 
   bool
   setDataToCurveNode(const QModelIndex& index,
-                     const QVariant&    value,
-                     int                role);
+                     const QVariant&    value);
 
   bool
   setDataToFamilyNode(const QModelIndex& index,
-                      const QVariant&    value,
-                      int                role);
+                      const QVariant&    value);
 
   void
   reloadCurveTypes();
