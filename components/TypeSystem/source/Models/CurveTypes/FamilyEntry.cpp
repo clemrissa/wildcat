@@ -14,7 +14,8 @@ FamilyEntry::
 FamilyEntry(QString family):
   _family(family)
 {
-  QString emptyCurveName("New Curve");
+  // QString emptyCurveName("New Curve");
+  QString emptyCurveName;
 
   getCachedCurveTypeEntry(emptyCurveName);
 }
@@ -32,11 +33,11 @@ data(int role, int column) const
 {
   switch (role) {
   case Qt::DisplayRole:
-    return getDisplayOrEditRole(column);
+    return getDisplayRole(column);
     break;
 
   case Qt::EditRole:
-    return getDisplayOrEditRole(column);
+    return getEditRole(column);
     break;
 
   case Qt::DecorationRole:
@@ -173,7 +174,30 @@ getXmlDescription(QDomDocument& doc)
 
 QVariant
 FamilyEntry::
-getDisplayOrEditRole(int column) const
+getDisplayRole(int column) const
+{
+  QVariant result;
+
+  switch (column) {
+  case TreeEntry::FamilyOrCurveName:
+
+    if (_family.isEmpty())
+      return tr("Change family name");
+    else
+      return _family;
+
+    break;
+
+  default:
+    return QVariant();
+    break;
+  }
+}
+
+
+QVariant
+FamilyEntry::
+getEditRole(int column) const
 {
   QVariant result;
 
@@ -228,6 +252,10 @@ getForegroundRole(int column) const
     result = QColor(Qt::lightGray);
     break;
   }
+
+  if (column == TreeEntry::FamilyOrCurveName)
+    if (_family.isEmpty())
+      result = QColor(Qt::lightGray);
 
   return result;
 }

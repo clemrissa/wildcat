@@ -105,11 +105,11 @@ data(int role, int column) const
 {
   switch (role) {
   case Qt::DisplayRole:
-    return getDisplayOrEditRole(column);
+    return getDisplayRole(column);
     break;
 
   case Qt::EditRole:
-    return getDisplayOrEditRole(column);
+    return getEditRole(column);
     break;
 
   case Qt::DecorationRole:
@@ -377,12 +377,16 @@ setDataFromWidget(QWidget*            editor,
 
 QVariant
 CurveTypeEntry::
-getDisplayOrEditRole(int column) const
+getDisplayRole(int column) const
 {
   switch (column) {
   case TreeEntry::FamilyOrCurveName:
 
-    return _curveType->name();
+    if (_curveType->name().isEmpty())
+      return tr("Change curve name");
+    else
+      return _curveType->name();
+
     break;
 
   case TreeEntry::Mnemonic:
@@ -429,6 +433,39 @@ getDisplayOrEditRole(int column) const
 
 QVariant
 CurveTypeEntry::
+getEditRole(int column) const
+{
+  switch (column) {
+  case TreeEntry::FamilyOrCurveName:
+    return _curveType->name();
+    break;
+
+  case TreeEntry::Mnemonic:
+    return _curveType->mnemonic();
+    break;
+
+  case TreeEntry::Synonyms:
+    return QStringList(_curveType->synonyms()).join(",");
+
+  case TreeEntry::Min:
+    return _curveType->min();
+    break;
+
+  case TreeEntry::Max:
+    return _curveType->max();
+    break;
+
+  default:
+    return QVariant();
+    break;
+  }
+
+  return QVariant();
+}
+
+
+QVariant
+CurveTypeEntry::
 getDecorationRole(int column) const
 {
   // TODO
@@ -462,8 +499,7 @@ getForegroundRole(int column) const
   switch (_state) {
   case Active: {
     QPalette palette;
-    result =
-      QColor(palette.color(QPalette::WindowText));
+    result = QColor(palette.color(QPalette::WindowText));
     break;
   }
 
@@ -471,6 +507,10 @@ getForegroundRole(int column) const
     result = QColor(Qt::lightGray);
     break;
   }
+
+  if (column == TreeEntry::FamilyOrCurveName)
+    if (_curveType->family().isEmpty())
+      result = QColor(Qt::lightGray);
 
   return result;
 }

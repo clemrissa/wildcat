@@ -62,7 +62,10 @@ protected:
 
 private:
   QVariant
-  getDisplayOrEditRole(int column) const;
+  getDisplayRole(int column) const;
+
+  QVariant
+  getEditRole(int column) const;
 
   QVariant
   getDecorationRole(int column) const;

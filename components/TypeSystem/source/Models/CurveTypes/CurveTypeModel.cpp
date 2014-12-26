@@ -407,13 +407,27 @@ setDataToFamilyNode(const QModelIndex& index,
   auto familyEntry =
     static_cast<FamilyEntry*>(index.internalPointer());
 
+  bool familyEmptyBefore = familyEntry->getFamily().isEmpty();
+
   { // update cache with the new familyName
     QString familyName = familyEntry->getFamily();
     _familyEntryMap.remove(familyName);
 
     familyEntry->setFamily(value.toString());
 
-    _familyEntryMap[familyName] = familyEntry;
+    _familyEntryMap[value.toString()] = familyEntry;
+  }
+
+  bool familyEmptyAfter = familyEntry->getFamily().isEmpty();
+
+  if (familyEmptyBefore && !familyEmptyAfter) {
+    int position = getEntryPosition(familyEntry);
+    beginInsertRows(index, position, position + 1);
+    QString emptyFamilyName;
+
+    getCachedFamilyEntry(emptyFamilyName);
+
+    endInsertRows();
   }
 
   if (index.column() != TreeEntry::FamilyOrCurveName)
@@ -495,7 +509,8 @@ reloadCurveTypes()
     }
 
     // add last empty entry
-    QString emptyFamilyName(tr("New Family"));
+    // QString emptyFamilyName(tr("New Family"));
+    QString emptyFamilyName;
 
     getCachedFamilyEntry(emptyFamilyName);
   }
