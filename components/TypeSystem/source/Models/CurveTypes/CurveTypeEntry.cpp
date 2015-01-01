@@ -121,7 +121,10 @@ data(int role, int column) const
     break;
 
   case Qt::BackgroundRole:
-    return getBackgroundRole(column);
+
+    if (_persisted)
+      return getBackgroundRole(column);
+
     break;
 
   default:
@@ -509,7 +512,7 @@ getForegroundRole(int column) const
   }
 
   if (column == TreeEntry::FamilyOrCurveName)
-    if (_curveType->family().isEmpty())
+    if (_curveType->name().isEmpty())
       result = QColor(Qt::lightGray);
 
   return result;
@@ -520,15 +523,12 @@ QVariant
 CurveTypeEntry::
 getBackgroundRole(int column) const
 {
+  Q_UNUSED(column);
+
   QVariant result;
 
-  if (column != CurveTypeEntry::Units)
-    return result;
-
-  // TODO: extend  to all columns with ComboBox
-
-  if (_curveType->unit().isNull())
-    result = QColor(0xFF, 0xD0, 0xC0);
+  if (!_curveType->isValid())
+    result = QColor(0xFF, 0xEE, 0xEE);
 
   return result;
 }

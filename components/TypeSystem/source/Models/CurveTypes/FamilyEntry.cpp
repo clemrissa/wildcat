@@ -12,12 +12,10 @@ using Geo::TypeSystem::Models::CurveTypes::FamilyEntry;
 
 FamilyEntry::
 FamilyEntry(QString family):
+  TreeEntry(),
   _family(family)
 {
-  // QString emptyCurveName("New Curve");
-  QString emptyCurveName;
-
-  getCachedCurveTypeEntry(emptyCurveName);
+  addChild();
 }
 
 
@@ -106,9 +104,13 @@ addChild(QDomElement& de)
   else
     curveName = de.firstChildElement("SubFamily").text();
 
-  auto curveTypeEntry = getCachedCurveTypeEntry(curveName);
+  pushInvalidCurveTypeEntry();
+  {
+    auto curveTypeEntry = getCachedCurveTypeEntry(curveName);
 
-  curveTypeEntry->addXmlData(de);
+    curveTypeEntry->addXmlData(de);
+  }
+  popInvalidCurveTypeEntry();
 }
 
 
@@ -116,13 +118,17 @@ void
 FamilyEntry::
 addChild(Domain::CurveType::Shared curveType)
 {
-  QString curveName = curveType->name();
-  _curveTypeMap.remove(curveName);
+  pushInvalidCurveTypeEntry();
+  {
+    QString curveName = curveType->name();
+    _curveTypeMap.remove(curveName);
 
-  auto curveTypeEntry = new CurveTypeEntry(curveType, this);
+    auto curveTypeEntry = new CurveTypeEntry(curveType, this);
 
-  _curveTypeMap[curveName] = curveTypeEntry;
-  _entries.push_back(curveTypeEntry);
+    _curveTypeMap[curveName] = curveTypeEntry;
+    _entries.append(curveTypeEntry);
+  }
+  popInvalidCurveTypeEntry();
 }
 
 
@@ -130,7 +136,7 @@ void
 FamilyEntry::
 addChild()
 {
-  QString emptyCurveName("New Curve");
+  QString emptyCurveName;
 
   getCachedCurveTypeEntry(emptyCurveName);
 }
@@ -154,6 +160,18 @@ getCachedCurveTypeEntry(QString curveTypeName)
   result->curveType()->setFamily(_family);
 
   return result;
+}
+
+
+void
+FamilyEntry::
+updateCachedCurveTypeEntry(CurveTypeEntry* curveTypeEntry,
+                           QString         newName)
+{
+  auto oldName = curveTypeEntry->curveType()->name();
+  _curveTypeMap.remove(oldName);
+
+  _curveTypeMap[newName] = curveTypeEntry;
 }
 
 
@@ -258,4 +276,36 @@ getForegroundRole(int column) const
       result = QColor(Qt::lightGray);
 
   return result;
+}
+
+
+void
+FamilyEntry::
+pushInvalidCurveTypeEntry()
+{
+  //
+  if (_entries.size()) {
+    auto e = static_cast<CurveTypeEntry*>(_entries.last());
+
+    if (!e->curveType()->isValid()) {
+      Q_ASSERT(_invalidCurveTypeEntryStack.isNull());
+
+      // std::cout << "\t PUSH " << std::endl;
+
+      _invalidCurveTypeEntryStack =
+        static_cast<CurveTypeEntry*>(_entries.takeLast());
+    }
+  }
+}
+
+
+void
+FamilyEntry::
+popInvalidCurveTypeEntry()
+{
+  if (!_invalidCurveTypeEntryStack.isNull()) {
+    _entries.append(_invalidCurveTypeEntryStack.data());
+    _invalidCurveTypeEntryStack.clear();
+    // std::cout << "\t POP " << std::endl;
+  }
 }

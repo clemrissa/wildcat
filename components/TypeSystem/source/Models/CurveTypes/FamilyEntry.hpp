@@ -4,6 +4,7 @@
 #include "TreeEntry.hpp"
 
 #include <QtCore/QMap>
+#include <QtCore/QPointer>
 #include <QtXml/QDomElement>
 
 namespace Geo {
@@ -54,11 +55,9 @@ public:
   virtual QDomElement
   getXmlDescription(QDomDocument& doc) override;
 
-protected:
-  QString _family;
-
-  // prevents Family duplicates
-  QMap<QString, CurveTypeEntry*> _curveTypeMap;
+  void
+  updateCachedCurveTypeEntry(CurveTypeEntry* curveTypeEntry,
+                             QString         newName);
 
 private:
   QVariant
@@ -75,6 +74,20 @@ private:
 
   Geo::TypeSystem::Models::CurveTypes::CurveTypeEntry*
   getCachedCurveTypeEntry(QString curveTypeName);
+
+  void
+  pushInvalidCurveTypeEntry();
+
+  void
+  popInvalidCurveTypeEntry();
+
+protected:
+  QString _family;
+
+  // prevents Family duplicates
+  QMap<QString, CurveTypeEntry*> _curveTypeMap;
+
+  QPointer<CurveTypeEntry> _invalidCurveTypeEntryStack;
 };
 
 //

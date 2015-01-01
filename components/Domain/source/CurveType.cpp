@@ -77,5 +77,9 @@ CurveType::
 isValid() const
 {
   return !_family.isEmpty() &&
-         !_name.isEmpty();
+         !_name.isEmpty() &&
+         !_mnemonic.isEmpty() &&
+         !_unit.isNull() &&
+         _scale != UndefinedScale &&
+         _continuity != UndefinedCon;
 }

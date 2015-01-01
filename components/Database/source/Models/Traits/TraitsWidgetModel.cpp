@@ -84,7 +84,7 @@ setData(const QModelIndex& index,
   }
 
   bool newTraitStatus = traitEntry->trait()->isValid();
-  bool becameValid = (!oldTraitStatus && newTraitStatus);
+  bool becameValid    = (!oldTraitStatus && newTraitStatus);
 
   // if a trait became valid
 
@@ -108,11 +108,9 @@ setData(const QModelIndex& index,
       }
       endResetModel();
     }
-  }
-  else if (newTraitStatus) // it was persisted and stays valid
-  {
+  } else if (newTraitStatus) // it was persisted and stays valid
+
     wellTraitAccess->update(traitEntry->trait());
-  }
 
   return true;
 }

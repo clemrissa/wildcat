@@ -7,6 +7,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QSharedPointer>
 #include <QtCore/QVariant>
+#include <QtCore/QVector>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
@@ -54,7 +55,7 @@ public:
   TreeEntry*
   parent() { return _parent; }
 
-  std::vector<TreeEntry*> const
+  QVector<TreeEntry*> const
   entries() const { return _entries; }
 
   int
@@ -109,7 +110,7 @@ protected:
 
   Geo::Database::Connections::Connection::Shared _connection;
 
-  std::vector<TreeEntry*> _entries;
+  QVector<TreeEntry*> _entries;
 
   State _state;
 };

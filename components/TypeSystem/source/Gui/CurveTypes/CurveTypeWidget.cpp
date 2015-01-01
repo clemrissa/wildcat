@@ -109,6 +109,15 @@ setupUi()
   header->setSectionResizeMode(TreeEntry::Synonyms,
                                QHeaderView::ResizeToContents);
 
+  header->setSectionResizeMode(TreeEntry::Units,
+                               QHeaderView::ResizeToContents);
+
+  header->setSectionResizeMode(TreeEntry::Continuity,
+                               QHeaderView::ResizeToContents);
+
+  header->setSectionResizeMode(TreeEntry::Scale,
+                               QHeaderView::ResizeToContents);
+
   header->setStretchLastSection(false);
 
   header->setSectionResizeMode(TreeEntry::CloseAction,

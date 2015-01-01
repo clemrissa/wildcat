@@ -2,6 +2,7 @@
 #define Geo_TypeSystem_Models_CurveTypeModel_hpp
 
 #include <QtCore/QAbstractItemModel>
+#include <QtCore/QPointer>
 #include <QtCore/QVector>
 
 #include <Database/Connections/Connection>
@@ -94,8 +95,17 @@ private:
   void
   reloadCurveTypes();
 
+  void
+  deleteMarkedEntries();
+
   FamilyEntry*
   getCachedFamilyEntry(QString familyName);
+
+  void
+  pushEmptyFamilyEntry();
+
+  void
+  popEmptyFamilyEntry();
 
 private:
   Database::Connections::Connection::Shared _connection;
@@ -103,6 +113,8 @@ private:
   QVector<FamilyEntry*> _familyEntries;
 
   QMap<QString, FamilyEntry*> _familyEntryMap;
+
+  QPointer<FamilyEntry> _emptyFamilyEntryStack;
 };
 
 //

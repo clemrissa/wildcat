@@ -15,12 +15,18 @@ using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 
 using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
 
+// #define DEB 1
+
+#ifdef DEB
+  #define L(a) std::cout << a << std::endl;
+#else
+  #define L(a)
+#endif
+//
+
 CurveTypeModel::
 CurveTypeModel()
 {
-  // for (LasFile::Shared lasFile : lasFiles)
-  // _lasFileEntries.append(new LasFileEntry(lasFile));
-
   reloadCurveTypes();
 }
 
@@ -28,8 +34,9 @@ CurveTypeModel()
 CurveTypeModel::
 ~CurveTypeModel()
 {
-  for (TreeEntry* entry : _familyEntries)
-    delete entry;
+  deleteMarkedEntries();
+
+  qDeleteAll(_familyEntries);
 }
 
 
@@ -42,6 +49,9 @@ data(const QModelIndex& index, int role) const
 
   TreeEntry* entry =
     static_cast<TreeEntry*>(index.internalPointer());
+
+  // L("take entry for data")
+  // L(entry)
 
   return entry->data(role, index.column());
 }
@@ -228,6 +238,8 @@ loadXml(QString fileName)
 
   beginResetModel();
   {
+    pushEmptyFamilyEntry();
+
     QDomElement docElem = doc.documentElement();
 
     QDomNode n = docElem.firstChild();
@@ -257,8 +269,15 @@ loadXml(QString fileName)
 
       n = n.nextSibling();
     }
+
+    popEmptyFamilyEntry();
   }
   endResetModel();
+
+  // set connection to newly added nodes
+  for (auto e : _familyEntries)
+    e->setConnection(_connection);
+
   //
 }
 
@@ -281,6 +300,40 @@ getCachedFamilyEntry(QString familyName)
   }
 
   return result;
+}
+
+
+void
+CurveTypeModel::
+pushEmptyFamilyEntry()
+{
+  if (_familyEntries.size() &&
+      _familyEntries.last()->getFamily().isEmpty() &&
+      _familyEntries.last()->entries().size() == 1) {
+    auto e = _familyEntries.last()->entries().last();
+    auto c = static_cast<CurveTypeEntry*>(e);
+
+    if (c->curveType()->name().isEmpty()) {
+      Q_ASSERT(_emptyFamilyEntryStack.isNull());
+
+      // std::cout << " PUSH " << std::endl;
+
+      _emptyFamilyEntryStack = _familyEntries.takeLast();
+    }
+  }
+}
+
+
+void
+CurveTypeModel::
+popEmptyFamilyEntry()
+{
+  if (!_emptyFamilyEntryStack.isNull()) {
+    _familyEntries.append(_emptyFamilyEntryStack.data());
+    _emptyFamilyEntryStack.clear();
+
+    // std::cout << " POP " << std::endl;
+  }
 }
 
 
@@ -329,14 +382,13 @@ onClicked(const QModelIndex& index)
   auto treeEntry =
     static_cast<TreeEntry*>(index.internalPointer());
 
-  if (index.column() == TreeEntry::CloseAction
-      // && index.row() != _unitEntries.size() - 1)
-      ) {
+  if (index.column() == TreeEntry::CloseAction) {
     treeEntry->switchState();
 
-    int  row = index.row();
-    emit dataChanged(this->index(TreeEntry::FamilyOrCurveName, row),
-                     this->index(TreeEntry::CloseAction, row));
+    int row = index.row();
+
+    emit dataChanged(this->index(row, TreeEntry::FamilyOrCurveName),
+                     this->index(row, TreeEntry::CloseAction));
   }
 }
 
@@ -369,6 +421,10 @@ setDataToCurveNode(const QModelIndex& index,
 
   bool oldCurveTypeStatus = curveTypeEntry->curveType()->isValid();
 
+  if (index.column() == TreeEntry::FamilyOrCurveName)
+    familyEntry->updateCachedCurveTypeEntry(curveTypeEntry,
+                                            value.toString());
+
   curveTypeEntry->setData(index.column(), value);
 
   bool newCurveTypeStatus = curveTypeEntry->curveType()->isValid();
@@ -381,16 +437,20 @@ setDataToCurveNode(const QModelIndex& index,
   // not yet in the DB
   if (!curveTypeEntry->getPersisted()) {
     if (becameValid) {
-      beginResetModel();
-      {
-        curveTypeAccess->insert(curveTypeEntry->curveType());
+      curveTypeAccess->insert(curveTypeEntry->curveType());
 
-        curveTypeEntry->setPersisted(true);
+      curveTypeEntry->setPersisted(true);
 
-        // we add one more empty trait
-        familyEntry->addChild();
-      }
-      endResetModel();
+      int position =
+        familyEntry->positionOfChildEntry(curveTypeEntry);
+
+      beginInsertRows(index.parent(), position, position);
+
+      // we add one more empty trait
+
+      familyEntry->addChild();
+
+      endInsertRows();
     }
   } else if (newCurveTypeStatus) // it was persisted and stays valid
     curveTypeAccess->update(curveTypeEntry->curveType());
@@ -422,11 +482,12 @@ setDataToFamilyNode(const QModelIndex& index,
 
   if (familyEmptyBefore && !familyEmptyAfter) {
     int position = getEntryPosition(familyEntry);
-    beginInsertRows(index, position, position + 1);
-    QString emptyFamilyName;
+    beginInsertRows(index.parent(), position, position);
+    {
+      QString emptyFamilyName;
 
-    getCachedFamilyEntry(emptyFamilyName);
-
+      getCachedFamilyEntry(emptyFamilyName);
+    }
     endInsertRows();
   }
 
@@ -436,15 +497,16 @@ setDataToFamilyNode(const QModelIndex& index,
   if (_connection.isNull())
     return false;
 
-  bool somethingWasPersisted = false;
+  // bool somethingWasPersisted = false;
 
-  for (unsigned i = 0; i < familyEntry->entries().size(); ++i) {
+  for (int i = 0; i < familyEntry->entries().size(); ++i) {
     auto curveTypeEntry =
       static_cast<CurveTypeEntry*>(familyEntry->entries()[i]);
 
     bool oldCurveTypeStatus = curveTypeEntry->curveType()->isValid();
 
-    curveTypeEntry->setData(index.column(), value);
+    curveTypeEntry->curveType()->setFamily(value.toString());
+    // curveTypeEntry->setData(index.column(), value);
 
     bool newCurveTypeStatus = curveTypeEntry->curveType()->isValid();
 
@@ -456,23 +518,23 @@ setDataToFamilyNode(const QModelIndex& index,
     // not yet in the DB
     if (!curveTypeEntry->getPersisted()) {
       if (becameValid) {
-        beginResetModel();
-        {
-          curveTypeAccess->insert(curveTypeEntry->curveType());
+        // beginResetModel();
+        // {
+        curveTypeAccess->insert(curveTypeEntry->curveType());
 
-          curveTypeEntry->setPersisted(true);
+        curveTypeEntry->setPersisted(true);
 
-          somethingWasPersisted = true;
+        // somethingWasPersisted = true;
 
-          // we add one more empty trait
-          // _unitEntries.append(new UnitTableEntry());
-        }
-        endResetModel();
+        // we add one more empty trait
+        // _unitEntries.append(new UnitTableEntry());
+        // }
+        // endResetModel();
       }
-    } else if (newCurveTypeStatus) { // it was persisted and stays valid
+    } else if (newCurveTypeStatus) // it was persisted and stays valid
       curveTypeAccess->update(curveTypeEntry->curveType());
-      somethingWasPersisted = true;
-    }
+
+    // somethingWasPersisted = true;
   }
 
   return true;
@@ -515,4 +577,25 @@ reloadCurveTypes()
     getCachedFamilyEntry(emptyFamilyName);
   }
   endResetModel();
+}
+
+
+void
+CurveTypeModel::
+deleteMarkedEntries()
+{
+  auto dataAccessFactory = _connection->dataAccessFactory();
+
+  auto curveTypeAccess = dataAccessFactory->curveTypeAccess();
+
+  for (FamilyEntry* fe : _familyEntries)
+
+    for (TreeEntry * e : fe->entries()) {
+      auto curveTypeEntry = static_cast<CurveTypeEntry*>(e);
+
+      if (curveTypeEntry->getPersisted() &&
+          curveTypeEntry->getState() == TreeEntry::Deleted)
+        curveTypeAccess->remove(curveTypeEntry->curveType());
+    }
+
 }
