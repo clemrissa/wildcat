@@ -8,8 +8,8 @@ CurveType::
 CurveType():
   _min(0.),
   _max(0.),
-  _scale(UndefinedScale),
-  _continuity(UndefinedCon)
+  _scale(Linear),
+  _continuity(Continuous)
 {
   //
 }

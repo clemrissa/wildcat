@@ -347,7 +347,8 @@ saveXml(QString fileName)
   doc.appendChild(root);
 
   for (auto e : _familyEntries)
-    root.appendChild(e->getXmlDescription(doc));
+    if (!e->getFamily().isEmpty())
+      root.appendChild(e->getXmlDescription(doc));
 
   // -
 

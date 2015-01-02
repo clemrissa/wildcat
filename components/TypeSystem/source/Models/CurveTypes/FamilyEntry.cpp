@@ -183,8 +183,12 @@ getXmlDescription(QDomDocument& doc)
 
   tag.setAttribute("Name", _family);
 
-  for (auto e : _entries)
-    tag.appendChild(e->getXmlDescription(doc));
+  for (auto e : _entries) {
+    auto ct = static_cast<CurveTypeEntry*>(e);
+
+    if (ct->curveType()->isValid())
+      tag.appendChild(e->getXmlDescription(doc));
+  }
 
   return tag;
 }
