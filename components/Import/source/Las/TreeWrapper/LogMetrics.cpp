@@ -27,15 +27,15 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Value:
-    return _lasFile->lasRequired.start;
+    return _lasFile->logMetrics.start;
     break;
 
   case TreeEntry::ImportValue:
-    return _lasFileToImport->lasRequired.start;
+    return _lasFileToImport->logMetrics.start;
     break;
 
   case TreeEntry::Units:
-    return _lasFile->lasRequired.units;
+    return _lasFile->logMetrics.units;
     break;
 
   default:
@@ -49,8 +49,8 @@ void
 Start::
 copyDataToLasToImport()
 {
-  _lasFileToImport->lasRequired.start =
-    _lasFile->lasRequired.start;
+  _lasFileToImport->logMetrics.start =
+    _lasFile->logMetrics.start;
 }
 
 
@@ -83,15 +83,15 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Value:
-    return _lasFile->lasRequired.stop;
+    return _lasFile->logMetrics.stop;
     break;
 
   case TreeEntry::ImportValue:
-    return _lasFileToImport->lasRequired.stop;
+    return _lasFileToImport->logMetrics.stop;
     break;
 
   case TreeEntry::Units:
-    return _lasFile->lasRequired.units;
+    return _lasFile->logMetrics.units;
     break;
 
   default:
@@ -105,8 +105,8 @@ void
 Stop::
 copyDataToLasToImport()
 {
-  _lasFileToImport->lasRequired.stop =
-    _lasFile->lasRequired.stop;
+  _lasFileToImport->logMetrics.stop =
+    _lasFile->logMetrics.stop;
 }
 
 
@@ -139,15 +139,15 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Value:
-    return _lasFile->lasRequired.step;
+    return _lasFile->logMetrics.step;
     break;
 
   case TreeEntry::ImportValue:
-    return _lasFileToImport->lasRequired.step;
+    return _lasFileToImport->logMetrics.step;
     break;
 
   case TreeEntry::Units:
-    return _lasFile->lasRequired.units;
+    return _lasFile->logMetrics.units;
     break;
 
   default:
@@ -161,8 +161,8 @@ void
 Step::
 copyDataToLasToImport()
 {
-  _lasFileToImport->lasRequired.step =
-    _lasFile->lasRequired.step;
+  _lasFileToImport->logMetrics.step =
+    _lasFile->logMetrics.step;
 }
 
 
@@ -195,15 +195,15 @@ data(int role, int column) const
     break;
 
   case TreeEntry::Value:
-    return _lasFile->lasRequired.nullValue;
+    return _lasFile->logMetrics.nullValue;
     break;
 
   case TreeEntry::ImportValue:
-    return _lasFileToImport->lasRequired.nullValue;
+    return _lasFileToImport->logMetrics.nullValue;
     break;
 
   case TreeEntry::Units:
-    return _lasFile->lasRequired.units;
+    return _lasFile->logMetrics.units;
     break;
 
   default:
@@ -217,8 +217,8 @@ void
 Null::
 copyDataToLasToImport()
 {
-  _lasFileToImport->lasRequired.nullValue =
-    _lasFile->lasRequired.nullValue;
+  _lasFileToImport->logMetrics.nullValue =
+    _lasFile->logMetrics.nullValue;
 }
 
 

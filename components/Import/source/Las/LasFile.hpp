@@ -50,6 +50,10 @@ public:
     QString province;
     QString api;
     QString uwi;
+  };
+
+  struct LogMetrics
+  {
     double  start;
     double  stop;
     double  step;
@@ -76,6 +80,7 @@ public:
   QString fileName;
 
   LasRequired                              lasRequired;
+  LogMetrics                               logMetrics;
   QMap<QString, WellInformationEntry>      wellInformation;
   QMap<QString, ParameterInformationEntry> parameterInformation;
   QMap<QString, LogInformationEntry>       logInformation;

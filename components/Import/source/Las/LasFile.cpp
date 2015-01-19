@@ -9,11 +9,11 @@ namespace Import {
 LasFile::
 LasFile(LasFile const& lasFile)
 {
-  lasRequired.start     = lasFile.lasRequired.start;
-  lasRequired.stop      = lasFile.lasRequired.stop;
-  lasRequired.step      = lasFile.lasRequired.step;
-  lasRequired.nullValue = lasFile.lasRequired.nullValue;
-  lasRequired.units     = lasFile.lasRequired.units;
+  logMetrics.start     = lasFile.logMetrics.start;
+  logMetrics.stop      = lasFile.logMetrics.stop;
+  logMetrics.step      = lasFile.logMetrics.step;
+  logMetrics.nullValue = lasFile.logMetrics.nullValue;
+  logMetrics.units     = lasFile.logMetrics.units;
 
   for (auto key : lasFile.wellInformation.keys())
     wellInformation[key] = lasFile.wellInformation[key];
@@ -40,8 +40,8 @@ getText() const
   list << "well information";
 
   list << "well:   " + lasRequired.wellName;
-  list << "start:  " + QString::number(lasRequired.start);
-  list << "stop:   " + QString::number(lasRequired.stop);
+  list << "start:  " + QString::number(logMetrics.start);
+  list << "stop:   " + QString::number(logMetrics.stop);
 
   for (auto key : wellInformation.keys())
     list << key + "   " + wellInformation[key].value;

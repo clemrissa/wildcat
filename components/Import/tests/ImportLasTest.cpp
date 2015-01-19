@@ -27,20 +27,18 @@ TEST(ImportLas, Las12) {
               QString("ANY ET AL A9-16-49-20"));
 
   // check some key numbers
-  ASSERT_FLOAT_EQ(635.0, lasFile->lasRequired.start);
-  ASSERT_FLOAT_EQ(400.0, lasFile->lasRequired.stop);
-  ASSERT_FLOAT_EQ(-0.1250, lasFile->lasRequired.step);
-  ASSERT_FLOAT_EQ(-999.25, lasFile->lasRequired.nullValue);
+  ASSERT_FLOAT_EQ(635.0, lasFile->logMetrics.start);
+  ASSERT_FLOAT_EQ(400.0, lasFile->logMetrics.stop);
+  ASSERT_FLOAT_EQ(-0.1250, lasFile->logMetrics.step);
+  ASSERT_FLOAT_EQ(-999.25, lasFile->logMetrics.nullValue);
 
   // check total number of additional entries
-  ASSERT_EQ(7, lasFile->wellInformation.size());
+  ASSERT_EQ(0, lasFile->wellInformation.size());
 
-  // check mnemonics and their values
-  ASSERT_TRUE(lasFile->wellInformation["FLD"].value == "EDAM");
-  ASSERT_TRUE(lasFile->wellInformation["LOC"].value ==
-              "A9-16-49-20W3M");
-  ASSERT_TRUE(lasFile->wellInformation["PROV"].value ==
-              "SASKATCHEWAN");
+  // check some required values and their values
+  ASSERT_TRUE(lasFile->lasRequired.field == "EDAM");
+  ASSERT_TRUE(lasFile->lasRequired.location == "A9-16-49-20W3M");
+  ASSERT_TRUE(lasFile->lasRequired.province == "SASKATCHEWAN");
 
   // check curve information
   ASSERT_EQ(8, lasFile->logInformation.size());
@@ -71,16 +69,15 @@ TEST(ImportLas, Las20) {
   ASSERT_TRUE(lasFile->lasRequired.wellName ==
               QString("ANY ET AL 12-34-12-34"));
 
-  ASSERT_FLOAT_EQ(635.0, lasFile->lasRequired.start);
-  ASSERT_FLOAT_EQ(400.0, lasFile->lasRequired.stop);
+  ASSERT_FLOAT_EQ(635.0, lasFile->logMetrics.start);
+  ASSERT_FLOAT_EQ(400.0, lasFile->logMetrics.stop);
 
   // check total number of additional entries
-  ASSERT_EQ(7, lasFile->wellInformation.size());
+  ASSERT_EQ(0, lasFile->wellInformation.size());
 
-  ASSERT_TRUE(lasFile->wellInformation["FLD"].value == "WILDCAT");
-  ASSERT_TRUE(lasFile->wellInformation["LOC"].value ==
-              "12-34-12-34W5M");
-  ASSERT_TRUE(lasFile->wellInformation["PROV"].value == "ALBERTA");
+  ASSERT_TRUE(lasFile->lasRequired.field == "WILDCAT");
+  ASSERT_TRUE(lasFile->lasRequired.location == "12-34-12-34W5M");
+  ASSERT_TRUE(lasFile->lasRequired.province == "ALBERTA");
 
   // check curve information
   ASSERT_EQ(8, lasFile->logInformation.size());

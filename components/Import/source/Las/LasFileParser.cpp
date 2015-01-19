@@ -242,15 +242,17 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
     // for less typing
     auto& lasRequired = lasFile->lasRequired;
 
+    auto& logMetrics = lasFile->logMetrics;
+
     if (reStart.indexIn(line) >= 0)
-      lasRequired.start = selectNumericalValue(reStart);
+      logMetrics.start = selectNumericalValue(reStart);
     else if (reStop.indexIn(line) >= 0)
-      lasRequired.stop = selectNumericalValue(reStop);
+      logMetrics.stop = selectNumericalValue(reStop);
     else if (reStep.indexIn(line) >= 0) {
-      lasRequired.step  = selectNumericalValue(reStep);
-      lasRequired.units = selectNumericalUnits(reStep);
+      logMetrics.step  = selectNumericalValue(reStep);
+      logMetrics.units = selectNumericalUnits(reStep);
     } else if (reNull.indexIn(line) >= 0)
-      lasRequired.nullValue = selectNumericalValue(reNull);
+      logMetrics.nullValue = selectNumericalValue(reNull);
     else if (reWell.indexIn(line) >= 0)
       lasRequired.wellName = selectValue(reWell);
     else if (reComp.indexIn(line) >= 0)
