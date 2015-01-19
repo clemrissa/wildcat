@@ -28,7 +28,7 @@ insert(WellTrait::Shared wellTrait)
   try {
     transaction t(_db->begin());
 
-    t.tracer(odb::core::stderr_tracer);
+    // t.tracer(odb::core::stderr_tracer);
 
     _db->persist(*wellTrait);
     t.commit();

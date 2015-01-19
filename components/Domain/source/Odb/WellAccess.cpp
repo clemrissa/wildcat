@@ -17,11 +17,12 @@ WellAccess(Database db): _db(db) {}
 
 void
 WellAccess::
-insert(Well::Shared well) {
+insert(Well::Shared well)
+{
   try {
     transaction t(_db->begin());
 
-    t.tracer(odb::core::stderr_tracer);
+    // t.tracer(odb::core::stderr_tracer);
 
     _db->persist(*well);
     t.commit();
@@ -31,9 +32,11 @@ insert(Well::Shared well) {
   }
 }
 
+
 void
 WellAccess::
-update(Well::Shared well) {
+update(Well::Shared well)
+{
   try {
     transaction t(_db->begin());
 
@@ -45,9 +48,11 @@ update(Well::Shared well) {
   }
 }
 
+
 void
 WellAccess::
-remove(Well::Shared well) {
+remove(Well::Shared well)
+{
   try {
     transaction t(_db->begin());
 
@@ -59,9 +64,11 @@ remove(Well::Shared well) {
   }
 }
 
+
 void
 WellAccess::
-remove(unsigned int const& pk) {
+remove(unsigned int const& pk)
+{
   try {
     transaction t(_db->begin());
 
@@ -73,17 +80,18 @@ remove(unsigned int const& pk) {
   }
 }
 
+
 QVector<WellAccess::Well::Shared>
 WellAccess::
-findAll() {
+findAll()
+{
   QVector<Well::Shared> vector;
   try {
     transaction t(_db->begin());
 
     Result r(_db->query<Well>());
 
-    for(Result::iterator i(r.begin()); i != r.end(); ++i)
-    {
+    for (Result::iterator i(r.begin()); i != r.end(); ++i) {
       Well::Shared well(i.load());
 
       vector.push_back(well);
@@ -98,8 +106,10 @@ findAll() {
   return vector;
 }
 
+
 WellAccess::Well::Shared
 WellAccess::
-findByPrimaryKey(unsigned int const& pk) {
+findByPrimaryKey(unsigned int const& pk)
+{
   return Well::Shared(_db->load<Well>(pk));
 }
