@@ -4,8 +4,6 @@
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
 
-#include <iostream>
-
 // Everybody stand back! I know regular expressions
 #include <QSharedPointer>
 #include <QtCore/QRegExp>
@@ -212,18 +210,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
     [&](QRegExp& re) {
       QString s1 = re.cap(3).trimmed();
 
-      // std::cout << "S1 " << s1.toLocal8Bit().data()
-      // <<
-      // std::endl;
-
-      QString s2 =
-        re.cap(4).trimmed().remove(0,
-                                   1); s2 =
-        s2.trimmed();
-
-      // std::cout << "S2 " << s2.toLocal8Bit().data()
-      // <<
-      // std::endl;
+      QString s2 = re.cap(4).trimmed().remove(0, 1).trimmed();
 
       QString result;
 
@@ -277,10 +264,9 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
     } else if (reNull.indexIn(line) >= 0)
       logMetrics.nullValue =
         selectNumericalValue(reNull);
-    else if (reWell.indexIn(line) >= 0) {
-      std::cout << "WELL " << std::endl;
+    else if (reWell.indexIn(line) >= 0)
       lasRequired.wellName = selectValue(reWell);
-    } else if (reComp.indexIn(line) >= 0)
+    else if (reComp.indexIn(line) >= 0)
       lasRequired.company = selectValue(reComp);
     else if (reServiceComp.indexIn(line) >= 0)
       lasRequired.serviceCompany =
