@@ -4,6 +4,8 @@
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
 
+#include <iostream>
+
 // Everybody stand back! I know regular expressions
 #include <QSharedPointer>
 #include <QtCore/QRegExp>
@@ -150,7 +152,15 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
   // clear old values
   lasFile->wellInformation.clear();
 
-  const QString numericalField("(%1)( *\\..+ )(-?\\d*\\.\\d+)( *:)( *.*$)");
+  // %1 defines a number format or just any symbols before the last ":"
+  // %2 defines the field name ("WELL", "START");
+  const QString baseField("(%2 *)(\\.[^ ]*)( %1)(:.*$)");
+
+  const QString numericWord("*-?\\d*\\.\\d+.*");
+
+  const QString nonNumericWord(".*");
+
+  const QString numericalField(baseField.arg(numericWord));
 
   // STRT.M        583.0:
   QRegExp reStart(numericalField.arg("STRT"));
@@ -162,7 +172,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
   QRegExp reNull(numericalField.arg("NULL"));
 
   //  WELL.                WELL:   4832/116
-  const QString specificField("(^%1 *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  const QString specificField(baseField.arg(nonNumericWord));
 
   QRegExp reWell(specificField.arg("WELL"));
 
@@ -190,7 +200,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //  name .units   name:value
-  QRegExp reRestEntries("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  QRegExp reRestEntries(specificField.arg("^[^ ]+"));
 
   // reRestEntries.setMinimal(true);
 
@@ -200,9 +210,21 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
   // function for addressing results of RegExp matching
   auto selectValue =
     [&](QRegExp& re) {
-      QString s1 = re.cap(3).trimmed(); s1.chop(1); s1 =
-        s1.trimmed();
-      QString s2 = re.cap(4).trimmed();
+      QString s1 = re.cap(3).trimmed();
+
+      // std::cout << "S1 " << s1.toLocal8Bit().data()
+      // <<
+      // std::endl;
+
+      QString s2 =
+        re.cap(4).trimmed().remove(0,
+                                   1); s2 =
+        s2.trimmed();
+
+      // std::cout << "S2 " << s2.toLocal8Bit().data()
+      // <<
+      // std::endl;
+
       QString result;
 
       if (_version == 12)
@@ -213,7 +235,8 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
       return result;
     };
 
-  // function for addressing results of "floating point" RegExp matching
+  // function for addressing results of "floating point"
+  // RegExp matching
   auto selectNumericalValue =
     [](QRegExp& re) {
       QString value = re.cap(3).trimmed();
@@ -252,13 +275,16 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
       logMetrics.step  = selectNumericalValue(reStep);
       logMetrics.units = selectNumericalUnits(reStep);
     } else if (reNull.indexIn(line) >= 0)
-      logMetrics.nullValue = selectNumericalValue(reNull);
-    else if (reWell.indexIn(line) >= 0)
+      logMetrics.nullValue =
+        selectNumericalValue(reNull);
+    else if (reWell.indexIn(line) >= 0) {
+      std::cout << "WELL " << std::endl;
       lasRequired.wellName = selectValue(reWell);
-    else if (reComp.indexIn(line) >= 0)
+    } else if (reComp.indexIn(line) >= 0)
       lasRequired.company = selectValue(reComp);
     else if (reServiceComp.indexIn(line) >= 0)
-      lasRequired.serviceCompany = selectValue(reServiceComp);
+      lasRequired.serviceCompany =
+        selectValue(reServiceComp);
     else if (reField.indexIn(line) >= 0)
       lasRequired.field = selectValue(reField);
     else if (reLocation.indexIn(line) >= 0)
@@ -279,7 +305,8 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
       lasRequired.uwi = selectValue(reUWI);
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {
-      // QRegExp reRestEntries("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
+      // QRegExp reRestEntries("(^[^ ]+ *)(\\.[^ ]*)(
+      // *.* *:)( *.*$)");
 
       // name .units   name:value
       LasFile::WellInformationEntry entry;
@@ -287,16 +314,21 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
       QString all = reRestEntries.cap(0);
 
       QString name = reRestEntries.cap(1).trimmed();
-      entry.units = reRestEntries.cap(2).trimmed().remove(0, 1);
+      entry.units =
+        reRestEntries.cap(2).trimmed().remove(0, 1);
 
       if (_version == 12) {
-        entry.description = reRestEntries.cap(3).trimmed();
+        entry.description =
+          reRestEntries.cap(3).trimmed();
         entry.description.chop(1);
         entry.description = entry.description.trimmed();
-        entry.value       = reRestEntries.cap(4).trimmed();
+        entry.value       =
+          reRestEntries.cap(4).trimmed();
       } else if (_version == 20) {
-        entry.description = reRestEntries.cap(4).trimmed();
-        entry.value       = reRestEntries.cap(3).trimmed();
+        entry.description =
+          reRestEntries.cap(4).trimmed();
+        entry.value =
+          reRestEntries.cap(3).trimmed();
         entry.value.chop(1);
         entry.value = entry.value.trimmed();
       }
@@ -311,7 +343,8 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
 
 void
 LasFileParser::
-parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
+parseLogInformationSection(QSharedPointer<LasFile>&
+                           lasFile, int& lineNumber)
 {
   int& i = lineNumber;
 
@@ -320,9 +353,11 @@ parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //                     name .units   :value
-  QRegExp reLogInfoEntries("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  QRegExp reLogInfoEntries(
+    "(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
 
-  // QRegExp reLogInfoEntries("(^.+)(\\.[^ ]*)(.+)( *:)( *.*$)");
+  // QRegExp reLogInfoEntries("(^.+)(\\.[^ ]*)(.+)(
+  // *:)( *.*$)");
 
   // next line
   ++i;
@@ -342,12 +377,16 @@ parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
 
       QString all = reLogInfoEntries.cap(0);
 
-      QString mnem = reLogInfoEntries.cap(1).trimmed();
-      entry.units = reLogInfoEntries.cap(2).trimmed().remove(0, 1);
+      QString mnem =
+        reLogInfoEntries.cap(1).trimmed();
+      entry.units =
+        reLogInfoEntries.cap(2).trimmed().remove(0,
+                                                 1);
 
       entry.code = reLogInfoEntries.cap(3).trimmed();
 
-      entry.description = reLogInfoEntries.cap(4).trimmed();
+      entry.description =
+        reLogInfoEntries.cap(4).trimmed();
 
       lasFile->logInformation[mnem] = entry;
     }
@@ -359,15 +398,18 @@ parseLogInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
 
 void
 LasFileParser::
-parseParameterInformationSection(QSharedPointer<LasFile>& lasFile,
-                                 int&                     lineNumber)
+parseParameterInformationSection(QSharedPointer<
+                                   LasFile>& lasFile,
+                                 int&
+                                 lineNumber)
 {
   int& i = lineNumber;
 
   // clear old values
   lasFile->parameterInformation.clear();
 
-  QRegExp reParameterInformation("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  QRegExp reParameterInformation(
+    "(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
 
   // next line
   ++i;
@@ -387,16 +429,22 @@ parseParameterInformationSection(QSharedPointer<LasFile>& lasFile,
 
       QString all = reParameterInformation.cap(0);
 
-      entry.name  = reParameterInformation.cap(1).trimmed();
-      entry.units = reParameterInformation.cap(2).trimmed().remove(0, 1);
+      entry.name =
+        reParameterInformation.cap(1).trimmed();
+      entry.units =
+        reParameterInformation.cap(2).trimmed().remove(
+          0, 1);
 
-      entry.value = reParameterInformation.cap(3).trimmed();
+      entry.value =
+        reParameterInformation.cap(3).trimmed();
       entry.value.chop(1);
       entry.value = entry.value.trimmed();
 
-      entry.description = reParameterInformation.cap(4).trimmed();
+      entry.description =
+        reParameterInformation.cap(4).trimmed();
 
-      lasFile->parameterInformation[entry.name] = entry;
+      lasFile->parameterInformation[entry.name] =
+        entry;
     }
 
     ++i;
@@ -406,7 +454,9 @@ parseParameterInformationSection(QSharedPointer<LasFile>& lasFile,
 
 void
 LasFileParser::
-parseOtherInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
+parseOtherInformationSection(QSharedPointer<LasFile>&
+                             lasFile,
+                             int& lineNumber)
 {
   //
   Q_UNUSED(lineNumber);
@@ -415,7 +465,8 @@ parseOtherInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
 
 void
 LasFileParser::
-parseAsciiLogDataSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
+parseAsciiLogDataSection(QSharedPointer<LasFile>&
+                         lasFile, int& lineNumber)
 {
   int& i = lineNumber;
 
@@ -445,10 +496,12 @@ parseAsciiLogDataSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
     // parse array
     int pos = 0;
 
-    while ((pos = reNumValue.indexIn(line, pos)) != -1) {
+    while ((pos =
+              reNumValue.indexIn(line, pos)) != -1) {
       {
         // select next key
-        QString key = lasFile->data.keys()[currentMnemonicNum];
+        QString key =
+          lasFile->data.keys()[currentMnemonicNum];
 
         QString value = reNumValue.cap(1);
         double  valueDouble; bool ok;
@@ -456,7 +509,9 @@ parseAsciiLogDataSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
 
         lasFile->data[key].append(valueDouble);
 
-        currentMnemonicNum = (currentMnemonicNum + 1) % numberOfMnemonics;
+        currentMnemonicNum =
+          (currentMnemonicNum +
+           1) % numberOfMnemonics;
       }
 
       pos += reNumValue.matchedLength();
