@@ -291,32 +291,21 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
       lasRequired.uwi = selectValue(reUWI);
     // all the rest fields
     else if (reRestEntries.indexIn(line) >= 0) {
-      // QRegExp reRestEntries("(^[^ ]+ *)(\\.[^ ]*)(
-      // *.* *:)( *.*$)");
-
-      // name .units   name:value
+      // name .units   description:value
       LasFile::WellInformationEntry entry;
 
-      QString all = reRestEntries.cap(0);
-
       QString name = reRestEntries.cap(1).trimmed();
-      entry.units =
-        reRestEntries.cap(2).trimmed().remove(0, 1);
+      entry.units = reRestEntries.cap(2).trimmed().remove(0, 1);
+
+      QString description = reRestEntries.cap(3).trimmed();
+      QString value = reRestEntries.cap(4).trimmed().remove(0, 1).trimmed();
 
       if (_version == 12) {
-        entry.description =
-          reRestEntries.cap(3).trimmed();
-        entry.description.chop(1);
-        entry.description = entry.description.trimmed();
-        entry.value       =
-          reRestEntries.cap(4).trimmed();
+        entry.description = description;
+        entry.value       = value;
       } else if (_version == 20) {
-        entry.description =
-          reRestEntries.cap(4).trimmed();
-        entry.value =
-          reRestEntries.cap(3).trimmed();
-        entry.value.chop(1);
-        entry.value = entry.value.trimmed();
+        entry.description = value;
+        entry.value = description;
       }
 
       lasFile->wellInformation[name] = entry;
