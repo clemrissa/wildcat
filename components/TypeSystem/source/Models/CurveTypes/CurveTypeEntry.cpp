@@ -45,32 +45,66 @@ CurveTypeEntry::
 
 void
 CurveTypeEntry::
-addXmlData(QDomElement& de)
+addXmlData(QDomElement& de, XmlSourceType type)
 {
-  QString mnem = de.firstChildElement("CurveMnemonic").text();
+  auto updateMnemonic =
+    [&](QString mnem)
+    {
+      if (_curveType->mnemonic().isEmpty())
+        _curveType->setMnemonic(mnem);
 
-  if (_curveType->mnemonic().isEmpty())
-    _curveType->setMnemonic(mnem);
+      else {
+        QStringList synonyms = _curveType->synonyms();
 
-  else {
-    QStringList synonyms = _curveType->synonyms();
+        if (!synonyms.contains(mnem)) {
+          synonyms.append(mnem);
 
-    if (!synonyms.contains(mnem)) {
-      synonyms.append(mnem);
+          _curveType->setSynonyms(synonyms);
+        }
+      }
+    };
 
-      _curveType->setSynonyms(synonyms);
-    }
+  switch (type) {
+  case CurveTypeEntry::XmlSourceType::Schlumberger: {
+    QString mnem = de.firstChildElement("CurveMnemonic").text();
+
+    updateMnemonic(mnem);
+
+    _curveType->setTextUnit(de.firstChildElement("Unit").text());
+
+    bool ok;
+    _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
+    _curveType->setMax(de.firstChildElement("Max").text().toDouble(&ok));
+
+    // TODO scale
+    _scale      = de.firstChildElement("Scale").text().toLower();
+    _continuity = de.firstChildElement("Type").text();
+
+    break;
   }
 
-  _curveType->setTextUnit(de.firstChildElement("Unit").text());
+  case CurveTypeEntry::XmlSourceType::Geo: {
+    QString mnem = de.firstChildElement("Mnemonic").text();
 
-  bool ok;
-  _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
-  _curveType->setMax(de.firstChildElement("Max").text().toDouble(&ok));
+    updateMnemonic(mnem);
 
-  // TODO scale
-  _scale      = de.firstChildElement("Scale").text().toLower();
-  _continuity = de.firstChildElement("Type").text();
+    _curveType->setTextUnit(de.firstChildElement("TextUnit").text());
+
+    bool ok;
+    _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
+    _curveType->setMax(de.firstChildElement("Max").text().toDouble(&ok));
+
+    auto scale =
+      CurveType::scaleFromText(de.firstChildElement("Scale").text());
+    _curveType->setScale(scale);
+
+    auto cont =
+      CurveType::continuityFromText(de.firstChildElement("Continuity").text());
+    _curveType->setContinuity(cont);
+
+    break;
+  }
+  }
 }
 
 
@@ -95,6 +129,7 @@ getXmlDescription(QDomDocument& doc)
   addValue("TextUnit", _curveType->textUnit());
   addValue("Unit",
            _curveType->unit().isNull() ? QString() : _curveType->unit()->getName());
+
   addValue("Min", QString("%1").arg(_curveType->min(), 0, 'g', 3));
   addValue("Max", QString("%1").arg(_curveType->max(), 0, 'g', 3));
   addValue("Scale", CurveType::textScale(_curveType->scale()));

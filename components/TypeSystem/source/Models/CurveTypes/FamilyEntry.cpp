@@ -1,6 +1,6 @@
 #include "FamilyEntry.hpp"
 
-#include "CurveTypeEntry.hpp"
+// #include "CurveTypeEntry.hpp"
 
 #include <QtCore/QAbstractItemModel>
 #include <QtGui/QIcon>
@@ -93,27 +93,40 @@ setFamily(QString family)
 
 void
 FamilyEntry::
-addChild(QDomElement& de)
+addChild(QDomElement& de, CurveTypeEntry::XmlSourceType type)
 {
-  QDomElement mnem = de.firstChildElement("CurveMnemonic");
-
   QString curveName;
 
-  if (mnem.isNull())
-    curveName = de.firstChildElement("Family").text();
-  else
-    curveName = de.firstChildElement("SubFamily").text();
+  switch (type) {
+  case CurveTypeEntry::XmlSourceType::Schlumberger: {
+    QDomElement mnem = de.firstChildElement("CurveMnemonic");
+
+    if (mnem.isNull())
+      curveName = de.firstChildElement("Family").text();
+    else
+      curveName = de.firstChildElement("SubFamily").text();
+
+    break;
+  }
+
+  case CurveTypeEntry::XmlSourceType::Geo: {
+    curveName = de.firstChildElement("Name").text();
+
+    break;
+  }
+  }
 
   pushInvalidCurveTypeEntry();
   {
     auto curveTypeEntry = getCachedCurveTypeEntry(curveName);
 
-    curveTypeEntry->addXmlData(de);
+    curveTypeEntry->addXmlData(de, type);
   }
   popInvalidCurveTypeEntry();
 }
 
 
+// TODO: ask from cache and put there shared pointer?
 void
 FamilyEntry::
 addChild(Domain::CurveType::Shared curveType)

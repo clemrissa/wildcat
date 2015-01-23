@@ -16,6 +16,13 @@ namespace CurveTypes {
 class CurveTypeEntry: public TreeEntry
 {
 public:
+  enum class XmlSourceType
+  {
+    Schlumberger,
+    Geo
+  };
+
+public:
   CurveTypeEntry(Geo::Domain::CurveType::Shared curveType,
                  TreeEntry*                     parent);
 
@@ -53,7 +60,7 @@ public:
 
 public:
   void
-  addXmlData(QDomElement& de);
+  addXmlData(QDomElement& de, XmlSourceType type);
 
   QDomElement
   getXmlDescription(QDomDocument& doc) override;

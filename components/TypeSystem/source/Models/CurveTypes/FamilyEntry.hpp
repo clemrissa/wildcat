@@ -7,13 +7,15 @@
 #include <QtCore/QPointer>
 #include <QtXml/QDomElement>
 
+#include "CurveTypeEntry.hpp"
+
 namespace Geo {
 namespace TypeSystem {
 namespace Models {
 namespace CurveTypes {
 //
 
-class CurveTypeEntry;
+// class CurveTypeEntry;
 
 class FamilyEntry: public TreeEntry
 {
@@ -44,7 +46,7 @@ public:
   /// Fetches Family, checks if it duplicates an existing entry
   /// adds to children if not
   void
-  addChild(QDomElement& domElement);
+  addChild(QDomElement& domElement, CurveTypeEntry::XmlSourceType type);
 
   void
   addChild(Domain::CurveType::Shared curveType);

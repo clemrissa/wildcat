@@ -245,27 +245,49 @@ loadXml(QString fileName)
     QDomNode n = docElem.firstChild();
 
     while (!n.isNull()) {
-      // try to convert the node to an element.
-      QDomElement loginfo = n.toElement();
+      CurveTypeEntry::XmlSourceType xmlCurveSourceType;
 
-      QDomElement mnem = loginfo.firstChildElement("CurveMnemonic");
+      if (n.nodeName() == QString("loginfo")) {
+        xmlCurveSourceType = CurveTypeEntry::XmlSourceType::Schlumberger;
 
-      QDomElement family;
+        // try to convert the node to an element.
+        QDomElement loginfo = n.toElement();
 
-      // work with pair MainFamily-Family
-      if (mnem.isNull())
-        family = loginfo.firstChildElement("MainFamily");
-      // work with Family-SubFamily
-      else
-        family = loginfo.firstChildElement("Family");
+        QDomElement mnem = loginfo.firstChildElement("CurveMnemonic");
 
-      //
+        QDomElement family;
 
-      QString familyName = family.text();
+        // work with pair MainFamily-Family
+        if (mnem.isNull())
+          family = loginfo.firstChildElement("MainFamily");
+        // work with Family-SubFamily
+        else
+          family = loginfo.firstChildElement("Family");
 
-      auto familyEntry = getCachedFamilyEntry(familyName);
+        if (family.isNull())
+          continue;
 
-      familyEntry->addChild(loginfo);
+        //
+
+        QString familyName = family.text();
+
+        auto familyEntry = getCachedFamilyEntry(familyName);
+
+        familyEntry->addChild(loginfo,  xmlCurveSourceType);
+      } else if (n.nodeName() == QString("Family")) {
+        xmlCurveSourceType = CurveTypeEntry::XmlSourceType::Geo;
+        QString familyName = n.attributes().namedItem("Name").toAttr().value();
+
+        auto familyEntry = getCachedFamilyEntry(familyName);
+
+        auto curve = n.firstChildElement("CurveType");
+
+        while (!curve.isNull()) {
+          // TODO check if familyEntry became valid, save if then
+          familyEntry->addChild(curve, xmlCurveSourceType);
+          curve = curve.nextSiblingElement("CurveType");
+        }
+      }
 
       n = n.nextSibling();
     }

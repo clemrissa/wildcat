@@ -30,10 +30,13 @@ private slots:
   onTableViewMenuRequested(const QPoint&);
 
   void
-  onLoadXmlClicked();
+  onLoadSlbXmlClicked();
 
   void
-  onSaveXmlClicked();
+  onSaveGeoXmlClicked();
+
+  void
+  onLoadGeoXmlClicked();
 
 signals:
   void notifyMainWindow(QString);

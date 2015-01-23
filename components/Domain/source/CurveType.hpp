@@ -94,12 +94,20 @@ public:
   void
   setSynonyms(QList<QString> synonyms) { _synonyms = synonyms; }
 
-  // ------
+public:
+  // static functions
+
   static QString
   textScale(Scale s);
 
   static QString
   textContinuity(Continuity c);
+
+  static Scale
+  scaleFromText(QString s);
+
+  static Continuity
+  continuityFromText(QString s);
 
 public:
   bool

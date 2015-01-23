@@ -72,6 +72,34 @@ textContinuity(Continuity c)
 }
 
 
+CurveType::Scale
+CurveType::
+scaleFromText(QString s)
+{
+  if (s == QString("Linear"))
+    return Linear;
+  else if (s == QString("Log2"))
+    return Log2;
+  else if (s == QString("Log10"))
+    return Log10;
+  else
+    return UndefinedScale;
+}
+
+
+CurveType::Continuity
+CurveType::
+continuityFromText(QString s)
+{
+  if (s == QString("Continuous"))
+    return Continuous;
+  else if (s == QString("TopBottom"))
+    return TopBottom;
+  else
+    return UndefinedCon;
+}
+
+
 bool
 CurveType::
 isValid() const

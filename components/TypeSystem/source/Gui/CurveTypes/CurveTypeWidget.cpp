@@ -37,9 +37,11 @@ using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 
 struct CurveTypeWidget::Private
 {
-  QPushButton* loadXmlButton;
+  QPushButton* loadSlbXmlButton;
 
-  QPushButton* saveXmlButton;
+  QPushButton* saveGeoXmlButton;
+
+  QPushButton* loadGeoXmlButton;
 
   // curve types tree
   QTreeView* treeView;
@@ -75,13 +77,17 @@ setupUi()
 {
   setWindowTitle("Curve Types");
 
-  p->loadXmlButton = new QPushButton(tr("Load Slb Xml"));
+  p->loadSlbXmlButton = new QPushButton(tr("Load Slb Xml"));
 
-  p->loadXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
+  p->loadSlbXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
 
-  p->saveXmlButton = new QPushButton(tr("Save Geo Xml"));
+  p->saveGeoXmlButton = new QPushButton(tr("Save Geo Xml"));
 
-  p->saveXmlButton->setToolTip(tr("Saves curve types to Geo Xml file"));
+  p->saveGeoXmlButton->setToolTip(tr("Saves curve types to Geo Xml file"));
+
+  p->loadGeoXmlButton = new QPushButton(tr("Load Geo Xml"));
+
+  p->loadGeoXmlButton->setToolTip(tr("Load curve types from Geo Xml file"));
 
   // --------------------
 
@@ -131,8 +137,9 @@ setupUi()
 
   auto ll = new QHBoxLayout();
 
-  ll->addWidget(p->loadXmlButton);
-  ll->addWidget(p->saveXmlButton);
+  ll->addWidget(p->loadSlbXmlButton);
+  ll->addWidget(p->saveGeoXmlButton);
+  ll->addWidget(p->loadGeoXmlButton);
   ll->addStretch();
   layout->addLayout(ll);
 
@@ -144,11 +151,14 @@ void
 CurveTypeWidget::
 connectSignals()
 {
-  connect(p->loadXmlButton, SIGNAL(released()),
-          this, SLOT(onLoadXmlClicked()));
+  connect(p->loadSlbXmlButton, SIGNAL(released()),
+          this, SLOT(onLoadSlbXmlClicked()));
 
-  connect(p->saveXmlButton, SIGNAL(released()),
-          this, SLOT(onSaveXmlClicked()));
+  connect(p->saveGeoXmlButton, SIGNAL(released()),
+          this, SLOT(onSaveGeoXmlClicked()));
+
+  connect(p->loadGeoXmlButton, SIGNAL(released()),
+          this, SLOT(onLoadGeoXmlClicked()));
 
   // for deleting rows
   connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
@@ -200,7 +210,7 @@ onTableViewMenuRequested(const QPoint& pos)
 
 void
 CurveTypeWidget::
-onLoadXmlClicked()
+onLoadSlbXmlClicked()
 {
   QString fileName =
     QFileDialog::getOpenFileName(this,
@@ -222,7 +232,29 @@ onLoadXmlClicked()
 
 void
 CurveTypeWidget::
-onSaveXmlClicked()
+onLoadGeoXmlClicked()
+{
+  QString fileName =
+    QFileDialog::getOpenFileName(this,
+                                 tr("Select a Geo Curve Xml file"),
+                                 QString(),
+                                 tr("Curve Type files (*.xml)"));
+
+  if (fileName.isEmpty())
+    return;
+
+  using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
+
+  auto curveTypeModel = static_cast<CurveTypeModel*>(p->treeView->model());
+
+  if (curveTypeModel)
+    curveTypeModel->loadXml(fileName);
+}
+
+
+void
+CurveTypeWidget::
+onSaveGeoXmlClicked()
 {
   QString fileName =
     QFileDialog::getSaveFileName(this,
