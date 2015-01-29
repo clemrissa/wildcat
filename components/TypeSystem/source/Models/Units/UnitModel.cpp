@@ -1,6 +1,7 @@
 #include "UnitModel.hpp"
 
 #include <QtCore/QFile>
+#include <QtCore/QTextStream>
 
 #include "UnitTableEntry.hpp"
 
@@ -19,8 +20,10 @@ UnitModel()
 UnitModel::
 ~UnitModel()
 {
+  // remove from DB
   deleteMarkedEntries();
 
+  // clear container
   qDeleteAll(_unitEntries);
 }
 
@@ -164,31 +167,7 @@ headerData(int             section,
   if (orientation == Qt::Vertical)
     return result;
 
-  switch (section) {
-  case UnitTableEntry::Name:
-    result = tr("Name");
-    break;
-
-  case UnitTableEntry::Symbol:
-    result = tr("Symbol");
-    break;
-
-  case UnitTableEntry::Offset:
-    result = tr("Offset");
-    break;
-
-  case UnitTableEntry::Scale:
-    result = tr("Scale");
-    break;
-
-  case UnitTableEntry::Dimensions:
-    result = tr("Dimensions");
-    break;
-
-  default:
-    result = QVariant();
-    break;
-  }
+  result = UnitTableEntry::headerData(section);
 
   return result;
 }
@@ -213,7 +192,111 @@ void
 UnitModel::
 loadXml(QString fileName)
 {
-  Q_UNUSED(fileName);
+  // QDomDocument doc("Units");
+
+  // QFile file(fileName);
+
+  // if (!file.open(QIODevice::ReadOnly))
+  // return;
+
+  // if (!doc.setContent(&file)) {
+  // file.close();
+  // return;
+  // }
+
+  // file.close();
+
+  //// ------
+
+  // beginResetModel();
+  // {
+  // pushEmptyFamilyEntry();
+
+  // QDomElement docElem = doc.documentElement();
+
+  // QDomNode n = docElem.firstChild();
+
+  // while (!n.isNull()) {
+  // CurveTypeEntry::XmlSourceType xmlCurveSourceType;
+
+  // if (n.nodeName() == QString("loginfo")) {
+  // xmlCurveSourceType = CurveTypeEntry::XmlSourceType::Schlumberger;
+
+  //// try to convert the node to an element.
+  // QDomElement loginfo = n.toElement();
+
+  // QDomElement mnem = loginfo.firstChildElement("CurveMnemonic");
+
+  // QDomElement family;
+
+  //// work with pair MainFamily-Family
+  // if (mnem.isNull())
+  // family = loginfo.firstChildElement("MainFamily");
+  //// work with Family-SubFamily
+  // else
+  // family = loginfo.firstChildElement("Family");
+
+  // if (family.isNull())
+  // continue;
+
+  ////
+
+  // QString familyName = family.text();
+
+  // auto familyEntry = getCachedFamilyEntry(familyName);
+
+  // familyEntry->addChild(loginfo,  xmlCurveSourceType);
+  // } else if (n.nodeName() == QString("Family")) {
+  // xmlCurveSourceType = CurveTypeEntry::XmlSourceType::Geo;
+  // QString familyName = n.attributes().namedItem("Name").toAttr().value();
+
+  // auto familyEntry = getCachedFamilyEntry(familyName);
+
+  // auto curve = n.firstChildElement("CurveType");
+
+  // while (!curve.isNull()) {
+  //// TODO check if familyEntry became valid, save if then
+  // familyEntry->addChild(curve, xmlCurveSourceType);
+  // curve = curve.nextSiblingElement("CurveType");
+  // }
+  // }
+
+  // n = n.nextSibling();
+  // }
+
+  // popEmptyFamilyEntry();
+  // }
+  // endResetModel();
+
+  //// set connection to newly added nodes
+  // for (auto e : _familyEntries)
+  // e->setConnection(_connection);
+}
+
+
+void
+UnitModel::
+saveXml(QString fileName)
+{
+  QDomDocument doc("Units");
+
+  QDomElement root = doc.createElement("Units");
+  doc.appendChild(root);
+
+  for (auto e : _unitEntries)
+    if (!e->unit().isNull())
+      root.appendChild(e->getXmlDescription(doc));
+
+  // -
+
+  QFile file(fileName);
+
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    return;
+
+  QTextStream out(&file);
+
+  out << doc.toString();
 }
 
 

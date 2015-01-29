@@ -89,6 +89,9 @@ public:
   QString
   getFundamentalAsString() const;
 
+  QString
+  getAllUnitsAsString() const;
+
   static QString
   getDimensionName(const int d);
 

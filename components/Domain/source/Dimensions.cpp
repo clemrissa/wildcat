@@ -103,12 +103,25 @@ QString
 Dimensions::
 getFundamentalAsString() const
 {
-  QString result = QString("[%1 %2 %3 %4 %5 %6 %7 %8 %9]");
+  QString result;
 
   for (int i = 0; i < Dimension::FundamentalUnitsSize; ++i)
-    result = result.arg(_dimensions[i], 2);
+    result +=  QString("%1").arg(_dimensions[i], 2);
 
-  return result;
+  return result.trimmed();
+}
+
+
+QString
+Dimensions::
+getAllUnitsAsString() const
+{
+  QString result;
+
+  for (int i = 0; i < Dimension::AllUnitsSize; ++i)
+    result +=  QString("%1").arg(_dimensions[i], 2);
+
+  return result.trimmed();
 }
 
 

@@ -69,6 +69,9 @@ public slots:
   loadXml(QString fileName);
 
   void
+  saveXml(QString fileName);
+
+  void
   setConnection(Database::Connections::Connection::Shared connection) override;
 
   void

@@ -25,6 +25,12 @@ private slots:
   void
   onTableViewMenuRequested(const QPoint&);
 
+  void
+  onLoadXmlClicked();
+
+  void
+  onSaveXmlClicked();
+
 public slots:
   void
   setConnection(Database::Connections::Connection::Shared connection) override;

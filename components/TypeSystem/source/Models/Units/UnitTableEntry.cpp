@@ -7,9 +7,9 @@ using Geo::TypeSystem::Models::Units::UnitTableEntry;
 using Geo::Domain::Unit;
 
 UnitTableEntry::
-UnitTableEntry(Unit::Shared    unit,
-               UnitTableEntry* parent):
-  _parent(parent),
+UnitTableEntry(Unit::Shared unit):
+  // UnitTableEntry* parent):
+  // _parent(parent),
   _unit(unit),
   _state(Active),
   _persisted(unit->isValid())
@@ -19,8 +19,9 @@ UnitTableEntry(Unit::Shared    unit,
 
 
 UnitTableEntry::
-UnitTableEntry(UnitTableEntry* parent):
-  _parent(parent),
+// UnitTableEntry(UnitTableEntry* parent):
+UnitTableEntry():
+  // _parent(parent),
   _unit(new Unit()),
   _state(Active),
   _persisted(_unit->isValid())
@@ -42,6 +43,42 @@ UnitTableEntry::
 unit() const
 {
   return _unit;
+}
+
+
+QDomElement
+UnitTableEntry::
+getXmlDescription(QDomDocument& doc)
+{
+  QDomElement tag = doc.createElement("CurveType");
+
+  auto addValue =
+    [&](QString n, QString v)
+    {
+      QDomElement e = doc.createElement(n);
+      tag.appendChild(e);
+
+      QDomText t = doc.createTextNode(v);
+      e.appendChild(t);
+    };
+
+  auto addRealValue =
+    [&](QString n, double v)
+    {
+      addValue(n, QString("%1").arg(v, 0, 'g', 3));
+    };
+
+  addValue("Name", _unit->getName());
+
+  addValue("Symbol", _unit->getSymbol().trimmed());
+
+  addRealValue("Scale", _unit->getScale());
+  addRealValue("Offset", _unit->getOffset());
+
+  addValue("Dimensions",
+           _unit->getDimensions().getAllUnitsAsString());
+
+  return tag;
 }
 
 
@@ -84,6 +121,42 @@ data(int role, int column) const
   }
 
   return QVariant();
+}
+
+
+QString
+UnitTableEntry::
+headerData(int column)
+{
+  QString result;
+
+  switch (column) {
+  case UnitTableEntry::Name:
+    result = tr("Name");
+    break;
+
+  case UnitTableEntry::Symbol:
+    result = tr("Symbol");
+    break;
+
+  case UnitTableEntry::Offset:
+    result = tr("Offset");
+    break;
+
+  case UnitTableEntry::Scale:
+    result = tr("Scale");
+    break;
+
+  case UnitTableEntry::Dimensions:
+    result = tr("Dimensions");
+    break;
+
+  default:
+    result = QString();
+    break;
+  }
+
+  return result;
 }
 
 
@@ -149,7 +222,8 @@ getDisplayOrEditRole(int column) const
     break;
 
   case UnitTableEntry::Dimensions:
-    result = _unit->getDimensions().getFundamentalAsString();
+    result =
+      QString("[%1]").arg(_unit->getDimensions().getFundamentalAsString());
 
   default:
     break;

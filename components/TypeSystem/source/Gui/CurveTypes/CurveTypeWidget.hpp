@@ -51,7 +51,7 @@ private:
 private:
   struct Private;
 
-  Private* p;
+  Private* _p;
 };
 
 //

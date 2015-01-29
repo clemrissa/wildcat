@@ -7,6 +7,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QSharedPointer>
 #include <QtCore/QVariant>
+#include <QtXml/QDomElement>
 
 #include <Domain/Unit>
 
@@ -41,19 +42,20 @@ public:
                Deleted };
 
 public:
-  UnitTableEntry(Geo::Domain::Unit::Shared unit,
-                 UnitTableEntry*           parent = nullptr);
+  UnitTableEntry(Geo::Domain::Unit::Shared unit);
+  // UnitTableEntry*           parent = nullptr);
 
-  UnitTableEntry(UnitTableEntry* parent = nullptr);
+  // UnitTableEntry(UnitTableEntry* parent = nullptr);
+  UnitTableEntry();
 
   virtual
   ~UnitTableEntry();
 
-  UnitTableEntry*
-  parent() { return _parent; }
+  // UnitTableEntry*
+  // parent() { return _parent; }
 
-  std::vector<UnitTableEntry*> const
-  entries() const { return _entries; }
+  // std::vector<UnitTableEntry*> const
+  // entries() const { return _entries; }
 
   int
   positionOfChildEntry(UnitTableEntry* const childEntry) const;
@@ -67,6 +69,9 @@ public:
   virtual QVariant
   data(int role, int column) const;
 
+  static QString
+  headerData(int column);
+
   virtual bool
   setData(int role, int column, QVariant value)
   { Q_UNUSED(role); Q_UNUSED(column); Q_UNUSED(value); return false; }
@@ -78,6 +83,12 @@ public:
   setDataFromWidget(QWidget* editor, QModelIndex const& index,
                     QAbstractItemModel* model)
   { Q_UNUSED(editor); Q_UNUSED(index); Q_UNUSED(model); }
+
+public:
+  // xml
+
+  QDomElement
+  getXmlDescription(QDomDocument& doc);
 
 public:
   Geo::Domain::Unit::Shared
@@ -107,7 +118,7 @@ private:
   getForegroundRole(int column) const;
 
 private:
-  UnitTableEntry* _parent;
+  // UnitTableEntry* _parent;
 
   Geo::Domain::Unit::Shared _unit;
 

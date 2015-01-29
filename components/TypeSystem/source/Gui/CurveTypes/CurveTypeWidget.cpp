@@ -51,7 +51,7 @@ struct CurveTypeWidget::Private
 
 CurveTypeWidget::
 CurveTypeWidget():
-  p(new Private)
+  _p(new Private)
 {
   setupUi();
 
@@ -64,10 +64,10 @@ CurveTypeWidget():
 CurveTypeWidget::
 ~CurveTypeWidget()
 {
-  if (p->curveTypeModel)
-    delete p->curveTypeModel;
+  if (_p->curveTypeModel)
+    delete _p->curveTypeModel;
 
-  delete p;
+  delete _p;
 }
 
 
@@ -77,36 +77,36 @@ setupUi()
 {
   setWindowTitle("Curve Types");
 
-  p->loadSlbXmlButton = new QPushButton(tr("Load Slb Xml"));
+  _p->loadSlbXmlButton = new QPushButton(tr("Load Slb Xml"));
 
-  p->loadSlbXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
+  _p->loadSlbXmlButton->setToolTip(tr("Loads Schlumberger Xml file"));
 
-  p->saveGeoXmlButton = new QPushButton(tr("Save Geo Xml"));
+  _p->saveGeoXmlButton = new QPushButton(tr("Save Geo Xml"));
 
-  p->saveGeoXmlButton->setToolTip(tr("Saves curve types to Geo Xml file"));
+  _p->saveGeoXmlButton->setToolTip(tr("Saves curve types to Geo Xml file"));
 
-  p->loadGeoXmlButton = new QPushButton(tr("Load Geo Xml"));
+  _p->loadGeoXmlButton = new QPushButton(tr("Load Geo Xml"));
 
-  p->loadGeoXmlButton->setToolTip(tr("Load curve types from Geo Xml file"));
+  _p->loadGeoXmlButton->setToolTip(tr("Load curve types from Geo Xml file"));
 
   // --------------------
 
-  p->curveTypeModel = new CurveTypeModel();
+  _p->curveTypeModel = new CurveTypeModel();
 
-  p->treeView = new QTreeView();
+  _p->treeView = new QTreeView();
 
-  p->treeView->setModel(p->curveTypeModel);
+  _p->treeView->setModel(_p->curveTypeModel);
 
-  p->treeView->setItemDelegate(new CurveTypeEntryDelegate());
+  _p->treeView->setItemDelegate(new CurveTypeEntryDelegate());
 
-  p->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+  _p->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-  p->treeView->setAlternatingRowColors(true);
+  _p->treeView->setAlternatingRowColors(true);
 
-  p->treeView->setSelectionBehavior(QAbstractItemView::SelectRows);
-  p->treeView->setSelectionMode(QAbstractItemView::NoSelection);
+  _p->treeView->setSelectionBehavior(QAbstractItemView::SelectRows);
+  _p->treeView->setSelectionMode(QAbstractItemView::NoSelection);
 
-  auto header = p->treeView->header();
+  auto header = _p->treeView->header();
   header->setSectionResizeMode(QHeaderView::Stretch);
 
   header->setSectionResizeMode(TreeEntry::FamilyOrCurveName,
@@ -137,13 +137,13 @@ setupUi()
 
   auto ll = new QHBoxLayout();
 
-  ll->addWidget(p->loadSlbXmlButton);
-  ll->addWidget(p->saveGeoXmlButton);
-  ll->addWidget(p->loadGeoXmlButton);
+  ll->addWidget(_p->loadSlbXmlButton);
+  ll->addWidget(_p->saveGeoXmlButton);
+  ll->addWidget(_p->loadGeoXmlButton);
   ll->addStretch();
   layout->addLayout(ll);
 
-  layout->addWidget(p->treeView);
+  layout->addWidget(_p->treeView);
 }
 
 
@@ -151,18 +151,18 @@ void
 CurveTypeWidget::
 connectSignals()
 {
-  connect(p->loadSlbXmlButton, SIGNAL(released()),
+  connect(_p->loadSlbXmlButton, SIGNAL(released()),
           this, SLOT(onLoadSlbXmlClicked()));
 
-  connect(p->saveGeoXmlButton, SIGNAL(released()),
+  connect(_p->saveGeoXmlButton, SIGNAL(released()),
           this, SLOT(onSaveGeoXmlClicked()));
 
-  connect(p->loadGeoXmlButton, SIGNAL(released()),
+  connect(_p->loadGeoXmlButton, SIGNAL(released()),
           this, SLOT(onLoadGeoXmlClicked()));
 
   // for deleting rows
-  connect(p->treeView, SIGNAL(clicked(const QModelIndex &)),
-          p->curveTypeModel,   SLOT(onClicked(const QModelIndex &)));
+  connect(_p->treeView, SIGNAL(clicked(const QModelIndex &)),
+          _p->curveTypeModel,   SLOT(onClicked(const QModelIndex &)));
 
   // -------- main window notification
   using Geo::Core::MainWindow;
@@ -179,7 +179,7 @@ CurveTypeWidget::
 onTableViewMenuRequested(const QPoint& pos)
 {
   Q_UNUSED(pos);
-  // QModelIndex index = p->treeView->indexAt(pos);
+  // QModelIndex index = _p->treeView->indexAt(pos);
 
   // if (!index.isValid())
   // return;
@@ -203,7 +203,7 @@ onTableViewMenuRequested(const QPoint& pos)
   // if (menu.isNull())
   // return;
 
-  // menu->exec(p->treeView->mapToGlobal(pos));
+  // menu->exec(_p->treeView->mapToGlobal(pos));
   // }
 }
 
@@ -223,7 +223,7 @@ onLoadSlbXmlClicked()
 
   using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
 
-  auto curveTypeModel = static_cast<CurveTypeModel*>(p->treeView->model());
+  auto curveTypeModel = static_cast<CurveTypeModel*>(_p->treeView->model());
 
   if (curveTypeModel)
     curveTypeModel->loadXml(fileName);
@@ -245,7 +245,7 @@ onLoadGeoXmlClicked()
 
   using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
 
-  auto curveTypeModel = static_cast<CurveTypeModel*>(p->treeView->model());
+  auto curveTypeModel = static_cast<CurveTypeModel*>(_p->treeView->model());
 
   if (curveTypeModel)
     curveTypeModel->loadXml(fileName);
@@ -268,7 +268,7 @@ onSaveGeoXmlClicked()
   using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
 
   auto curveTypeModel =
-    static_cast<CurveTypeModel*>(p->treeView->model());
+    static_cast<CurveTypeModel*>(_p->treeView->model());
 
   if (curveTypeModel)
     curveTypeModel->saveXml(fileName);
@@ -279,5 +279,5 @@ void
 CurveTypeWidget::
 setConnection(Database::Connections::Connection::Shared connection)
 {
-  p->curveTypeModel->setConnection(connection);
+  _p->curveTypeModel->setConnection(connection);
 }

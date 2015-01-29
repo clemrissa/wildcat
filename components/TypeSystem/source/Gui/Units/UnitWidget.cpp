@@ -147,11 +147,11 @@ void
 UnitWidget::
 connectSignals()
 {
-  // connect(_p->loadXmlButton, SIGNAL(released()),
-  // this, SLOT(onLoadXmlClicked()));
+  connect(_p->loadXmlButton, SIGNAL(released()),
+          this, SLOT(onLoadXmlClicked()));
 
-  // connect(_p->saveXmlButton, SIGNAL(released()),
-  // this, SLOT(onSaveXmlClicked()));
+  connect(_p->saveXmlButton, SIGNAL(released()),
+          this, SLOT(onSaveXmlClicked()));
 
   // for deleting rows
   connect(_p->unitsTable, SIGNAL(clicked(const QModelIndex &)),
@@ -199,6 +199,31 @@ onTableViewMenuRequested(const QPoint& pos)
 
   // menu->exec(_p->unitsTable->mapToGlobal(pos));
   // }
+}
+
+
+void
+UnitWidget::
+onLoadXmlClicked()
+{
+}
+
+
+void
+UnitWidget::
+onSaveXmlClicked()
+{
+  QString fileName =
+    QFileDialog::getSaveFileName(this,
+                                 tr("Save Geo curve type Xml file"),
+                                 QString(),
+                                 tr("Database files (*.xml )"));
+
+  if (fileName.isEmpty())
+    return;
+
+  if (auto unitModel = static_cast<UnitModel*>(_p->unitsTable->model()))
+    unitModel->saveXml(fileName);
 }
 
 
