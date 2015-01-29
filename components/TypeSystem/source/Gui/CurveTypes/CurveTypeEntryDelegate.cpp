@@ -12,8 +12,6 @@
 #include <Models/CurveTypes/FamilyEntry.hpp>
 #include <Models/Units/UnitTableEntry.hpp>
 
-#include <Gui/Dimensions/DimensionsDelegate.hpp>
-
 using Geo::TypeSystem::Gui::CurveTypeEntryDelegate;
 using Geo::TypeSystem::Models::CurveTypes::CurveTypeEntry;
 using Geo::TypeSystem::Models::CurveTypes::FamilyEntry;
