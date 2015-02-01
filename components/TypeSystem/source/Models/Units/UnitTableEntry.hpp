@@ -43,19 +43,11 @@ public:
 
 public:
   UnitTableEntry(Geo::Domain::Unit::Shared unit);
-  // UnitTableEntry*           parent = nullptr);
 
-  // UnitTableEntry(UnitTableEntry* parent = nullptr);
   UnitTableEntry();
 
   virtual
   ~UnitTableEntry();
-
-  // UnitTableEntry*
-  // parent() { return _parent; }
-
-  // std::vector<UnitTableEntry*> const
-  // entries() const { return _entries; }
 
   int
   positionOfChildEntry(UnitTableEntry* const childEntry) const;
@@ -99,6 +91,9 @@ public:
 
   void
   setPersisted(bool const persisted) { _persisted = persisted; }
+
+  void
+  addXmlData(QDomElement& data);
 
 public slots:
   virtual void

@@ -70,6 +70,9 @@ setData(const QModelIndex& index,
 
   switch (index.column()) {
   case UnitTableEntry::Name:
+
+    updateCacheWithNewUnitName(unitEntry, value.toString());
+
     unitEntry->unit()->setName(value.toString());
     break;
 
@@ -107,16 +110,16 @@ setData(const QModelIndex& index,
   // not yet in the DB
   if (!unitEntry->getPersisted()) {
     if (becameValid) {
-      beginResetModel();
+      beginInsertRows(index.parent(), index.row(), index.row());;
       {
         unitAccess->insert(unitEntry->unit());
 
         unitEntry->setPersisted(true);
 
         // we add one more empty trait
-        _unitEntries.append(new UnitTableEntry());
+        getCachedUnitEntry(QString());
       }
-      endResetModel();
+      endInsertRows();
     }
   } else if (newUnitStatus) // it was persisted and stays valid
 
@@ -192,85 +195,49 @@ void
 UnitModel::
 loadXml(QString fileName)
 {
-  // QDomDocument doc("Units");
+  QDomDocument doc("Units");
 
-  // QFile file(fileName);
+  QFile file(fileName);
 
-  // if (!file.open(QIODevice::ReadOnly))
-  // return;
+  if (!file.open(QIODevice::ReadOnly))
+    return;
 
-  // if (!doc.setContent(&file)) {
-  // file.close();
-  // return;
-  // }
+  if (!doc.setContent(&file)) {
+    file.close();
+    return;
+  }
 
-  // file.close();
+  file.close();
 
   //// ------
 
-  // beginResetModel();
-  // {
-  // pushEmptyFamilyEntry();
+  beginResetModel();
+  {
+    pushEmptyUnitEntry();
 
-  // QDomElement docElem = doc.documentElement();
+    QDomElement docElem = doc.documentElement();
 
-  // QDomNode n = docElem.firstChild();
+    auto e =  docElem.firstChildElement("CurveType");
 
-  // while (!n.isNull()) {
-  // CurveTypeEntry::XmlSourceType xmlCurveSourceType;
+    while (!e.isNull()) {
+      // add cache here
 
-  // if (n.nodeName() == QString("loginfo")) {
-  // xmlCurveSourceType = CurveTypeEntry::XmlSourceType::Schlumberger;
+      auto name = e.firstChildElement("Name").text();
 
-  //// try to convert the node to an element.
-  // QDomElement loginfo = n.toElement();
+      auto unitEntry = getCachedUnitEntry(name);
 
-  // QDomElement mnem = loginfo.firstChildElement("CurveMnemonic");
+      unitEntry->addXmlData(e);
 
-  // QDomElement family;
+      e = e.nextSiblingElement("CurveType");
+    }
 
-  //// work with pair MainFamily-Family
-  // if (mnem.isNull())
-  // family = loginfo.firstChildElement("MainFamily");
-  //// work with Family-SubFamily
-  // else
-  // family = loginfo.firstChildElement("Family");
+    popEmptyUnitEntry();
+  }
+  endResetModel();
 
-  // if (family.isNull())
-  // continue;
-
-  ////
-
-  // QString familyName = family.text();
-
-  // auto familyEntry = getCachedFamilyEntry(familyName);
-
-  // familyEntry->addChild(loginfo,  xmlCurveSourceType);
-  // } else if (n.nodeName() == QString("Family")) {
-  // xmlCurveSourceType = CurveTypeEntry::XmlSourceType::Geo;
-  // QString familyName = n.attributes().namedItem("Name").toAttr().value();
-
-  // auto familyEntry = getCachedFamilyEntry(familyName);
-
-  // auto curve = n.firstChildElement("CurveType");
-
-  // while (!curve.isNull()) {
-  //// TODO check if familyEntry became valid, save if then
-  // familyEntry->addChild(curve, xmlCurveSourceType);
-  // curve = curve.nextSiblingElement("CurveType");
-  // }
-  // }
-
-  // n = n.nextSibling();
-  // }
-
-  // popEmptyFamilyEntry();
-  // }
-  // endResetModel();
-
-  //// set connection to newly added nodes
-  // for (auto e : _familyEntries)
-  // e->setConnection(_connection);
+  // set current DB connection to newly added nodes
+  for (auto e : _unitEntries)
+    e->setConnection(_connection);
 }
 
 
@@ -336,7 +303,6 @@ getEntryPosition(UnitTableEntry* const entry) const
                       _unitEntries.end(), entry);
 
   return it - _unitEntries.begin();
-  //
 }
 
 
@@ -360,8 +326,16 @@ reloadUnits()
 
     QVector<Unit::Shared> units = unitAccess->findAll();
 
-    for (Unit::Shared t : units)
-      _unitEntries.append(new UnitTableEntry(t));
+    for (Unit::Shared t : units) {
+      QString unitName = t->getName();
+
+      _unitEntriesCacheMap.remove(unitName);
+
+      auto unitEntry = new UnitTableEntry(t);
+
+      _unitEntriesCacheMap[unitName] = unitEntry;
+      _unitEntries.append(unitEntry);
+    }
 
     // we add one more emptyunit
     Unit::Shared emptyUnit(new Unit());
@@ -389,4 +363,59 @@ deleteMarkedEntries()
         entry->getState() == UnitTableEntry::Deleted)
       unitAccess->remove(entry->unit());
 
+}
+
+
+void
+UnitModel::
+pushEmptyUnitEntry()
+{
+  if (_unitEntries.size() &&
+      !_unitEntries.last()->unit()->isValid()) {
+    Q_ASSERT(_emptyUnitEntryStack.isNull());
+
+    _emptyUnitEntryStack = _unitEntries.takeLast();
+  }
+}
+
+
+void
+UnitModel::
+popEmptyUnitEntry()
+{
+  if (!_emptyUnitEntryStack.isNull()) {
+    _unitEntries.append(_emptyUnitEntryStack.data());
+    _emptyUnitEntryStack.clear();
+  }
+}
+
+
+UnitTableEntry*
+UnitModel::
+getCachedUnitEntry(QString unitName)
+{
+  UnitTableEntry* result = nullptr;
+
+  if (_unitEntriesCacheMap.contains(unitName))
+    result = _unitEntriesCacheMap[unitName];
+
+  else {
+    result = new UnitTableEntry();
+
+    _unitEntriesCacheMap[unitName] = result;
+
+    _unitEntries.append(result);
+  }
+
+  return result;
+}
+
+
+void
+UnitModel::
+updateCacheWithNewUnitName(UnitTableEntry* unitEntry,
+                           QString         newName)
+{
+  _unitEntriesCacheMap.remove(unitEntry->unit()->getName());
+  _unitEntriesCacheMap[newName] = unitEntry;
 }

@@ -206,6 +206,17 @@ void
 UnitWidget::
 onLoadXmlClicked()
 {
+  QString fileName =
+    QFileDialog::getOpenFileName(this,
+                                 tr("Select a Geo Units Xml file"),
+                                 QString(),
+                                 tr("Curve Type files (*.xml)"));
+
+  if (fileName.isEmpty())
+    return;
+
+  if (_p->unitsModel)
+    _p->unitsModel->loadXml(fileName);
 }
 
 
@@ -215,7 +226,7 @@ onSaveXmlClicked()
 {
   QString fileName =
     QFileDialog::getSaveFileName(this,
-                                 tr("Save Geo curve type Xml file"),
+                                 tr("Save Geo Curve Type Xml file"),
                                  QString(),
                                  tr("Database files (*.xml )"));
 

@@ -2,6 +2,7 @@
 #define Geo_TypeSystem_Models_UnitModel_hpp
 
 #include <QtCore/QAbstractItemModel>
+#include <QtCore/QPointer>
 #include <QtCore/QVector>
 
 #include <Database/Connections/Connection>
@@ -65,6 +66,7 @@ public:
   flags(const QModelIndex& index) const override;
 
 public slots:
+  // TODO: save to DB loaded from XML units
   void
   loadXml(QString fileName);
 
@@ -87,8 +89,25 @@ private:
   void
   deleteMarkedEntries();
 
+  void
+  pushEmptyUnitEntry();
+
+  void
+  popEmptyUnitEntry();
+
+  UnitTableEntry*
+  getCachedUnitEntry(QString familyName);
+
+  void
+  updateCacheWithNewUnitName(UnitTableEntry* unitEntry,
+                             QString         newName);
+
 private:
   Database::Connections::Connection::Shared _connection;
+
+  QPointer<UnitTableEntry> _emptyUnitEntryStack;
+
+  QMap<QString, UnitTableEntry*> _unitEntriesCacheMap;
 
   QVector<UnitTableEntry*> _unitEntries;
 };

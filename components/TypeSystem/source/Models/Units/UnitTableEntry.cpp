@@ -4,12 +4,11 @@
 
 using Geo::TypeSystem::Models::Units::UnitTableEntry;
 
+using Geo::Domain::Dimensions;
 using Geo::Domain::Unit;
 
 UnitTableEntry::
 UnitTableEntry(Unit::Shared unit):
-  // UnitTableEntry* parent):
-  // _parent(parent),
   _unit(unit),
   _state(Active),
   _persisted(unit->isValid())
@@ -19,9 +18,7 @@ UnitTableEntry(Unit::Shared unit):
 
 
 UnitTableEntry::
-// UnitTableEntry(UnitTableEntry* parent):
 UnitTableEntry():
-  // _parent(parent),
   _unit(new Unit()),
   _state(Active),
   _persisted(_unit->isValid())
@@ -79,6 +76,49 @@ getXmlDescription(QDomDocument& doc)
            _unit->getDimensions().getAllUnitsAsString());
 
   return tag;
+}
+
+
+void
+UnitTableEntry::
+addXmlData(QDomElement& data)
+{
+  auto getValue =
+    [&](QString n)
+    {
+      return data.firstChildElement(n).text();
+    };
+
+  auto getRealValue =
+    [&](QString n)
+    {
+      bool ok;
+      return getValue(n).toDouble(&ok);
+    };
+
+  auto getDimensions =
+    [&](QString n)
+    {
+      auto list = getValue(n).split(" ", QString::SkipEmptyParts);
+
+      Q_ASSERT(list.size() == Dimensions::AllUnitsSize);
+
+      class Dimensions dim;
+
+      for (auto i = 0; i < list.size(); ++i) {
+        bool ok;
+
+        dim[static_cast<Dimensions::Dimension>(i)] = list[i].toInt(&ok);
+      }
+
+      return dim;
+    };
+
+  _unit->setName(getValue("Name"));
+  _unit->setSymbol(getValue("Symbol"));
+  _unit->setScale(getRealValue("Scale"));
+  _unit->setOffset(getRealValue("Offset"));
+  _unit->setDimensions(getDimensions("Dimensions"));
 }
 
 
