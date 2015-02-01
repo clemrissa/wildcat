@@ -67,9 +67,9 @@ operator==(Dimensions const& dimensions) const
 }
 
 
-int
+int&
 Dimensions::
-operator[](const int d) const
+operator[](const int d)
 {
   return _dimensions[d];
 }

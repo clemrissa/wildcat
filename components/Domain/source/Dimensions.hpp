@@ -63,6 +63,7 @@ public:
   /// Sets d-th dimension to times
   Dimensions(Dimension d, int const nTimes = 1);
 
+  /// copy-constructor
   Dimensions(Dimensions const& dimensions);
 
   Dimensions
@@ -75,8 +76,8 @@ public:
   bool
   operator==(Dimensions const& dimensions) const;
 
-  int
-  operator[](const int d) const;
+  int&
+  operator[](const int d);
 
   void
   setDimension(Dimension d, int const nTimes);
