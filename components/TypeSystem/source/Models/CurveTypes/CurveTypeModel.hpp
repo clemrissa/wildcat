@@ -67,6 +67,8 @@ public:
   flags(const QModelIndex& index) const override;
 
 public slots:
+  // TODO: save to DB loaded from XML curves
+
   void
   loadXml(QString fileName);
 
@@ -93,6 +95,10 @@ private:
                       const QVariant&    value);
 
   void
+  updateCacheWithNewFamilyName(FamilyEntry* fe,
+                               QString      newFamilyName);
+
+  void
   reloadCurveTypes();
 
   void
@@ -112,7 +118,7 @@ private:
 
   QVector<FamilyEntry*> _familyEntries;
 
-  QMap<QString, FamilyEntry*> _familyEntryMap;
+  QMap<QString, FamilyEntry*> _familyEntryCacheMap;
 
   QPointer<FamilyEntry> _emptyFamilyEntryStack;
 };

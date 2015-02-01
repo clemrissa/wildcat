@@ -310,13 +310,13 @@ getCachedFamilyEntry(QString familyName)
 {
   FamilyEntry* result = nullptr;
 
-  if (_familyEntryMap.contains(familyName))
-    result = _familyEntryMap[familyName];
+  if (_familyEntryCacheMap.contains(familyName))
+    result = _familyEntryCacheMap[familyName];
 
   else {
     result = new FamilyEntry(familyName);
 
-    _familyEntryMap[familyName] = result;
+    _familyEntryCacheMap[familyName] = result;
 
     _familyEntries.append(result);
   }
@@ -424,7 +424,6 @@ getEntryPosition(TreeEntry* const entry) const
                       _familyEntries.end(), entry);
 
   return it - _familyEntries.begin();
-  //
 }
 
 
@@ -482,6 +481,15 @@ setDataToCurveNode(const QModelIndex& index,
 }
 
 
+void
+CurveTypeModel::
+updateCacheWithNewFamilyName(FamilyEntry* fe, QString newFamilyName)
+{   // update cache with the new familyName
+  _familyEntryCacheMap.remove(fe->getFamily());
+  _familyEntryCacheMap[newFamilyName] = fe;
+}
+
+
 bool
 CurveTypeModel::
 setDataToFamilyNode(const QModelIndex& index,
@@ -491,16 +499,10 @@ setDataToFamilyNode(const QModelIndex& index,
     static_cast<FamilyEntry*>(index.internalPointer());
 
   bool familyEmptyBefore = familyEntry->getFamily().isEmpty();
-
-  { // update cache with the new familyName
-    QString familyName = familyEntry->getFamily();
-    _familyEntryMap.remove(familyName);
-
+  {
+    updateCacheWithNewFamilyName(familyEntry, value.toString());
     familyEntry->setFamily(value.toString());
-
-    _familyEntryMap[value.toString()] = familyEntry;
   }
-
   bool familyEmptyAfter = familyEntry->getFamily().isEmpty();
 
   if (familyEmptyBefore && !familyEmptyAfter) {
@@ -575,7 +577,7 @@ reloadCurveTypes()
   {
     qDeleteAll(_familyEntries);
     _familyEntries.resize(0);
-    _familyEntryMap.clear();
+    _familyEntryCacheMap.clear();
 
     using Geo::Domain::CurveType;
 
