@@ -127,6 +127,9 @@ private:
   QList<QString> _synonyms;
   QString        _textUnit;
 
+#ifdef ODB
+  #pragma db not_null
+#endif
   Unit::Shared _unit;
 
   double _min;
