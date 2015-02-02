@@ -31,6 +31,13 @@ public:
   virtual
   ~Log();
 
+  /*
+   *  CurveType
+   *  Dimensions
+   *  DataArray - to be implemented
+   *  LogParameterGroup - not null
+   */
+
   QString const&
   getName() const { return _name; }
 
