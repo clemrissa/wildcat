@@ -52,9 +52,7 @@ TEST(DatabaseTest, CreateDB) {
   Well::Shared well(new Well(QString("skvazhinka"),
                              0.5, 6.7, 5.7));
 
-  Log::Shared log(new Log(QString("electro"),
-                          QString("BKZ"),
-                          QString("Lopata")));
+  Log::Shared log(new Log());
 
   // objects interconnections
   well->addLog(log);

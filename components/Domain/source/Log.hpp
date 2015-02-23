@@ -1,12 +1,17 @@
 #ifndef Geo_Domain_Log_hpp
 #define Geo_Domain_Log_hpp
 
+#include <QtCore/QByteArray>
 #include <QtCore/QSharedPointer>
 #include <QtCore/QString>
 #include <QtCore/QVector>
 #include <QtCore/QWeakPointer>
 
 #include <odb/core.hxx>
+
+#include "CurveType.hpp"
+
+#include "NArray.hpp"
 
 namespace Geo {
 namespace Domain {
@@ -17,6 +22,13 @@ class Well;
 #ifdef ODB
   #pragma db object
 #endif
+/// Log is a function f : (x, y, ...) -> (a, b, c, ...)
+/// In a common case: (depth) -> (value)
+///
+/// Main fields:
+/// reference CurveTypes == reference Dimensions
+/// data array CurveTypes == data Dimensions
+/// LogParameterGroup - not null
 class Log
 {
 public:
@@ -24,62 +36,44 @@ public:
 
   Log();
 
-  Log(QString const& name,
-      QString const& unit,
-      QString const& tool);
-
   virtual
   ~Log();
 
-  /*
-   *  CurveType
-   *  Dimensions
-   *  DataArray - to be implemented
-   *  LogParameterGroup - not null
-   */
-
-  QString const&
-  getName() const { return _name; }
-
-  QString const&
-  getUnit() const { return _unit; }
-
-  QString const&
-  getTool() const { return _tool; }
-
-  inline
-  double
-  getTopDepth() const { return _topDepth; }
-
-  inline
-  double
-  getBottomDepth() const
+  void
+  setReferenceCurveTypes(std::vector<CurveType::Shared> referenceCurveTypes)
   {
-    return _topDepth + _values.size() * _step;
+    _referenceCurveTypes = referenceCurveTypes;
   }
 
-  inline
-  double
-  getStep() const { return _step; }
-
-  int
-  getCount() const { return _values.size(); }
-
-  QVector<double> const
-  getValuesVector() const { return _values; }
+  std::vector<Geo::Domain::CurveType::Shared>
+  referenceCurveTypes() const
+  {
+    return _referenceCurveTypes;
+  }
 
   void
-  setName(QString const& name) { _name = name; }
+  setDataCurveTypes(std::vector<CurveType::Shared> dataCurveTypes)
+  {
+    _dataCurveTypes = dataCurveTypes;
+  }
+
+  std::vector<Geo::Domain::CurveType::Shared>
+  dataCurveTypes() const
+  {
+    return _dataCurveTypes;
+  }
 
   void
-  setUnit(QString const& unit) { _unit = unit; }
+  setDataArray(QByteArray const& dataArray)
+  {
+    _dataArray = dataArray;
+  }
 
-  void
-  setTool(QString const& tool) { _tool = tool; }
-
-  // Iterator over curve values
-  QVectorIterator<double>
-  getValuesIterator();
+  QByteArray
+  dataArray() const
+  {
+    return _dataArray;
+  }
 
   void
   setWell(QSharedPointer<Well> well)
@@ -90,33 +84,36 @@ public:
 private:
   friend class odb::access;
 
-#ifdef ODB
-  #pragma db id auto
-#endif
   unsigned int _id;
 
-  QString _name;
-  QString _unit;
-  QString _tool;
+  std::vector<QSharedPointer<Geo::Domain::CurveType> > _referenceCurveTypes;
 
-  double _topDepth;
-  double _step;
+  std::vector<QSharedPointer<Geo::Domain::CurveType> > _dataCurveTypes;
 
-  QVector<double> _values;
+  QByteArray _dataArray;
 
-#ifdef ODB_COMPILER
-  #pragma db not_null
-#endif
   QWeakPointer<Geo::Domain::Well> _well;
+
+  QSharedPointer<AbstractNArray> _array;
 
 private:
   void
   generateData();
 };
+
+//
 }
 }
 
 #ifdef ODB_COMPILER
+  #pragma db object(Geo::Domain::Log)
+  #pragma db member(Geo::Domain::Log::_id) id auto
+  #pragma db member(Geo::Domain::Log::_referenceCurveTypes)
+  #pragma db member(Geo::Domain::Log::_dataCurveTypes)
+  #pragma db member(Geo::Domain::Log::_well) not_null
+  #pragma db member(Geo::Domain::Log::_dataArray)
+  #pragma db member(Geo::Domain::Log::_array) transient
+
   #include "Well.hpp"
 #endif
 
