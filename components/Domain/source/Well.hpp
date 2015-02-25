@@ -15,9 +15,6 @@ namespace Geo {
 namespace Domain {
 //
 
-#ifdef ODB
-  #pragma db object
-#endif
 class Well
 {
 public:
@@ -74,9 +71,6 @@ public:
 private:
   friend class odb::access;
 
-#ifdef ODB_COMPILER
-  #pragma db id auto
-#endif
   unsigned int _id;
 
   QString _name;
@@ -84,18 +78,19 @@ private:
   float   _absDepth;
   float   _altitude;
 
-#ifdef ODB_COMPILER
-  #pragma db value_not_null inverse(_well)
-#endif
   QVector<QSharedPointer<Log> > _logs;
 
   // traits
-#ifdef ODB_COMPILER
-  #pragma db value_not_null inverse(_well)
-#endif
   QMap<QString, WellTraitAbstractValue::Shared> _traits;
 };
 }
 }
+
+#ifdef ODB_COMPILER
+  #pragma db object(Geo::Domain::Well)
+  #pragma db member(Geo::Domain::Well::_id) id auto
+  #pragma db member(Geo::Domain::Well::_logs) value_not_null inverse(_well)
+  #pragma db member(Geo::Domain::Well::_traits) value_not_null inverse(_well)
+#endif
 
 #endif

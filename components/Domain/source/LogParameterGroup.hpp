@@ -15,9 +15,6 @@ namespace Domain {
 
 class Well;
 
-#ifdef ODB
-  #pragma db object
-#endif
 class LogParameterGroup
 {
 public:
@@ -48,27 +45,23 @@ public:
 private:
   friend class odb::access;
 
-#ifdef ODB
-  #pragma db id auto
-#endif
   unsigned int _id;
 
-#ifdef ODB_COMPILER
-  #pragma db not_null
-#endif
   QWeakPointer<Geo::Domain::Well> _well;
 
   QDate _date;
 
-#ifdef ODB_COMPILER
-  #pragma db value_not_null inverse(_logParameterGroup)
-#endif
   QVector<LogParameter::Shared> _logParameters;
 };
 }
 }
 
 #ifdef ODB_COMPILER
+  #pragma db object(Geo::Domain::LogParameterGroup)
+  #pragma db member(Geo::Domain::LogParameterGroup::_id) id auto
+  #pragma db member(Geo::Domain::LogParameterGroup::_well) not_null
+  #pragma \
+  db member(Geo::Domain::LogParameterGroup::_logParameters) value_not_null inverse(_logParameterGroup)
   #include "Well.hpp"
 #endif
 
