@@ -60,8 +60,8 @@ private:
   #pragma db object(Geo::Domain::LogParameterGroup)
   #pragma db member(Geo::Domain::LogParameterGroup::_id) id auto
   #pragma db member(Geo::Domain::LogParameterGroup::_well) not_null
-  #pragma \
-  db member(Geo::Domain::LogParameterGroup::_logParameters) value_not_null inverse(_logParameterGroup)
+  #pragma db member(Geo::Domain::LogParameterGroup::_logParameters) value_not_null inverse(_logParameterGroup)
+
   #include "Well.hpp"
 #endif
 

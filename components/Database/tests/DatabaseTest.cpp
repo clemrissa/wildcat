@@ -49,8 +49,7 @@ TEST(DatabaseTest, CreateDB) {
   using Geo::Domain::Log;
   using Geo::Domain::Well;
 
-  Well::Shared well(new Well(QString("skvazhinka"),
-                             0.5, 6.7, 5.7));
+  Well::Shared well(new Well(QString("skvazhinka")));
 
   Log::Shared log(new Log());
 
@@ -100,8 +99,7 @@ TEST(DatabaseTest, LogParameters) {
   using Geo::Domain::LogParameterString;
   using Geo::Domain::Well;
 
-  Well::Shared well(new Well(QString("skvazhinka"),
-                             0.5, 6.7, 5.7));
+  Well::Shared well(new Well(QString("skvazhinka")));
 
   LogParameterGroup::Shared group(new LogParameterGroup());
 

@@ -13,14 +13,8 @@ Well::
 // here we create several mock logs
 
 Well::
-Well(QString const& name,
-     float const&   depth,
-     float const&   absDepth,
-     float const&   altitude):
-  _name(name),
-  _depth(depth),
-  _absDepth(absDepth),
-  _altitude(altitude)
+Well(QString const& name)
+  : _name(name)
 {
   // for (int i = 0; i < 5; ++i) {
   // QString name = "Log_" + QString::number(qrand() % 100 + 100);

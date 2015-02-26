@@ -10,13 +10,14 @@
 #include <odb/core.hxx>
 
 #include "CurveType.hpp"
-#include "LogParameterGroup.hpp"
 #include "NArray.hpp"
+
 
 namespace Geo {
 namespace Domain {
 //
 
+class LogParameterGroup;
 class Well;
 
 /// Log is a function f : (x, y, ...) -> (a, b, c, ...)
@@ -91,7 +92,7 @@ private:
 
   QWeakPointer<Geo::Domain::Well> _well;
 
-  QSharedPointer<LogParameterGroup> _logParameterGroup;
+  QSharedPointer<Geo::Domain::LogParameterGroup> _logParameterGroup;
 
 private:
   QSharedPointer<AbstractNArray> _array;
@@ -116,6 +117,7 @@ private:
   #pragma db member(Geo::Domain::Log::_array) transient
 
   #include "Well.hpp"
+  #include "LogParameterGroup.hpp"
 #endif
 
 #endif
