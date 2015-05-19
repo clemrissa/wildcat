@@ -19,28 +19,28 @@ template <unsigned D, typename T>
 class NArray: public AbstractNArray
 {
 public:
-  using LDA =  NArray<D - 1, T>;            // lower dimension array
+  using ArrayOfLowerDimension =  NArray<D - 1, T>;            // lower
+                                                              // dimension
+                                                              // array
 
 public:
   /// Creates non-dimensional value
-  NArray()
-  {
-  }
+  NArray() = default;
 
-  LDA&
+  ArrayOfLowerDimension&
   operator[](const unsigned int i)
   {
     return _data[i];
   }
 
-  unsigned
+  size_t
   size() const { return _data.size(); }
 
   unsigned
   d() const { return D; }
 
 private:
-  std::vector<LDA> _data;
+  std::vector<ArrayOfLowerDimension> _data;
 };
 
 /// specialization for 1 dimension
@@ -48,7 +48,7 @@ template <>
 class NArray<1, double> : public AbstractNArray
 {
 public:
-  using LDA =  double;
+  using ArrayOfLowerDimension =  double;
 
 public:
   /// Creates non-dimensional value
@@ -56,23 +56,24 @@ public:
   {
   }
 
-  LDA&
+  ArrayOfLowerDimension&
   operator[](const unsigned int i)
   {
     return _data[i];
   }
 
-  unsigned
+  size_t
   size() const { return _data.size(); }
 
   unsigned
   d() const { return 1; }
 
 private:
-  std::vector<LDA> _data;
+  std::vector<ArrayOfLowerDimension> _data;
 };
 
 //
 }
 }
+
 #endif //  Geo_Domain_NArray_hpp
