@@ -12,10 +12,8 @@
 #include "CurveType.hpp"
 #include "NArray.hpp"
 
-
 namespace Geo {
 namespace Domain {
-//
 
 class LogParameterGroup;
 class Well;
@@ -95,6 +93,7 @@ private:
   QSharedPointer<Geo::Domain::LogParameterGroup> _logParameterGroup;
 
 private:
+  /// AbstractArray is used for accessing data stored in QByteArray
   QSharedPointer<AbstractNArray> _array;
 
 private:

@@ -9,19 +9,19 @@
 
 namespace Geo {
 namespace Domain {
-//
+
 
 class AbstractNArray
-{
-};
+{};
 
-template <unsigned D, typename T>
-class NArray: public AbstractNArray
+/// Array is a mapping from Dref-dimentional reference point to
+/// Dp-dimentional value point
+template <unsigned Dref, unsigned Dp, typename T>
+class NArray : public AbstractNArray
 {
 public:
-  using ArrayOfLowerDimension =  NArray<D - 1, T>;            // lower
-                                                              // dimension
-                                                              // array
+  // array of lower dimension
+  using ArrayOfLowerDimension = NArray<Dref - 1, Dp, T>;
 
 public:
   /// Creates non-dimensional value
@@ -29,48 +29,45 @@ public:
 
   ArrayOfLowerDimension&
   operator[](const unsigned int i)
-  {
-    return _data[i];
-  }
+  { return _data[i]; }
 
   size_t
-  size() const { return _data.size(); }
+  size() const
+  { return _data.size(); }
 
-  unsigned
-  d() const { return D; }
+  unsigned int
+  referenceDimensions() const
+  { return Dref; }
 
 private:
   std::vector<ArrayOfLowerDimension> _data;
 };
 
-/// specialization for 1 dimension
-template <>
-class NArray<1, double> : public AbstractNArray
+
+/// specialization for 1 reference dimension
+template <unsigned Dp, typename T>
+class NArray<1, Dp, T> : public AbstractNArray
 {
 public:
-  using ArrayOfLowerDimension =  double;
-
-public:
   /// Creates non-dimensional value
-  NArray()
-  {
-  }
+  NArray() {}
 
-  ArrayOfLowerDimension&
-  operator[](const unsigned int i)
-  {
-    return _data[i];
-  }
+  T&
+  operator[](unsigned int const i)
+  { return _data[i]; }
 
   size_t
-  size() const { return _data.size(); }
+  size() const
+  { return _data.size(); }
 
   unsigned
-  d() const { return 1; }
+  referenceDimensions() const
+  { return 1; }
 
 private:
-  std::vector<ArrayOfLowerDimension> _data;
+  std::array<T, Dp> _data;
 };
+
 
 //
 }
