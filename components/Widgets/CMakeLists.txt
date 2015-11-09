@@ -18,7 +18,12 @@ set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
 target_link_libraries(${TARGET_NAME} PRIVATE
                       Uni
-                      DependencyManager)
+                      DependencyManager
+                      Domain
+                      Qt5::Core
+                      Qt5::Widgets
+                      Qt5::Qml
+                      Qt5::Quick)
 
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
@@ -26,8 +31,6 @@ target_include_directories(${TARGET_NAME} PRIVATE "source")
 target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
 target_compile_definitions(${TARGET_NAME} PRIVATE "-D${TARGET_NAME}_EXPORTS")
 
-
-target_use_qt5(${TARGET_NAME} PRIVATE Core Widgets Qml Quick Xml)
 target_use_boost(${TARGET_NAME} PRIVATE)
 # ==============================================================================
 # }}} Targets

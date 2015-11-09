@@ -21,8 +21,6 @@ set(ODB_HEADERS ${PROJECT_SOURCE_DIR}/source/Well.hpp
                 )
 
 
-find_qt5_component(Core)
-
 odb_compile(HEADER ${ODB_HEADERS}
   DB sqlite
   STANDARD c++11
@@ -50,6 +48,9 @@ target_link_libraries(${TARGET_NAME} PUBLIC
                       ${ODBSQLITE_LIBRARY}
                       ${ODBQT_LIBRARY})
 
+target_link_libraries(${TARGET_NAME} PRIVATE
+                      Qt5::Core)
+
 target_include_directories(${TARGET_NAME} PUBLIC "${SQLite_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "${ODB_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "${ODBSQLITE_INCLUDE_DIR}")
@@ -58,7 +59,6 @@ target_include_directories(${TARGET_NAME} PUBLIC "${ODBQT_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
 
-target_use_qt5(${TARGET_NAME} PUBLIC Core)
 target_use_boost(${TARGET_NAME} PUBLIC)
 
 # ==============================================================================

@@ -39,10 +39,16 @@ endif ()
 # ==============================================================================
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 # ------------------------------------------------------------------------------
-include(UseQt5)
+
 include(UseBoost)
+find_package(Qt5Core)
+find_package(Qt5Widgets)
+find_package(Qt5Qml)
+find_package(Qt5Quick)
+find_package(Qt5Xml)
 find_package(DependencyManager REQUIRED)
 find_package(Uni REQUIRED)
+find_package(HDF5 REQUIRED)
 # ==============================================================================
 # }}} Modules
 

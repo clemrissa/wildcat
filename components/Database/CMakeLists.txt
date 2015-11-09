@@ -23,8 +23,11 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       Uni
                       DependencyManager
                       Domain
-                      #Widgets
-                      )
+                      Qt5::Core
+                      Qt5::Widgets
+                      Qt5::Qml
+                      Qt5::Xml
+                      Qt5::Quick)
 
 target_link_libraries(${TARGET_NAME} PUBLIC
                       ${SQLITE_LIBRARY}
@@ -32,6 +35,7 @@ target_link_libraries(${TARGET_NAME} PUBLIC
                       ${ODBSQLITE_LIBRARY}
                       ${ODBQT_LIBRARY}
                       GTest)
+
 
 target_include_directories(${TARGET_NAME} PUBLIC "${SQLite_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "${ODB_INCLUDE_DIR}")
@@ -48,7 +52,6 @@ target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
 target_compile_definitions(${TARGET_NAME} PRIVATE "-D${TARGET_NAME}_EXPORTS")
 
 
-target_use_qt5(${TARGET_NAME} PRIVATE Core Widgets Qml Quick Xml)
 target_use_boost(${TARGET_NAME} PRIVATE)
 # ==============================================================================
 # }}} Targets
