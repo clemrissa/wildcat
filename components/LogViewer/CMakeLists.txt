@@ -31,19 +31,16 @@ target_link_libraries(${TARGET_NAME} PUBLIC
                       ${ODBQT_LIBRARY})
 
 
-#target_include_directories(${TARGET_NAME} PUBLIC "${SQLite_INCLUDE_DIR}")
-#target_include_directories(${TARGET_NAME} PUBLIC "${ODB_INCLUDE_DIR}")
-#target_include_directories(${TARGET_NAME} PUBLIC "${ODBSQLITE_INCLUDE_DIR}")
-#target_include_directories(${TARGET_NAME} PUBLIC "${ODBQT_INCLUDE_DIR}")
-
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
+
+target_include_directories(${TARGET_NAME} PRIVATE SYSTEM "${Boost_INCLUDE_DIRS}")
+
 target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Core,INTERFACE_INCLUDE_DIRECTORIES>)
 
 target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
 target_compile_definitions(${TARGET_NAME} PRIVATE "-D${TARGET_NAME}_EXPORTS")
 
-target_use_boost(${TARGET_NAME} PRIVATE)
 # ==============================================================================
 # }}} Targets
 

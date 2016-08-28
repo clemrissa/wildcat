@@ -34,7 +34,6 @@ target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Database,INT
 target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
 target_compile_definitions(${TARGET_NAME} PRIVATE "-D${TARGET_NAME}_EXPORTS")
 
-target_use_boost(${TARGET_NAME} PRIVATE)
 # ==============================================================================
 # }}} Targets
 

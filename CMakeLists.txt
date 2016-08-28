@@ -1,6 +1,6 @@
 # General {{{
 # ==============================================================================
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.1)
 # ------------------------------------------------------------------------------
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
@@ -11,7 +11,7 @@ endif ()
 # ------------------------------------------------------------------------------
 set(CMAKE_ERROR_DEPRECATED ON)
 # ------------------------------------------------------------------------------
-#set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_COLOR_MAKEFILE   ON)
 # ------------------------------------------------------------------------------
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -37,45 +37,80 @@ endif ()
 
 # Modules {{{
 # ==============================================================================
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
-# ------------------------------------------------------------------------------
 
-include(UseBoost)
-find_package(Qt5Core)
-find_package(Qt5Widgets)
-find_package(Qt5Qml)
-find_package(Qt5Quick)
-find_package(Qt5Xml)
+#set(CMAKE_INSTALL_RPATH "/usr/local/lib")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+# search modules in a folder located next to the geoqt5 root
+
+set(THIRDPARTY_ROOT_PATH ${CMAKE_SOURCE_DIR}/../thirdparty/${CMAKE_SYSTEM_NAME})
+
+set(THIRDPARTY_LIB_PATH
+    ${THIRDPARTY_ROOT_PATH}/boost/1.61
+    ${THIRDPARTY_ROOT_PATH}/hdf5
+    ${THIRDPARTY_ROOT_PATH}/dependency_manager
+    ${THIRDPARTY_ROOT_PATH}/Qt
+    ${THIRDPARTY_ROOT_PATH}/odb-2.4.0
+    ${THIRDPARTY_ROOT_PATH}/uni
+    )
+
+set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH}
+/home/paceholder/projects/geoqt5_thirdparty/odb/lib
+)
+
+# paths for seaching FindXXX.cmake modules
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
+
+# this populates thirdparty paths with ./shared/lib or ./shared/cmake etc
+# so that we can find different FindXXX.cmake modules
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${THIRDPARTY_LIB_PATH})
+
+#---------------------------------------
+
+find_package(ODB REQUIRED)
+include(ODB)
+
+#---------------------------------------
+
+find_package(Qt5 COMPONENTS
+             Core
+             Widgets
+             Qml
+             Quick
+             Xml
+             REQUIRED)
+
 find_package(DependencyManager REQUIRED)
 find_package(Uni REQUIRED)
 find_package(HDF5 REQUIRED)
+
+#---------------------------------------
+
+set(Boost_USE_STATIC_LIBS    OFF)
+set(Boost_USE_STATIC_RUNTIME ON)
+set(Boost_USE_MULTITHREADED  ON)
+
+set(BOOST_ROOT ${THIRDPARTY})
+
+find_package(Boost 1.55.0 COMPONENTS filesystem system REQUIRED)
+
+if(Boost_FOUND)
+  #message("******** Boost_INCLUDE_DIRS ${Boost_INCLUDE_DIRS}")
+  #message("******** Boost_FILESYSTEM ${Boost_FILESYSTEM_LIBRARY}")
+  #message("******** Boost_SYSTEM ${Boost_SYSTEM_LIBRARY}")
+endif()
+
 # ==============================================================================
 # }}} Modules
 
 # Configure SQLite {{{
 # -----------------------------------------------------------------------------
-set(SQLite_INCLUDE_DIR $ENV{SQLite_INCLUDE_DIR})
-set(SQLite_LIBRARY_DIR $ENV{SQLite_LIBRARY_DIR})
+#set(SQLite_INCLUDE_DIR $ENV{SQLite_INCLUDE_DIR})
+#set(SQLite_LIBRARY_DIR $ENV{SQLite_LIBRARY_DIR})
 
-find_package(SQLite REQUIRED)
+#find_package(SQLite REQUIRED)
 # -----------------------------------------------------------------------------
 # }}} Configure SQLite
-
-# Configure ODB {{{
-# -----------------------------------------------------------------------------
-set(ODB_INCLUDE_DIR $ENV{ODB_INCLUDE_DIR})
-set(ODB_LIBRARY_DIR $ENV{ODB_LIBRARY_DIR})
-
-set(ODBSQLITE_INCLUDE_DIR $ENV{ODBSQLITE_INCLUDE_DIR})
-set(ODBSQLITE_LIBRARY_DIR $ENV{ODBSQLITE_LIBRARY_DIR})
-
-set(ODBQT_INCLUDE_DIR $ENV{ODBQT_INCLUDE_DIR})
-set(ODBQT_LIBRARY_DIR $ENV{ODBQT_LIBRARY_DIR})
-
-find_package(ODB REQUIRED)
-include(ODB)
-# -----------------------------------------------------------------------------
-# }}} Configure ODB
 
 
 # Compilers {{{
@@ -106,6 +141,9 @@ if (COMPILER_IS_G++)
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmessage-length=0")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+  # to compile boost with c++11
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals")
 
   #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fomit-frame-pointer")
   #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -funroll-loops")
@@ -141,13 +179,6 @@ endif ()
 # ==============================================================================
 # }}} Flags
 
-# Boost {{{
-# ==============================================================================
-set(Boost_USE_STATIC_LIBS    OFF)
-set(Boost_USE_STATIC_RUNTIME ON)
-set(Boost_USE_MULTITHREADED  ON)
-# ==============================================================================
-# }}} Boost
 
 # Components {{{
 # ==============================================================================

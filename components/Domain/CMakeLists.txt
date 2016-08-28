@@ -49,7 +49,9 @@ target_link_libraries(${TARGET_NAME} PUBLIC
                       ${SQLITE_LIBRARY}
                       ${ODB_LIBRARY}
                       ${ODBSQLITE_LIBRARY}
-                      ${ODBQT_LIBRARY})
+                      ${ODBQT_LIBRARY}
+                      ${Boost_LIBRARIES})
+
 
 target_link_libraries(${TARGET_NAME} PRIVATE
                       Qt5::Core)
@@ -62,7 +64,7 @@ target_include_directories(${TARGET_NAME} PUBLIC "${ODBQT_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
 
-target_use_boost(${TARGET_NAME} PUBLIC)
+target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "${Boost_INCLUDE_DIRS}")
 
 # ==============================================================================
 # }}} Targets

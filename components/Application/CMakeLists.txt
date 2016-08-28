@@ -16,6 +16,8 @@ add_executable(${TARGET_NAME} ${CPP_FILES})
 target_link_libraries(${TARGET_NAME} PRIVATE
                       Uni
                       DependencyManager
+                      ${Boost_FILESYSTEM_LIBRARY}
+                      ${Boost_SYSTEM_LIBRARY}
                       Qt5::Core
                       Qt5::Widgets
                       Qt5::Qml
@@ -24,7 +26,8 @@ target_link_libraries(${TARGET_NAME} PRIVATE
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_DIR}/source")
 target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Core,INTERFACE_INCLUDE_DIRECTORIES>)
 
-target_use_boost(${TARGET_NAME} PRIVATE)
+target_include_directories(${TARGET_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
+
 # ==============================================================================
 # }}} Targets
 

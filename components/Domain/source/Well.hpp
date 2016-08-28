@@ -61,7 +61,7 @@ private:
   #pragma db object(Geo::Domain::Well)
   #pragma db member(Geo::Domain::Well::_id) id auto
   #pragma db member(Geo::Domain::Well::_logs) value_not_null inverse(_well)
-  #pragma db member(Geo::Domain::Well::_traits) value_not_null inverse(_well)
+  //#pragma db member(Geo::Domain::Well::_traits) value_not_null inverse(_well)
 #endif
 
 #endif

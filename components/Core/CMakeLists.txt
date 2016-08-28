@@ -25,12 +25,11 @@ target_link_libraries(${TARGET_NAME} PRIVATE
 
 target_include_directories(${TARGET_NAME} INTERFACE "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
+target_include_directories(${TARGET_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
 
 target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
 target_compile_definitions(${TARGET_NAME} PRIVATE "-D${TARGET_NAME}_EXPORTS")
 
-
-target_use_boost(${TARGET_NAME} PRIVATE)
 
 # ==============================================================================
 # }}} Targets

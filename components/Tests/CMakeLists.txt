@@ -8,7 +8,7 @@ project(Tests CXX)
 
 # Targets {{{
 # ==============================================================================
-set(TARGET_NAME "Tests")
+set(TARGET_NAME "GeoTests")
 file(GLOB_RECURSE CPP_FILES source/*.cpp)
 
 add_executable(${TARGET_NAME} ${CPP_FILES})
@@ -16,6 +16,8 @@ add_executable(${TARGET_NAME} ${CPP_FILES})
 target_link_libraries(${TARGET_NAME} PRIVATE
                       Uni
                       DependencyManager
+                      ${Boost_FILESYSTEM_LIBRARY}
+                      ${Boost_SYSTEM_LIBRARY}
                       GTest
                       Qt5::Core
                       Qt5::Widgets
@@ -25,7 +27,8 @@ target_link_libraries(${TARGET_NAME} PRIVATE
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_DIR}/source")
 target_include_directories(${TARGET_NAME} PUBLIC ${GTEST_INCLUDE_DIR})
 
-target_use_boost(${TARGET_NAME} PRIVATE)
+target_include_directories(${TARGET_NAME} SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
+
 # ==============================================================================
 # }}} Targets
 
