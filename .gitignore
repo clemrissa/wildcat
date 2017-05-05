@@ -10,6 +10,7 @@
 
 !.gitignore
 !.uncrustify
+!LICENSE.md
 
 # Archives
 *.7z
