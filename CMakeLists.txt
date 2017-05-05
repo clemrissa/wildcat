@@ -26,27 +26,27 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # search modules in a folder located next to the geoqt5 root
 
-set(THIRDPARTY_ROOT_PATH ${CMAKE_SOURCE_DIR}/../thirdparty/${CMAKE_SYSTEM_NAME})
+#set(THIRDPARTY_ROOT_PATH ${CMAKE_SOURCE_DIR}/../thirdparty/${CMAKE_SYSTEM_NAME})
 
-set(THIRDPARTY_LIB_PATH
-    ${THIRDPARTY_ROOT_PATH}/boost/1.61
-    ${THIRDPARTY_ROOT_PATH}/hdf5
-    ${THIRDPARTY_ROOT_PATH}/dependency_manager
-    ${THIRDPARTY_ROOT_PATH}/Qt
-    ${THIRDPARTY_ROOT_PATH}/odb-2.4.0
-    ${THIRDPARTY_ROOT_PATH}/uni
-    )
+#set(THIRDPARTY_LIB_PATH
+    #${THIRDPARTY_ROOT_PATH}/boost/1.61
+    #${THIRDPARTY_ROOT_PATH}/hdf5
+    #${THIRDPARTY_ROOT_PATH}/dependency_manager
+    #${THIRDPARTY_ROOT_PATH}/Qt
+    #${THIRDPARTY_ROOT_PATH}/odb-2.4.0
+    #${THIRDPARTY_ROOT_PATH}/uni
+    #)
 
-set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH}
-    /home/paceholder/projects/geoqt5_thirdparty/odb/lib
-)
+#set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH}
+    #/home/paceholder/projects/geoqt5_thirdparty/odb/lib
+#)
 
 # paths for seaching FindXXX.cmake modules
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 # this populates thirdparty paths with ./shared/lib or ./shared/cmake etc
 # so that we can find different FindXXX.cmake modules
-set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${THIRDPARTY_LIB_PATH})
+#set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${THIRDPARTY_LIB_PATH})
 
 # ==============================================================================
 
@@ -64,8 +64,8 @@ find_package(Qt5 COMPONENTS
              Xml
              REQUIRED)
 
-find_package(DependencyManager REQUIRED)
-find_package(Uni REQUIRED)
+#find_package(DependencyManager REQUIRED)
+#find_package(Uni REQUIRED)
 find_package(HDF5 REQUIRED)
 
 
@@ -98,18 +98,18 @@ add_definitions(-DUNICODE)
 
 # ==============================================================================
 
-# Components
+# Modules
 
-add_subdirectory("${CMAKE_SOURCE_DIR}/components/Widgets" ./Widgets)
-add_subdirectory("${CMAKE_SOURCE_DIR}/components/Models" ./Models)
-add_subdirectory("${CMAKE_SOURCE_DIR}/components/Domain" ./Domain)
-add_subdirectory("${CMAKE_SOURCE_DIR}/components/Core" ./Core)
-add_subdirectory("${CMAKE_SOURCE_DIR}/components/Database" ./Database)
-add_subdirectory("${CMAKE_SOURCE_DIR}/components/TypeSystem" ./TypeSystem)
-add_subdirectory("${CMAKE_SOURCE_DIR}/components/LogViewer" ./LogViewer)
-add_subdirectory("${CMAKE_SOURCE_DIR}/components/Import" ./Import)
-add_subdirectory("${CMAKE_SOURCE_DIR}/components/Application" ./Application)
-add_subdirectory("${CMAKE_SOURCE_DIR}/components/Tests" ./Tests)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Widgets" ./Widgets)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Models" ./Models)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Domain" ./Domain)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Core" ./Core)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Database" ./Database)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/TypeSystem" ./TypeSystem)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/LogViewer" ./LogViewer)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Import" ./Import)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Application" ./Application)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Tests" ./Tests)
 
 # ==============================================================================
 
@@ -118,7 +118,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/components/Tests" ./Tests)
 set(INSTALL_BINARY_DIR  bin)
 set(INSTALL_INCLUDE_DIR include)
 set(INSTALL_LIBRARY_DIR lib)
-set(INSTALL_COMPONENT_DIR components)
+set(INSTALL_COMPONENT_DIR modules)
 set(INSTALL_SOURCE_DIR  source)
 if (WIN32)
   set(INSTALL_CMAKE_DIR cmake)
