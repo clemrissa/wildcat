@@ -12,6 +12,8 @@
 !.uncrustify
 !LICENSE.md
 
+*.las
+
 # Archives
 *.7z
 *.zip
