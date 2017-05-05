@@ -20,7 +20,6 @@ add_library(${TARGET_NAME} SHARED ${CPP_FILES} ${CPP_TEST_FILES} ${RESOURCE_SOUR
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
 target_link_libraries(${TARGET_NAME} PRIVATE
-                      Uni
                       DependencyManager
                       Domain
                       Qt5::Core

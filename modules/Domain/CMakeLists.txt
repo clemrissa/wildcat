@@ -45,7 +45,6 @@ odb_compile(HEADER ${ODB_HEADERS}
 add_library(${TARGET_NAME} STATIC ${CPP_FILES})
 
 target_link_libraries(${TARGET_NAME} PUBLIC
-                      Uni
                       ${SQLITE_LIBRARY}
                       ${ODB_LIBRARY}
                       ${ODBSQLITE_LIBRARY}

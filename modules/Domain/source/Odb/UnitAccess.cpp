@@ -1,7 +1,5 @@
 #include "UnitAccess.hpp"
 
-#include <Uni/Logging/Logging>
-
 #include "Unit.odb.hpp"
 
 #include <odb/transaction.hxx>
@@ -15,20 +13,22 @@ typedef odb::query<Geo::Domain::Unit>  Query;
 typedef odb::result<Geo::Domain::Unit> Result;
 
 UnitAccess::
-UnitAccess(Database db): _db(db) {}
+UnitAccess(Database db) : _db(db) {}
 
 void
 UnitAccess::
 insert(Geo::Domain::Unit::Shared unit)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->persist(*unit);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -37,14 +37,16 @@ void
 UnitAccess::
 update(Geo::Domain::Unit::Shared unit)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->update(*unit);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -53,14 +55,16 @@ void
 UnitAccess::
 remove(Geo::Domain::Unit::Shared unit)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->erase(*unit);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -69,14 +73,16 @@ void
 UnitAccess::
 remove(unsigned int const& pk)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->erase<Geo::Domain::Unit>(pk);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -88,21 +94,24 @@ findAll()
   using Geo::Domain::Unit;
 
   QVector<Unit::Shared> vector;
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     Result r(_db->query<Unit>());
 
-    for (Result::iterator i(r.begin()); i != r.end(); ++i) {
+    for (Result::iterator i(r.begin()); i != r.end(); ++i)
+    {
       Unit::Shared unit(i.load());
 
       vector.push_back(unit);
     }
 
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 
   return vector;
@@ -148,5 +157,4 @@ createDefaultUnits()
   for (Unit::Shared u : unitsToBeCreated)
     if (!existingUnitNames.contains(u->getName()))
       insert(u);
-
 }

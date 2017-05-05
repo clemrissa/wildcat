@@ -1,5 +1,4 @@
-#ifndef Geo_Domain_Odb_LogAccessObject_hpp
-#define Geo_Domain_Odb_LogAccessObject_hpp
+#pragma once
 
 #include <Domain/LogAccess>
 
@@ -49,4 +48,3 @@ private:
 }
 }
 
-#endif

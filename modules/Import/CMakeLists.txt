@@ -1,13 +1,15 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.2)
 
-# Define project {{{
-# -----------------------------------------------------------------------------
-project(Import CXX)
-# -----------------------------------------------------------------------------
-# Define project}}}
-
-# Targets {{{
 # ==============================================================================
+
+# Define project
+
+project(Import CXX)
+
+# ==============================================================================
+
+# Targets
+
 set(TARGET_NAME ${PROJECT_NAME})
 
 file(GLOB_RECURSE CPP_FILES source/*.cpp)
@@ -17,7 +19,6 @@ add_library(${TARGET_NAME} SHARED ${CPP_FILES} ${CPP_TEST_FILES})
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
 target_link_libraries(${TARGET_NAME} PRIVATE
-                      Uni
                       DependencyManager
                       Domain
                       Qt5::Core

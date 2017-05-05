@@ -1,7 +1,5 @@
 #include "LogParameterGroupAccess.hpp"
 
-#include <Uni/Logging/Logging>
-
 #include "LogParameterGroup.odb.hpp"
 
 #include <odb/transaction.hxx>
@@ -13,20 +11,22 @@ typedef odb::query<Geo::Domain::LogParameterGroup>  Query;
 typedef odb::result<Geo::Domain::LogParameterGroup> Result;
 
 LogParameterGroupAccess::
-LogParameterGroupAccess(Database db): _db(db) {}
+LogParameterGroupAccess(Database db) : _db(db) {}
 
 void
 LogParameterGroupAccess::
 insert(Geo::Domain::LogParameterGroup::Shared log)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->persist(*log);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -35,14 +35,16 @@ void
 LogParameterGroupAccess::
 update(Geo::Domain::LogParameterGroup::Shared log)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->update(*log);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -51,14 +53,16 @@ void
 LogParameterGroupAccess::
 remove(Geo::Domain::LogParameterGroup::Shared log)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->erase(*log);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -67,14 +71,16 @@ void
 LogParameterGroupAccess::
 remove(unsigned int const& pk)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->erase<Geo::Domain::LogParameterGroup>(pk);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -86,21 +92,24 @@ findAll()
   using Geo::Domain::LogParameterGroup;
 
   QVector<LogParameterGroup::Shared> vector;
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     Result r(_db->query<Geo::Domain::LogParameterGroup>());
 
-    for (Result::iterator i(r.begin()); i != r.end(); ++i) {
+    for (Result::iterator i(r.begin()); i != r.end(); ++i)
+    {
       LogParameterGroup::Shared log(i.load());
 
       vector.push_back(log);
     }
 
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 
   return vector;

@@ -1,7 +1,5 @@
 #include "LogAccess.hpp"
 
-#include <Uni/Logging/Logging>
-
 #include "Log.odb.hpp"
 
 #include <odb/transaction.hxx>
@@ -13,20 +11,22 @@ typedef odb::query<Geo::Domain::Log>  Query;
 typedef odb::result<Geo::Domain::Log> Result;
 
 LogAccess::
-LogAccess(Database db): _db(db) {}
+LogAccess(Database db) : _db(db) {}
 
 void
 LogAccess::
 insert(Geo::Domain::Log::Shared log)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->persist(*log);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -35,14 +35,16 @@ void
 LogAccess::
 update(Geo::Domain::Log::Shared log)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->update(*log);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -51,14 +53,16 @@ void
 LogAccess::
 remove(Geo::Domain::Log::Shared log)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->erase(*log);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -67,14 +71,16 @@ void
 LogAccess::
 remove(unsigned int const& pk)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->erase<Geo::Domain::Log>(pk);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -86,21 +92,24 @@ findAll()
   using Geo::Domain::Log;
 
   QVector<Log::Shared> vector;
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     Result r(_db->query<Log>());
 
-    for (Result::iterator i(r.begin()); i != r.end(); ++i) {
+    for (Result::iterator i(r.begin()); i != r.end(); ++i)
+    {
       Log::Shared log(i.load());
 
       vector.push_back(log);
     }
 
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 
   return vector;

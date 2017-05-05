@@ -3,21 +3,17 @@
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 
-#include <Uni/Logging/Logging>
-
 using Geo::Domain::WellTrait;
 
 WellTrait::
-WellTrait():
-  _name(QString()),
-  _type(WellTrait::Undefined),
-  _mandatory(false)
-{
-}
-
+WellTrait()
+  : _name(QString())
+  , _type(WellTrait::Undefined)
+  , _mandatory(false)
+{}
 
 WellTrait::
-WellTrait(QString name):
+WellTrait(QString name) :
   _name(name),
   _type(WellTrait::Undefined),
   _mandatory(false)
@@ -27,7 +23,7 @@ WellTrait(QString name):
 
 
 WellTrait::
-WellTrait(QString name, bool mandatory):
+WellTrait(QString name, bool mandatory) :
   _name(name),
   _type(WellTrait::Undefined),
   _mandatory(mandatory)
@@ -71,30 +67,31 @@ typeAsString(Type type)
 {
   QString result;
 
-  switch (type) {
-  case Type::Undefined:
-    result = QString();
-    break;
+  switch (type)
+  {
+    case Type::Undefined:
+      result = QString();
+      break;
 
-  case Type::String:
-    result = QObject::tr("String");
-    break;
+    case Type::String:
+      result = QObject::tr("String");
+      break;
 
-  case Type::Integer:
-    result = QObject::tr("Integer");
-    break;
+    case Type::Integer:
+      result = QObject::tr("Integer");
+      break;
 
-  case Type::Double:
-    result = QObject::tr("Double");
-    break;
+    case Type::Double:
+      result = QObject::tr("Double");
+      break;
 
-  case Type::Date:
-    result = QObject::tr("Date");
-    break;
+    case Type::Date:
+      result = QObject::tr("Date");
+      break;
 
-  default:
-    // should not get here
-    break;
+    default:
+      // should not get here
+      break;
   }
 
   return result;

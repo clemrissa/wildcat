@@ -1,5 +1,4 @@
-#ifndef Geo_Domain_CurveTypeAccess_hpp
-#define Geo_Domain_CurveTypeAccess_hpp
+#pragma once
 
 #include <Domain/CurveType>
 
@@ -13,13 +12,11 @@ namespace Domain {
 class CurveTypeAccess
 {
 public:
-  typedef QSharedPointer<CurveTypeAccess> Shared;
+  using Shared = QSharedPointer<CurveTypeAccess>;
 
 public:
   virtual
-  ~CurveTypeAccess()
-  {
-  }
+  ~CurveTypeAccess() = default;
 
   virtual void
   insert(CurveType::Shared log) = 0;
@@ -47,5 +44,3 @@ public:
 //
 }
 }
-
-#endif

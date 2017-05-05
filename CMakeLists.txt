@@ -98,22 +98,7 @@ add_definitions(-DUNICODE)
 
 # ==============================================================================
 
-# Modules
-
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Widgets" ./Widgets)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Models" ./Models)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Domain" ./Domain)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Core" ./Core)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Database" ./Database)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/TypeSystem" ./TypeSystem)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/LogViewer" ./LogViewer)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Import" ./Import)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Application" ./Application)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Tests" ./Tests)
-
-# ==============================================================================
-
-# Install
+# Install rules
 
 set(INSTALL_BINARY_DIR  bin)
 set(INSTALL_INCLUDE_DIR include)
@@ -128,3 +113,19 @@ endif ()
 
 
 # vim:ft=cmake:fenc=utf-8:ff=unix:ts=2:sw=2:tw=80:et:
+
+# ==============================================================================
+
+# Modules
+
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Widgets" ./Widgets)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Models" ./Models)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Domain" ./Domain)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Core" ./Core)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Database" ./Database)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/TypeSystem" ./TypeSystem)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/LogViewer" ./LogViewer)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Import" ./Import)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Application" ./Application)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Tests" ./Tests)
+

@@ -1,7 +1,5 @@
 #include "WellAccess.hpp"
 
-#include <Uni/Logging/Logging>
-
 #include "Well.odb.hpp"
 
 #include <odb/transaction.hxx>
@@ -13,23 +11,23 @@ typedef odb::query<WellAccess::Well>  Query;
 typedef odb::result<WellAccess::Well> Result;
 
 WellAccess::
-WellAccess(Database db): _db(db) {}
+WellAccess(Database db) : _db(db) {}
 
 void
 WellAccess::
 insert(Well::Shared well)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     // t.tracer(odb::core::stderr_tracer);
 
     _db->persist(*well);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
   }
+  catch (odb::exception const& e)
+  {}
 }
 
 
@@ -37,14 +35,16 @@ void
 WellAccess::
 update(Well::Shared well)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->update(*well);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -53,14 +53,16 @@ void
 WellAccess::
 remove(Well::Shared well)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->erase(*well);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -69,14 +71,16 @@ void
 WellAccess::
 remove(unsigned int const& pk)
 {
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     _db->erase<Well>(pk);
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 }
 
@@ -86,21 +90,24 @@ WellAccess::
 findAll()
 {
   QVector<Well::Shared> vector;
-  try {
+  try
+  {
     transaction t(_db->begin());
 
     Result r(_db->query<Well>());
 
-    for (Result::iterator i(r.begin()); i != r.end(); ++i) {
+    for (Result::iterator i(r.begin()); i != r.end(); ++i)
+    {
       Well::Shared well(i.load());
 
       vector.push_back(well);
     }
 
     t.commit();
-  } catch (odb::exception const& e) {
-    FATAL << "Odb error happened: "
-          << e.what();
+  }
+  catch (odb::exception const& e)
+  {
+    qFatal("Odb error happened: '%s'", e.what());
   }
 
   return vector;
