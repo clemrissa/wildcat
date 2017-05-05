@@ -1,2 +1,2 @@
-*.las linguist-vendored
+*.las linguist-generated=true
 
