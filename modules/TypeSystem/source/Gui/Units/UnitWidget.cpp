@@ -1,7 +1,5 @@
 #include "UnitWidget.hpp"
 
-#include <Uni/Logging/Logging>
-
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QList>
 #include <QtCore/QPoint>
@@ -20,14 +18,12 @@
 
 #include <Core/MainWindow>
 
-#include <DependencyManager/ApplicationContext>
+#include <ComponentManager/Creator>
 #include <Models/ConnectionListModel>
 
 #include <Gui/Units/UnitTableEntryDelegate.hpp>
 #include <Models/Units/UnitModel.hpp>
 #include <Models/Units/UnitTableEntry.hpp>
-
-using AC = DependencyManager::ApplicationContext;
 
 using Geo::TypeSystem::Gui::UnitTableEntryDelegate;
 using Geo::TypeSystem::Gui::UnitWidget;
@@ -159,7 +155,7 @@ connectSignals()
 
   // -------- main window notification
   using Geo::Core::MainWindow;
-  auto mainWindow = AC::create<MainWindow>("Core.MainWindow");
+  auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   connect(this, SIGNAL(notifyMainWindow(QString)),
           mainWindow, SLOT(setStatus(QString)));

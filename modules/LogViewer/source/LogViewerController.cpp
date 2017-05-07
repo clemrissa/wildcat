@@ -7,11 +7,9 @@
 
 #include "LogViewerWidget.hpp"
 
-#include <DependencyManager/ApplicationContext>
+#include <ComponentManager/Creator>
 
 #include <Core/MainWindow>
-
-#include <Uni/Logging/Logging>
 
 using Geo::LogViewer::LogViewerController;
 using Geo::LogViewer::LogViewerWidget;
@@ -24,11 +22,13 @@ LogViewerController()
   //
 }
 
+
 LogViewerController::
 ~LogViewerController()
 {
   //
 }
+
 
 LogViewerController*
 LogViewerController::
@@ -40,15 +40,15 @@ instance()
   return _instance;
 }
 
+
 void
 LogViewerController::
 createLogViewer()
 {
-  using DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
 
   MainWindow* mainWindow =
-    ApplicationContext::create<MainWindow>("Core.MainWindow");
+    ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   LogViewerWidget* logviewerWidget = new LogViewerWidget();
 

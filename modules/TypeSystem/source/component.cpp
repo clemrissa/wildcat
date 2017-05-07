@@ -1,15 +1,13 @@
-//#include "Connections/ConnectionManager.hpp"
-//#include "Connections/SQLiteConnection.hpp"
 #include "TypeSystemUiFactory.hpp"
-
-#include "Auxiliary/Visibility.hpp"
 
 #include <QMenu>
 
-#include <DependencyManager/MetaSystem/MetaTypeRegistration>
+#include <ComponentManager/ComponentRegistry>
+
+#include "Export.hpp"
 
 extern "C" {
-Geo_TypeSystem_PUBLIC void
+TypeSystem_PUBLIC void
 registerComponent()
 {
   REGISTER_TYPE(QMenu);

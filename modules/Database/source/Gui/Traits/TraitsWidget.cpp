@@ -1,4 +1,5 @@
 #include "TraitsWidget.hpp"
+
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
@@ -17,11 +18,10 @@ using Geo::Database::Gui::Traits::WellTraitItemDelegate;
 
 struct TraitsWidget::Private
 {
-  Private():
-    traitsTable(nullptr),
-    traitsWidgetModel(nullptr)
-  {
-  }
+  Private()
+    : traitsTable(nullptr)
+    , traitsWidgetModel(nullptr)
+  {}
 
   QTableView* traitsTable;
 
@@ -29,7 +29,7 @@ struct TraitsWidget::Private
 };
 
 TraitsWidget::
-TraitsWidget():
+TraitsWidget() :
   _p(new Private)
 {
   createUi();
@@ -113,6 +113,6 @@ TraitsWidget::
 connectSignals()
 {
   // for deleting rows
-  connect(_p->traitsTable, SIGNAL(clicked(const QModelIndex &)),
-          _p->traitsWidgetModel,   SLOT(onClicked(const QModelIndex &)));
+  connect(_p->traitsTable, SIGNAL(clicked(const QModelIndex&)),
+          _p->traitsWidgetModel,   SLOT(onClicked(const QModelIndex&)));
 }

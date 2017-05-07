@@ -1,12 +1,12 @@
 #include "Implementation/ConnectionSettingsWidget.hpp"
 #include "Implementation/KeywordWidget.hpp"
 
-#include "Auxiliary/Visibility.hpp"
+#include "Export.hpp"
 
-#include <DependencyManager/MetaSystem/MetaTypeRegistration>
+#include <ComponentManager/ComponentRegistry>
 
 extern "C" {
-Geo_Widgets_PUBLIC void
+Widgets_PUBLIC void
 registerComponent()
 {
   REGISTER_TYPE(Geo::Widgets::Implementation::KeywordWidget);

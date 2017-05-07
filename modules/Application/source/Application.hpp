@@ -1,14 +1,16 @@
-#ifndef Geo_Application_hpp
-#define Geo_Application_hpp
+#pragma once
 
 #include "Core/MainWindow"
 
-#include <QApplication>
+#include <QtWidgets/QApplication>
 
 #include <boost/shared_ptr.hpp>
 
-namespace Geo {
-class Application: public QApplication {
+namespace Geo
+{
+
+class Application : public QApplication
+{
   Q_OBJECT
 
 private:
@@ -28,5 +30,3 @@ private:
   SharedMainWindow _mainWindow;
 };
 }
-
-#endif

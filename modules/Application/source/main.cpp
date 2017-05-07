@@ -1,13 +1,13 @@
 #include "Application.hpp"
 
-#include <DependencyManager/ApplicationContext>
-#include <DependencyManager/XmlApplicationContextLoader>
-
-#include <QDir>
+#include <QtCore/QDir>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
 #include <QtWidgets/QStyleFactory>
+
+#include <ComponentManager/ModuleLoader>
+#include <ComponentManager/Creator>
 
 using namespace Geo;
 
@@ -18,24 +18,20 @@ main(int argc, char* argv[])
 
   application.setStyle(QStyleFactory::create("fusion"));
 
-  QStringList nameFilter("*.xml");
+  QStringList nameFilter("*.json");
 
   QDir directory(QString("%1/../components")
                  .arg(QCoreApplication::applicationDirPath()));
 
-  QStringList xmlFiles = directory.entryList(nameFilter);
+  QStringList jsonFiles = directory.entryList(nameFilter);
 
-  using DependencyManager::ApplicationContext;
-  using DependencyManager::XmlApplicationContextLoader;
-
-  XmlApplicationContextLoader applicationContextLoader;
-
-  for (QString const& componentFilePath : xmlFiles) {
-    QString absolutePath = directory.absoluteFilePath(componentFilePath);
-    applicationContextLoader.addfilePath(absolutePath.toUtf8().constData());
+  std::vector<QString> jsonFilesVector;
+  for (auto const & jf : jsonFiles)
+  {
+    jsonFilesVector.push_back(directory.absoluteFilePath(jf));
   }
 
-  ApplicationContext::load(&applicationContextLoader);
+  ComponentManager::loadModules(jsonFilesVector);
 
   application.createMainWindow();
 

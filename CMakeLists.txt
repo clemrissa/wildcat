@@ -64,8 +64,6 @@ find_package(Qt5 COMPONENTS
              Xml
              REQUIRED)
 
-#find_package(DependencyManager REQUIRED)
-#find_package(Uni REQUIRED)
 find_package(HDF5 REQUIRED)
 
 
@@ -127,5 +125,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/modules/TypeSystem" ./TypeSystem)
 add_subdirectory("${CMAKE_SOURCE_DIR}/modules/LogViewer" ./LogViewer)
 add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Import" ./Import)
 add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Application" ./Application)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Tests" ./Tests)
+#add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Tests" ./Tests)
+
+add_subdirectory("${CMAKE_SOURCE_DIR}/thirdparty" ./thirdparty)
 

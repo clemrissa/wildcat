@@ -3,7 +3,7 @@
 #include <Database/Connections/Connection>
 #include <Database/Connections/ConnectionManager>
 
-#include <DependencyManager/ApplicationContext>
+#include <ComponentManager/Creator>
 
 #include "ConnectionEntry.hpp"
 
@@ -14,11 +14,10 @@ ConnectionListModel::
 ConnectionListModel()
 {
   using Database::Connections::ConnectionManager;
-  using DependencyManager::ApplicationContext;
 
   // defined as Singleton in Database.xml
   _connectionsManager =
-    ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
+    ComponentManager::create<ConnectionManager*>("Database.ConnectionManager");
 
   for (auto connection : _connectionsManager->connections())
     _entries.push_back(new ConnectionEntry(connection));
@@ -82,9 +81,9 @@ rowCount(const QModelIndex& parent) const
 
 QVariant
 ConnectionListModel::
-headerData(int             section,
+headerData(int section,
            Qt::Orientation orientation,
-           int             role)  const
+           int role)  const
 {
   QVariant result;
 
@@ -94,18 +93,19 @@ headerData(int             section,
   if (orientation == Qt::Vertical)
     return result;
 
-  switch (section) {
-  case ConnectionEntry::Type:
-    result = tr("Type");
-    break;
+  switch (section)
+  {
+    case ConnectionEntry::Type:
+      result = tr("Type");
+      break;
 
-  case ConnectionEntry::Database:
-    result = tr("Database");
-    break;
+    case ConnectionEntry::Database:
+      result = tr("Database");
+      break;
 
-  default:
-    result = QVariant();
-    break;
+    default:
+      result = QVariant();
+      break;
   }
 
   return result;

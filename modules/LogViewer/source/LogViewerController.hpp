@@ -1,11 +1,11 @@
-#ifndef Geo_LogViewer_LogViewerController_hpp
-#define Geo_LogViewer_LogViewerController_hpp
+#pragma once
 
-#include <QObject>
+#include <QtCore/QObject>
 
 namespace Geo {
 namespace LogViewer {
-class LogViewerController: public QObject {
+class LogViewerController : public QObject
+{
   Q_OBJECT
 
 public:
@@ -27,4 +27,3 @@ private:
 };
 }
 }
-#endif //  Geo_LogViewer_LogViewerController_hpp

@@ -1,7 +1,5 @@
 #include "ImportTreeModel.hpp"
 
-#include <Uni/Logging/Logging>
-
 #include "Las/LasFile.hpp"
 #include "Las/TreeWrapper/LasFileEntry.hpp"
 #include "Las/TreeWrapper/TreeEntry.hpp"
@@ -75,7 +73,7 @@ bool
 ImportTreeModel::
 setData(const QModelIndex& index,
         const QVariant&    value,
-        int                role)
+        int role)
 {
   if (role != Qt::EditRole)
     return false;
@@ -160,9 +158,9 @@ rowCount(const QModelIndex& parent) const
 
 QVariant
 ImportTreeModel::
-headerData(int             section,
+headerData(int section,
            Qt::Orientation orientation,
-           int             role)  const
+           int role)  const
 {
   QVariant result;
 
@@ -172,34 +170,35 @@ headerData(int             section,
   if (orientation == Qt::Vertical)
     return result;
 
-  switch (section) {
-  case TreeEntry::Name:
-    result = tr("Item");
-    break;
+  switch (section)
+  {
+    case TreeEntry::Name:
+      result = tr("Item");
+      break;
 
-  case TreeEntry::Description:
-    result = tr("Description");
-    break;
+    case TreeEntry::Description:
+      result = tr("Description");
+      break;
 
-  case TreeEntry::Value:
-    result = tr("Parsed Value");
-    break;
+    case TreeEntry::Value:
+      result = tr("Parsed Value");
+      break;
 
-  case TreeEntry::ImportValue:
-    result = tr("Import Value");
-    break;
+    case TreeEntry::ImportValue:
+      result = tr("Import Value");
+      break;
 
-  case TreeEntry::Type:
-    result = tr("Trait/Type");
-    break;
+    case TreeEntry::Type:
+      result = tr("Trait/Type");
+      break;
 
-  case TreeEntry::Units:
-    result = tr("Parsed Units");
-    break;
+    case TreeEntry::Units:
+      result = tr("Parsed Units");
+      break;
 
-  case TreeEntry::ImportUnits:
-    result = tr("Import Units As");
-    break;
+    case TreeEntry::ImportUnits:
+      result = tr("Import Units As");
+      break;
   }
 
   return result;
@@ -210,7 +209,7 @@ Qt::ItemFlags
 ImportTreeModel::
 flags(const QModelIndex& index) const
 {
-  Qt::ItemFlags flags =   QAbstractItemModel::flags(index);
+  Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
   flags |= Qt::ItemIsEditable;
 

@@ -1,5 +1,7 @@
 #include "SQLiteConnection.hpp"
 
+#include <QtCore/QDebug>
+
 #include <Domain/Odb/DataAccessFactory>
 
 #include <odb/database.hxx>
@@ -9,10 +11,6 @@
 #include <odb/sqlite/database.hxx>
 #include <odb/sqlite/exceptions.hxx>
 #include <odb/sqlite/transaction.hxx>
-
-#include <Uni/Logging/Logging>
-
-#include <QDebug>
 
 using Geo::Database::Connections::DatabaseType;
 using Geo::Database::Connections::SQLiteConnection;
@@ -35,10 +33,12 @@ SQLiteConnection(QDomElement& domElement)
 
   QDomNodeList nodeList = domElement.elementsByTagName("Path");
 
-  if (nodeList.size() > 0) {
+  if (nodeList.size() > 0)
+  {
     QDomNode node = nodeList.at(0);
 
-    if (!node.isNull()) {
+    if (!node.isNull())
+    {
       QDomElement e = node.toElement();
 
       setDatabase(e.text());
@@ -137,12 +137,14 @@ connect()
 {
   // TODO sofar no exception if db file is emply
 
-  if (_database.isEmpty()) {
+  if (_database.isEmpty())
+  {
     setStatus(Status::Failed);
     return;
   }
 
-  try {
+  try
+  {
     Domain::Odb::DataAccessFactory::Database db(
       new odb::sqlite::database(_database.toUtf8().constData(),
                                 SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE));
@@ -151,14 +153,18 @@ connect()
       new Domain::Odb::DataAccessFactory(db));
 
     setStatus(Status::Connected);
-  } catch (odb::sqlite::database_exception const& exc) {
+  }
+  catch (odb::sqlite::database_exception const& exc)
+  {
     setStatus(Status::Failed);
     setLastError(QString(exc.message().c_str()));
   }
 
   // create Sqlite db scheme
-  if (_status == Status::Connected) {
-    try {
+  if (_status == Status::Connected)
+  {
+    try
+    {
       auto odb_database = _dataAccessFactory->database();
 
       odb::connection_ptr c(odb_database->connection());
@@ -170,7 +176,9 @@ connect()
       odb::schema_catalog::create_schema(*odb_database, "", dropDB);
       t.commit();
       c->execute("PRAGMA foreign_keys=ON");
-    } catch (odb::sqlite::database_exception const& exc) {
+    }
+    catch (odb::sqlite::database_exception const& exc)
+    {
       setLastError(QString(exc.message().c_str()));
     }
 

@@ -10,8 +10,6 @@
 
 #include "LasFileParser.hpp"
 
-#include <Uni/Logging/Logging>
-
 using Geo::Import::LasFile;
 using Geo::Import::LasFileParser;
 

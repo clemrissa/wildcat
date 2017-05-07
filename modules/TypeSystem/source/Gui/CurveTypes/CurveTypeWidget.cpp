@@ -1,7 +1,5 @@
 #include "CurveTypeWidget.hpp"
 
-#include <Uni/Logging/Logging>
-
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QList>
 #include <QtCore/QPoint>
@@ -22,13 +20,11 @@
 
 #include <Gui/CurveTypes/CurveTypeEntryDelegate.hpp>
 
-#include <DependencyManager/ApplicationContext>
 #include <Models/ConnectionListModel>
-
 #include <Models/CurveTypes/CurveTypeModel.hpp>
 #include <Models/CurveTypes/TreeEntry.hpp>
 
-using AC = DependencyManager::ApplicationContext;
+#include <ComponentManager/Creator>
 
 using Geo::TypeSystem::Gui::CurveTypeEntryDelegate;
 using Geo::TypeSystem::Gui::CurveTypeWidget;
@@ -50,8 +46,8 @@ struct CurveTypeWidget::Private
 };
 
 CurveTypeWidget::
-CurveTypeWidget():
-  _p(new Private)
+CurveTypeWidget()
+  : _p(new Private)
 {
   setupUi();
 
@@ -161,12 +157,12 @@ connectSignals()
           this, SLOT(onLoadGeoXmlClicked()));
 
   // for deleting rows
-  connect(_p->treeView, SIGNAL(clicked(const QModelIndex &)),
-          _p->curveTypeModel,   SLOT(onClicked(const QModelIndex &)));
+  connect(_p->treeView, SIGNAL(clicked(const QModelIndex&)),
+          _p->curveTypeModel,   SLOT(onClicked(const QModelIndex&)));
 
   // -------- main window notification
   using Geo::Core::MainWindow;
-  auto mainWindow = AC::create<MainWindow>("Core.MainWindow");
+  auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   connect(this, SIGNAL(notifyMainWindow(QString)),
           mainWindow, SLOT(setStatus(QString)));

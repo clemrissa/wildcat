@@ -1,5 +1,4 @@
-#ifndef Geo_Import_TreeWrapper_LasRequired_hpp
-#define Geo_Import_TreeWrapper_LasRequired_hpp
+#pragma once
 
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLineEdit>
@@ -10,8 +9,6 @@
 #include "TreeEntry.hpp"
 #include "WellInformation.hpp"
 
-#include <Uni/Logging/Logging>
-
 namespace Geo {
 namespace Domain {
 class WellTrait;
@@ -21,7 +18,7 @@ namespace Import {
 namespace TreeWrapper {
 //
 
-class WellName: public WellInfoBase
+class WellName : public WellInfoBase
 {
 public:
   WellName(QSharedPointer<LasFile> lasFile,
@@ -40,7 +37,7 @@ protected:
 
 // ------------------------------------------------------
 
-class WellCompany: public WellInfoBase
+class WellCompany : public WellInfoBase
 {
 public:
   WellCompany(QSharedPointer<LasFile> lasFile,
@@ -59,7 +56,7 @@ protected:
 
 // ------------------------------------------------------
 
-class WellServiceCompany: public WellInfoBase
+class WellServiceCompany : public WellInfoBase
 {
 public:
   WellServiceCompany(QSharedPointer<LasFile> lasFile,
@@ -78,7 +75,7 @@ protected:
 
 // ------------------------------------------------------
 
-class WellField: public WellInfoBase
+class WellField : public WellInfoBase
 {
 public:
   WellField(QSharedPointer<LasFile> lasFile,
@@ -97,7 +94,7 @@ protected:
 
 // ------------------------------------------------------
 
-class WellLocation: public WellInfoBase
+class WellLocation : public WellInfoBase
 {
 public:
   WellLocation(QSharedPointer<LasFile> lasFile,
@@ -116,7 +113,7 @@ protected:
 
 // ------------------------------------------------------
 
-class WellDate: public WellInfoBase
+class WellDate : public WellInfoBase
 {
 public:
   WellDate(QSharedPointer<LasFile> lasFile,
@@ -135,7 +132,7 @@ protected:
 
 // ------------------------------------------------------
 
-class WellCountry: public WellInfoBase
+class WellCountry : public WellInfoBase
 {
 public:
   WellCountry(QSharedPointer<LasFile> lasFile,
@@ -154,7 +151,7 @@ protected:
 
 // ------------------------------------------------------
 
-class WellState: public WellInfoBase
+class WellState : public WellInfoBase
 {
 public:
   WellState(QSharedPointer<LasFile> lasFile,
@@ -173,7 +170,7 @@ protected:
 
 // ------------------------------------------------------
 
-class WellCounty: public WellInfoBase
+class WellCounty : public WellInfoBase
 {
 public:
   WellCounty(QSharedPointer<LasFile> lasFile,
@@ -192,7 +189,7 @@ protected:
 
 // ------------------------------------------------------
 
-class WellProvince: public WellInfoBase
+class WellProvince : public WellInfoBase
 {
 public:
   WellProvince(QSharedPointer<LasFile> lasFile,
@@ -211,7 +208,7 @@ protected:
 
 // ------------------------------------------------------
 
-class WellAPI: public WellInfoBase
+class WellAPI : public WellInfoBase
 {
 public:
   WellAPI(QSharedPointer<LasFile> lasFile,
@@ -230,7 +227,7 @@ protected:
 
 // ------------------------------------------------------
 
-class WellUWI: public WellInfoBase
+class WellUWI : public WellInfoBase
 {
 public:
   WellUWI(QSharedPointer<LasFile> lasFile,
@@ -249,7 +246,7 @@ protected:
 
 // ------------------------------------------------------
 
-class LasRequiredGroup: public TreeEntry
+class LasRequiredGroup : public TreeEntry
 {
 public:
   LasRequiredGroup(QSharedPointer<LasFile> lasFile,
@@ -263,5 +260,3 @@ public:
 }
 }
 }
-
-#endif // Geo_Import_TreeWrapper_LasRequired_hpp

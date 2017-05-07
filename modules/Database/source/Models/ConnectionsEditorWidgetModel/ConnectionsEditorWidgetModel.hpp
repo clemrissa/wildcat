@@ -1,5 +1,4 @@
-#ifndef Geo_Database_ConnectionsEditorWidgetModel_hpp
-#define Geo_Database_ConnectionsEditorWidgetModel_hpp
+#pragma once
 
 #include <QAbstractItemModel>
 #include <QVariant>
@@ -19,7 +18,7 @@ namespace ConnectionsEditorWidgetModel {
 
 class Entry;
 
-class ConnectionsEditorWidgetModel: public QAbstractItemModel
+class ConnectionsEditorWidgetModel : public QAbstractItemModel
 {
   Q_OBJECT
 
@@ -60,9 +59,9 @@ public:
   //
 
   QVariant
-  headerData(int             section,
+  headerData(int section,
              Qt::Orientation orientation,
-             int             role = Qt::DisplayRole) const override;
+             int role = Qt::DisplayRole) const override;
 
   Qt::ItemFlags
   flags(const QModelIndex& index) const override;
@@ -86,5 +85,3 @@ private:
 }
 }
 }
-
-#endif //  Geo_Database_ConnectionsEditorWidgetModel_hpp

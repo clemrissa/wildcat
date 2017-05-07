@@ -3,17 +3,14 @@
 #include <QtGui/QIcon>
 #include <QtGui/QPalette>
 
-#include <Uni/Logging/Logging>
-
 using Geo::Database::Models::Traits::WellTraitEntry;
 
 WellTraitEntry::
-WellTraitEntry(Geo::Domain::WellTrait::Shared trait):
+WellTraitEntry(Geo::Domain::WellTrait::Shared trait) :
   _trait(trait),
   _state(Active),
   _persisted(trait->isValid())
-{
-}
+{}
 
 
 QVariant
@@ -22,31 +19,32 @@ data(int role, int column)
 {
   using Domain::WellTrait;
 
-  switch (role) {
-  case Qt::DisplayRole:
-    return getDisplayOrEditRole(column);
-    break;
+  switch (role)
+  {
+    case Qt::DisplayRole:
+      return getDisplayOrEditRole(column);
+      break;
 
-  case Qt::EditRole:
-    return getDisplayOrEditRole(column);
-    break;
+    case Qt::EditRole:
+      return getDisplayOrEditRole(column);
+      break;
 
-  case Qt::DecorationRole:
+    case Qt::DecorationRole:
 
-    if (!_trait->isValid())
+      if (!_trait->isValid())
+        return QVariant();
+      else
+        return getDecorationRole(column);
+
+      break;
+
+    case Qt::ForegroundRole:
+      return getForegroundRole(column);
+      break;
+
+    default:
       return QVariant();
-    else
-      return getDecorationRole(column);
-
-    break;
-
-  case Qt::ForegroundRole:
-    return getForegroundRole(column);
-    break;
-
-  default:
-    return QVariant();
-    break;
+      break;
   }
 
   return QVariant();
@@ -61,18 +59,19 @@ getDisplayOrEditRole(int column) const
 
   using Domain::WellTrait;
 
-  switch (column) {
-  case Trait:
-    result = _trait->name();
-    break;
+  switch (column)
+  {
+    case Trait:
+      result = _trait->name();
+      break;
 
-  case Synonyms:
-    result = _trait->getSynonymsAsString();
-    break;
+    case Synonyms:
+      result = _trait->getSynonymsAsString();
+      break;
 
-  case Type:
-    result = WellTrait::typeAsString(_trait->type());
-    break;
+    case Type:
+      result = WellTrait::typeAsString(_trait->type());
+      break;
   }
 
   return result;
@@ -84,14 +83,15 @@ WellTraitEntry::
 getDecorationRole(int column) const
 {
   if (column == CloseAction)
-    switch (_state) {
-    case Active:
-      return QIcon(":/delete.png");
-      break;
+    switch (_state)
+    {
+      case Active:
+        return QIcon(":/delete.png");
+        break;
 
-    case Deleted:
-      return QIcon(":/revert.png");
-      break;
+      case Deleted:
+        return QIcon(":/revert.png");
+        break;
     }
 
   return QVariant();
@@ -106,16 +106,18 @@ getForegroundRole(int column) const
 
   QVariant result;
 
-  switch (_state) {
-  case Active: {
-    QPalette palette;
-    result =  QColor(palette.color(QPalette::WindowText));
-    break;
-  }
+  switch (_state)
+  {
+    case Active:
+    {
+      QPalette palette;
+      result = QColor(palette.color(QPalette::WindowText));
+      break;
+    }
 
-  case Deleted:
-    result = QColor(Qt::lightGray);
-    break;
+    case Deleted:
+      result = QColor(Qt::lightGray);
+      break;
   }
 
   return result;
@@ -134,14 +136,15 @@ void
 WellTraitEntry::
 switchState()
 {
-  switch (_state) {
-  case Active:
-    _state = Deleted;
-    break;
+  switch (_state)
+  {
+    case Active:
+      _state = Deleted;
+      break;
 
-  case Deleted:
-    _state = Active;
-    break;
+    case Deleted:
+      _state = Active;
+      break;
   }
 }
 

@@ -1,6 +1,6 @@
 #include "WellTraitItemDelegate.hpp"
 
-#include <DependencyManager/ApplicationContext>
+#include <ComponentManager/Creator>
 
 #include <Widgets/KeywordWidget>
 

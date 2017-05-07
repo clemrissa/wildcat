@@ -1,19 +1,19 @@
 #include "LasFileEntry.hpp"
 
+#include <QtGui/QColor>
+
 #include "LasRequired.hpp"
 #include "LogGroup.hpp"
 #include "LogMetrics.hpp"
 #include "Parameters.hpp"
 #include "WellInformation.hpp"
 
-#include <QColor>
-
 using Geo::Import::TreeWrapper::LasFileEntry;
 
 /// Composite pattern. Used to represent LAS file strurcture as a tree
 
 LasFileEntry::
-LasFileEntry(LasFile::Shared lasFile):
+LasFileEntry(LasFile::Shared lasFile) :
   TreeEntry(lasFile)
 {
   createEntries(lasFile);
@@ -42,24 +42,27 @@ QVariant
 LasFileEntry::
 data(int role, int column) const
 {
-  switch (role) {
-  case Qt::DisplayRole: {
-    switch (column) {
-    case TreeEntry::Name:
-      return _lasFile->fileName;
-      break;
+  switch (role)
+  {
+    case Qt::DisplayRole:
+    {
+      switch (column)
+      {
+        case TreeEntry::Name:
+          return _lasFile->fileName;
+          break;
 
-    default:
-      return QVariant();
+        default:
+          return QVariant();
+          break;
+      }
+
       break;
     }
 
-    break;
-  }
-
-  case Qt::BackgroundRole:
-    return QVariant(QColor(0xCC, 0xDD, 0xEE));
-    break;
+    case Qt::BackgroundRole:
+      return QVariant(QColor(0xCC, 0xDD, 0xEE));
+      break;
   }
 
   return QVariant();

@@ -14,7 +14,7 @@ file(GLOB_RECURSE CPP_FILES source/*.cpp)
 add_executable(${TARGET_NAME} ${CPP_FILES})
 
 target_link_libraries(${TARGET_NAME} PRIVATE
-                      DependencyManager
+                      ComponentManager
                       ${Boost_FILESYSTEM_LIBRARY}
                       ${Boost_SYSTEM_LIBRARY}
                       Qt5::Core

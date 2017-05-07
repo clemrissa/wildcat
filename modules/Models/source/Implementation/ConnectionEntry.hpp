@@ -1,5 +1,4 @@
-#ifndef Geo_Models_ConnectionEntry_hpp
-#define Geo_Models_ConnectionEntry_hpp
+#pragma once
 
 #include <QtCore/QVariant>
 
@@ -53,4 +52,3 @@ private:
 }
 }
 }
-#endif //  Geo_Models_ConnectionEntry_hpp

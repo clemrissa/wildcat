@@ -2,8 +2,6 @@
 
 #include "WellTraitEntry.hpp"
 
-#include <Uni/Logging/Logging>
-
 using Geo::Database::Models::Traits::TraitsWidgetModel;
 
 TraitsWidgetModel::
@@ -47,7 +45,7 @@ bool
 TraitsWidgetModel::
 setData(const QModelIndex& index,
         const QVariant&    value,
-        int                role)
+        int role)
 {
   using Geo::Domain::WellTrait;
 
@@ -59,28 +57,32 @@ setData(const QModelIndex& index,
 
   bool oldTraitStatus = traitEntry->trait()->isValid();
 
-  switch (index.column()) {
-  case WellTraitEntry::Trait: {
-    traitEntry->trait()->setName(value.toString().toUpper());
-    break;
-  }
+  switch (index.column())
+  {
+    case WellTraitEntry::Trait:
+    {
+      traitEntry->trait()->setName(value.toString().toUpper());
+      break;
+    }
 
-  case WellTraitEntry::Synonyms: {
-    auto list = value.toString().split(",", QString::SkipEmptyParts);
+    case WellTraitEntry::Synonyms:
+    {
+      auto list = value.toString().split(",", QString::SkipEmptyParts);
 
-    for (QString& s : list)
-      s = s.toUpper();
+      for (QString& s : list)
+        s = s.toUpper();
 
-    traitEntry->trait()->setSynonyms(list);
+      traitEntry->trait()->setSynonyms(list);
 
-    break;
-  }
+      break;
+    }
 
-  case WellTraitEntry::Type: {
-    traitEntry->trait()->setType(static_cast<WellTrait::Type>(value.toInt()));
+    case WellTraitEntry::Type:
+    {
+      traitEntry->trait()->setType(static_cast<WellTrait::Type>(value.toInt()));
 
-    break;
-  }
+      break;
+    }
   }
 
   bool newTraitStatus = traitEntry->trait()->isValid();
@@ -93,8 +95,10 @@ setData(const QModelIndex& index,
   auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
 
   // not yet in the DB
-  if (!traitEntry->getPersisted()) {
-    if (becameValid) {
+  if (!traitEntry->getPersisted())
+  {
+    if (becameValid)
+    {
       beginResetModel();
       {
         wellTraitAccess->insert(traitEntry->trait());
@@ -108,7 +112,8 @@ setData(const QModelIndex& index,
       }
       endResetModel();
     }
-  } else if (newTraitStatus) // it was persisted and stays valid
+  }
+  else if (newTraitStatus)   // it was persisted and stays valid
 
     wellTraitAccess->update(traitEntry->trait());
 
@@ -123,7 +128,8 @@ index(int row, int column, const QModelIndex& parent) const
   Q_UNUSED(row);
   Q_UNUSED(column);
 
-  if (!parent.isValid()) {
+  if (!parent.isValid())
+  {
     WellTraitEntry* entry =
       (row == _entries.size()) ? nullptr : _entries[row];
 
@@ -165,9 +171,9 @@ rowCount(const QModelIndex& parent) const
 
 QVariant
 TraitsWidgetModel::
-headerData(int             section,
+headerData(int section,
            Qt::Orientation orientation,
-           int             role)  const
+           int role)  const
 {
   QVariant result;
 
@@ -177,22 +183,23 @@ headerData(int             section,
   if (orientation == Qt::Vertical)
     return result;
 
-  switch (section) {
-  case WellTraitEntry::Trait:
-    result = tr("Trait");
-    break;
+  switch (section)
+  {
+    case WellTraitEntry::Trait:
+      result = tr("Trait");
+      break;
 
-  case WellTraitEntry::Synonyms:
-    result = tr("Synonyms");
-    break;
+    case WellTraitEntry::Synonyms:
+      result = tr("Synonyms");
+      break;
 
-  case WellTraitEntry::Type:
-    result = tr("Data Type");
-    break;
+    case WellTraitEntry::Type:
+      result = tr("Data Type");
+      break;
 
-  default:
-    result = QVariant();
-    break;
+    default:
+      result = QVariant();
+      break;
   }
 
   return result;
@@ -203,7 +210,7 @@ Qt::ItemFlags
 TraitsWidgetModel::
 flags(const QModelIndex& index) const
 {
-  Qt::ItemFlags flags =   QAbstractItemModel::flags(index);
+  Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
   if (index.column() != WellTraitEntry::CloseAction)
     flags |= Qt::ItemIsEditable;
@@ -230,7 +237,8 @@ onClicked(const QModelIndex& index)
 {
   if (!index.parent().isValid() &&
       index.column() == WellTraitEntry::CloseAction &&
-      index.row() != _entries.size() - 1) {
+      index.row() != _entries.size() - 1)
+  {
     auto wellTraitEntry = _entries[index.row()];
 
     wellTraitEntry->switchState();
@@ -289,5 +297,4 @@ deleteMarkedEntries()
     if (entry->getPersisted() &&
         entry->getState() == WellTraitEntry::Deleted)
       wellTraitAccess->remove(entry->trait());
-
 }

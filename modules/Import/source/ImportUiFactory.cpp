@@ -8,9 +8,7 @@
 
 #include <Core/MainWindow>
 
-#include <DependencyManager/ApplicationContext>
-
-#include <Uni/Logging/Logging>
+#include <ComponentManager/Creator>
 
 #include "ImportController.hpp"
 
@@ -19,21 +17,18 @@ using Geo::Import::ImportUiFactory;
 class ImportUiFactory::Private
 {
 public:
-  Private():
+  Private() :
     _menu(new QMenu(tr("Import"))),
     _toolBar(new QToolBar())
-  {
-  }
+  {}
 
   void
   fillActionList()
   {
-    using DependencyManager::ApplicationContext;
     using Geo::Core::MainWindow;
 
     MainWindow* mainWindow =
-      DependencyManager::ApplicationContext::create<MainWindow>(
-        "Core.MainWindow");
+      ComponentManager::create<MainWindow*>("Core.MainWindow");
 
     QAction* action = nullptr;
 
@@ -62,7 +57,7 @@ public:
   }
 
 public:
-  QMenu*    _menu;
+  QMenu* _menu;
   QToolBar* _toolBar;
 
   QList<QAction*> _actionList;
@@ -72,12 +67,11 @@ public:
 
 Q_INVOKABLE
 ImportUiFactory::
-ImportUiFactory():
+ImportUiFactory() :
   _p(new Private())
 {
   _p->fillActionList();
   _p->constructMenu();
-  // _p->constructToolBar();
 }
 
 

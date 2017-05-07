@@ -1,5 +1,4 @@
-#ifndef Geo_Database_Gui_Traits_WellTraitItemDelegate_hpp
-#define Geo_Database_Gui_Traits_WellTraitItemDelegate_hpp
+#pragma once
 
 #include <QtWidgets/QStyledItemDelegate>
 
@@ -14,7 +13,7 @@ namespace Gui {
 namespace Traits {
 //
 
-class WellTraitItemDelegate: public QStyledItemDelegate
+class WellTraitItemDelegate : public QStyledItemDelegate
 {
   Q_OBJECT
 
@@ -39,7 +38,7 @@ public:
 
   //QSize
   //sizeHint(const QStyleOptionViewItem& option,
-           //const QModelIndex&          index) const override;
+  //const QModelIndex&          index) const override;
 };
 
 //
@@ -47,5 +46,3 @@ public:
 }
 }
 }
-
-#endif //  Geo_Database_Gui_Traits_WellTraitItemDelegate_hpp

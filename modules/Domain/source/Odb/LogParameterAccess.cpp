@@ -1,7 +1,5 @@
 #include "LogParameterAccess.hpp"
 
-#include <Uni/Logging/Logging>
-
 #include "LogParameter.odb.hpp"
 
 #include <odb/transaction.hxx>

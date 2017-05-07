@@ -1,12 +1,12 @@
 #include "Implementation/ConnectionListModel.hpp"
 #include "Implementation/ConnectionTableModel.hpp"
 
-#include "Auxiliary/Visibility.hpp"
+#include "Export.hpp"
 
-#include <DependencyManager/MetaSystem/MetaTypeRegistration>
+#include <ComponentManager/ComponentRegistry>
 
 extern "C" {
-Geo_Models_PUBLIC void
+Models_PUBLIC void
 registerComponent()
 {
   REGISTER_TYPE(Geo::Models::Implementation::ConnectionListModel);

@@ -18,7 +18,7 @@ add_library(${TARGET_NAME} SHARED ${CPP_FILES})
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
 target_link_libraries(${TARGET_NAME} PRIVATE
-                      DependencyManager
+                      ComponentManager
                       Qt5::Core
                       Qt5::Widgets
                       Qt5::Qml
@@ -28,9 +28,8 @@ target_include_directories(${TARGET_NAME} INTERFACE "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
 target_include_directories(${TARGET_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
 
-target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
-target_compile_definitions(${TARGET_NAME} PRIVATE "-D${TARGET_NAME}_EXPORTS")
-
+target_compile_definitions(${TARGET_NAME} PUBLIC ${TARGET_NAME}_SHARED)
+target_compile_definitions(${TARGET_NAME} PRIVATE ${TARGET_NAME}_EXPORTS)
 
 # ==============================================================================
 

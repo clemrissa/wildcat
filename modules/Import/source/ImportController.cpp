@@ -14,11 +14,9 @@
 #include "Las/LasFileParser.hpp"
 #include "Las/TreeWrapper/LasFileEntry.hpp"
 
-#include <DependencyManager/ApplicationContext>
+#include <ComponentManager/Creator>
 
 #include <Core/MainWindow>
-
-#include <Uni/Logging/Logging>
 
 using Geo::Import::TreeWrapper::LasFileEntry;
 
@@ -57,9 +55,8 @@ void
 ImportController::
 selectFilesAndImport()
 {
-  using       AC = DependencyManager::ApplicationContext;
   using       Geo::Core::MainWindow;
-  MainWindow* mainWindow = AC::create<MainWindow>("Core.MainWindow");
+  MainWindow* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   QStringList fileList =
     QFileDialog::getOpenFileNames(mainWindow,

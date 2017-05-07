@@ -1,5 +1,4 @@
-#ifndef Geo_LogViewer_LogViewerUiFactory_hpp
-#define Geo_LogViewer_LogViewerUiFactory_hpp
+#pragma once
 
 #include <QObject>
 
@@ -29,5 +28,3 @@ private:
 };
 }
 }
-
-#endif // Geo_LogViewer_LogViewerUiFactory_hpp

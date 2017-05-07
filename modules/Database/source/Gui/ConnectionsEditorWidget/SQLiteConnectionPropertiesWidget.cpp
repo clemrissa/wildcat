@@ -6,15 +6,14 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 
+#include <QtCore/QDebug>
+
 #include <QtCore/QSharedPointer>
 
-#include <DependencyManager/ApplicationContext>
-
-#include <Uni/Logging/Logging>
+#include <ComponentManager/Creator>
 
 #include <Widgets/KeywordWidget>
 
-#include <QDebug>
 
 using Geo::Database::Connections::Connection;
 using Geo::Database::Connections::SQLiteConnection;

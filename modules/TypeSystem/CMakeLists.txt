@@ -1,13 +1,15 @@
 cmake_minimum_required(VERSION 2.8.12)
 
-# Define project {{{
-# -----------------------------------------------------------------------------
-project(TypeSystem CXX)
-# -----------------------------------------------------------------------------
-# Define project}}}
-
-# Targets {{{
 # ==============================================================================
+
+# Define project
+
+project(TypeSystem CXX)
+
+# ==============================================================================
+
+# Targets
+
 set(TARGET_NAME ${PROJECT_NAME})
 
 file(GLOB_RECURSE CPP_FILES source/*.cpp)
@@ -20,7 +22,7 @@ add_library(${TARGET_NAME} SHARED ${CPP_FILES} ${CPP_TEST_FILES} ${RESOURCE_SOUR
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
 target_link_libraries(${TARGET_NAME} PRIVATE
-                      DependencyManager
+                      ComponentManager
                       Domain
                       Qt5::Core
                       Qt5::Widgets
@@ -33,7 +35,8 @@ target_link_libraries(${TARGET_NAME} PUBLIC
                       ${ODB_LIBRARY}
                       ${ODBSQLITE_LIBRARY}
                       ${ODBQT_LIBRARY}
-                      GTest)
+                      #GTest
+                      )
 
 target_include_directories(${TARGET_NAME} PUBLIC "${SQLite_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "${ODB_INCLUDE_DIR}")
@@ -47,14 +50,13 @@ target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Database,INT
 target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Widgets,INTERFACE_INCLUDE_DIRECTORIES>)
 target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Models,INTERFACE_INCLUDE_DIRECTORIES>)
 
-target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
-target_compile_definitions(${TARGET_NAME} PRIVATE "-D${TARGET_NAME}_EXPORTS")
+target_compile_definitions(${TARGET_NAME} PUBLIC ${TARGET_NAME}_SHARED)
+target_compile_definitions(${TARGET_NAME} PRIVATE ${TARGET_NAME}_EXPORTS)
 
 # ==============================================================================
-# }}} Targets
 
-# Install {{{
-# ==============================================================================
+# Install
+
 install(TARGETS ${TARGET_NAME}
         LIBRARY DESTINATION ${INSTALL_COMPONENT_DIR}
         RUNTIME DESTINATION ${INSTALL_COMPONENT_DIR})
@@ -67,6 +69,3 @@ install(TARGETS ${TARGET_NAME}
 #install(DIRECTORY resource/imgs DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
 
 install(FILES resource/${TARGET_NAME}.xml DESTINATION "${INSTALL_COMPONENT_DIR}")
-# ==============================================================================
-
-# }}} Install

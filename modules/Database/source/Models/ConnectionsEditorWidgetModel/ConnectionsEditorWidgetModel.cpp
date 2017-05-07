@@ -1,8 +1,6 @@
 #include "ConnectionsEditorWidgetModel.hpp"
 
-#include <DependencyManager/ApplicationContext>
-
-#include <Uni/Logging/Logging>
+#include <ComponentManager/Creator>
 
 #include <Connections/ConnectionManager.hpp>
 
@@ -20,10 +18,8 @@ using Geo::Database::Models::ConnectionsEditorWidgetModel::Entry;
 ConnectionsEditorWidgetModel::
 ConnectionsEditorWidgetModel()
 {
-  using DependencyManager::ApplicationContext;
-
   _connectionsManager =
-    ApplicationContext::create<ConnectionManager>("Database.ConnectionManager");
+    ComponentManager::create<ConnectionManager*>("Database.ConnectionManager");
 
   for (auto connection : _connectionsManager->connections())
     _entries.push_back(new ConnectionEntry(connection));
@@ -97,9 +93,9 @@ rowCount(const QModelIndex& parent) const
 
 QVariant
 ConnectionsEditorWidgetModel::
-headerData(int             section,
+headerData(int section,
            Qt::Orientation orientation,
-           int             role)  const
+           int role)  const
 {
   QVariant result;
 
@@ -109,18 +105,19 @@ headerData(int             section,
   if (orientation == Qt::Vertical)
     return result;
 
-  switch (section) {
-  case ConnectionEntry::Type:
-    result = tr("Type");
-    break;
+  switch (section)
+  {
+    case ConnectionEntry::Type:
+      result = tr("Type");
+      break;
 
-  case ConnectionEntry::Database:
-    result = tr("Database");
-    break;
+    case ConnectionEntry::Database:
+      result = tr("Database");
+      break;
 
-  default:
-    result = QVariant();
-    break;
+    default:
+      result = QVariant();
+      break;
   }
 
   return result;
@@ -149,6 +146,7 @@ ConnectionsEditorWidgetModel::
 addConnection(Connections::DatabaseType databaseType)
 {
   int size = _connectionsManager->size();
+
   beginInsertRows(QModelIndex(), size, size);
 
   _connectionsManager->createConnection();
@@ -171,7 +169,8 @@ onClicked(const QModelIndex& index)
 {
   if (!index.parent().isValid() &&
       index.column() == ConnectionEntry::CloseAction &&
-      index.row() != _entries.size() - 1) {
+      index.row() != _entries.size() - 1)
+  {
     beginRemoveRows(QModelIndex(), index.row(), index.row());
     auto connectionWrapper = _entries.takeAt(index.row());
     delete connectionWrapper;

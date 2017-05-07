@@ -1,5 +1,4 @@
-#ifndef Geo_Import_UnitWidget_hpp
-#define Geo_Import_UnitWidget_hpp
+#pragma once
 
 #include <Database/Mixin/ConnectionAcceptor>
 #include <QWidget>
@@ -9,7 +8,7 @@ namespace TypeSystem {
 namespace Gui {
 //
 
-class UnitWidget:
+class UnitWidget :
   public QWidget,
   public Database::Mixin::ConnectionAcceptor
 {
@@ -55,5 +54,3 @@ private:
 } // namespace Gui
 } // namespace TypeSystem
 } // namespace Geo
-
-#endif // Geo_Import_UnitWidget_hpp

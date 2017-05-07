@@ -3,7 +3,7 @@
 #include <QtWidgets/QLabel>
 
 #include <Core/MainWindow>
-#include <DependencyManager/ApplicationContext>
+#include <ComponentManager/Creator>
 
 #include <Widgets/ConnectionSettingsWidget>
 
@@ -45,15 +45,14 @@ void
 TypeSystemController::
 showCurveTypeWidget()
 {
-  using AC = DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
   using Geo::Widgets::ConnectionSettingsWidget;
   using TypeSystem::Gui::CurveTypeWidget;
 
-  auto mainWindow = AC::create<MainWindow>("Core.MainWindow");
+  auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   auto settingsWidget =
-    AC::create<ConnectionSettingsWidget>("Widgets.ConnectionSettingsWidget");
+    ComponentManager::create<ConnectionSettingsWidget*>("Widgets.ConnectionSettingsWidget");
 
   auto curveTypeWidget = new CurveTypeWidget();
 
@@ -67,15 +66,14 @@ void
 TypeSystemController::
 showUnitsWidget()
 {
-  using AC = DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
   using Geo::Widgets::ConnectionSettingsWidget;
   using TypeSystem::Gui::UnitWidget;
 
-  auto mainWindow = AC::create<MainWindow>("Core.MainWindow");
+  auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   auto settingsWidget =
-    AC::create<ConnectionSettingsWidget>("Widgets.ConnectionSettingsWidget");
+    ComponentManager::create<ConnectionSettingsWidget*>("Widgets.ConnectionSettingsWidget");
 
   // inject widget here
   auto unitWidget = new UnitWidget();

@@ -7,15 +7,16 @@
 
 #include <Core/MainWindow>
 
-#include <DependencyManager/ApplicationContext>
+#include <ComponentManager/Creator>
 
 #include "LogViewerController.hpp"
 
 using Geo::LogViewer::LogViewerUiFactory;
 
-class LogViewerUiFactory::Private {
+class LogViewerUiFactory::Private
+{
 public:
-  Private():
+  Private() :
     _menu(new QMenu(tr("LogViewer"))),
     _toolBar(new QToolBar())
   {}
@@ -23,12 +24,10 @@ public:
   void
   fillActionList()
   {
-    using DependencyManager::ApplicationContext;
     using Geo::Core::MainWindow;
 
     MainWindow* mainWindow =
-
-      DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
+      ComponentManager::create<MainWindow*>("Core.MainWindow");
 
     QAction* action = nullptr;
 
@@ -41,14 +40,12 @@ public:
     _actionList.append(action);
   }
 
-
   void
   constructMenu()
   {
     for (QAction* action : _actionList)
       _menu->addAction(action);
   }
-
 
   void
   constructToolBar()
@@ -57,9 +54,8 @@ public:
       _toolBar->addAction(action);
   }
 
-
 public:
-  QMenu*    _menu;
+  QMenu* _menu;
   QToolBar* _toolBar;
 
   QList<QAction*> _actionList;
@@ -68,7 +64,7 @@ public:
 // --------------------------
 
 LogViewerUiFactory::
-LogViewerUiFactory():
+LogViewerUiFactory() :
   _p(new Private())
 {
   _p->fillActionList();

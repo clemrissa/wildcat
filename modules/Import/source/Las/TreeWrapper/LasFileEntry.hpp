@@ -1,5 +1,4 @@
-#ifndef Geo_Import_LasFileEntry_hpp
-#define Geo_Import_LasFileEntry_hpp
+#pragma once
 
 #include "TreeEntry.hpp"
 
@@ -7,7 +6,7 @@ namespace Geo {
 namespace Import {
 namespace TreeWrapper {
 /// Composite pattern. Used to represent LAS file strurcture as a tree
-class LasFileEntry: public TreeEntry
+class LasFileEntry : public TreeEntry
 {
 public:
   LasFileEntry(QSharedPointer<LasFile> lasFile);
@@ -22,4 +21,3 @@ private:
 }
 }
 }
-#endif // Geo_Import_LasFileEntry_hpp

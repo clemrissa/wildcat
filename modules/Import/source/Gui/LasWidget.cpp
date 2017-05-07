@@ -1,7 +1,5 @@
 #include "LasWidget.hpp"
 
-#include <Uni/Logging/Logging>
-
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QList>
 #include <QtCore/QPoint>
@@ -21,7 +19,7 @@
 
 #include <Models/ConnectionListModel>
 
-#include <DependencyManager/ApplicationContext>
+#include <ComponentManager/Creator>
 
 #include "ImportController.hpp"
 #include "ImportTreeItemDelegate.hpp"
@@ -33,7 +31,6 @@
 
 #include <Las/TreeWrapper/WellInformation.hpp>
 
-using AC = DependencyManager::ApplicationContext;
 using Geo::Import::Gui::LasWidget;
 
 struct LasWidget::Private
@@ -117,7 +114,7 @@ connectSignals()
 
   // -------- main window notification
   using       Geo::Core::MainWindow;
-  MainWindow* mainWindow = AC::create<MainWindow>("Core.MainWindow");
+  MainWindow* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   connect(this, SIGNAL(notifyMainWindow(QString)),
           mainWindow, SLOT(setStatus(QString)));

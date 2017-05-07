@@ -3,16 +3,16 @@
 
 #include "DatabaseUiFactory.hpp"
 
-// #include "Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp"
+#include <QtWidgets/QMenu>
 
-#include "Auxiliary/Visibility.hpp"
+#include <ComponentManager/ComponentRegistry>
 
-#include <QMenu>
+#include "Export.hpp"
 
-#include <DependencyManager/MetaSystem/MetaTypeRegistration>
+extern "C"
+{
 
-extern "C" {
-Geo_Database_PUBLIC void
+Database_PUBLIC void
 registerComponent()
 {
   REGISTER_TYPE(QMenu);

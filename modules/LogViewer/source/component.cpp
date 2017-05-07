@@ -1,14 +1,14 @@
-#include "Auxiliary/Visibility.hpp"
-
-#include <DependencyManager/MetaSystem/MetaTypeRegistration>
+#include "Export.hpp"
 
 #include "LogViewerUiFactory.hpp"
 #include "LogViewerWidget.hpp"
 
-#include <DependencyManager/MetaSystem/MetaTypeRegistration>
+#include <ComponentManager/ComponentRegistry>
+
+#include "Export.hpp"
 
 extern "C" {
-Geo_LogViewer_PUBLIC void
+LogViewer_PUBLIC void
 registerComponent()
 {
   REGISTER_TYPE(Geo::LogViewer::LogViewerUiFactory);

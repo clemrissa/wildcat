@@ -8,8 +8,8 @@
 #include <QtCore/QList>
 
 #include <Core/MainWindow>
-#include <DependencyManager/ApplicationContext>
-#include <Uni/Logging/Logging>
+
+#include <ComponentManager/Creator>
 
 #include "DatabaseController.hpp"
 
@@ -56,11 +56,10 @@ QList<QAction*>
 DatabaseUiFactory::
 createActionList() const
 {
-  using DependencyManager::ApplicationContext;
   using Geo::Core::MainWindow;
 
   MainWindow* mainWindow =
-    DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
+    ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   DatabaseController* in = DatabaseController::instance();
 

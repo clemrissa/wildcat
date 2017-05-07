@@ -1,5 +1,4 @@
-#ifndef Geo_Database_TraitsWidget_hpp
-#define Geo_Database_TraitsWidget_hpp
+#pragma once
 
 #include <Mixin/ConnectionAcceptor.hpp>
 
@@ -13,7 +12,7 @@ class ConnectionPropertiesWiget;
 namespace Traits {
 //
 
-class TraitsWidget:
+class TraitsWidget :
   public QWidget,
   public Mixin::ConnectionAcceptor
 {
@@ -47,4 +46,3 @@ private:
 }
 }
 }
-#endif //  Geo_Database_TraitsWidget_hpp

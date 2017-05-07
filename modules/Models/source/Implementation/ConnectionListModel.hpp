@@ -1,5 +1,4 @@
-#ifndef Geo_Models_ConnectionListModel_Implementation_hpp
-#define Geo_Models_ConnectionListModel_Implementation_hpp
+#pragma once
 
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QSharedPointer>
@@ -18,7 +17,7 @@ class ConnectionEntry;
 
 /// TODO: make class abstract, do not link to this library directly
 
-class ConnectionListModel: public Models::ConnectionListModel
+class ConnectionListModel : public Models::ConnectionListModel
 {
   Q_OBJECT
 
@@ -46,9 +45,9 @@ public:
   rowCount(const QModelIndex& parent) const override;
 
   QVariant
-  headerData(int             section,
+  headerData(int section,
              Qt::Orientation orientation,
-             int             role = Qt::DisplayRole) const override;
+             int role = Qt::DisplayRole) const override;
 
   Qt::ItemFlags
   flags(const QModelIndex& index) const override;
@@ -75,4 +74,3 @@ protected:
 }
 }
 }
-#endif //  Geo_Models_ConnectionListModel_Implementation_hpp

@@ -1,5 +1,4 @@
-#ifndef Geo_Database_Gui_ConnectionEntryItemDelegate_hpp
-#define Geo_Database_Gui_ConnectionEntryItemDelegate_hpp
+#pragma once
 
 #include <QStyledItemDelegate>
 
@@ -11,7 +10,7 @@ namespace Gui {
 namespace ConnectionsEditorWidget {
 //
 
-class ConnectionEntryItemDelegate: public QStyledItemDelegate
+class ConnectionEntryItemDelegate : public QStyledItemDelegate
 {
   Q_OBJECT
 
@@ -45,5 +44,3 @@ private slots:
 }
 }
 }
-
-#endif //  Geo_Database_Gui_ConnectionEntryItemDelegate_hpp

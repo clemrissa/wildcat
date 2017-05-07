@@ -2,15 +2,14 @@
 
 #include "SQLiteConnection.hpp"
 
-#include <QTextStream>
+#include <QtCore/QTextStream>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QStandardPaths>
+
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 #include <QtXml/QDomText>
-
-#include <Uni/Logging/Logging>
 
 using Geo::Database::Connections::Connection;
 using Geo::Database::Connections::ConnectionManager;
@@ -71,7 +70,8 @@ loadFromXml()
   if (!file.open(QIODevice::ReadOnly))
     return;
 
-  if (!doc.setContent(&file)) {
+  if (!doc.setContent(&file))
+  {
     file.close();
     return;
   }
@@ -84,11 +84,13 @@ loadFromXml()
 
   QDomNode n = docElem.firstChild();
 
-  while (!n.isNull()) {
+  while (!n.isNull())
+  {
     // try to convert the node to an element.
     QDomElement e = n.toElement();
 
-    if (!e.isNull()) {
+    if (!e.isNull())
+    {
       Connection::Shared connection =
         Connection::restoreConnectionFromXml(e);
 
@@ -108,6 +110,7 @@ saveToXml()
   QDomDocument doc("Connections");
 
   QDomElement root = doc.createElement("Connections");
+
   doc.appendChild(root);
 
   for (auto connection : _connections)

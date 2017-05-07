@@ -1,8 +1,8 @@
-#ifndef Geo_Import_ImportWidget_hpp
-#define Geo_Import_ImportWidget_hpp
+#pragma once
+
+#include <QtWidgets/QWidget>
 
 #include <Database/Mixin/ConnectionAcceptor>
-#include <QtWidgets/QWidget>
 
 namespace Geo {
 namespace Import {
@@ -13,7 +13,7 @@ class ImportTreeModel;
 namespace Gui {
 //
 
-class ImportWidget: public QWidget
+class ImportWidget : public QWidget
 {
   Q_OBJECT
 
@@ -57,5 +57,3 @@ private:
 } // namespace Gui
 } // namespace Import
 } // namespace Geo
-
-#endif // Geo_Import_ImportWidget_hpp

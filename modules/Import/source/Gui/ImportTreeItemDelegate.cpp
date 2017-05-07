@@ -2,8 +2,6 @@
 
 #include <Las/TreeWrapper/TreeEntry.hpp>
 
-#include <Uni/Logging/Logging>
-
 #include <QtWidgets/QLineEdit>
 
 using Geo::Import::Gui::ImportTreeItemDelegate;

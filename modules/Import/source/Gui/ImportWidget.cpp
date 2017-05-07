@@ -1,7 +1,5 @@
 #include "ImportWidget.hpp"
 
-#include <Uni/Logging/Logging>
-
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QList>
 #include <QtCore/QPoint>
@@ -21,7 +19,7 @@
 
 #include <Models/ConnectionListModel>
 
-#include <DependencyManager/ApplicationContext>
+#include <ComponentManager/Creator>
 
 #include "ImportController.hpp"
 #include "ImportTreeItemDelegate.hpp"
@@ -33,7 +31,6 @@
 
 #include <Las/TreeWrapper/WellInformation.hpp>
 
-using AC = DependencyManager::ApplicationContext;
 using Geo::Import::Gui::ImportWidget;
 
 struct ImportWidget::Private
@@ -46,7 +43,7 @@ struct ImportWidget::Private
 };
 
 ImportWidget::
-ImportWidget():
+ImportWidget() :
   p(new Private)
 {
   setWindowTitle("Import Data");
@@ -76,7 +73,7 @@ setupUi()
   p->connectionsComboBox = new QComboBox();
 
   using CLM = Geo::Models::ConnectionListModel;
-  auto m = AC::create<CLM>("Models.ConnectionListModel");
+  auto m = ComponentManager::create<CLM*>("Models.ConnectionListModel");
 
   p->connectionsComboBox->setModel(m);
 
@@ -119,12 +116,12 @@ connectSignals()
   connect(p->connectionsComboBox, SIGNAL(activated(int)),
           p->treeView, SLOT(expandAll()));
 
-  connect(p->treeView, SIGNAL(customContextMenuRequested(const QPoint &)),
-          this, SLOT(onTableViewMenuRequested(const QPoint &)));
+  connect(p->treeView, SIGNAL(customContextMenuRequested(const QPoint&)),
+          this, SLOT(onTableViewMenuRequested(const QPoint&)));
 
   // -------- main window notification
   using       Geo::Core::MainWindow;
-  MainWindow* mainWindow = AC::create<MainWindow>("Core.MainWindow");
+  MainWindow* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   connect(this, SIGNAL(notifyMainWindow(QString)),
           mainWindow, SLOT(setStatus(QString)));
@@ -137,14 +134,13 @@ setModel(ImportTreeModel* importModel)
 {
   p->treeView->setModel(importModel);
 
-  using DependencyManager::ApplicationContext;
   using Geo::Database::Connections::ConnectionManager;
 
   auto connectionManager =
-    ApplicationContext::create<ConnectionManager>(
-      "Database.ConnectionManager");
+    ComponentManager::create<ConnectionManager*>("Database.ConnectionManager");
 
-  if (connectionManager->size()) {
+  if (connectionManager->size())
+  {
     importModel->setConnection(connectionManager->at(0));
     p->treeView->expandAll();
   }
@@ -181,7 +177,7 @@ onConnectionSelected(int index)
 {
   using CM = Database::Connections::ConnectionManager;
 
-  auto cm = AC::create<CM>("Database.ConnectionManager");
+  auto cm = ComponentManager::create<CM*>("Database.ConnectionManager");
 
   auto model = static_cast<ImportTreeModel*>(p->treeView->model());
 
@@ -210,7 +206,8 @@ onTableViewMenuRequested(const QPoint& pos)
   WellInfoBase* wellInfo =
     dynamic_cast<WellInfoBase*>(treeEntry);
 
-  if (wellInfo) {
+  if (wellInfo)
+  {
     QSharedPointer<QMenu> menu(MenuFactory::getWellInformationBaseMenu(
                                  wellInfo,
                                  index.column()));

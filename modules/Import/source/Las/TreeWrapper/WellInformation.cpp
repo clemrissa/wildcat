@@ -6,8 +6,8 @@ using Geo::Import::TreeWrapper::WellInfoBase;
 
 WellInfoBase::
 WellInfoBase(QSharedPointer<LasFile> lasFile,
-             TreeEntry*              parent):
-  TreeEntry(lasFile, parent)
+             TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
 {
   findAppropriateTrait();
 }
@@ -19,30 +19,33 @@ delegateWidget(int column) const
 {
   QWidget* result = nullptr;
 
-  switch (column) {
-  case TreeEntry::ImportValue: {
-    QLineEdit* line = new QLineEdit();
+  switch (column)
+  {
+    case TreeEntry::ImportValue:
+    {
+      QLineEdit* line = new QLineEdit();
 
-    line->setText(data(Qt::DisplayRole, TreeEntry::ImportValue).toString());
+      line->setText(data(Qt::DisplayRole, TreeEntry::ImportValue).toString());
 
-    result = line;
-    break;
-  }
+      result = line;
+      break;
+    }
 
-  case TreeEntry::Type: {
-    QComboBox* comboBox = new QComboBox();
+    case TreeEntry::Type:
+    {
+      QComboBox* comboBox = new QComboBox();
 
-    auto traitList = getWellTraitNames();
+      auto traitList = getWellTraitNames();
 
-    for (QString s : traitList)
-      comboBox->addItem(s);
+      for (QString s : traitList)
+        comboBox->addItem(s);
 
-    result = comboBox;
-    break;
-  }
+      result = comboBox;
+      break;
+    }
 
-  default:
-    break;
+    default:
+      break;
   }
 
   return result;
@@ -65,23 +68,26 @@ setData(int role, int column, QVariant value)
 {
   bool result = false;
 
-  switch (column) {
-  case TreeEntry::ImportValue: {
-    setImportValue(value);
+  switch (column)
+  {
+    case TreeEntry::ImportValue:
+    {
+      setImportValue(value);
 
-    result = true;
-    break;
-  }
+      result = true;
+      break;
+    }
 
-  case TreeEntry::Type: {
-    setTraitValue(value);
+    case TreeEntry::Type:
+    {
+      setTraitValue(value);
 
-    result = true;
-    break;
-  }
+      result = true;
+      break;
+    }
 
-  default:
-    break;
+    default:
+      break;
   }
 
   return result;
@@ -94,23 +100,26 @@ setDataFromWidget(QWidget*            editor,
                   QModelIndex const&  index,
                   QAbstractItemModel* model)
 {
-  switch (index.column()) {
-  case TreeEntry::ImportValue: {
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+  switch (index.column())
+  {
+    case TreeEntry::ImportValue:
+    {
+      auto lineEdit = static_cast<QLineEdit*>(editor);
 
-    model->setData(index, lineEdit->text(), Qt::EditRole);
-    break;
-  }
+      model->setData(index, lineEdit->text(), Qt::EditRole);
+      break;
+    }
 
-  case TreeEntry::Type: {
-    auto cbox = static_cast<QComboBox*>(editor);
+    case TreeEntry::Type:
+    {
+      auto cbox = static_cast<QComboBox*>(editor);
 
-    model->setData(index, cbox->currentIndex(), Qt::EditRole);
-    break;
-  }
+      model->setData(index, cbox->currentIndex(), Qt::EditRole);
+      break;
+    }
 
-  default:
-    break;
+    default:
+      break;
   }
 }
 
@@ -189,13 +198,12 @@ findAppropriateTrait()
   bool changed = false;
 
   for (WellTrait::Shared t : traits)
-    if (t->synonyms().contains(name)) {
+    if (t->synonyms().contains(name))
+    {
       changed = true;
       _trait  = t;
       break;
     }
-
-
 
   if (!changed)
     _trait.clear();
@@ -209,12 +217,10 @@ using Geo::Import::TreeWrapper::WellInfo;
 WellInfo::
 WellInfo(QSharedPointer<LasFile> lasFile,
          TreeEntry*              parent,
-         int                     position):
+         int position) :
   WellInfoBase(lasFile, parent),
   _position(position)
-{
-}
-
+{}
 
 QVariant
 WellInfo::
@@ -225,39 +231,40 @@ data(int role, int column) const
 
   QString key = _lasFile->wellInformation.keys()[_position];
 
-  switch (column) {
-  case TreeEntry::Name:
-    return key;
-    break;
+  switch (column)
+  {
+    case TreeEntry::Name:
+      return key;
+      break;
 
-  case TreeEntry::Description:
-    return _lasFile->wellInformation[key].description;
-    break;
+    case TreeEntry::Description:
+      return _lasFile->wellInformation[key].description;
+      break;
 
-  case TreeEntry::Value:
-    return _lasFile->wellInformation[key].value;
-    break;
+    case TreeEntry::Value:
+      return _lasFile->wellInformation[key].value;
+      break;
 
-  case TreeEntry::ImportValue:
-    return _lasFileToImport->wellInformation[key].value;
-    break;
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->wellInformation[key].value;
+      break;
 
-  case TreeEntry::Type:
+    case TreeEntry::Type:
 
-    if (!_trait.isNull())
-      return _trait->name();
-    else
+      if (!_trait.isNull())
+        return _trait->name();
+      else
+        return QVariant();
+
+      break;
+
+    case TreeEntry::Units:
+      return _lasFile->wellInformation[key].units;
+      break;
+
+    default:
       return QVariant();
-
-    break;
-
-  case TreeEntry::Units:
-    return _lasFile->wellInformation[key].units;
-    break;
-
-  default:
-    return QVariant();
-    break;
+      break;
   }
 
   return QVariant();
@@ -280,6 +287,7 @@ WellInfo::
 setImportValue(QVariant value)
 {
   QString key = _lasFile->wellInformation.keys()[_position];
+
   _lasFileToImport->wellInformation[key].value = value.toString();
 }
 
@@ -290,7 +298,7 @@ using Geo::Import::TreeWrapper::WellInformationGroup;
 
 WellInformationGroup::
 WellInformationGroup(QSharedPointer<LasFile> lasFile,
-                     TreeEntry*              parent):
+                     TreeEntry*              parent) :
   TreeEntry(lasFile, parent)
 {
   for (int i = 0; i < _lasFile->wellInformation.keys().size(); ++i)
@@ -305,13 +313,14 @@ data(int role, int column) const
   if (role != Qt::DisplayRole)
     return QVariant();
 
-  switch (column) {
-  case TreeEntry::Name:
-    return tr("Well Information");
-    break;
+  switch (column)
+  {
+    case TreeEntry::Name:
+      return tr("Well Information");
+      break;
 
-  default:
-    return QVariant();
-    break;
+    default:
+      return QVariant();
+      break;
   }
 }

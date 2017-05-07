@@ -1,26 +1,33 @@
 #include "Application.hpp"
 
-#include <DependencyManager/ApplicationContext>
+#include <ComponentManager/Creator>
 
 // --
 
 using namespace Geo;
 
 Application::
-Application(int& argc, char** argv): QApplication(argc, argv) {
-  // INFO << "Application was started";
+Application(int& argc, char** argv)
+  : QApplication(argc, argv)
+{
+  qInfo("Application was started");
 }
 
+
 Application::
-~Application() {
+~Application()
+{
   // INFO << "Application was finished";
 }
 
+
 void
 Application::
-createMainWindow() {
+createMainWindow()
+{
   MainWindow* mainWindow =
-    DependencyManager::ApplicationContext::create<MainWindow>("Core.MainWindow");
+    ComponentManager::create<MainWindow*>("Core.MainWindow");
+
   _mainWindow = SharedMainWindow(mainWindow);
   _mainWindow->showMaximized();
 }

@@ -1,5 +1,4 @@
-#ifndef Geo_Widgets_Implementation_ConnectionSettingsWidget_hpp
-#define Geo_Widgets_Implementation_ConnectionSettingsWidget_hpp
+#pragma once
 
 #include <ConnectionSettingsWidget.hpp>
 
@@ -8,7 +7,7 @@ namespace Widgets {
 namespace Implementation {
 //
 
-class ConnectionSettingsWidget:
+class ConnectionSettingsWidget :
   public Geo::Widgets::ConnectionSettingsWidget
 {
   Q_OBJECT
@@ -50,4 +49,3 @@ private:
 }
 }
 }
-#endif //  Geo_Widgets_Implementation_ConnectionSettingsWidget_hpp

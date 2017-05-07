@@ -8,7 +8,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
-#include <DependencyManager/ApplicationContext>
+#include <ComponentManager/Creator>
 
 #include <Models/ConnectionListModel>
 
@@ -18,13 +18,12 @@ using Geo::Widgets::Implementation::ConnectionSettingsWidget;
 
 struct ConnectionSettingsWidget::Private
 {
-  Private():
+  Private() :
     connectionsComboBox(nullptr),
     editorWidget(nullptr),
     dialogButton(nullptr),
     model(nullptr)
-  {
-  }
+  {}
 
   QComboBox* connectionsComboBox;
 
@@ -38,7 +37,7 @@ struct ConnectionSettingsWidget::Private
 };
 
 ConnectionSettingsWidget::
-ConnectionSettingsWidget():
+ConnectionSettingsWidget() :
   p(new Private())
 {
   setupUi();
@@ -78,9 +77,9 @@ setEditorWidget(QWidget* editorWidget)
   connectSignals();
 
   // select first connection
-  using AC = DependencyManager::ApplicationContext;
   using Database::Connections::ConnectionManager;
-  auto cm = AC::create<ConnectionManager>("Database.ConnectionManager");
+
+  auto cm = ComponentManager::create<ConnectionManager*>("Database.ConnectionManager");
 
   if (cm->size() > 0)
     emit connectionChanged(cm->connections()[0]);
@@ -97,10 +96,9 @@ setupUi()
   // ---
   p->connectionsComboBox = new QComboBox();
 
-  using AC  = DependencyManager::ApplicationContext;
   using CLM = Geo::Models::ConnectionListModel;
 
-  auto m = AC::create<CLM>("Models.ConnectionListModel");
+  auto m = ComponentManager::create<CLM*>("Models.ConnectionListModel");
   p->model = m;
 
   p->connectionsComboBox->setModel(m);
@@ -166,10 +164,9 @@ void
 ConnectionSettingsWidget::
 onConnectionActivated(int index)
 {
-  using AC = DependencyManager::ApplicationContext;
   using CM = Database::Connections::ConnectionManager;
 
-  auto cm = AC::create<CM>("Database.ConnectionManager");
+  auto cm = ComponentManager::create<CM*>("Database.ConnectionManager");
 
   emit connectionChanged(cm->connections()[index]);
 }

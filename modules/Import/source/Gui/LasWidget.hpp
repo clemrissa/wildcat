@@ -1,5 +1,4 @@
-#ifndef Geo_Import_LasWidget_hpp
-#define Geo_Import_LasWidget_hpp
+#pragma once
 
 #include <QtWidgets/QWidget>
 
@@ -14,9 +13,9 @@ class ImportTreeModel;
 namespace Gui {
 //
 
-class LasWidget:
-  public QWidget,
-  public Database::Mixin::ConnectionAcceptor
+class LasWidget
+  : public QWidget
+  , public Database::Mixin::ConnectionAcceptor
 {
   Q_OBJECT
 
@@ -57,5 +56,3 @@ private:
 } // namespace Gui
 } // namespace Import
 } // namespace Geo
-
-#endif // Geo_Import_LasWidget_hpp

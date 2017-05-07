@@ -1,8 +1,7 @@
-#ifndef _GeoImport_ImportTreeModel_hpp_
-#define _GeoImport_ImportTreeModel_hpp_
+#pragma once
 
-#include <QAbstractItemModel>
-#include <QVector>
+#include <QtCore/QAbstractItemModel>
+#include <QtCore/QVector>
 
 #include <Database/Connections/Connection>
 
@@ -15,7 +14,7 @@ class TreeEntry;
 class LasFileEntry;
 }
 
-class ImportTreeModel: public QAbstractItemModel
+class ImportTreeModel : public QAbstractItemModel
 {
 public:
   ImportTreeModel(QVector<LasFile::Shared> lasFiles);
@@ -41,7 +40,7 @@ public:
   bool
   setData(const QModelIndex& index,
           const QVariant&    value,
-          int                role = Qt::EditRole) override;
+          int role = Qt::EditRole) override;
 
   virtual
   QModelIndex
@@ -58,16 +57,16 @@ public:
   //
 
   QVariant
-  headerData(int             section,
+  headerData(int section,
              Qt::Orientation orientation,
-             int             role = Qt::DisplayRole) const override;
+             int role = Qt::DisplayRole) const override;
 
   Qt::ItemFlags
   flags(const QModelIndex& index) const override;
 
 private:
   QVector<TreeWrapper::LasFileEntry*> _lasFileEntries;
-  QVector<LasFile::Shared>            _lasFiles;
+  QVector<LasFile::Shared> _lasFiles;
 
   Geo::Database::Connections::Connection::Shared _connection;
 
@@ -76,5 +75,3 @@ private:
 };
 }
 }
-
-#endif //  _GeoImport_ImportTreeModel_hpp_

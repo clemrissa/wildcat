@@ -1,5 +1,4 @@
-#ifndef Geo_Import_ImportUiFactory_hpp
-#define Geo_Import_ImportUiFactory_hpp
+#pragma once
 
 #include <QObject>
 
@@ -9,7 +8,8 @@ class QToolBar;
 namespace Geo {
 namespace Import {
 // Creates menu and tool bar for using import component
-class ImportUiFactory: public QObject {
+class ImportUiFactory : public QObject
+{
   Q_OBJECT
 
 public:
@@ -34,5 +34,3 @@ private:
 };
 }
 }
-
-#endif // Geo_Import_ImportUiFactory_hpp

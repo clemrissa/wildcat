@@ -1,12 +1,12 @@
-#ifndef Geo_Import_Gui_ImportTreeWidget_hpp
-#define Geo_Import_Gui_ImportTreeWidget_hpp
+#pragma once
 
 #include <QtWidgets/QStyledItemDelegate>
 
 namespace Geo {
 namespace Import {
 namespace Gui {
-class ImportTreeItemDelegate: public QStyledItemDelegate
+
+class ImportTreeItemDelegate : public QStyledItemDelegate
 {
   Q_OBJECT
 
@@ -34,5 +34,3 @@ public:
 }
 }
 }
-
-#endif //  Geo_Import_Gui_ImportTreeWidget_hpp

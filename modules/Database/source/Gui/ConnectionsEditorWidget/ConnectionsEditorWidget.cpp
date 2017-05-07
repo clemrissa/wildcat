@@ -12,8 +12,6 @@
 #include <Models/ConnectionsEditorWidgetModel/ConnectionEntry.hpp>
 #include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
 
-#include <Uni/Logging/Logging>
-
 using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionsEditorWidget;
 
 using Geo::Database::Models::ConnectionsEditorWidgetModel::

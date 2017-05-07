@@ -5,8 +5,6 @@
 #include <QModelIndex>
 #include <QWidget>
 
-#include <Uni/Logging/Logging>
-
 #include <Models/ConnectionsEditorWidgetModel/ConnectionEntry.hpp>
 #include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
 

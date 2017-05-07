@@ -6,8 +6,6 @@
 #include <QtWidgets/QListView>
 #include <QtWidgets/QTableView>
 
-#include <DependencyManager/ApplicationContext>
-
 #include <Models/CurveTypes/CurveTypeEntry.hpp>
 #include <Models/CurveTypes/FamilyEntry.hpp>
 #include <Models/Units/UnitTableEntry.hpp>

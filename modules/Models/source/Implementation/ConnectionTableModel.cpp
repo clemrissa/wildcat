@@ -3,8 +3,6 @@
 #include <Database/Connections/ConnectionManager>
 #include <Database/Connections/Connection>
 
-#include <DependencyManager/ApplicationContext>
-
 #include "ConnectionEntry.hpp"
 
 using Geo::Models::Implementation::ConnectionEntry;

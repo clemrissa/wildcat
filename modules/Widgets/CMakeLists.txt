@@ -18,10 +18,11 @@ file(GLOB_RECURSE CPP_TEST_FILES tests/*.cpp)
 
 
 add_library(${TARGET_NAME} SHARED ${CPP_FILES})
+
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
 target_link_libraries(${TARGET_NAME} PRIVATE
-                      DependencyManager
+                      ComponentManager
                       Domain
                       Qt5::Core
                       Qt5::Widgets

@@ -1,5 +1,4 @@
-#ifndef Geo_Database_Traits_WellTrait_hpp
-#define Geo_Database_Traits_WellTrait_hpp
+#pragma once
 
 #include <Database/Connections/Connection>
 #include <Domain/WellTrait>
@@ -12,7 +11,7 @@ namespace Models {
 namespace Traits {
 //
 
-class WellTraitEntry: public Entry
+class WellTraitEntry : public Entry
 {
 public:
   enum Column { Trait,
@@ -72,5 +71,3 @@ private:
 }
 }
 }
-
-#endif //  Geo_Database_Traits_WellTrait_hpp

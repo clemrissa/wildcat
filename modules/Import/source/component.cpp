@@ -1,19 +1,17 @@
-#include "Auxiliary/Visibility.hpp"
+#include <QtWidgets/QMenu>
 
-#include <Uni/Logging/Logging>
+#include <ComponentManager/ComponentRegistry>
 
-#include <DependencyManager/MetaSystem/MetaTypeRegistration>
+#include <Gui/ImportWidget.hpp>
 
 #include "Las/LasFile.hpp"
 #include "Las/LasFileParser.hpp"
-
 #include "ImportUiFactory.hpp"
 
-#include <Gui/ImportWidget.hpp>
-#include <QMenu>
+#include "Export.hpp"
 
 extern "C" {
-Geo_Import_PUBLIC void
+Import_PUBLIC void
 registerComponent()
 {
   REGISTER_TYPE(Geo::Import::Gui::ImportWidget);

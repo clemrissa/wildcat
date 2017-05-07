@@ -1,5 +1,4 @@
-#ifndef Geo_Models_ConnectionListModel_hpp
-#define Geo_Models_ConnectionListModel_hpp
+#pragma once
 
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QSharedPointer>
@@ -22,13 +21,12 @@ namespace Models {
 class ConnectionEntry;
 
 /// TODO: make class abstract, do not link to this library directly
-class ConnectionListModel: public QAbstractItemModel
+class ConnectionListModel : public QAbstractItemModel
 {
 public:
   virtual
   ~ConnectionListModel()
-  {
-  }
+  {}
 
   // public:
   // virtual Database::Connections::Connection::Shared
@@ -38,5 +36,3 @@ public:
 //
 }
 }
-
-#endif //  Geo_Models_ConnectionListModel_hpp

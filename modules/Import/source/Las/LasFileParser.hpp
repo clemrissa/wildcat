@@ -1,5 +1,4 @@
-#ifndef Geo_Import_LasFileParser_hpp
-#define Geo_Import_LasFileParser_hpp
+#pragma once
 
 #include <QtCore/QDateTime>
 #include <QtCore/QMap>
@@ -12,7 +11,7 @@
 
 namespace Geo {
 namespace Import {
-class LasFileParser: public QObject
+class LasFileParser : public QObject
 {
   Q_OBJECT
 
@@ -50,9 +49,7 @@ private:
   QStringList _lines;
 
   int _version;
-  bool    _wrap;
+  bool _wrap;
 };
 }
 }
-
-#endif

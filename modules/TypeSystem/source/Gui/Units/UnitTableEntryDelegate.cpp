@@ -6,8 +6,6 @@
 #include <QtWidgets/QListView>
 #include <QtWidgets/QTableView>
 
-#include <DependencyManager/ApplicationContext>
-
 #include <Models/Units/UnitTableEntry.hpp>
 
 #include "DimensionsDelegate.hpp"

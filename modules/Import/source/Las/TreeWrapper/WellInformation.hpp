@@ -1,5 +1,4 @@
-#ifndef Geo_Import_TreeWrapper_WellInformation_hpp
-#define Geo_Import_TreeWrapper_WellInformation_hpp
+#pragma once
 
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLineEdit>
@@ -8,8 +7,6 @@
 #include <Domain/WellTrait>
 
 #include "TreeEntry.hpp"
-
-#include <Uni/Logging/Logging>
 
 namespace Geo {
 namespace Domain {
@@ -20,7 +17,7 @@ namespace Import {
 namespace TreeWrapper {
 //
 
-class WellInfoBase: public TreeEntry
+class WellInfoBase : public TreeEntry
 {
 public:
   WellInfoBase(QSharedPointer<LasFile> lasFile,
@@ -68,12 +65,12 @@ protected:
 
 // ------------------------------------------------------
 
-class WellInfo: public WellInfoBase
+class WellInfo : public WellInfoBase
 {
 public:
   WellInfo(QSharedPointer<LasFile> lasFile,
            TreeEntry*              parent,
-           int                     position);
+           int position);
 
   QVariant
   data(int role, int column) const override;
@@ -91,7 +88,7 @@ private:
 
 // ------------------------------------------------------
 
-class WellInformationGroup: public TreeEntry
+class WellInformationGroup : public TreeEntry
 {
 public:
   WellInformationGroup(QSharedPointer<LasFile> lasFile,
@@ -105,5 +102,3 @@ public:
 }
 }
 }
-
-#endif // Geo_Import_TreeWrapper_WellInformation_hpp
