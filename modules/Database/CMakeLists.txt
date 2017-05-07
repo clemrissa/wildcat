@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.2)
 
 # ==============================================================================
 
@@ -19,6 +19,7 @@ file(GLOB_RECURSE RESOURCES resource/*.qrc)
 qt5_add_resources(RESOURCE_SOURCES ${RESOURCES})
 
 add_library(${TARGET_NAME} SHARED ${CPP_FILES} ${CPP_TEST_FILES} ${RESOURCE_SOURCES})
+
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
 target_link_libraries(${TARGET_NAME} PRIVATE

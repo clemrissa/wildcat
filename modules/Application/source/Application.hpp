@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Core/MainWindow"
-
 #include <QtWidgets/QApplication>
 
-#include <boost/shared_ptr.hpp>
+#include <Core/MainWindow>
+
+#include <memory>
 
 namespace Geo
 {
@@ -14,8 +14,8 @@ class Application : public QApplication
   Q_OBJECT
 
 private:
-  typedef Core::MainWindow MainWindow;
-  typedef boost::shared_ptr<MainWindow> SharedMainWindow;
+  using MainWindow = Core::MainWindow;
+  using SharedMainWindow = std::shared_ptr<MainWindow>;
 
 public:
   Application(int& argc, char** argv);

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.2)
 
 # ==============================================================================
 
@@ -34,11 +34,11 @@ target_link_libraries(${TARGET_NAME} PUBLIC
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
 
-target_include_directories(${TARGET_NAME} PRIVATE SYSTEM "${Boost_INCLUDE_DIRS}")
+#target_include_directories(${TARGET_NAME} PRIVATE SYSTEM "${Boost_INCLUDE_DIRS}")
 target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Core,INTERFACE_INCLUDE_DIRECTORIES>)
 
-target_compile_definitions(${TARGET_NAME} PUBLIC "-D${TARGET_NAME}_SHARED")
-target_compile_definitions(${TARGET_NAME} PRIVATE "-D${TARGET_NAME}_EXPORTS")
+target_compile_definitions(${TARGET_NAME} PUBLIC -D${TARGET_NAME}_SHARED)
+target_compile_definitions(${TARGET_NAME} PRIVATE -D${TARGET_NAME}_EXPORTS)
 
 # ==============================================================================
 

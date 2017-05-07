@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.2)
 
 # ==============================================================================
 
@@ -26,7 +26,6 @@ target_link_libraries(${TARGET_NAME} PRIVATE
 
 target_include_directories(${TARGET_NAME} INTERFACE "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
-target_include_directories(${TARGET_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
 
 target_compile_definitions(${TARGET_NAME} PUBLIC ${TARGET_NAME}_SHARED)
 target_compile_definitions(${TARGET_NAME} PRIVATE ${TARGET_NAME}_EXPORTS)

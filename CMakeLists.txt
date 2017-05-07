@@ -68,19 +68,10 @@ find_package(HDF5 REQUIRED)
 
 
 set(Boost_USE_STATIC_LIBS    OFF)
-set(Boost_USE_STATIC_RUNTIME ON)
 set(Boost_USE_MULTITHREADED  ON)
 
-set(BOOST_ROOT ${THIRDPARTY})
-
-find_package(Boost COMPONENTS filesystem system REQUIRED)
-
-if(Boost_FOUND)
-  #message("******** Boost_INCLUDE_DIRS ${Boost_INCLUDE_DIRS}")
-  #message("******** Boost_FILESYSTEM ${Boost_FILESYSTEM_LIBRARY}")
-  #message("******** Boost_SYSTEM ${Boost_SYSTEM_LIBRARY}")
-endif()
-
+find_package(Boost 1.6 REQUIRED
+             COMPONENTS filesystem system)
 
 # Configure SQLite
 

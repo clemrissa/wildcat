@@ -1,13 +1,15 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.2)
 
-# Define project {{{
-# -----------------------------------------------------------------------------
-project(Domain CXX)
-# -----------------------------------------------------------------------------
-# Define project}}}
-
-# Targets {{{
 # ==============================================================================
+
+# Define project
+
+project(Domain CXX)
+
+# ==============================================================================
+
+# Targets
+
 set(TARGET_NAME ${PROJECT_NAME})
 
 file(GLOB_RECURSE CPP_FILES source/*.cpp)
@@ -25,22 +27,22 @@ set(ODB_HEADERS ${PROJECT_SOURCE_DIR}/source/Well.hpp
 
 
 odb_compile(HEADER ${ODB_HEADERS}
-  DB sqlite
-  STANDARD c++11
-  GENERATE_QUERY GENERATE_SESSION GENERATE_SCHEMA
-  PROFILE qt
-  INCLUDE
-  ${Qt5Core_INCLUDE_DIRS}
-  ${SQLite_INCLUDE_DIR}
-  ${ODB_INCLUDE_DIR}
-  ${ODBSQLITE_INCLUDE_DIR}
-  ${ODBQT_INCLUDE_DIR}
-  source
-  HEADER_SUFFIX ".hpp"
-  SOURCE_SUFFIX ".cpp"
-  INLINE_SUFFIX ".inline.hpp"
-  FILE_SUFFIX ".odb"
-  OUTPUT "CPP_FILES")
+            DB sqlite
+            STANDARD c++11
+            GENERATE_QUERY GENERATE_SESSION GENERATE_SCHEMA
+            PROFILE qt
+            INCLUDE
+            ${Qt5Core_INCLUDE_DIRS}
+            ${SQLite_INCLUDE_DIR}
+            ${ODB_INCLUDE_DIR}
+            ${ODBSQLITE_INCLUDE_DIR}
+            ${ODBQT_INCLUDE_DIR}
+            source
+            HEADER_SUFFIX ".hpp"
+            SOURCE_SUFFIX ".cpp"
+            INLINE_SUFFIX ".inline.hpp"
+            FILE_SUFFIX ".odb"
+            OUTPUT "CPP_FILES")
 
 add_library(${TARGET_NAME} STATIC ${CPP_FILES})
 
@@ -66,11 +68,8 @@ target_include_directories(${TARGET_NAME} PRIVATE "source")
 target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "${Boost_INCLUDE_DIRS}")
 
 # ==============================================================================
-# }}} Targets
 
-# Install {{{
-# -----------------------------------------------------------------------------
+# Install
+
 install(TARGETS ${PROJECT_NAME}
         ARCHIVE DESTINATION ${INSTALL_LIBRARY_DIR})
-# -----------------------------------------------------------------------------
-# }}} Install
