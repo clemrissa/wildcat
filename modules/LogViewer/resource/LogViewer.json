@@ -1,0 +1,43 @@
+{
+  "module" : {
+    "name" : "LogViewer",
+
+    "path" : "../modules",
+
+    "components" : [
+      {
+        "name" : "LogViewer.Menu",
+
+        "construction" : "factory",
+
+        "factory" : "LogViewerUiFactory",
+
+        "function" : "getLogViewerMenu"
+      },
+
+      {
+        "name" : "LogViewerUiFactory",
+
+        "construction" : "singleton",
+
+        "functions" : [
+          {
+            "name" : "getLogViewerMenu"
+          }
+        ]
+      }
+    ],
+
+    "calls" : [
+      {
+        "component" : "BasicMainWindow",
+
+        "function" : "addMenu",
+
+        "parameters" : [
+          { "component" : "LogViewer.Menu"}
+        ]
+      }
+    ]
+  }
+}

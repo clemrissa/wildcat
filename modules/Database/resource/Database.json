@@ -1,0 +1,15 @@
+{
+  "module" : {
+    "name" : "Database",
+
+    "path" : "../modules",
+
+    "components" : [
+      {
+        "name" : "SQLiteConnection",
+
+        "construction" : "prototype"
+      }
+    ]
+  }
+}

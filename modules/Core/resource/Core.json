@@ -1,0 +1,40 @@
+{
+  "module" : {
+    "name" : "Core",
+
+    "path" : "../modules",
+
+    "components" : [
+      {
+        "name" : "BasicMainWindow",
+
+        "class" : "BasicMainWindow",
+
+        "construction" : "singleton",
+
+        "functions" : [
+          {
+            "name" : "toBottomDock",
+            "signature" : [ "component" ]
+          },
+          {
+            "name" : "toLeftDock",
+            "signature" : [ "component" ]
+          },
+          {
+            "name" : "toRightDock",
+            "signature" : [ "component" ]
+          },
+          {
+            "name" : "addMenu",
+            "signature" : [ "component" ]
+          },
+          {
+            "name" : "addToolBar",
+            "signature" : [ "component" ]
+          }
+        ]
+      }
+    ]
+  }
+}
