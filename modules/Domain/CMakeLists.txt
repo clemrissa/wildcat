@@ -35,8 +35,8 @@ odb_compile(HEADER ${ODB_HEADERS}
             ${Qt5Core_INCLUDE_DIRS}
             ${SQLite_INCLUDE_DIR}
             ${ODB_INCLUDE_DIR}
-            ${ODBSQLITE_INCLUDE_DIR}
-            ${ODBQT_INCLUDE_DIR}
+            ${ODB_SQLITE_INCLUDE_DIR}
+            ${ODB_QT_INCLUDE_DIR}
             source
             HEADER_SUFFIX ".hpp"
             SOURCE_SUFFIX ".cpp"
@@ -44,14 +44,13 @@ odb_compile(HEADER ${ODB_HEADERS}
             FILE_SUFFIX ".odb"
             OUTPUT "CPP_FILES")
 
-add_library(${TARGET_NAME} STATIC ${CPP_FILES})
+add_library(${TARGET_NAME} SHARED ${CPP_FILES})
 
 target_link_libraries(${TARGET_NAME} PUBLIC
                       ${SQLITE_LIBRARY}
-                      ${ODB_LIBRARY}
-                      ${ODBSQLITE_LIBRARY}
-                      ${ODBQT_LIBRARY}
-                      ${Boost_LIBRARIES})
+                      ${ODB__LIBRARY}
+                      ${ODB_SQLITE_LIBRARY}
+                      ${ODB_QT_LIBRARY})
 
 
 target_link_libraries(${TARGET_NAME} PRIVATE
@@ -59,8 +58,8 @@ target_link_libraries(${TARGET_NAME} PRIVATE
 
 target_include_directories(${TARGET_NAME} PUBLIC "${SQLite_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "${ODB_INCLUDE_DIR}")
-target_include_directories(${TARGET_NAME} PUBLIC "${ODBSQLITE_INCLUDE_DIR}")
-target_include_directories(${TARGET_NAME} PUBLIC "${ODBQT_INCLUDE_DIR}")
+target_include_directories(${TARGET_NAME} PUBLIC "${ODB_SQLITE_INCLUDE_DIR}")
+target_include_directories(${TARGET_NAME} PUBLIC "${ODB_QT_INCLUDE_DIR}")
 
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
@@ -72,4 +71,5 @@ target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "${Boost_INCLUDE_DIRS}")
 # Install
 
 install(TARGETS ${PROJECT_NAME}
-        ARCHIVE DESTINATION ${INSTALL_LIBRARY_DIR})
+        ARCHIVE DESTINATION ${INSTALL_LIBRARY_DIR}
+        LIBRARY DESTINATION ${INSTALL_LIBRARY_DIR})

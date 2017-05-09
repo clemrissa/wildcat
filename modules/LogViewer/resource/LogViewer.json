@@ -30,7 +30,7 @@
 
     "calls" : [
       {
-        "component" : "BasicMainWindow",
+        "component" : "Core.MainWindow",
 
         "function" : "addMenu",
 

@@ -9,6 +9,40 @@
         "name" : "SQLiteConnection",
 
         "construction" : "prototype"
+      },
+
+      {
+        "name" : "Database.Menu",
+
+        "construction" : "factory",
+
+        "factory" : "DatabaseUiFactory",
+
+        "function" : "createDatabaseMenu"
+      },
+
+      {
+        "name" : "DatabaseUiFactory",
+
+        "construction" : "singleton",
+
+        "functions" : [
+          {
+            "name" : "createDatabaseMenu"
+          }
+        ]
+      }
+    ],
+
+    "calls" : [
+      {
+        "component" : "Core.MainWindow",
+
+        "function" : "addMenu",
+
+        "parameters" : [
+          { "component" : "Database.Menu" }
+        ]
       }
     ]
   }

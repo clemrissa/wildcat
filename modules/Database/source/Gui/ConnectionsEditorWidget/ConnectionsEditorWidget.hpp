@@ -16,14 +16,12 @@ namespace ConnectionsEditorWidget {
 //
 
 // Shows dialog for editing connections
-class ConnectionsEditorWidget: public QWidget
+class ConnectionsEditorWidget : public QWidget
 {
   Q_OBJECT
 
 public:
-  ConnectionsEditorWidget(
-    Models::ConnectionsEditorWidgetModel::ConnectionsEditorWidgetModel*
-    treeModel);
+  ConnectionsEditorWidget(Models::ConnectionsEditorWidgetModel::ConnectionsEditorWidgetModel* treeModel);
 
   ~ConnectionsEditorWidget();
 

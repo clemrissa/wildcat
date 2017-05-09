@@ -27,7 +27,7 @@ public:
     using Geo::Core::MainWindow;
 
     MainWindow* mainWindow =
-      ComponentManager::create<MainWindow*>("BasicMainWindow");
+      ComponentManager::create<MainWindow*>("Core.MainWindow");
 
     QAction* action = nullptr;
 

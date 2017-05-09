@@ -16,14 +16,14 @@ file(GLOB_RECURSE CPP_FILES source/*.cpp)
 
 add_executable(${TARGET_NAME} ${CPP_FILES})
 
-target_link_libraries(${TARGET_NAME}
-                      PRIVATE ComponentManager
-                      PRIVATE Boost::filesystem
-                      PRIVATE Boost::system
-                      PRIVATE Qt5::Core
-                      PRIVATE Qt5::Widgets
-                      PRIVATE Qt5::Qml
-                      PRIVATE Qt5::Quick)
+target_link_libraries(${TARGET_NAME} PRIVATE
+                      ComponentManager
+                      Boost::filesystem
+                      Boost::system
+                      Qt5::Core
+                      Qt5::Widgets
+                      Qt5::Qml
+                      Qt5::Quick)
 
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_DIR}/source")
 target_include_directories(${TARGET_NAME} PRIVATE $<TARGET_PROPERTY:Core,INTERFACE_INCLUDE_DIRECTORIES>)

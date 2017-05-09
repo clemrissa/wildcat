@@ -6,7 +6,7 @@
 
     "components" : [
       {
-        "name" : "BasicMainWindow",
+        "name" : "Core.MainWindow",
 
         "class" : "BasicMainWindow",
 

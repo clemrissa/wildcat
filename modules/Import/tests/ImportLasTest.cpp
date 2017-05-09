@@ -1,15 +1,20 @@
-#include <gtest/gtest.h>
+#include <catch/catch.hpp>
 
-#include <Las/LasFile.hpp>
-#include <Las/LasFileParser.hpp>
+#include <Las/LasFile>
+#include <Las/LasFileParser>
 
-#include <Uni/Logging/Logging>
+#include <QtWidgets/QApplication>
+#include <QtCore/QFile>
+#include <QtCore/QSharedPointer>
 
-#include <QApplication>
-#include <QFile>
-#include <QSharedPointer>
 
-TEST(ImportLas, Las12) {
+void touch()
+{
+  //
+}
+
+TEST_CASE("Las12", "[import]")
+{
   Geo::Import::LasFileParser parser;
 
   // construct las file name
@@ -17,42 +22,43 @@ TEST(ImportLas, Las12) {
                      arg(QCoreApplication::applicationDirPath()).
                      arg("sample_minimal.las");
 
-  ASSERT_TRUE(QFile::exists(fileName));
+  REQUIRE(QFile::exists(fileName) == true);
 
   // parsing
-  QSharedPointer<Geo::Import::LasFile> lasFile = parser.parse(fileName);
+  QSharedPointer<Geo::Import::LasFile> lasFile =
+    parser.parse(fileName);
 
   // check well information
-  ASSERT_TRUE(lasFile->lasRequired.wellName ==
-              QString("ANY ET AL A9-16-49-20"));
+  REQUIRE(lasFile->lasRequired.wellName == QString("ANY ET AL A9-16-49-20"));
 
   // check some key numbers
-  ASSERT_FLOAT_EQ(635.0, lasFile->logMetrics.start);
-  ASSERT_FLOAT_EQ(400.0, lasFile->logMetrics.stop);
-  ASSERT_FLOAT_EQ(-0.1250, lasFile->logMetrics.step);
-  ASSERT_FLOAT_EQ(-999.25, lasFile->logMetrics.nullValue);
+  REQUIRE(lasFile->logMetrics.start == Approx(635.0));
+  REQUIRE(lasFile->logMetrics.stop == Approx(400.0));
+  REQUIRE(lasFile->logMetrics.step == Approx(-0.1250));
+  REQUIRE(lasFile->logMetrics.nullValue == Approx(-999.25));
 
   // check total number of additional entries
-  ASSERT_EQ(0, lasFile->wellInformation.size());
+  REQUIRE(lasFile->wellInformation.size() == 0);
 
   // check some required values and their values
-  ASSERT_TRUE(lasFile->lasRequired.field == "EDAM");
-  ASSERT_TRUE(lasFile->lasRequired.location == "A9-16-49-20W3M");
-  ASSERT_TRUE(lasFile->lasRequired.province == "SASKATCHEWAN");
+  REQUIRE(lasFile->lasRequired.field == "EDAM");
+  REQUIRE(lasFile->lasRequired.location == "A9-16-49-20W3M");
+  REQUIRE(lasFile->lasRequired.province == "SASKATCHEWAN");
 
   // check curve information
-  ASSERT_EQ(8, lasFile->logInformation.size());
+  REQUIRE(lasFile->logInformation.size() == 8);
 
-  ASSERT_TRUE(lasFile->logInformation["RHOB"].units == "K/M3");
-  ASSERT_TRUE(lasFile->logInformation["SFLA"].description ==
-              "SHALLOW RESISTIVITY");
+  REQUIRE(lasFile->logInformation["RHOB"].units == "K/M3");
+  REQUIRE(lasFile->logInformation["SFLA"].description ==
+          "SHALLOW RESISTIVITY");
 
-  ASSERT_TRUE(lasFile->data["SFLA"].size() == lasFile->data["ILD"].size());
+  REQUIRE(lasFile->data["SFLA"].size() == lasFile->data["ILD"].size());
 }
 
 //// -----------------------------
 
-TEST(ImportLas, Las20) {
+TEST_CASE("Las20", "[import]")
+{
   Geo::Import::LasFileParser parser;
 
   // construct las file name
@@ -60,31 +66,30 @@ TEST(ImportLas, Las20) {
                      arg(QCoreApplication::applicationDirPath()).
                      arg("sample_2.0_minimal.las");
 
-  ASSERT_TRUE(QFile::exists(fileName));
+  REQUIRE(QFile::exists(fileName) == true);
 
   // parsing
   QSharedPointer<Geo::Import::LasFile> lasFile = parser.parse(fileName);
 
   // check well information
-  ASSERT_TRUE(lasFile->lasRequired.wellName ==
-              QString("ANY ET AL 12-34-12-34"));
+  REQUIRE(lasFile->lasRequired.wellName == QString("ANY ET AL 12-34-12-34"));
 
-  ASSERT_FLOAT_EQ(635.0, lasFile->logMetrics.start);
-  ASSERT_FLOAT_EQ(400.0, lasFile->logMetrics.stop);
+  REQUIRE(lasFile->logMetrics.start == Approx(635.0));
+  REQUIRE(lasFile->logMetrics.stop == Approx(400.0));
 
   // check total number of additional entries
-  ASSERT_EQ(0, lasFile->wellInformation.size());
+  REQUIRE(lasFile->wellInformation.size() == 0);
 
-  ASSERT_TRUE(lasFile->lasRequired.field == "WILDCAT");
-  ASSERT_TRUE(lasFile->lasRequired.location == "12-34-12-34W5M");
-  ASSERT_TRUE(lasFile->lasRequired.province == "ALBERTA");
+  REQUIRE(lasFile->lasRequired.field == "WILDCAT");
+  REQUIRE(lasFile->lasRequired.location == "12-34-12-34W5M");
+  REQUIRE(lasFile->lasRequired.province == "ALBERTA");
 
   // check curve information
-  ASSERT_EQ(8, lasFile->logInformation.size());
+  REQUIRE(lasFile->logInformation.size() == 8);
 
-  ASSERT_TRUE(lasFile->logInformation["RHOB"].units == "K/M3");
-  ASSERT_TRUE(lasFile->logInformation["SFLA"].description ==
-              "SHALLOW RESISTIVITY");
+  REQUIRE(lasFile->logInformation["RHOB"].units == "K/M3");
+  REQUIRE(lasFile->logInformation["SFLA"].description ==
+          "SHALLOW RESISTIVITY");
 
-  ASSERT_TRUE(lasFile->data["SFLA"].size() == lasFile->data["ILD"].size());
+  REQUIRE(lasFile->data["SFLA"].size() == lasFile->data["ILD"].size());
 }

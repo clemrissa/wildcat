@@ -17,14 +17,12 @@ registerComponent()
 {
   //REGISTER_TYPE(QMenu);
 
-  qDebug() << "REGISTER COMPONENT ==============";
-
   using Geo::Database::Connections::SQLiteConnection;
   using Geo::Database::Connections::ConnectionManager;
   using Geo::Database::DatabaseUiFactory;
 
-  //REGISTER_TYPE(SQLiteConnection);
-  //REGISTER_TYPE(ConnectionManager);
-  //REGISTER_TYPE(DatabaseUiFactory);
+  REGISTER_TYPE(SQLiteConnection);
+  REGISTER_TYPE(ConnectionManager);
+  REGISTER_TYPE(DatabaseUiFactory);
 }
 }

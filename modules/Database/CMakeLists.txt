@@ -12,20 +12,16 @@ project(Database CXX)
 
 set(TARGET_NAME ${PROJECT_NAME})
 
-#file(GLOB_RECURSE CPP_FILES source/*.cpp)
-file(GLOB CPP_FILES source/*.cpp)
-file(GLOB CPP_FILES_C source/Connections/*.cpp)
-
-#file(GLOB CPP_FILES_G_C source//*.cpp)
+file(GLOB_RECURSE CPP_FILES source/*.cpp)
 
 #file(GLOB_RECURSE CPP_TEST_FILES tests/*.cpp)
-#file(GLOB_RECURSE RESOURCES resource/*.qrc)
+file(GLOB_RECURSE RESOURCES resource/*.qrc)
 
-#qt5_add_resources(RESOURCE_SOURCES ${RESOURCES})
+qt5_add_resources(RESOURCE_SOURCES ${RESOURCES})
 
-add_library(${TARGET_NAME} SHARED ${CPP_FILES}  ${CPP_FILES_C}
+add_library(${TARGET_NAME} SHARED ${CPP_FILES}
   #${CPP_TEST_FILES} 
-  #${RESOURCE_SOURCES}
+  ${RESOURCE_SOURCES}
   )
 
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
@@ -37,22 +33,21 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       Qt5::Widgets
                       Qt5::Qml
                       Qt5::Quick
-                      #Qt5::Xml
+                      Qt5::Xml
                       )
 
 target_link_libraries(${TARGET_NAME} PUBLIC
-                      ${SQLITE_LIBRARY}
+                      ${SQLITE3_LIBRARY}
                       ${ODB_LIBRARY}
-                      ${ODBSQLITE_LIBRARY}
-                      ${ODBQT_LIBRARY}
-                      #GTest
+                      ${ODB_SQLITE_LIBRARY}
+                      ${ODB_QT_LIBRARY}
                       )
 
 
-target_include_directories(${TARGET_NAME} PUBLIC "${SQLite_INCLUDE_DIR}")
+target_include_directories(${TARGET_NAME} PUBLIC "${SQLITE3_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "${ODB_INCLUDE_DIR}")
-target_include_directories(${TARGET_NAME} PUBLIC "${ODBSQLITE_INCLUDE_DIR}")
-target_include_directories(${TARGET_NAME} PUBLIC "${ODBQT_INCLUDE_DIR}")
+target_include_directories(${TARGET_NAME} PUBLIC "${ODB_SQLITE_INCLUDE_DIR}")
+target_include_directories(${TARGET_NAME} PUBLIC "${ODB_QT_INCLUDE_DIR}")
 
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")

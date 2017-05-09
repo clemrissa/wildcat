@@ -24,8 +24,8 @@ struct ConnectionsEditorWidget::Private
 };
 
 ConnectionsEditorWidget::
-ConnectionsEditorWidget(ConnectionsEditorWidgetModel* treeModel):
-  p(new ConnectionsEditorWidget::Private())
+ConnectionsEditorWidget(ConnectionsEditorWidgetModel* treeModel)
+  : p(new ConnectionsEditorWidget::Private())
 {
   setupUi(treeModel);
   connectSignals(treeModel);
