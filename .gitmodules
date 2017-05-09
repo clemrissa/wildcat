@@ -1,0 +1,3 @@
+[submodule "thirdparty/component-manager"]
+	path = thirdparty/component-manager
+	url = git@github.com:paceholder/component-manager.git
