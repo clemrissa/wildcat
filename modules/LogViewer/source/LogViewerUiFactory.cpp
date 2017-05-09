@@ -16,9 +16,9 @@ using Geo::LogViewer::LogViewerUiFactory;
 class LogViewerUiFactory::Private
 {
 public:
-  Private() :
-    _menu(new QMenu(tr("LogViewer"))),
-    _toolBar(new QToolBar())
+  Private()
+    : _menu(new QMenu(tr("LogViewer")))
+    , _toolBar(new QToolBar())
   {}
 
   void
@@ -27,7 +27,7 @@ public:
     using Geo::Core::MainWindow;
 
     MainWindow* mainWindow =
-      ComponentManager::create<MainWindow*>("Core.MainWindow");
+      ComponentManager::create<MainWindow*>("BasicMainWindow");
 
     QAction* action = nullptr;
 
@@ -79,7 +79,7 @@ LogViewerUiFactory::
 }
 
 
-Q_INVOKABLE QMenu*
+QObject*
 LogViewerUiFactory::
 getLogViewerMenu()
 {

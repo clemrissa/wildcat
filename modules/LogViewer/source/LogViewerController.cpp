@@ -48,7 +48,7 @@ createLogViewer()
   using Geo::Core::MainWindow;
 
   MainWindow* mainWindow =
-    ComponentManager::create<MainWindow*>("Core.MainWindow");
+    ComponentManager::create<MainWindow*>("BasicMainWindow");
 
   LogViewerWidget* logviewerWidget = new LogViewerWidget();
 

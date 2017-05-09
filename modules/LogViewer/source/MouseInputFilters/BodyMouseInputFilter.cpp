@@ -8,8 +8,8 @@ namespace MouseInputFilters {
 BodyMouseInputFilter::
 BodyMouseInputFilter(
   RenderWidgets::GenericRenderWidget*                    widget,
-  Scalers::Scaler::Pointer                               scaler,
-  SectionControllers::AbstractSectionController::Pointer rootSection):
+  Scalers::Scaler::Pointer scaler,
+  SectionControllers::AbstractSectionController::Pointer rootSection) :
   GenericMouseInputFilter(widget, scaler, rootSection)
 {}
 
@@ -35,7 +35,8 @@ void
 BodyMouseInputFilter::
 mouseMoveEvent(QMouseEvent* event)
 {
-  if (Qt::LeftButton & event->buttons()) {
+  if (Qt::LeftButton & event->buttons())
+  {
     QPoint offset = event->pos() - _lastPoint;
 
     // first X direction
@@ -76,7 +77,8 @@ wheelEvent(QWheelEvent* event)
   double mult = event->delta() > 0 ? 1.25 : 1.0 / 1.25;
 
   // y scaling
-  if (Qt::ShiftModifier & event->modifiers()) {
+  if (Qt::ShiftModifier & event->modifiers())
+  {
     double y = event->y() - _scaler->yOffset();
 
     _scaler->multiplyYScale(mult);
@@ -87,7 +89,8 @@ wheelEvent(QWheelEvent* event)
     event->accept();
   }
   // x scaling
-  else if (Qt::ControlModifier & event->modifiers()) {
+  else if (Qt::ControlModifier & event->modifiers())
+  {
     double x = event->x() - _scaler->xOffset();
 
     _scaler->multiplyXScale(mult);
@@ -97,17 +100,20 @@ wheelEvent(QWheelEvent* event)
 
     event->accept();
     // simple scrolling
-  } else {
+  }
+  else
+  {
     int d = event->delta() / 10;
 
-    switch (event->orientation()) {
-    case Qt::Horizontal:
-      xOvershootControl(d);
-      break;
+    switch (event->orientation())
+    {
+      case Qt::Horizontal:
+        xOvershootControl(d);
+        break;
 
-    case Qt::Vertical:
-      yOvershootControl(d);
-      break;
+      case Qt::Vertical:
+        yOvershootControl(d);
+        break;
     }
 
     event->accept();
@@ -128,7 +134,8 @@ xOvershootControl(int offset)
     // center aligment
     _scaler->setXOffset(_widget->width() / 2 - rootSectionWidth / 2);
 
-  else {
+  else
+  {
     _scaler->addToXOffset(offset);
 
     if (_scaler->xOffset() > 0)
@@ -151,7 +158,8 @@ yOvershootControl(int offset)
     // top aligment
     _scaler->setYOffset(0);
 
-  else {
+  else
+  {
     _scaler->addToYOffset(offset);
 
     if (_scaler->yOffset() > 0)

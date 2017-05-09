@@ -26,7 +26,7 @@ Application::
 createMainWindow()
 {
   MainWindow* mainWindow =
-    ComponentManager::create<MainWindow*>("Core.MainWindow");
+    ComponentManager::create<MainWindow*>("BasicMainWindow");
 
   _mainWindow = SharedMainWindow(mainWindow);
   _mainWindow->showMaximized();

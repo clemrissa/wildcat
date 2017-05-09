@@ -18,7 +18,7 @@ using Geo::LogViewer::SectionControllers::AbstractSectionController;
 
 struct LogViewerWidget::Private {
   RenderWidgets::HeaderRenderWidget* headerRenderWidget;
-  RenderWidgets::BodyRenderWidget*   bodyRenderWidget;
+  RenderWidgets::BodyRenderWidget* bodyRenderWidget;
 
   QSplitter* verticalSplitter;
 
@@ -31,7 +31,7 @@ struct LogViewerWidget::Private {
 };
 
 LogViewerWidget::
-LogViewerWidget():
+LogViewerWidget() :
   _p(new Private)
 {
   setWindowTitle("LogViewer");

@@ -1,8 +1,7 @@
-#ifndef Geo_Database_DatabaseUiFactory_hpp
-#define Geo_Database_DatabaseUiFactory_hpp
+#pragma once
 
-#include <QObject>
-#include <QWidget>
+#include <QtCore/QObject>
+#include <QtWidgets/QWidget>
 
 class QMenu;
 class QToolBar;
@@ -12,7 +11,7 @@ namespace Database {
 //
 
 /// Creates some UI elements, links them to
-class DatabaseUiFactory: public QObject
+class DatabaseUiFactory : public QObject
 {
   Q_OBJECT
 
@@ -37,5 +36,3 @@ private:
 };
 }
 }
-
-#endif

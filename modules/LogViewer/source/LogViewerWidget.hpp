@@ -1,11 +1,11 @@
-#ifndef Geo_LogView_LogViewerWidget_hpp
-#define Geo_LogView_LogViewerWidget_hpp
+#pragma once
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 
 namespace Geo {
 namespace LogViewer {
-class LogViewerWidget: public QWidget {
+class LogViewerWidget : public QWidget
+{
   Q_OBJECT
 
 public:
@@ -22,5 +22,3 @@ private:
 };
 } // namespace LogViewer
 } // namespace Geo
-
-#endif // Geo_LogView_LogViewerWidget_hpp

@@ -1,5 +1,4 @@
-#ifndef Geo_Core_MainWindow_hpp
-#define Geo_Core_MainWindow_hpp
+#pragma once
 
 #include <QtCore/QString>
 #include <QtWidgets/QMainWindow>
@@ -8,7 +7,7 @@ namespace Geo {
 namespace Core {
 //
 
-class MainWindow: public QMainWindow
+class MainWindow : public QMainWindow
 {
 public:
   virtual void
@@ -22,4 +21,3 @@ public slots:
 //
 }
 }
-#endif

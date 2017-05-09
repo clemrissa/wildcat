@@ -12,13 +12,21 @@ project(Database CXX)
 
 set(TARGET_NAME ${PROJECT_NAME})
 
-file(GLOB_RECURSE CPP_FILES source/*.cpp)
+#file(GLOB_RECURSE CPP_FILES source/*.cpp)
+file(GLOB CPP_FILES source/*.cpp)
+file(GLOB CPP_FILES_C source/Connections/*.cpp)
+
+#file(GLOB CPP_FILES_G_C source//*.cpp)
+
 #file(GLOB_RECURSE CPP_TEST_FILES tests/*.cpp)
-file(GLOB_RECURSE RESOURCES resource/*.qrc)
+#file(GLOB_RECURSE RESOURCES resource/*.qrc)
 
-qt5_add_resources(RESOURCE_SOURCES ${RESOURCES})
+#qt5_add_resources(RESOURCE_SOURCES ${RESOURCES})
 
-add_library(${TARGET_NAME} SHARED ${CPP_FILES} ${CPP_TEST_FILES} ${RESOURCE_SOURCES})
+add_library(${TARGET_NAME} SHARED ${CPP_FILES}  ${CPP_FILES_C}
+  #${CPP_TEST_FILES} 
+  #${RESOURCE_SOURCES}
+  )
 
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
@@ -28,8 +36,9 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       Qt5::Core
                       Qt5::Widgets
                       Qt5::Qml
-                      Qt5::Xml
-                      Qt5::Quick)
+                      Qt5::Quick
+                      #Qt5::Xml
+                      )
 
 target_link_libraries(${TARGET_NAME} PUBLIC
                       ${SQLITE_LIBRARY}
@@ -70,4 +79,5 @@ install(TARGETS ${TARGET_NAME}
 #install(FILES ${jsFiles} DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
 #install(DIRECTORY resource/imgs DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
 
-install(FILES resource/${TARGET_NAME}.xml DESTINATION "${INSTALL_COMPONENT_DIR}")
+#install(FILES resource/${TARGET_NAME}.xml DESTINATION "${INSTALL_COMPONENT_DIR}")
+install(FILES resource/${TARGET_NAME}.json DESTINATION "${INSTALL_COMPONENT_DIR}")

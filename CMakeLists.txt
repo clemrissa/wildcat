@@ -18,6 +18,8 @@ if (WIN32)
   set(CMAKE_SHARED_LIBRARY_PREFIX "")
 endif ()
 
+set(CMAKE_BUILD_TYPE Debug)
+
 # ==============================================================================
 
 # Dependencies
@@ -107,15 +109,15 @@ endif ()
 
 # Modules
 
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Widgets" ./Widgets)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Models" ./Models)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Domain" ./Domain)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Core" ./Core)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Database" ./Database)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/TypeSystem" ./TypeSystem)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/LogViewer" ./LogViewer)
-add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Import" ./Import)
 add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Application" ./Application)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Core" ./Core)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/LogViewer" ./LogViewer)
+#add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Widgets" ./Widgets)
+add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Domain" ./Domain)
+#add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Database" ./Database)
+#add_subdirectory("${CMAKE_SOURCE_DIR}/modules/TypeSystem" ./TypeSystem)
+#add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Import" ./Import)
+#add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Models" ./Models)
 #add_subdirectory("${CMAKE_SOURCE_DIR}/modules/Tests" ./Tests)
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/thirdparty" ./thirdparty)

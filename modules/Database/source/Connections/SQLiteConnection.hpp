@@ -1,5 +1,4 @@
-#ifndef Geo_Database_Connections_SQLiteConnection_hpp
-#define Geo_Database_Connections_SQLiteConnection_hpp
+#pragma once
 
 #include "Connection.hpp"
 
@@ -10,7 +9,7 @@
 namespace Geo {
 namespace Database {
 namespace Connections {
-class SQLiteConnection: public Connection
+class SQLiteConnection : public Connection
 {
   Q_OBJECT
 
@@ -101,4 +100,3 @@ private:
 }
 }
 }
-#endif

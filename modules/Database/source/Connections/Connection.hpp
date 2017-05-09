@@ -1,5 +1,4 @@
-#ifndef Geo_Database_Connections_Connection_hpp
-#define Geo_Database_Connections_Connection_hpp
+#pragma once
 
 #include <Domain/DataAccessFactory>
 
@@ -15,17 +14,16 @@ enum DatabaseType { UnknownDB, SQLite, MySql };
 
 enum Status { Unknown, Connected, Failed };
 
-class Connection: public QObject
+class Connection : public QObject
 {
 public:
-  typedef Domain::DataAccessFactory  DataAccessFactory;
+  typedef Domain::DataAccessFactory DataAccessFactory;
   typedef QSharedPointer<Connection> Shared;
 
 public:
   virtual
   ~Connection()
-  {
-  }
+  {}
 
   virtual
   DataAccessFactory::Shared
@@ -56,25 +54,7 @@ public:
 
 public:
   static QString
-  connectionTypeName(DatabaseType type)
-  {
-    switch (type) {
-    case DatabaseType::SQLite:
-      return tr("SQLite");
-      break;
-
-    case DatabaseType::MySql:
-      return tr("MySQL");
-      break;
-
-    default:
-      Q_ASSERT(false);
-      break;
-    }
-
-    Q_ASSERT(false);
-    return tr("Should not happen");
-  }
+  connectionTypeName(DatabaseType type);
 
   static Connection::Shared
   restoreConnectionFromXml(QDomElement& domElement);
@@ -88,5 +68,3 @@ public:
 }
 }
 }
-
-#endif //  Geo_Database_Connections_Connection_hpp

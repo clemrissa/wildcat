@@ -1,13 +1,14 @@
-#include "BasicMainWindow.hpp"
+#include <ComponentManager/ComponentRegistry>
 
 #include "Export.hpp"
 
-#include <ComponentManager/ComponentRegistry>
+#include "BasicMainWindow.hpp"
 
 extern "C" {
 Core_PUBLIC void
 registerComponent()
 {
-  REGISTER_TYPE(Geo::Core::Private::BasicMainWindow);
+  using Geo::Core::Private::BasicMainWindow;
+  REGISTER_TYPE(BasicMainWindow);
 }
 }
