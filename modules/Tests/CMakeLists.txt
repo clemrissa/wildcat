@@ -10,25 +10,23 @@ project(Tests CXX)
 
 # Targets
 
-set(TARGET_NAME "GeoTests")
-file(GLOB_RECURSE CPP_FILES source/*.cpp)
+set(TARGET_NAME ${PROJECT_NAME})
+
+file(GLOB_RECURSE CPP_FILES "source/*.cpp")
 
 add_executable(${TARGET_NAME} ${CPP_FILES})
 
 target_link_libraries(${TARGET_NAME} PRIVATE
+                      catch
                       ComponentManager
-                      ${Boost_FILESYSTEM_LIBRARY}
-                      ${Boost_SYSTEM_LIBRARY}
-                      GTest
+                      Import
+                      ImportTests
                       Qt5::Core
                       Qt5::Widgets
                       Qt5::Qml
                       Qt5::Quick)
 
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_DIR}/source")
-target_include_directories(${TARGET_NAME} PUBLIC ${GTEST_INCLUDE_DIR})
-
-target_include_directories(${TARGET_NAME} SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
 
 # ==============================================================================
 

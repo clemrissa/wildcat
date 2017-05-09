@@ -1,17 +1,39 @@
-#include <DependencyManager/ApplicationContext>
-#include <DependencyManager/XmlApplicationContextLoader>
+#define CATCH_CONFIG_RUNNER
 
-#include <QApplication>
-#include <QDir>
-#include <QString>
-#include <QStringList>
+#include <catch/catch.hpp>
 
-#include "gtest/gtest.h"
+#include <QtWidgets/QApplication>
 
-// using namespace Geo;
+int main( int argc, char* argv[] )
+{
+  QCoreApplication application(argc, argv);
+
+  int result = Catch::Session().run( argc, argv );
+
+  // global clean-up...
+
+  return ( result < 0xff ? result : 0xff );
+}
+
+
+#if 0
+#define CATCH_CONFIG_RUNNER
+#include <catch/catch.hpp>
+
+#include <QtCore/QDir>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QDebug>
+
+#include <ComponentManager/ModuleLoader>
+#include <ComponentManager/Creator>
 
 int
-main(int argc, char* argv[]) {
+
+
+int
+main(int argc, char* argv[])
+{
   QApplication application(argc, argv);
 
   testing::InitGoogleTest(&argc, argv);
@@ -28,7 +50,8 @@ main(int argc, char* argv[]) {
 
   XmlApplicationContextLoader applicationContextLoader;
 
-  for (QString const& componentFilePath : xmlFiles) {
+  for (QString const& componentFilePath : xmlFiles)
+  {
     QString absolutePath = directory.absoluteFilePath(componentFilePath);
     applicationContextLoader.addfilePath(absolutePath.toUtf8().constData());
   }
@@ -38,3 +61,4 @@ main(int argc, char* argv[]) {
   // start google test
   return RUN_ALL_TESTS();
 }
+#endif
