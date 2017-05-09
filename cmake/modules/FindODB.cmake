@@ -20,11 +20,11 @@ set(ODB_SQLITE_INCLUDE_DIR ${ODB_INCLUDE_DIR})
 set(ODB_QT_INCLUDE_DIR ${ODB_INCLUDE_DIR})
 
 
-find_library(ODB_SQLITE_LIBRARY 
+find_library(ODB_SQLITE_LIBRARY
              PATHS /lib/odb/
              NAMES odb-sqlite)
 
-find_library(ODB_QT_LIBRARY 
+find_library(ODB_QT_LIBRARY
              PATHS /lib/odb/
              NAMES odb-qt)
 
