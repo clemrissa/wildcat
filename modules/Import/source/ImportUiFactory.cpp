@@ -82,7 +82,7 @@ ImportUiFactory::
 }
 
 
-Q_INVOKABLE QMenu*
+QObject*
 ImportUiFactory::
 getImportMenu()
 {
@@ -90,7 +90,7 @@ getImportMenu()
 }
 
 
-Q_INVOKABLE QToolBar*
+QToolBar*
 ImportUiFactory::
 getImportToolBar()
 {

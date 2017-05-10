@@ -23,7 +23,7 @@ public:
   virtual
   ~TypeSystemUiFactory();
 
-  Q_INVOKABLE QMenu*
+  Q_INVOKABLE QObject*
   createTypeSystemMenu();
 
   Q_INVOKABLE

@@ -1,0 +1,45 @@
+{
+  "module" : {
+    "name" : "TypeSystem",
+
+    "path" : "../modules",
+
+    "components" : [
+      {
+        "name" : "TypeSystem.Menu",
+
+        "construction" : "factory",
+
+        "factory" : "TypeSystem.TypeSystemUiFactory",
+
+        "function" : "createTypeSystemMenu"
+      },
+
+      {
+        "name" : "TypeSystem.TypeSystemUiFactory",
+
+        "class" : "Geo::TypeSystem::TypeSystemUiFactory",
+
+        "construction" : "singleton",
+
+        "functions" : [
+          {
+            "name" : "createTypeSystemMenu"
+          }
+        ]
+      }
+    ],
+
+    "calls" : [
+      {
+        "component" : "Core.MainWindow",
+
+        "function" : "addMenu",
+
+        "parameters" : [
+          { "component" : "TypeSystem.Menu" }
+        ]
+      }
+    ]
+  }
+}

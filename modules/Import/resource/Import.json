@@ -1,0 +1,45 @@
+{
+  "module" : {
+    "name" : "Import",
+
+    "path" : "../modules",
+
+    "components" : [
+      {
+        "name" : "Import.Menu",
+
+        "construction" : "factory",
+
+        "factory" : "Import.ImportUiFactory",
+
+        "function" : "getImportMenu"
+      },
+
+      {
+        "name" : "Import.ImportUiFactory",
+
+        "class" : "Geo::Import::ImportUiFactory",
+
+        "construction" : "singleton",
+
+        "functions" : [
+          {
+            "name" : "getImportMenu"
+          }
+        ]
+      }
+    ],
+
+    "calls" : [
+      {
+        "component" : "Core.MainWindow",
+
+        "function" : "addMenu",
+
+        "parameters" : [
+          { "component" : "Import.Menu" }
+        ]
+      }
+    ]
+  }
+}

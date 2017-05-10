@@ -1,5 +1,4 @@
-#ifndef Geo_TypeSystem_Gui_CurveTypeEntryDelegate_hpp
-#define Geo_TypeSystem_Gui_CurveTypeEntryDelegate_hpp
+#pragma once
 
 #include <QtWidgets/QStyledItemDelegate>
 
@@ -8,7 +7,7 @@ namespace TypeSystem {
 namespace Gui {
 //
 
-class CurveTypeEntryDelegate: public QStyledItemDelegate
+class CurveTypeEntryDelegate : public QStyledItemDelegate
 {
   Q_OBJECT
 
@@ -36,5 +35,3 @@ public:
 } // namespace Gui
 } // namespace TypeSystem
 } // namespace Geo
-
-#endif // Geo_TypeSystem_Gui_CurveTypeEntryDelegate_hpp

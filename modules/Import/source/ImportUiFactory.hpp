@@ -21,7 +21,7 @@ public:
 
 public:
   Q_INVOKABLE
-  QMenu*
+  QObject*
   getImportMenu();
 
   Q_INVOKABLE

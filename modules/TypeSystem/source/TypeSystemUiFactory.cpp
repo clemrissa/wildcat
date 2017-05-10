@@ -28,7 +28,7 @@ TypeSystemUiFactory::
 }
 
 
-QMenu*
+QObject*
 TypeSystemUiFactory::
 createTypeSystemMenu()
 {

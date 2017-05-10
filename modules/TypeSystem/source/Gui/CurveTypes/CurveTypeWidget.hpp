@@ -1,5 +1,4 @@
-#ifndef Geo_Import_CurveTypeWidget_hpp
-#define Geo_Import_CurveTypeWidget_hpp
+#pragma once
 
 #include <Database/Mixin/ConnectionAcceptor>
 #include <QWidget>
@@ -9,7 +8,7 @@ namespace TypeSystem {
 namespace Gui {
 //
 
-class CurveTypeWidget:
+class CurveTypeWidget :
   public QWidget,
   public Database::Mixin::ConnectionAcceptor
 {
@@ -58,5 +57,3 @@ private:
 } // namespace Gui
 } // namespace TypeSystem
 } // namespace Geo
-
-#endif // Geo_Import_CurveTypeWidget_hpp
