@@ -31,7 +31,16 @@
             "name" : "createDatabaseMenu"
           }
         ]
+      },
+
+      {
+        "name" : "Database.ConnectionManager",
+
+        "class" : "ConnectionManager",
+
+        "construction" : "singleton"
       }
+
     ],
 
     "calls" : [

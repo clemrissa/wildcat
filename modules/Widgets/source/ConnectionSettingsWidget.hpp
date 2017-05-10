@@ -1,5 +1,4 @@
-#ifndef Geo_Widgets_ConnectionSettingsWidget_hpp
-#define Geo_Widgets_ConnectionSettingsWidget_hpp
+#pragma once
 
 #include <QtWidgets/QWidget>
 
@@ -9,15 +8,14 @@ namespace Geo {
 namespace Widgets {
 //
 
-class ConnectionSettingsWidget: public QWidget
+class ConnectionSettingsWidget : public QWidget
 {
   // Q_OBJECT
 
 public:
   virtual
   ~ConnectionSettingsWidget()
-  {
-  }
+  {}
 
   virtual void
   setEditorWidget(QWidget* editorWidget) = 0;
@@ -30,4 +28,3 @@ signals:
 //
 }
 }
-#endif //  Geo_Widgets_ConnectionSettingsWidget_hpp

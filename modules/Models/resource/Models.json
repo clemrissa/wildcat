@@ -1,0 +1,25 @@
+{
+  "module" : {
+    "name" : "Models",
+
+    "path" : "../modules",
+
+    "components" : [
+      {
+        "name" : "Models.ConnectionListModel",
+
+        "class" : "Geo::Models::Implementation::ConnectionListModel",
+
+        "construction" : "prototype"
+      },
+
+      {
+        "name" : "Models.ConnectionTableModel",
+
+        "class" : "Geo::Models::Implementation::ConnectionTableModel",
+
+        "construction" : "prototype"
+      }
+    ]
+  }
+}

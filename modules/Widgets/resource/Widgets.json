@@ -1,0 +1,25 @@
+{
+  "module" : {
+    "name" : "Widgets",
+
+    "path" : "../modules",
+
+    "components" : [
+      {
+        "name" : "Widgets.KeywordWidget",
+
+        "class" : "Geo::Widgets::Implementation::KeywordWidget",
+
+        "construction" : "prototype"
+      },
+
+      {
+        "name" : "Widgets.ConnectionSettingsWidget",
+
+        "class" : "Geo::Widgets::Implementation::ConnectionSettingsWidget",
+
+        "construction" : "prototype"
+      }
+    ]
+  }
+}
