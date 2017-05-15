@@ -6,7 +6,6 @@
 
 namespace Geo {
 namespace Models {
-//
 
 class ConnectionEntry
 {

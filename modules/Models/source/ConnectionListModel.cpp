@@ -20,17 +20,13 @@ ConnectionListModel()
     ComponentManager::create<ConnectionManager*>("Database.ConnectionManager");
 
   for (auto connection : _connectionsManager->connections())
-    _entries.push_back(new ConnectionEntry(connection));
+    _entries.push_back(std::make_unique<ConnectionEntry>(connection));
 }
 
 
 ConnectionListModel::
 ~ConnectionListModel()
-{
-  for (auto entry : _entries)
-    delete entry;
-}
-
+{}
 
 QVariant
 ConnectionListModel::
@@ -50,7 +46,7 @@ ConnectionListModel::
 index(int row, int column, const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
-  return QAbstractItemModel::createIndex(row, column, _entries[row]);
+  return QAbstractItemModel::createIndex(row, column, _entries[row].get());
 }
 
 

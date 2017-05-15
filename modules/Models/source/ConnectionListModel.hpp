@@ -4,6 +4,9 @@
 
 #include <Database/Connections/Connection>
 
+#include <vector>
+#include <memory>
+
 namespace Geo {
 //
 namespace Database {
@@ -62,7 +65,7 @@ signals:
 protected:
   Database::Connections::ConnectionManager* _connectionsManager;
 
-  QVector<ConnectionEntry*> _entries;
+  std::vector<std::unique_ptr<ConnectionEntry>> _entries;
 
   int
   getEntryPosition(ConnectionEntry* entry) const;
