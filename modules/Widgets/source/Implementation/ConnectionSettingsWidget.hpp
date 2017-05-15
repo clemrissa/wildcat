@@ -30,6 +30,7 @@ private slots:
   onConnectionActivated(int index);
 
 signals:
+
   void connectionChanged(Database::Connections::Connection::Shared) override;
 
 private:

@@ -1,5 +1,4 @@
-#include "Implementation/ConnectionListModel.hpp"
-#include "Implementation/ConnectionTableModel.hpp"
+#include "ConnectionListModel.hpp"
 
 #include "Export.hpp"
 
@@ -9,7 +8,6 @@ extern "C" {
 Models_PUBLIC void
 registerComponent()
 {
-  REGISTER_TYPE(Geo::Models::Implementation::ConnectionListModel);
-  REGISTER_TYPE(Geo::Models::Implementation::ConnectionTableModel);
+  REGISTER_TYPE(Geo::Models::ConnectionListModel);
 }
 }

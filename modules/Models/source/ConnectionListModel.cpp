@@ -7,15 +7,15 @@
 
 #include "ConnectionEntry.hpp"
 
-using Geo::Models::Implementation::ConnectionEntry;
-using Geo::Models::Implementation::ConnectionListModel;
+using Geo::Models::ConnectionEntry;
+using Geo::Models::ConnectionListModel;
 
 ConnectionListModel::
 ConnectionListModel()
 {
   using Database::Connections::ConnectionManager;
 
-  // defined as Singleton in Database.xml
+  // defined as Singleton in Database.json
   _connectionsManager =
     ComponentManager::create<ConnectionManager*>("Database.ConnectionManager");
 
@@ -36,6 +36,8 @@ QVariant
 ConnectionListModel::
 data(const QModelIndex& index, int role) const
 {
+  Q_UNUSED(role);
+
   ConnectionEntry* entry =
     static_cast<ConnectionEntry*>(index.internalPointer());
 
@@ -47,6 +49,7 @@ QModelIndex
 ConnectionListModel::
 index(int row, int column, const QModelIndex& parent) const
 {
+  Q_UNUSED(parent);
   return QAbstractItemModel::createIndex(row, column, _entries[row]);
 }
 
@@ -73,8 +76,9 @@ columnCount(const QModelIndex& parent) const
 
 int
 ConnectionListModel::
-rowCount(const QModelIndex& parent) const
+rowCount(QModelIndex const & parent) const
 {
+  Q_UNUSED(parent);
   return _connectionsManager->size();
 }
 
@@ -118,17 +122,3 @@ flags(const QModelIndex& index) const
 {
   return QAbstractItemModel::flags(index);
 }
-
-
-// QSharedPointer<Geo::Database::Connections::Connection>
-// ConnectionListModel::
-// connectionAt(int index)
-// {
-// if (index >= 0 &&  index < _entries.size()) {
-// emit connectionChanged(_entries[index]->connection());
-
-// return _entries[index]->connection();
-// }
-
-// return Database::Connections::Connection::Shared();
-// }

@@ -8,15 +8,7 @@
       {
         "name" : "Models.ConnectionListModel",
 
-        "class" : "Geo::Models::Implementation::ConnectionListModel",
-
-        "construction" : "prototype"
-      },
-
-      {
-        "name" : "Models.ConnectionTableModel",
-
-        "class" : "Geo::Models::Implementation::ConnectionTableModel",
+        "class" : "Geo::Models::ConnectionListModel",
 
         "construction" : "prototype"
       }

@@ -6,18 +6,20 @@
 
 namespace Geo {
 namespace Models {
-namespace Implementation {
 //
 
 class ConnectionEntry
 {
 public:
-  enum Column { Type     = 0,
-                Database = 1,
-                Size };
+  enum Column
+  {
+    Type     = 0,
+    Database = 1,
+    Size
+  };
 
 public:
-  ConnectionEntry(Database::Connections::Connection::Shared connection) 
+  ConnectionEntry(Database::Connections::Connection::Shared connection)
     : _connection(connection)
   {}
 
@@ -47,6 +49,5 @@ private:
 };
 
 //
-}
 }
 }
