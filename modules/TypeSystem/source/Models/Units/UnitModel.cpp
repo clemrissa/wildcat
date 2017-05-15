@@ -56,7 +56,7 @@ bool
 UnitModel::
 setData(const QModelIndex& index,
         const QVariant&    value,
-        int                role)
+        int role)
 {
   using Geo::Domain::Unit;
 
@@ -68,48 +68,53 @@ setData(const QModelIndex& index,
 
   bool oldUnitStatus = unitEntry->unit()->isValid();
 
-  switch (index.column()) {
-  case UnitTableEntry::Name:
+  switch (index.column())
+  {
+    case UnitTableEntry::Name:
 
-    updateCacheWithNewUnitName(unitEntry, value.toString());
+      updateCacheWithNewUnitName(unitEntry, value.toString());
 
-    unitEntry->unit()->setName(value.toString());
-    break;
+      unitEntry->unit()->setName(value.toString());
+      break;
 
-  case UnitTableEntry::Symbol:
-    unitEntry->unit()->setSymbol(value.toString());
-    break;
+    case UnitTableEntry::Symbol:
+      unitEntry->unit()->setSymbol(value.toString());
+      break;
 
-  case UnitTableEntry::Scale: {
-    bool ok;
-    unitEntry->unit()->setScale(value.toDouble(&ok));
-    break;
-  }
+    case UnitTableEntry::Scale:
+    {
+      bool ok;
+      unitEntry->unit()->setScale(value.toDouble(&ok));
+      break;
+    }
 
-  case UnitTableEntry::Offset: {
-    bool ok;
-    unitEntry->unit()->setOffset(value.toDouble(&ok));
-    break;
-  }
+    case UnitTableEntry::Offset:
+    {
+      bool ok;
+      unitEntry->unit()->setOffset(value.toDouble(&ok));
+      break;
+    }
 
-  default:
-    // fake dimensions set falls here
-    break;
+    default:
+      // fake dimensions set falls here
+      break;
   }
 
   bool newUnitStatus = unitEntry->unit()->isValid();
 
   bool becameValid = (!oldUnitStatus && newUnitStatus);
 
-  if (_connection.isNull())
+  if (!_connection)
     return false;
 
   auto dataAccessFactory = _connection->dataAccessFactory();
-  auto unitAccess        = dataAccessFactory->unitAccess();
+  auto unitAccess = dataAccessFactory->unitAccess();
 
   // not yet in the DB
-  if (!unitEntry->getPersisted()) {
-    if (becameValid) {
+  if (!unitEntry->getPersisted())
+  {
+    if (becameValid)
+    {
       beginInsertRows(index.parent(), index.row(), index.row());;
       {
         unitAccess->insert(unitEntry->unit());
@@ -121,7 +126,8 @@ setData(const QModelIndex& index,
       }
       endInsertRows();
     }
-  } else if (newUnitStatus) // it was persisted and stays valid
+  }
+  else if (newUnitStatus)   // it was persisted and stays valid
 
     unitAccess->update(unitEntry->unit());
 
@@ -158,9 +164,9 @@ rowCount(const QModelIndex& parent) const
 
 QVariant
 UnitModel::
-headerData(int             section,
+headerData(int section,
            Qt::Orientation orientation,
-           int             role)  const
+           int role)  const
 {
   QVariant result;
 
@@ -202,7 +208,8 @@ loadXml(QString fileName)
   if (!file.open(QIODevice::ReadOnly))
     return;
 
-  if (!doc.setContent(&file)) {
+  if (!doc.setContent(&file))
+  {
     file.close();
     return;
   }
@@ -217,9 +224,10 @@ loadXml(QString fileName)
 
     QDomElement docElem = doc.documentElement();
 
-    auto e =  docElem.firstChildElement("CurveType");
+    auto e = docElem.firstChildElement("CurveType");
 
-    while (!e.isNull()) {
+    while (!e.isNull())
+    {
       // add cache here
 
       auto name = e.firstChildElement("Name").text();
@@ -248,6 +256,7 @@ saveXml(QString fileName)
   QDomDocument doc("Units");
 
   QDomElement root = doc.createElement("Units");
+
   doc.appendChild(root);
 
   for (auto e : _unitEntries)
@@ -283,7 +292,8 @@ onClicked(const QModelIndex& index)
 {
   if (!index.parent().isValid() &&
       index.column() == UnitTableEntry::CloseAction &&
-      index.row() != _unitEntries.size() - 1) {
+      index.row() != _unitEntries.size() - 1)
+  {
     auto unitEntry = _unitEntries[(index.row())];
 
     unitEntry->switchState();
@@ -310,7 +320,7 @@ void
 UnitModel::
 reloadUnits()
 {
-  if (_connection.isNull())
+  if (!_connection)
     return;
 
   beginResetModel();
@@ -326,7 +336,8 @@ reloadUnits()
 
     QVector<Unit::Shared> units = unitAccess->findAll();
 
-    for (Unit::Shared t : units) {
+    for (Unit::Shared t : units)
+    {
       QString unitName = t->getName();
 
       _unitEntriesCacheMap.remove(unitName);
@@ -351,7 +362,7 @@ void
 UnitModel::
 deleteMarkedEntries()
 {
-  if (_connection.isNull())
+  if (!_connection)
     return;
 
   auto dataAccessFactory = _connection->dataAccessFactory();
@@ -362,7 +373,6 @@ deleteMarkedEntries()
     if (entry->getPersisted() &&
         entry->getState() == UnitTableEntry::Deleted)
       unitAccess->remove(entry->unit());
-
 }
 
 
@@ -371,7 +381,8 @@ UnitModel::
 pushEmptyUnitEntry()
 {
   if (_unitEntries.size() &&
-      !_unitEntries.last()->unit()->isValid()) {
+      !_unitEntries.last()->unit()->isValid())
+  {
     Q_ASSERT(_emptyUnitEntryStack.isNull());
 
     _emptyUnitEntryStack = _unitEntries.takeLast();
@@ -383,7 +394,8 @@ void
 UnitModel::
 popEmptyUnitEntry()
 {
-  if (!_emptyUnitEntryStack.isNull()) {
+  if (!_emptyUnitEntryStack.isNull())
+  {
     _unitEntries.append(_emptyUnitEntryStack.data());
     _emptyUnitEntryStack.clear();
   }
@@ -399,7 +411,8 @@ getCachedUnitEntry(QString unitName)
   if (_unitEntriesCacheMap.contains(unitName))
     result = _unitEntriesCacheMap[unitName];
 
-  else {
+  else
+  {
     result = new UnitTableEntry();
 
     _unitEntriesCacheMap[unitName] = result;
@@ -414,7 +427,7 @@ getCachedUnitEntry(QString unitName)
 void
 UnitModel::
 updateCacheWithNewUnitName(UnitTableEntry* unitEntry,
-                           QString         newName)
+                           QString newName)
 {
   _unitEntriesCacheMap.remove(unitEntry->unit()->getName());
   _unitEntriesCacheMap[newName] = unitEntry;

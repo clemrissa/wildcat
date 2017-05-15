@@ -1,5 +1,4 @@
-#ifndef Geo_Database_ConnectionsEditorWidgetModel_Connection_hpp
-#define Geo_Database_ConnectionsEditorWidgetModel_Connection_hpp
+#pragma once
 
 #include <Connections/Connection.hpp>
 #include <Models/ConnectionsEditorWidgetModel/Entry.hpp>
@@ -12,20 +11,24 @@ namespace ConnectionsEditorWidgetModel {
 
 /// Class wraps Connection entity and provides information for
 /// table model
-class ConnectionEntry: public Entry
+class ConnectionEntry : public Entry
 {
 public:
-  enum Column { Type = 0, Database = 1, CloseAction = 2, Size };
+  enum Column
+  {
+    Type        = 0,
+    Database    = 1,
+    CloseAction = 2,
+    Size
+  };
 
 public:
-  ConnectionEntry(Connections::Connection::Shared connection):
+  ConnectionEntry(Connections::Connection::Shared connection) :
     _connection(connection)
-  {
-  }
+  {}
 
   ConnectionEntry()
-  {
-  }
+  {}
 
   QVariant
   data(int role, int column) override;
@@ -55,5 +58,3 @@ private:
 }
 }
 }
-
-#endif //  Geo_Database_ConnectionsEditorWidgetModel_Connection_hpp

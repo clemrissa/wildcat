@@ -1,5 +1,4 @@
-#ifndef Geo_TypeSystem_Models_CurveTypeEntry_hpp
-#define Geo_TypeSystem_Models_CurveTypeEntry_hpp
+#pragma once
 
 #include "TreeEntry.hpp"
 
@@ -101,4 +100,3 @@ private:
 }
 }
 }
-#endif // Geo_TypeSystem_Models_CurveTypeEntry_hpp

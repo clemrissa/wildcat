@@ -29,7 +29,7 @@ DatabaseUiFactory::
 }
 
 
-QObject*
+QMenu*
 DatabaseUiFactory::
 createDatabaseMenu()
 {

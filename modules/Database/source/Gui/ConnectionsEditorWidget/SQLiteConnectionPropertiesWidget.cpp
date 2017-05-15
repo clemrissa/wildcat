@@ -8,12 +8,11 @@
 
 #include <QtCore/QDebug>
 
-#include <QtCore/QSharedPointer>
+#include <memory>
 
 #include <ComponentManager/Creator>
 
 #include <Widgets/KeywordWidget>
-
 
 using Geo::Database::Connections::Connection;
 using Geo::Database::Connections::SQLiteConnection;
@@ -23,13 +22,13 @@ struct SQLiteConnectionPropertiesWidget::Private
 {
   QPushButton* openButton;
   QPushButton* createButton;
-  QLineEdit*   databasePath;
+  QLineEdit* databasePath;
 
-  QSharedPointer<SQLiteConnection> c;
+  std::shared_ptr<SQLiteConnection> c;
 };
 
 SQLiteConnectionPropertiesWidget::
-SQLiteConnectionPropertiesWidget():
+SQLiteConnectionPropertiesWidget() :
   p(new Private)
 {
   createUi();
@@ -48,11 +47,11 @@ void
 SQLiteConnectionPropertiesWidget::
 setConnection(Connection::Shared connection)
 {
-  p->c = connection.staticCast<SQLiteConnection>();
+  p->c = std::static_pointer_cast<SQLiteConnection>(connection);
 
   p->databasePath->setText(p->c->database());
 
-  connect(p->c.data(), SIGNAL(databaseChanged(QString)),
+  connect(p->c.get(), SIGNAL(databaseChanged(QString)),
           p->databasePath, SLOT(setText(QString)));
 }
 
@@ -110,7 +109,7 @@ onOpenClicked()
   if (fileName.isEmpty())
     return;
 
-  if (!p->c.isNull())
+  if (p->c)
     p->c->setDatabase(fileName);
 }
 
@@ -127,6 +126,6 @@ onNewClicked()
   if (fileName.isEmpty())
     return;
 
-  if (!p->c.isNull())
+  if (p->c)
     p->c->setDatabase(fileName);
 }

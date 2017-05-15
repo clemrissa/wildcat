@@ -5,6 +5,8 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
+#include <memory>
+
 namespace Geo {
 namespace Database {
 namespace Connections {
@@ -17,13 +19,12 @@ enum Status { Unknown, Connected, Failed };
 class Connection : public QObject
 {
 public:
-  typedef Domain::DataAccessFactory DataAccessFactory;
-  typedef QSharedPointer<Connection> Shared;
+  using DataAccessFactory = Domain::DataAccessFactory;
+  using Shared = std::shared_ptr<Connection>;
 
 public:
   virtual
-  ~Connection()
-  {}
+  ~Connection() = default;
 
   virtual
   DataAccessFactory::Shared

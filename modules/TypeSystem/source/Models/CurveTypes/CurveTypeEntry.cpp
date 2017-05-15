@@ -15,17 +15,16 @@ using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
 
 CurveTypeEntry::
 CurveTypeEntry(Geo::Domain::CurveType::Shared curveType,
-               TreeEntry*                     parent):
+               TreeEntry*                     parent) :
   TreeEntry(parent),
   _curveType(curveType),
   _persisted(_curveType->isValid())
-{
-}
+{}
 
 
 CurveTypeEntry::
-CurveTypeEntry(QString    curveTypeName,
-               TreeEntry* parent):
+CurveTypeEntry(QString curveTypeName,
+               TreeEntry* parent) :
   TreeEntry(parent),
   _curveType(new CurveType()),
   _persisted(_curveType->isValid())
@@ -39,8 +38,7 @@ CurveTypeEntry(QString    curveTypeName,
 
 CurveTypeEntry::
 ~CurveTypeEntry()
-{
-}
+{}
 
 
 void
@@ -53,10 +51,12 @@ addXmlData(QDomElement& de, XmlSourceType type)
       if (_curveType->mnemonic().isEmpty())
         _curveType->setMnemonic(mnem);
 
-      else {
+      else
+      {
         QStringList synonyms = _curveType->synonyms();
 
-        if (!synonyms.contains(mnem)) {
+        if (!synonyms.contains(mnem))
+        {
           synonyms.append(mnem);
 
           _curveType->setSynonyms(synonyms);
@@ -64,46 +64,49 @@ addXmlData(QDomElement& de, XmlSourceType type)
       }
     };
 
-  switch (type) {
-  case CurveTypeEntry::XmlSourceType::Schlumberger: {
-    QString mnem = de.firstChildElement("CurveMnemonic").text();
+  switch (type)
+  {
+    case CurveTypeEntry::XmlSourceType::Schlumberger:
+    {
+      QString mnem = de.firstChildElement("CurveMnemonic").text();
 
-    updateMnemonic(mnem);
+      updateMnemonic(mnem);
 
-    _curveType->setTextUnit(de.firstChildElement("Unit").text());
+      _curveType->setTextUnit(de.firstChildElement("Unit").text());
 
-    bool ok;
-    _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
-    _curveType->setMax(de.firstChildElement("Max").text().toDouble(&ok));
+      bool ok;
+      _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
+      _curveType->setMax(de.firstChildElement("Max").text().toDouble(&ok));
 
-    // TODO scale
-    _scale      = de.firstChildElement("Scale").text().toLower();
-    _continuity = de.firstChildElement("Type").text();
+      // TODO scale
+      _scale      = de.firstChildElement("Scale").text().toLower();
+      _continuity = de.firstChildElement("Type").text();
 
-    break;
-  }
+      break;
+    }
 
-  case CurveTypeEntry::XmlSourceType::Geo: {
-    QString mnem = de.firstChildElement("Mnemonic").text();
+    case CurveTypeEntry::XmlSourceType::Geo:
+    {
+      QString mnem = de.firstChildElement("Mnemonic").text();
 
-    updateMnemonic(mnem);
+      updateMnemonic(mnem);
 
-    _curveType->setTextUnit(de.firstChildElement("TextUnit").text());
+      _curveType->setTextUnit(de.firstChildElement("TextUnit").text());
 
-    bool ok;
-    _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
-    _curveType->setMax(de.firstChildElement("Max").text().toDouble(&ok));
+      bool ok;
+      _curveType->setMin(de.firstChildElement("Min").text().toDouble(&ok));
+      _curveType->setMax(de.firstChildElement("Max").text().toDouble(&ok));
 
-    auto scale =
-      CurveType::scaleFromText(de.firstChildElement("Scale").text());
-    _curveType->setScale(scale);
+      auto scale =
+        CurveType::scaleFromText(de.firstChildElement("Scale").text());
+      _curveType->setScale(scale);
 
-    auto cont =
-      CurveType::continuityFromText(de.firstChildElement("Continuity").text());
-    _curveType->setContinuity(cont);
+      auto cont =
+        CurveType::continuityFromText(de.firstChildElement("Continuity").text());
+      _curveType->setContinuity(cont);
 
-    break;
-  }
+      break;
+    }
   }
 }
 
@@ -118,6 +121,7 @@ getXmlDescription(QDomDocument& doc)
     [&](QString n, QString v)
     {
       QDomElement e = doc.createElement(n);
+
       tag.appendChild(e);
 
       QDomText t = doc.createTextNode(v);
@@ -149,32 +153,33 @@ QVariant
 CurveTypeEntry::
 data(int role, int column) const
 {
-  switch (role) {
-  case Qt::DisplayRole:
-    return getDisplayRole(column);
-    break;
+  switch (role)
+  {
+    case Qt::DisplayRole:
+      return getDisplayRole(column);
+      break;
 
-  case Qt::EditRole:
-    return getEditRole(column);
-    break;
+    case Qt::EditRole:
+      return getEditRole(column);
+      break;
 
-  case Qt::DecorationRole:
-    return getDecorationRole(column);
-    break;
+    case Qt::DecorationRole:
+      return getDecorationRole(column);
+      break;
 
-  case Qt::ForegroundRole:
-    return getForegroundRole(column);
-    break;
+    case Qt::ForegroundRole:
+      return getForegroundRole(column);
+      break;
 
-  case Qt::BackgroundRole:
+    case Qt::BackgroundRole:
 
-    if (_persisted)
-      return getBackgroundRole(column);
+      if (_persisted)
+        return getBackgroundRole(column);
 
-    break;
+      break;
 
-  default:
-    break;
+    default:
+      break;
   }
 
   return QVariant();
@@ -185,56 +190,63 @@ bool
 CurveTypeEntry::
 setData(int column, QVariant value)
 {
-  switch (column) {
-  case TreeEntry::FamilyOrCurveName:
-    _curveType->setName(value.toString());
-    break;
+  switch (column)
+  {
+    case TreeEntry::FamilyOrCurveName:
+      _curveType->setName(value.toString());
+      break;
 
-  case TreeEntry::Mnemonic:
-    _curveType->setMnemonic(value.toString());
-    break;
+    case TreeEntry::Mnemonic:
+      _curveType->setMnemonic(value.toString());
+      break;
 
-  case TreeEntry::Synonyms: {
-    auto list = value.toString().split(",", QString::SkipEmptyParts);
-    _curveType->setSynonyms(list);
+    case TreeEntry::Synonyms:
+    {
+      auto list = value.toString().split(",", QString::SkipEmptyParts);
+      _curveType->setSynonyms(list);
 
-    break;
-  }
+      break;
+    }
 
-  case TreeEntry::Units:    {
-    bool ok;
-    _curveType->setUnit(getUnits()[value.toInt(&ok)]);
-    break;
-  }
+    case TreeEntry::Units:
+    {
+      bool ok;
+      _curveType->setUnit(getUnits()[value.toInt(&ok)]);
+      break;
+    }
 
-  case TreeEntry::Min: {
-    bool   ok;
-    double min = value.toDouble(&ok);
-    _curveType->setMin(min);
-    break;
-  }
+    case TreeEntry::Min:
+    {
+      bool   ok;
+      double min = value.toDouble(&ok);
+      _curveType->setMin(min);
+      break;
+    }
 
-  case TreeEntry::Max: {
-    bool   ok;
-    double max = value.toDouble(&ok);
-    _curveType->setMax(max);
-    break;
-  }
+    case TreeEntry::Max:
+    {
+      bool   ok;
+      double max = value.toDouble(&ok);
+      _curveType->setMax(max);
+      break;
+    }
 
-  case TreeEntry::Scale: {
-    bool ok;
-    _curveType->setScale((CurveType::Scale)value.toInt(&ok));
-    break;
-  }
+    case TreeEntry::Scale:
+    {
+      bool ok;
+      _curveType->setScale((CurveType::Scale)value.toInt(&ok));
+      break;
+    }
 
-  case TreeEntry::Continuity: {
-    bool ok;
-    _curveType->setContinuity((CurveType::Continuity)value.toInt(&ok));
-    break;
-  }
+    case TreeEntry::Continuity:
+    {
+      bool ok;
+      _curveType->setContinuity((CurveType::Continuity)value.toInt(&ok));
+      break;
+    }
 
-  default:
-    break;
+    default:
+      break;
   }
 
   return true;
@@ -247,100 +259,110 @@ delegateWidget(int column) const
 {
   QWidget* result = nullptr;
 
-  switch (column) {
-  case TreeEntry::FamilyOrCurveName: {
-    QString d = data(Qt::EditRole, column).toString();
-    result = new QLineEdit(d);
+  switch (column)
+  {
+    case TreeEntry::FamilyOrCurveName:
+    {
+      QString d = data(Qt::EditRole, column).toString();
+      result = new QLineEdit(d);
 
-    break;
-  }
-
-  case TreeEntry::Mnemonic: {
-    QString d = data(Qt::EditRole, column).toString();
-    result = new QLineEdit(d);
-
-    break;
-  }
-
-  case TreeEntry::Synonyms: {
-    QString d = data(Qt::EditRole, column).toString();
-    result = new QLineEdit(d);
-
-    break;
-  }
-
-  case TreeEntry::Units: {
-    auto comboBox = new QComboBox();
-
-    auto unit = _curveType->unit();
-
-    auto unitNames = getUnitNames();
-
-    for (int i = 0; i < unitNames.size(); ++i) {
-      comboBox->addItem(unitNames[i]);
-
-      if (!unit.isNull() &&
-          unit->getName() == unitNames[i])
-        comboBox->setCurrentIndex(i);
+      break;
     }
 
-    result = comboBox;
+    case TreeEntry::Mnemonic:
+    {
+      QString d = data(Qt::EditRole, column).toString();
+      result = new QLineEdit(d);
 
-    break;
-  }
+      break;
+    }
 
-  case TreeEntry::Min:   {
-    QString d = data(Qt::EditRole, column).toString();
+    case TreeEntry::Synonyms:
+    {
+      QString d = data(Qt::EditRole, column).toString();
+      result = new QLineEdit(d);
 
-    auto l = new QLineEdit(d);
+      break;
+    }
 
-    l->setValidator(new QDoubleValidator());
+    case TreeEntry::Units:
+    {
+      auto comboBox = new QComboBox();
 
-    result = l;
+      auto unit = _curveType->unit();
 
-    break;
-  }
+      auto unitNames = getUnitNames();
 
-  case TreeEntry::Max: {
-    QString d = data(Qt::EditRole, column).toString();
+      for (int i = 0; i < unitNames.size(); ++i)
+      {
+        comboBox->addItem(unitNames[i]);
 
-    auto l = new QLineEdit(d);
+        if (!unit.isNull() &&
+            unit->getName() == unitNames[i])
+          comboBox->setCurrentIndex(i);
+      }
 
-    l->setValidator(new QDoubleValidator());
+      result = comboBox;
 
-    result = l;
+      break;
+    }
 
-    break;
-  }
+    case TreeEntry::Min:
+    {
+      QString d = data(Qt::EditRole, column).toString();
 
-  case TreeEntry::Scale: {
-    auto comboBox = new QComboBox();
+      auto l = new QLineEdit(d);
 
-    for (int i = 0; i <  CurveType::ScaleSize; ++i)
-      comboBox->addItem(CurveType::textScale((CurveType::Scale)i));
+      l->setValidator(new QDoubleValidator());
 
-    comboBox->setCurrentIndex(_curveType->scale());
+      result = l;
 
-    result = comboBox;
+      break;
+    }
 
-    break;
-  }
+    case TreeEntry::Max:
+    {
+      QString d = data(Qt::EditRole, column).toString();
 
-  case TreeEntry::Continuity: {
-    auto comboBox = new QComboBox();
+      auto l = new QLineEdit(d);
 
-    for (int i = 0; i <  CurveType::ContinuitySize; ++i)
-      comboBox->addItem(CurveType::textContinuity((CurveType::Continuity)i));
+      l->setValidator(new QDoubleValidator());
 
-    comboBox->setCurrentIndex(_curveType->continuity());
+      result = l;
 
-    result = comboBox;
+      break;
+    }
 
-    break;
-  }
+    case TreeEntry::Scale:
+    {
+      auto comboBox = new QComboBox();
 
-  default:
-    break;
+      for (int i = 0; i <  CurveType::ScaleSize; ++i)
+        comboBox->addItem(CurveType::textScale((CurveType::Scale)i));
+
+      comboBox->setCurrentIndex(_curveType->scale());
+
+      result = comboBox;
+
+      break;
+    }
+
+    case TreeEntry::Continuity:
+    {
+      auto comboBox = new QComboBox();
+
+      for (int i = 0; i <  CurveType::ContinuitySize; ++i)
+        comboBox->addItem(CurveType::textContinuity((CurveType::Continuity)i));
+
+      comboBox->setCurrentIndex(_curveType->continuity());
+
+      result = comboBox;
+
+      break;
+    }
+
+    default:
+      break;
   }
 
   return result;
@@ -353,73 +375,82 @@ setDataFromWidget(QWidget*            editor,
                   QModelIndex const&  index,
                   QAbstractItemModel* model)
 {
-  switch (index.column()) {
-  case TreeEntry::FamilyOrCurveName: {
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+  switch (index.column())
+  {
+    case TreeEntry::FamilyOrCurveName:
+    {
+      auto lineEdit = static_cast<QLineEdit*>(editor);
 
-    model->setData(index, lineEdit->text(),
-                   Qt::EditRole);
-    break;
-  }
+      model->setData(index, lineEdit->text(),
+                     Qt::EditRole);
+      break;
+    }
 
-  case TreeEntry::Mnemonic: {
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+    case TreeEntry::Mnemonic:
+    {
+      auto lineEdit = static_cast<QLineEdit*>(editor);
 
-    model->setData(index, lineEdit->text(),
-                   Qt::EditRole);
-    break;
-  }
+      model->setData(index, lineEdit->text(),
+                     Qt::EditRole);
+      break;
+    }
 
-  case TreeEntry::Synonyms: {
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+    case TreeEntry::Synonyms:
+    {
+      auto lineEdit = static_cast<QLineEdit*>(editor);
 
-    model->setData(index, lineEdit->text(),
-                   Qt::EditRole);
-    break;
-  }
+      model->setData(index, lineEdit->text(),
+                     Qt::EditRole);
+      break;
+    }
 
-  case TreeEntry::Units: {
-    auto comboBox = static_cast<QComboBox*>(editor);
-    model->setData(index,
-                   comboBox->currentIndex(),
-                   Qt::EditRole);
-    break;
-  }
+    case TreeEntry::Units:
+    {
+      auto comboBox = static_cast<QComboBox*>(editor);
+      model->setData(index,
+                     comboBox->currentIndex(),
+                     Qt::EditRole);
+      break;
+    }
 
-  case TreeEntry::Min: {
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+    case TreeEntry::Min:
+    {
+      auto lineEdit = static_cast<QLineEdit*>(editor);
 
-    model->setData(index, lineEdit->text(),
-                   Qt::EditRole);
-    break;
-  }
+      model->setData(index, lineEdit->text(),
+                     Qt::EditRole);
+      break;
+    }
 
-  case TreeEntry::Max: {
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+    case TreeEntry::Max:
+    {
+      auto lineEdit = static_cast<QLineEdit*>(editor);
 
-    model->setData(index, lineEdit->text(),
-                   Qt::EditRole);
-    break;
-  }
+      model->setData(index, lineEdit->text(),
+                     Qt::EditRole);
+      break;
+    }
 
-  case TreeEntry::Scale: {
-    auto comboBox = static_cast<QComboBox*>(editor);
-    model->setData(index,
-                   comboBox->currentIndex(),
-                   Qt::EditRole);
-    break;
-  }
+    case TreeEntry::Scale:
+    {
+      auto comboBox = static_cast<QComboBox*>(editor);
+      model->setData(index,
+                     comboBox->currentIndex(),
+                     Qt::EditRole);
+      break;
+    }
 
-  case TreeEntry::Continuity: {
-    auto comboBox = static_cast<QComboBox*>(editor);
-    model->setData(index,
-                   comboBox->currentIndex(),
-                   Qt::EditRole);
-    break;
-  }
+    case TreeEntry::Continuity:
+    {
+      auto comboBox = static_cast<QComboBox*>(editor);
+      model->setData(index,
+                     comboBox->currentIndex(),
+                     Qt::EditRole);
+      break;
+    }
 
-  default:
-    break;
+    default:
+      break;
   }
 }
 
@@ -428,52 +459,53 @@ QVariant
 CurveTypeEntry::
 getDisplayRole(int column) const
 {
-  switch (column) {
-  case TreeEntry::FamilyOrCurveName:
+  switch (column)
+  {
+    case TreeEntry::FamilyOrCurveName:
 
-    if (_curveType->name().isEmpty())
-      return tr("Change curve name");
-    else
-      return _curveType->name();
+      if (_curveType->name().isEmpty())
+        return tr("Change curve name");
+      else
+        return _curveType->name();
 
-    break;
+      break;
 
-  case TreeEntry::Mnemonic:
-    return _curveType->mnemonic();
-    break;
+    case TreeEntry::Mnemonic:
+      return _curveType->mnemonic();
+      break;
 
-  case TreeEntry::Synonyms:
-    return QStringList(_curveType->synonyms()).join(",");
+    case TreeEntry::Synonyms:
+      return QStringList(_curveType->synonyms()).join(",");
 
-  case TreeEntry::Units:
+    case TreeEntry::Units:
 
-    if (_curveType->unit().isNull())
-      return _curveType->textUnit();
+      if (_curveType->unit().isNull())
+        return _curveType->textUnit();
 
-    else
-      return _curveType->unit()->getName();
+      else
+        return _curveType->unit()->getName();
 
-    break;
+      break;
 
-  case TreeEntry::Min:
-    return _curveType->min();
-    break;
+    case TreeEntry::Min:
+      return _curveType->min();
+      break;
 
-  case TreeEntry::Max:
-    return _curveType->max();
-    break;
+    case TreeEntry::Max:
+      return _curveType->max();
+      break;
 
-  case TreeEntry::Scale:
-    return CurveType::textScale(_curveType->scale());
-    break;
+    case TreeEntry::Scale:
+      return CurveType::textScale(_curveType->scale());
+      break;
 
-  case TreeEntry::Continuity:
-    return CurveType::textContinuity(_curveType->continuity());
-    break;
+    case TreeEntry::Continuity:
+      return CurveType::textContinuity(_curveType->continuity());
+      break;
 
-  default:
-    return QVariant();
-    break;
+    default:
+      return QVariant();
+      break;
   }
 
   return QVariant();
@@ -484,29 +516,30 @@ QVariant
 CurveTypeEntry::
 getEditRole(int column) const
 {
-  switch (column) {
-  case TreeEntry::FamilyOrCurveName:
-    return _curveType->name();
-    break;
+  switch (column)
+  {
+    case TreeEntry::FamilyOrCurveName:
+      return _curveType->name();
+      break;
 
-  case TreeEntry::Mnemonic:
-    return _curveType->mnemonic();
-    break;
+    case TreeEntry::Mnemonic:
+      return _curveType->mnemonic();
+      break;
 
-  case TreeEntry::Synonyms:
-    return QStringList(_curveType->synonyms()).join(",");
+    case TreeEntry::Synonyms:
+      return QStringList(_curveType->synonyms()).join(",");
 
-  case TreeEntry::Min:
-    return _curveType->min();
-    break;
+    case TreeEntry::Min:
+      return _curveType->min();
+      break;
 
-  case TreeEntry::Max:
-    return _curveType->max();
-    break;
+    case TreeEntry::Max:
+      return _curveType->max();
+      break;
 
-  default:
-    return QVariant();
-    break;
+    default:
+      return QVariant();
+      break;
   }
 
   return QVariant();
@@ -523,14 +556,15 @@ getDecorationRole(int column) const
 
   if (column == CloseAction)
 
-    switch (_state) {
-    case Active:
-      return QIcon(":/delete.png");
-      break;
+    switch (_state)
+    {
+      case Active:
+        return QIcon(":/delete.png");
+        break;
 
-    case Deleted:
-      return QIcon(":/revert.png");
-      break;
+      case Deleted:
+        return QIcon(":/revert.png");
+        break;
     }
 
   return QVariant();
@@ -545,16 +579,18 @@ getForegroundRole(int column) const
 
   QVariant result;
 
-  switch (_state) {
-  case Active: {
-    QPalette palette;
-    result = QColor(palette.color(QPalette::WindowText));
-    break;
-  }
+  switch (_state)
+  {
+    case Active:
+    {
+      QPalette palette;
+      result = QColor(palette.color(QPalette::WindowText));
+      break;
+    }
 
-  case Deleted:
-    result = QColor(Qt::lightGray);
-    break;
+    case Deleted:
+      result = QColor(Qt::lightGray);
+      break;
   }
 
   if (column == TreeEntry::FamilyOrCurveName)
@@ -586,7 +622,7 @@ getUnits() const
 {
   QVector<Geo::Domain::Unit::Shared> result;
 
-  if (_connection.isNull())
+  if (!_connection)
     return result;
 
   using Geo::Domain::WellTrait;

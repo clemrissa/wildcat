@@ -21,13 +21,13 @@ ConnectionManager()
 }
 
 
-QSharedPointer<Connection>
+std::shared_ptr<Connection>
 ConnectionManager::
 createConnection()
 {
   auto sqliteConnection = new SQLiteConnection();
 
-  QSharedPointer<Connection> c(sqliteConnection);
+  std::shared_ptr<Connection> c(sqliteConnection);
 
   appendConnection(c);
 
@@ -37,12 +37,12 @@ createConnection()
 
 void
 ConnectionManager::
-appendConnection(QSharedPointer<Connection> c)
+appendConnection(std::shared_ptr<Connection> c)
 {
-  connect(c.data(), SIGNAL(databaseChanged(QString)),
+  connect(c.get(), SIGNAL(databaseChanged(QString)),
           this, SLOT(saveToXml()));
 
-  _connections.append(c);
+  _connections.push_back(c);
   saveToXml();
 }
 
@@ -51,7 +51,7 @@ void
 ConnectionManager::
 removeConnection(int i)
 {
-  _connections.remove(i);
+  _connections.erase(_connections.begin() + i);
 
   saveToXml();
 }
@@ -94,7 +94,7 @@ loadFromXml()
       Connection::Shared connection =
         Connection::restoreConnectionFromXml(e);
 
-      if (!connection.isNull())
+      if (connection)
         appendConnection(connection);
     }
 

@@ -8,22 +8,24 @@ QVariant
 ConnectionEntry::
 data(int role, int column)
 {
-  switch (role) {
-  case Qt::DisplayRole:
-    return getDisplayRole(column);
-    break;
+  switch (role)
+  {
+    case Qt::DisplayRole:
+      return getDisplayRole(column);
+      break;
 
-  case Qt::BackgroundRole:
-    return getBackgroundRole(column);
-    break;
+    case Qt::BackgroundRole:
+      return getBackgroundRole(column);
+      break;
 
-  default:
-    return QVariant();
-    break;
+    default:
+      return QVariant();
+      break;
   }
 
   return QVariant();
 }
+
 
 QVariant
 ConnectionEntry::
@@ -45,15 +47,16 @@ QVariant
 ConnectionEntry::
 getDisplayRole(int column)
 {
-  switch (column) {
-  case Type:
-    // TODO: change to non-static function
-    return Database::Connections::Connection::connectionTypeName(_connection->databaseType());
-    break;
+  switch (column)
+  {
+    case Type:
+      // TODO: change to non-static function
+      return Database::Connections::Connection::connectionTypeName(_connection->databaseType());
+      break;
 
-  case Database:
-    return _connection->databasePath();
-    break;
+    case Database:
+      return _connection->databasePath();
+      break;
   }
 
   return QVariant();
@@ -66,7 +69,7 @@ getBackgroundRole(int column)
 {
   Q_UNUSED(column);
 
-  if (_connection.isNull())
+  if (!_connection)
     return QVariant();
 
   if (_connection->status() != Database::Connections::Status::Connected)

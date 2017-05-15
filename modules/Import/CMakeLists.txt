@@ -14,7 +14,7 @@ set(TARGET_NAME ${PROJECT_NAME})
 
 file(GLOB_RECURSE CPP_FILES source/*.cpp)
 
-add_library(${TARGET_NAME} SHARED ${CPP_FILES} ${CPP_TEST_FILES})
+add_library(${TARGET_NAME} SHARED ${CPP_FILES})
 
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
@@ -53,7 +53,6 @@ file(GLOB_RECURSE CPP_TEST_FILES tests/*.cpp)
 
 set(TARGET_TESTS_NAME ${PROJECT_NAME}Tests)
 
-#add_library(${TARGET_TESTS_NAME} STATIC ${CPP_TEST_FILES})
 add_library(${TARGET_TESTS_NAME} SHARED ${CPP_TEST_FILES})
 
 target_link_libraries(${TARGET_TESTS_NAME} PRIVATE catch)

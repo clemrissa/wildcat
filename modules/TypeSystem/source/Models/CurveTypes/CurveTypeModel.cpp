@@ -432,7 +432,7 @@ CurveTypeModel::
 setDataToCurveNode(const QModelIndex& index,
                    const QVariant&    value)
 {
-  if (_connection.isNull())
+  if (!_connection)
     return false;
 
   auto curveTypeEntry =
@@ -519,7 +519,7 @@ setDataToFamilyNode(const QModelIndex& index,
   if (index.column() != TreeEntry::FamilyOrCurveName)
     return false;
 
-  if (_connection.isNull())
+  if (!_connection)
     return false;
 
   // bool somethingWasPersisted = false;
@@ -570,7 +570,7 @@ void
 CurveTypeModel::
 reloadCurveTypes()
 {
-  if (_connection.isNull())
+  if (!_connection)
     return;
 
   beginResetModel();

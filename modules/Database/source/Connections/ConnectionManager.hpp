@@ -1,8 +1,9 @@
 #pragma once
 
+#include <memory>
+#include <vector>
+
 #include <QtCore/QObject>
-#include <QtCore/QSharedPointer>
-#include <QtCore/QVector>
 
 namespace Geo {
 namespace Database {
@@ -22,29 +23,29 @@ public:
   int
   size() { return _connections.size(); }
 
-  QSharedPointer<Connection>
+  std::shared_ptr<Connection>
   at(const int i) const { return _connections[i]; }
 
-  QSharedPointer<Connection>
+  std::shared_ptr<Connection>
   operator[](const int i) const { return _connections[i]; }
 
-  QSharedPointer<Connection>
+  std::shared_ptr<Connection>
   createConnection();
 
   void
-  appendConnection(QSharedPointer<Connection> c);
+  appendConnection(std::shared_ptr<Connection> c);
 
   void
   removeConnection(int i);
 
-  QVector<QSharedPointer<Connection> > const
+  std::vector<std::shared_ptr<Connection> > const &
   connections() const
   {
     return _connections;
   }
 
 private:
-  QVector<QSharedPointer<Connection> > _connections;
+  std::vector<std::shared_ptr<Connection> > _connections;
 
 private slots:
   void

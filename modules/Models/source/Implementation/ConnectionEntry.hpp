@@ -17,10 +17,9 @@ public:
                 Size };
 
 public:
-  ConnectionEntry(Database::Connections::Connection::Shared connection):
-    _connection(connection)
-  {
-  }
+  ConnectionEntry(Database::Connections::Connection::Shared connection) 
+    : _connection(connection)
+  {}
 
   QVariant
   data(int role, int column);
@@ -36,7 +35,6 @@ public:
 
 private:
   Database::Connections::Connection::Shared _connection;
-
 
   QVariant
   getDisplayRole();

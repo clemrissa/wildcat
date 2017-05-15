@@ -23,7 +23,7 @@ public:
   ~DatabaseUiFactory();
 
   Q_INVOKABLE
-  QObject*
+  QMenu*
   createDatabaseMenu();
 
   Q_INVOKABLE

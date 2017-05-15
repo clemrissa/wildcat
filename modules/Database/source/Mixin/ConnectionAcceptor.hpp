@@ -1,5 +1,4 @@
-#ifndef Geo_Database_Mixin_ConnectionAcceptor_hpp
-#define Geo_Database_Mixin_ConnectionAcceptor_hpp
+#pragma once
 
 #include <Database/Connections/Connection>
 #include <QWidget>
@@ -27,5 +26,3 @@ public slots:
 }
 }
 }
-
-#endif // Geo_Database_Mixin_ConnectionAcceptor_hpp

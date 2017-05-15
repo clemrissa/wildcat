@@ -144,8 +144,7 @@ connectSignals()
 
   if (p->editorWidget)
     connect(this,
-            SIGNAL(connectionChanged(
-                     Database::Connections::Connection::Shared)),
+            SIGNAL(connectionChanged(Database::Connections::Connection::Shared)),
             p->editorWidget,
             SLOT(setConnection(Database::Connections::Connection::Shared)));
 }

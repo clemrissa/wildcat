@@ -1,5 +1,4 @@
-#ifndef Geo_TypeSystem_Models_UnitModel_hpp
-#define Geo_TypeSystem_Models_UnitModel_hpp
+#pragma once
 
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QPointer>
@@ -17,7 +16,7 @@ namespace Units {
 class UnitTableEntry;
 //
 
-class UnitModel:
+class UnitModel :
   public QAbstractItemModel,
   public Database::Mixin::ConnectionAcceptor
 {
@@ -41,7 +40,7 @@ public:
   bool
   setData(const QModelIndex& index,
           const QVariant&    value,
-          int                role = Qt::EditRole) override;
+          int role = Qt::EditRole) override;
 
   virtual
   QModelIndex
@@ -58,9 +57,9 @@ public:
   //
 
   QVariant
-  headerData(int             section,
+  headerData(int section,
              Qt::Orientation orientation,
-             int             role = Qt::DisplayRole) const override;
+             int role = Qt::DisplayRole) const override;
 
   Qt::ItemFlags
   flags(const QModelIndex& index) const override;
@@ -100,7 +99,7 @@ private:
 
   void
   updateCacheWithNewUnitName(UnitTableEntry* unitEntry,
-                             QString         newName);
+                             QString newName);
 
 private:
   Database::Connections::Connection::Shared _connection;
@@ -117,4 +116,3 @@ private:
 }
 }
 }
-#endif // Geo_TypeSystem_Models_UnitModel_hpp

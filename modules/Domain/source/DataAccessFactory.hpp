@@ -1,5 +1,4 @@
-#ifndef Geo_Domain_DataAccessFactory_hpp
-#define Geo_Domain_DataAccessFactory_hpp
+#pragma once
 
 #include <Domain/CurveTypeAccess>
 #include <Domain/LogAccess>
@@ -62,5 +61,3 @@ public:
 };
 }
 }
-
-#endif

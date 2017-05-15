@@ -254,7 +254,7 @@ void
 TraitsWidgetModel::
 reloadTraits()
 {
-  if (_connection.isNull())
+  if (!_connection)
     return;
 
   beginResetModel();
@@ -286,7 +286,7 @@ void
 TraitsWidgetModel::
 deleteMarkedEntries()
 {
-  if (_connection.isNull())
+  if (!_connection)
     return;
 
   auto dataAccessFactory = _connection->dataAccessFactory();

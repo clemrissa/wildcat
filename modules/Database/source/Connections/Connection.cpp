@@ -2,7 +2,7 @@
 
 #include "SQLiteConnection.hpp"
 
-#include <QString>
+#include <QtCore/QString>
 
 using Geo::Database::Connections::Connection;
 using Geo::Database::Connections::SQLiteConnection;

@@ -188,7 +188,7 @@ findAppropriateTrait()
 {
   using Geo::Domain::WellTrait;
 
-  if (_connection.isNull())
+  if (!_connection)
     return;
 
   QString name = data(Qt::DisplayRole, TreeEntry::Name).toString();
