@@ -1,19 +1,20 @@
-#ifndef Geo_Domain_Odb_WellAccessObject_hpp
-#define Geo_Domain_Odb_WellAccessObject_hpp
+#pragma once
 
 #include <Domain/WellAccess>
-#include <QSharedPointer>
+
+#include <memory>
 
 #include <odb/database.hxx>
 
 namespace Geo {
 namespace Domain {
 namespace Odb {
-class WellAccess: public Geo::Domain::WellAccess {
+class WellAccess : public Geo::Domain::WellAccess
+{
 public:
-  typedef typename Geo::Domain::WellAccess::Shared Shared;
-  typedef QSharedPointer<odb::core::database>      Database;
-  typedef Geo::Domain::Well                        Well;
+  using Shared   = Geo::Domain::WellAccess::Shared;
+  using Database = std::shared_ptr<odb::core::database>;
+  using Well     = Geo::Domain::Well;
 
 public:
   WellAccess(Database db);
@@ -35,7 +36,7 @@ public:
   void
   remove(unsigned int const& pk);
 
-  QVector<Well::Shared>
+  std::vector<Well::Shared>
   findAll();
 
   Well::Shared
@@ -49,5 +50,3 @@ private:
 }
 }
 }
-
-#endif //  Geo_Domain_Odb_WellAccessObject_hpp

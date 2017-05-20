@@ -5,7 +5,8 @@
 
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QVariant>
-#include <QtCore/QVector>
+
+#include <vector>
 
 using Geo::Database::Connections::Connection;
 
@@ -79,7 +80,7 @@ private:
   // database traits
   Connections::Connection::Shared _connection;
 
-  QVector<WellTraitEntry*> _entries;
+  std::vector<WellTraitEntry*> _entries;
 };
 
 //

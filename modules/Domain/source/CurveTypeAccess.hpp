@@ -2,8 +2,8 @@
 
 #include <Domain/CurveType>
 
-#include <QSharedPointer>
-#include <QVector>
+#include <vector>
+#include <memory>
 
 namespace Geo {
 namespace Domain {
@@ -12,7 +12,7 @@ namespace Domain {
 class CurveTypeAccess
 {
 public:
-  using Shared = QSharedPointer<CurveTypeAccess>;
+  using Shared = std::shared_ptr<CurveTypeAccess>;
 
 public:
   virtual
@@ -30,7 +30,7 @@ public:
   virtual void
   remove(unsigned int const& pk) = 0;
 
-  virtual QVector<CurveType::Shared>
+  virtual std::vector<CurveType::Shared>
   findAll() = 0;
 
   virtual CurveType::Shared

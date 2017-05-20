@@ -1,19 +1,19 @@
-#ifndef Geo_Domain_Log_hpp
-#define Geo_Domain_Log_hpp
+#pragma once
 
 #include <QtCore/QByteArray>
-#include <QtCore/QSharedPointer>
 #include <QtCore/QString>
-#include <QtCore/QVector>
-#include <QtCore/QWeakPointer>
+
+#include <memory>
 
 #include <odb/core.hxx>
 
 #include "CurveType.hpp"
 #include "NArray.hpp"
 
-namespace Geo {
-namespace Domain {
+namespace Geo
+{
+namespace Domain
+{
 
 class LogParameterGroup;
 class Well;
@@ -28,7 +28,7 @@ class Well;
 class Log
 {
 public:
-  typedef QSharedPointer<Log> Shared;
+  using Shared = std::shared_ptr<Log>;
 
   Log();
 
@@ -72,7 +72,7 @@ public:
   }
 
   void
-  setWell(QSharedPointer<Well> well)
+  setWell(std::shared_ptr<Well> well)
   {
     _well = well;
   }
@@ -82,19 +82,19 @@ private:
 
   unsigned int _id;
 
-  std::vector<QSharedPointer<Geo::Domain::CurveType> > _referenceCurveTypes;
+  std::vector<std::shared_ptr<Geo::Domain::CurveType> > _referenceCurveTypes;
 
-  std::vector<QSharedPointer<Geo::Domain::CurveType> > _dataCurveTypes;
+  std::vector<std::shared_ptr<Geo::Domain::CurveType> > _dataCurveTypes;
 
   QByteArray _dataArray;
 
-  QWeakPointer<Geo::Domain::Well> _well;
+  std::weak_ptr<Geo::Domain::Well> _well;
 
-  QSharedPointer<Geo::Domain::LogParameterGroup> _logParameterGroup;
+  std::shared_ptr<Geo::Domain::LogParameterGroup> _logParameterGroup;
 
 private:
   /// AbstractArray is used for accessing data stored in QByteArray
-  QSharedPointer<AbstractNArray> _array;
+  std::shared_ptr<AbstractNArray> _array;
 
 private:
   void
@@ -106,7 +106,7 @@ private:
 }
 
 #ifdef ODB_COMPILER
-  #pragma db object(Geo::Domain::Log)
+  #pragma db object(Geo::Domain::Log) pointer (std::shared_ptr)
   #pragma db member(Geo::Domain::Log::_id) id auto
   #pragma db member(Geo::Domain::Log::_referenceCurveTypes)
   #pragma db member(Geo::Domain::Log::_dataCurveTypes)
@@ -117,6 +117,4 @@ private:
 
   #include "Well.hpp"
   #include "LogParameterGroup.hpp"
-#endif
-
 #endif

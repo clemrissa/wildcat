@@ -80,7 +80,7 @@ bool
 CurveTypeModel::
 setData(const QModelIndex& index,
         const QVariant&    value,
-        int                role)
+        int role)
 {
   if (role != Qt::EditRole)
     return false;
@@ -152,9 +152,9 @@ rowCount(const QModelIndex& parent) const
 
 QVariant
 CurveTypeModel::
-headerData(int             section,
+headerData(int section,
            Qt::Orientation orientation,
-           int             role)  const
+           int role)  const
 {
   QVariant result;
 
@@ -164,38 +164,39 @@ headerData(int             section,
   if (orientation == Qt::Vertical)
     return result;
 
-  switch (section) {
-  case TreeEntry::FamilyOrCurveName:
-    result = tr("Family / Curve Type");
-    break;
+  switch (section)
+  {
+    case TreeEntry::FamilyOrCurveName:
+      result = tr("Family / Curve Type");
+      break;
 
-  case TreeEntry::Mnemonic:
-    result = tr("Mnemonic");
-    break;
+    case TreeEntry::Mnemonic:
+      result = tr("Mnemonic");
+      break;
 
-  case TreeEntry::Synonyms:
-    result = tr("Synonyms");
-    break;
+    case TreeEntry::Synonyms:
+      result = tr("Synonyms");
+      break;
 
-  case TreeEntry::Units:
-    result = tr("Units");
-    break;
+    case TreeEntry::Units:
+      result = tr("Units");
+      break;
 
-  case TreeEntry::Min:
-    result = tr("Min");
-    break;
+    case TreeEntry::Min:
+      result = tr("Min");
+      break;
 
-  case TreeEntry::Max:
-    result = tr("Max");
-    break;
+    case TreeEntry::Max:
+      result = tr("Max");
+      break;
 
-  case TreeEntry::Scale:
-    result = tr("Scale");
-    break;
+    case TreeEntry::Scale:
+      result = tr("Scale");
+      break;
 
-  case TreeEntry::Continuity:
-    result = tr("Continuity");
-    break;
+    case TreeEntry::Continuity:
+      result = tr("Continuity");
+      break;
   }
 
   return result;
@@ -227,7 +228,8 @@ loadXml(QString fileName)
   if (!file.open(QIODevice::ReadOnly))
     return;
 
-  if (!doc.setContent(&file)) {
+  if (!doc.setContent(&file))
+  {
     file.close();
     return;
   }
@@ -244,10 +246,12 @@ loadXml(QString fileName)
 
     QDomNode n = docElem.firstChild();
 
-    while (!n.isNull()) {
+    while (!n.isNull())
+    {
       CurveTypeEntry::XmlSourceType xmlCurveSourceType;
 
-      if (n.nodeName() == QString("loginfo")) {
+      if (n.nodeName() == QString("loginfo"))
+      {
         xmlCurveSourceType = CurveTypeEntry::XmlSourceType::Schlumberger;
 
         // try to convert the node to an element.
@@ -274,7 +278,9 @@ loadXml(QString fileName)
         auto familyEntry = getCachedFamilyEntry(familyName);
 
         familyEntry->addChild(loginfo,  xmlCurveSourceType);
-      } else if (n.nodeName() == QString("Family")) {
+      }
+      else if (n.nodeName() == QString("Family"))
+      {
         xmlCurveSourceType = CurveTypeEntry::XmlSourceType::Geo;
         QString familyName = n.attributes().namedItem("Name").toAttr().value();
 
@@ -282,7 +288,8 @@ loadXml(QString fileName)
 
         auto curve = n.firstChildElement("CurveType");
 
-        while (!curve.isNull()) {
+        while (!curve.isNull())
+        {
           // TODO check if familyEntry became valid, save if then
           familyEntry->addChild(curve, xmlCurveSourceType);
           curve = curve.nextSiblingElement("CurveType");
@@ -313,12 +320,13 @@ getCachedFamilyEntry(QString familyName)
   if (_familyEntryCacheMap.contains(familyName))
     result = _familyEntryCacheMap[familyName];
 
-  else {
+  else
+  {
     result = new FamilyEntry(familyName);
 
     _familyEntryCacheMap[familyName] = result;
 
-    _familyEntries.append(result);
+    _familyEntries.push_back(result);
   }
 
   return result;
@@ -330,17 +338,21 @@ CurveTypeModel::
 pushEmptyFamilyEntry()
 {
   if (_familyEntries.size() &&
-      _familyEntries.last()->getFamily().isEmpty() &&
-      _familyEntries.last()->entries().size() == 1) {
-    auto e = _familyEntries.last()->entries().last();
+      _familyEntries.back()->getFamily().isEmpty() &&
+      _familyEntries.back()->entries().size() == 1)
+  {
+    auto e = _familyEntries.back()->entries().last();
     auto c = static_cast<CurveTypeEntry*>(e);
 
-    if (c->curveType()->name().isEmpty()) {
-      Q_ASSERT(_emptyFamilyEntryStack.isNull());
+    if (c->curveType()->name().isEmpty())
+    {
+      Q_ASSERT(_emptyFamilyEntryStack);
 
       // std::cout << " PUSH " << std::endl;
 
-      _emptyFamilyEntryStack = _familyEntries.takeLast();
+      _emptyFamilyEntryStack.reset(_familyEntries.back());
+
+      _familyEntries.erase(_familyEntries.end() - 1);
     }
   }
 }
@@ -350,9 +362,9 @@ void
 CurveTypeModel::
 popEmptyFamilyEntry()
 {
-  if (!_emptyFamilyEntryStack.isNull()) {
-    _familyEntries.append(_emptyFamilyEntryStack.data());
-    _emptyFamilyEntryStack.clear();
+  if (_emptyFamilyEntryStack)
+  {
+    _familyEntries.push_back(_emptyFamilyEntryStack.release());
 
     // std::cout << " POP " << std::endl;
   }
@@ -366,6 +378,7 @@ saveXml(QString fileName)
   QDomDocument doc("CurveTypes");
 
   QDomElement root = doc.createElement("CurveTypes");
+
   doc.appendChild(root);
 
   for (auto e : _familyEntries)
@@ -405,7 +418,8 @@ onClicked(const QModelIndex& index)
   auto treeEntry =
     static_cast<TreeEntry*>(index.internalPointer());
 
-  if (index.column() == TreeEntry::CloseAction) {
+  if (index.column() == TreeEntry::CloseAction)
+  {
     treeEntry->switchState();
 
     int row = index.row();
@@ -457,8 +471,10 @@ setDataToCurveNode(const QModelIndex& index,
   auto curveTypeAccess   = dataAccessFactory->curveTypeAccess();
 
   // not yet in the DB
-  if (!curveTypeEntry->getPersisted()) {
-    if (becameValid) {
+  if (!curveTypeEntry->getPersisted())
+  {
+    if (becameValid)
+    {
       curveTypeAccess->insert(curveTypeEntry->curveType());
 
       curveTypeEntry->setPersisted(true);
@@ -474,7 +490,8 @@ setDataToCurveNode(const QModelIndex& index,
 
       endInsertRows();
     }
-  } else if (newCurveTypeStatus) // it was persisted and stays valid
+  }
+  else if (newCurveTypeStatus)   // it was persisted and stays valid
     curveTypeAccess->update(curveTypeEntry->curveType());
 
   return true;
@@ -505,7 +522,8 @@ setDataToFamilyNode(const QModelIndex& index,
   }
   bool familyEmptyAfter = familyEntry->getFamily().isEmpty();
 
-  if (familyEmptyBefore && !familyEmptyAfter) {
+  if (familyEmptyBefore && !familyEmptyAfter)
+  {
     int position = getEntryPosition(familyEntry);
     beginInsertRows(index.parent(), position, position);
     {
@@ -524,7 +542,8 @@ setDataToFamilyNode(const QModelIndex& index,
 
   // bool somethingWasPersisted = false;
 
-  for (int i = 0; i < familyEntry->entries().size(); ++i) {
+  for (int i = 0; i < familyEntry->entries().size(); ++i)
+  {
     auto curveTypeEntry =
       static_cast<CurveTypeEntry*>(familyEntry->entries()[i]);
 
@@ -541,8 +560,10 @@ setDataToFamilyNode(const QModelIndex& index,
     auto curveTypeAccess   = dataAccessFactory->curveTypeAccess();
 
     // not yet in the DB
-    if (!curveTypeEntry->getPersisted()) {
-      if (becameValid) {
+    if (!curveTypeEntry->getPersisted())
+    {
+      if (becameValid)
+      {
         // beginResetModel();
         // {
         curveTypeAccess->insert(curveTypeEntry->curveType());
@@ -556,7 +577,8 @@ setDataToFamilyNode(const QModelIndex& index,
         // }
         // endResetModel();
       }
-    } else if (newCurveTypeStatus) // it was persisted and stays valid
+    }
+    else if (newCurveTypeStatus)   // it was persisted and stays valid
       curveTypeAccess->update(curveTypeEntry->curveType());
 
     // somethingWasPersisted = true;
@@ -585,9 +607,10 @@ reloadCurveTypes()
 
     auto curveTypeAccess = dataAccessFactory->curveTypeAccess();
 
-    QVector<CurveType::Shared> curveTypes = curveTypeAccess->findAll();
+    std::vector<CurveType::Shared> curveTypes = curveTypeAccess->findAll();
 
-    for (CurveType::Shared t : curveTypes) {
+    for (CurveType::Shared t : curveTypes)
+    {
       QString familyName = t->family();
 
       auto familyEntry = getCachedFamilyEntry(familyName);
@@ -615,12 +638,12 @@ deleteMarkedEntries()
 
   for (FamilyEntry* fe : _familyEntries)
 
-    for (TreeEntry * e : fe->entries()) {
+    for (TreeEntry * e : fe->entries())
+    {
       auto curveTypeEntry = static_cast<CurveTypeEntry*>(e);
 
       if (curveTypeEntry->getPersisted() &&
           curveTypeEntry->getState() == TreeEntry::Deleted)
         curveTypeAccess->remove(curveTypeEntry->curveType());
     }
-
 }

@@ -1,30 +1,32 @@
-#ifndef Geo_Domain_LogParameter_hpp
-#define Geo_Domain_LogParameter_hpp
+#pragma once
 
 #include <QtCore/QDate>
-#include <QtCore/QSharedPointer>
+
+#include <memory>
 
 #include <odb/core.hxx>
 
-namespace Geo {
-namespace Domain {
+namespace Geo
+{
+namespace Domain
+{
 //
 
 class LogParameterGroup;
 
 #ifdef ODB_COMPILER
-  #pragma db object polymorphic pointer(QSharedPointer)
+  #pragma db object polymorphic pointer(std::shared_ptr)
 #endif
 class LogParameter
 {
 public:
-  typedef QSharedPointer<LogParameter> Shared;
+
+  using Shared = std::shared_ptr<LogParameter>;
 
 public:
   virtual
   ~LogParameter()
-  {
-  }
+  {}
 
 public:
   virtual QString
@@ -34,7 +36,7 @@ public:
   setValue(QString value) = 0;
 
   void
-  setLogParameterGroup(QSharedPointer<LogParameterGroup> logParameterGroup)
+  setLogParameterGroup(std::shared_ptr<LogParameterGroup> logParameterGroup)
   {
     _logParameterGroup = logParameterGroup;
   }
@@ -60,20 +62,18 @@ protected:
 #ifdef ODB_COMPILER
   #pragma db not_null
 #endif
-  QWeakPointer<Geo::Domain::LogParameterGroup>
+  std::weak_ptr<Geo::Domain::LogParameterGroup>
   _logParameterGroup;
 
   QString _name;
 };
 
-
 //-----------------------------------------------
-
 
 #ifdef ODB_COMPILER
   #pragma db object
 #endif
-class LogParameterString: public LogParameter
+class LogParameterString : public LogParameter
 {
 public:
   virtual QString
@@ -99,5 +99,3 @@ protected:
 #ifdef ODB_COMPILER
   #include "LogParameterGroup.hpp"
 #endif
-
-#endif // Geo_Domain_LogParameter_hpp

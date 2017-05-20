@@ -3,12 +3,10 @@
 using Geo::Import::TreeWrapper::Start;
 
 Start::
-Start(QSharedPointer<LasFile> lasFile,
-      TreeEntry*              parent):
+Start(std::shared_ptr<LasFile> lasFile,
+      TreeEntry*              parent) :
   TreeEntry(lasFile, parent)
-{
-}
-
+{}
 
 QVariant
 Start::
@@ -17,30 +15,31 @@ data(int role, int column) const
   if (role != Qt::DisplayRole)
     return QVariant();
 
-  switch (column) {
-  case TreeEntry::Name:
-    return tr("STRT");
-    break;
+  switch (column)
+  {
+    case TreeEntry::Name:
+      return tr("STRT");
+      break;
 
-  case TreeEntry::Description:
-    return tr("Start");
-    break;
+    case TreeEntry::Description:
+      return tr("Start");
+      break;
 
-  case TreeEntry::Value:
-    return _lasFile->logMetrics.start;
-    break;
+    case TreeEntry::Value:
+      return _lasFile->logMetrics.start;
+      break;
 
-  case TreeEntry::ImportValue:
-    return _lasFileToImport->logMetrics.start;
-    break;
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->logMetrics.start;
+      break;
 
-  case TreeEntry::Units:
-    return _lasFile->logMetrics.units;
-    break;
+    case TreeEntry::Units:
+      return _lasFile->logMetrics.units;
+      break;
 
-  default:
-    return QVariant();
-    break;
+    default:
+      return QVariant();
+      break;
   }
 }
 
@@ -59,12 +58,10 @@ copyDataToLasToImport()
 using Geo::Import::TreeWrapper::Stop;
 
 Stop::
-Stop(QSharedPointer<LasFile> lasFile,
-     TreeEntry*              parent):
+Stop(std::shared_ptr<LasFile> lasFile,
+     TreeEntry*              parent) :
   TreeEntry(lasFile, parent)
-{
-}
-
+{}
 
 QVariant
 Stop::
@@ -73,30 +70,31 @@ data(int role, int column) const
   if (role != Qt::DisplayRole)
     return QVariant();
 
-  switch (column) {
-  case TreeEntry::Name:
-    return tr("STOP");
-    break;
+  switch (column)
+  {
+    case TreeEntry::Name:
+      return tr("STOP");
+      break;
 
-  case TreeEntry::Description:
-    return tr("Stop");
-    break;
+    case TreeEntry::Description:
+      return tr("Stop");
+      break;
 
-  case TreeEntry::Value:
-    return _lasFile->logMetrics.stop;
-    break;
+    case TreeEntry::Value:
+      return _lasFile->logMetrics.stop;
+      break;
 
-  case TreeEntry::ImportValue:
-    return _lasFileToImport->logMetrics.stop;
-    break;
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->logMetrics.stop;
+      break;
 
-  case TreeEntry::Units:
-    return _lasFile->logMetrics.units;
-    break;
+    case TreeEntry::Units:
+      return _lasFile->logMetrics.units;
+      break;
 
-  default:
-    return QVariant();
-    break;
+    default:
+      return QVariant();
+      break;
   }
 }
 
@@ -115,12 +113,10 @@ copyDataToLasToImport()
 using Geo::Import::TreeWrapper::Step;
 
 Step::
-Step(QSharedPointer<LasFile> lasFile,
-     TreeEntry*              parent):
+Step(std::shared_ptr<LasFile> lasFile,
+     TreeEntry*              parent) :
   TreeEntry(lasFile, parent)
-{
-}
-
+{}
 
 QVariant
 Step::
@@ -129,30 +125,31 @@ data(int role, int column) const
   if (role != Qt::DisplayRole)
     return QVariant();
 
-  switch (column) {
-  case TreeEntry::Name:
-    return tr("STEP");
-    break;
+  switch (column)
+  {
+    case TreeEntry::Name:
+      return tr("STEP");
+      break;
 
-  case TreeEntry::Description:
-    return tr("Step");
-    break;
+    case TreeEntry::Description:
+      return tr("Step");
+      break;
 
-  case TreeEntry::Value:
-    return _lasFile->logMetrics.step;
-    break;
+    case TreeEntry::Value:
+      return _lasFile->logMetrics.step;
+      break;
 
-  case TreeEntry::ImportValue:
-    return _lasFileToImport->logMetrics.step;
-    break;
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->logMetrics.step;
+      break;
 
-  case TreeEntry::Units:
-    return _lasFile->logMetrics.units;
-    break;
+    case TreeEntry::Units:
+      return _lasFile->logMetrics.units;
+      break;
 
-  default:
-    return QVariant();
-    break;
+    default:
+      return QVariant();
+      break;
   }
 }
 
@@ -171,12 +168,10 @@ copyDataToLasToImport()
 using Geo::Import::TreeWrapper::Null;
 
 Null::
-Null(QSharedPointer<LasFile> lasFile,
-     TreeEntry*              parent):
+Null(std::shared_ptr<LasFile> lasFile,
+     TreeEntry*              parent) :
   TreeEntry(lasFile, parent)
-{
-}
-
+{}
 
 QVariant
 Null::
@@ -185,30 +180,31 @@ data(int role, int column) const
   if (role != Qt::DisplayRole)
     return QVariant();
 
-  switch (column) {
-  case TreeEntry::Name:
-    return tr("NULL");
-    break;
+  switch (column)
+  {
+    case TreeEntry::Name:
+      return tr("NULL");
+      break;
 
-  case TreeEntry::Description:
-    return tr("Null Value");
-    break;
+    case TreeEntry::Description:
+      return tr("Null Value");
+      break;
 
-  case TreeEntry::Value:
-    return _lasFile->logMetrics.nullValue;
-    break;
+    case TreeEntry::Value:
+      return _lasFile->logMetrics.nullValue;
+      break;
 
-  case TreeEntry::ImportValue:
-    return _lasFileToImport->logMetrics.nullValue;
-    break;
+    case TreeEntry::ImportValue:
+      return _lasFileToImport->logMetrics.nullValue;
+      break;
 
-  case TreeEntry::Units:
-    return _lasFile->logMetrics.units;
-    break;
+    case TreeEntry::Units:
+      return _lasFile->logMetrics.units;
+      break;
 
-  default:
-    return QVariant();
-    break;
+    default:
+      return QVariant();
+      break;
   }
 }
 
@@ -227,8 +223,8 @@ copyDataToLasToImport()
 using Geo::Import::TreeWrapper::LogMetricsGroup;
 
 LogMetricsGroup::
-LogMetricsGroup(QSharedPointer<LasFile> lasFile,
-                TreeEntry*              parent):
+LogMetricsGroup(std::shared_ptr<LasFile> lasFile,
+                TreeEntry*              parent) :
   TreeEntry(lasFile, parent)
 {
   _entries.push_back(new Start(_lasFile, this));
@@ -248,13 +244,14 @@ data(int role, int column) const
   if (role != Qt::DisplayRole)
     return QVariant();
 
-  switch (column) {
-  case 0:
-    return tr("Log Metrics");
-    break;
+  switch (column)
+  {
+    case 0:
+      return tr("Log Metrics");
+      break;
 
-  default:
-    return QVariant();
-    break;
+    default:
+      return QVariant();
+      break;
   }
 }

@@ -1,17 +1,15 @@
-#ifndef Geo_Import_LogMetrics_hpp
-#define Geo_Import_LogMetrics_hpp
+#pragma once
 
 #include "TreeEntry.hpp"
 
 namespace Geo {
 namespace Import {
 namespace TreeWrapper {
-//
 
-class Start: public TreeEntry
+class Start : public TreeEntry
 {
 public:
-  Start(QSharedPointer<LasFile> lasFile,
+  Start(std::shared_ptr<LasFile> lasFile,
         TreeEntry*              parent);
 
   QVariant
@@ -23,10 +21,10 @@ public:
 
 // ------------------------------------------------------
 
-class Stop: public TreeEntry
+class Stop : public TreeEntry
 {
 public:
-  Stop(QSharedPointer<LasFile> lasFile,
+  Stop(std::shared_ptr<LasFile> lasFile,
        TreeEntry*              parent);
 
   QVariant
@@ -38,10 +36,10 @@ public:
 
 // ------------------------------------------------------
 
-class Step: public TreeEntry
+class Step : public TreeEntry
 {
 public:
-  Step(QSharedPointer<LasFile> lasFile,
+  Step(std::shared_ptr<LasFile> lasFile,
        TreeEntry*              parent);
 
   QVariant
@@ -53,10 +51,10 @@ public:
 
 // ------------------------------------------------------
 
-class Null: public TreeEntry
+class Null : public TreeEntry
 {
 public:
-  Null(QSharedPointer<LasFile> lasFile,
+  Null(std::shared_ptr<LasFile> lasFile,
        TreeEntry*              parent);
 
   QVariant
@@ -66,10 +64,10 @@ public:
   copyDataToLasToImport() override;
 };
 
-class LogMetricsGroup: public TreeEntry
+class LogMetricsGroup : public TreeEntry
 {
 public:
-  LogMetricsGroup(QSharedPointer<LasFile> lasFile,
+  LogMetricsGroup(std::shared_ptr<LasFile> lasFile,
                   TreeEntry*              parent);
 
   QVariant
@@ -78,5 +76,3 @@ public:
 }
 }
 }
-
-#endif // Geo_Import_LogMetrics_hpp

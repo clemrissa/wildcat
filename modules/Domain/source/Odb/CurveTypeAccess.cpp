@@ -87,13 +87,13 @@ remove(unsigned int const& pk)
 }
 
 
-QVector<Geo::Domain::CurveType::Shared>
+std::vector<Geo::Domain::CurveType::Shared>
 CurveTypeAccess::
 findAll()
 {
   using Geo::Domain::CurveType;
 
-  QVector<CurveType::Shared> vector;
+  std::vector<CurveType::Shared> vector;
   try
   {
     transaction t(_db->begin());

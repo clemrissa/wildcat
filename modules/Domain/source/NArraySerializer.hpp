@@ -1,7 +1,6 @@
-#ifndef Geo_Domain_NArraySerializer_hpp
-#define Geo_Domain_NArraySerializer_hpp
+#pragma once
 
-#include <QtCore/QSharedPointer>
+#include <memory>
 
 #include <odb/core.hxx>
 
@@ -128,4 +127,3 @@ private:
 //
 }
 }
-#endif //  Geo_Domain_NArraySerializer_hpp

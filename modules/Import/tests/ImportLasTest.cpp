@@ -5,13 +5,8 @@
 
 #include <QtWidgets/QApplication>
 #include <QtCore/QFile>
-#include <QtCore/QSharedPointer>
 
-
-void touch()
-{
-  //
-}
+#include <memory>
 
 TEST_CASE("Las12", "[import]")
 {
@@ -25,8 +20,7 @@ TEST_CASE("Las12", "[import]")
   REQUIRE(QFile::exists(fileName) == true);
 
   // parsing
-  QSharedPointer<Geo::Import::LasFile> lasFile =
-    parser.parse(fileName);
+  std::shared_ptr<Geo::Import::LasFile> lasFile = parser.parse(fileName);
 
   // check well information
   REQUIRE(lasFile->lasRequired.wellName == QString("ANY ET AL A9-16-49-20"));
@@ -69,7 +63,7 @@ TEST_CASE("Las20", "[import]")
   REQUIRE(QFile::exists(fileName) == true);
 
   // parsing
-  QSharedPointer<Geo::Import::LasFile> lasFile = parser.parse(fileName);
+  std::shared_ptr<Geo::Import::LasFile> lasFile = parser.parse(fileName);
 
   // check well information
   REQUIRE(lasFile->lasRequired.wellName == QString("ANY ET AL 12-34-12-34"));

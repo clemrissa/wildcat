@@ -1,7 +1,9 @@
 #include "Well.hpp"
 
-namespace Geo {
-namespace Domain {
+namespace Geo
+{
+namespace Domain
+{
 //
 
 Well::
@@ -21,7 +23,7 @@ Well(QString const& name)
   // QString unit = "Unit_" + QString::number(qrand() % 100 + 100);
   // QString tool = "Tool_" + QString::number(qrand() % 100 + 100);
 
-  // QSharedPointer<Log> l(new Log(name, unit, tool));
+  // std::shared_ptr<Log> l(new Log(name, unit, tool));
 
   // _logs.append(l);
   // }
@@ -30,17 +32,17 @@ Well(QString const& name)
 
 void
 Well::
-addLog(QSharedPointer<Log> log)
+addLog(std::shared_ptr<Log> log)
 {
-  _logs.append(log);
+  _logs.push_back(log);
 }
 
 
-QVectorIterator<QSharedPointer<Log> >
+std::vector<std::shared_ptr<Log> > &
 Well::
 getLogsListIterator()
 {
-  return QVectorIterator<QSharedPointer<Log> >(_logs);
+  return _logs;
 }
 }
 }

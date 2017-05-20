@@ -85,11 +85,11 @@ remove(unsigned int const& pk)
 }
 
 
-QVector<WellAccess::Well::Shared>
+std::vector<WellAccess::Well::Shared>
 WellAccess::
 findAll()
 {
-  QVector<Well::Shared> vector;
+  std::vector<Well::Shared> vector;
   try
   {
     transaction t(_db->begin());

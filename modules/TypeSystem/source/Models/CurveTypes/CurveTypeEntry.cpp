@@ -21,7 +21,6 @@ CurveTypeEntry(Geo::Domain::CurveType::Shared curveType,
   _persisted(_curveType->isValid())
 {}
 
-
 CurveTypeEntry::
 CurveTypeEntry(QString curveTypeName,
                TreeEntry* parent) :
@@ -39,7 +38,6 @@ CurveTypeEntry(QString curveTypeName,
 CurveTypeEntry::
 ~CurveTypeEntry()
 {}
-
 
 void
 CurveTypeEntry::
@@ -138,7 +136,7 @@ getXmlDescription(QDomDocument& doc)
   addValue("Mnemonic", _curveType->mnemonic());
   addValue("TextUnit", _curveType->textUnit());
   addValue("Unit",
-           _curveType->unit().isNull() ? QString() : _curveType->unit()->getName());
+           !_curveType->unit() ? QString() : _curveType->unit()->getName());
 
   addRealValue("Min", _curveType->min());
   addRealValue("Max", _curveType->max());
@@ -297,7 +295,7 @@ delegateWidget(int column) const
       {
         comboBox->addItem(unitNames[i]);
 
-        if (!unit.isNull() &&
+        if (unit &&
             unit->getName() == unitNames[i])
           comboBox->setCurrentIndex(i);
       }
@@ -479,7 +477,7 @@ getDisplayRole(int column) const
 
     case TreeEntry::Units:
 
-      if (_curveType->unit().isNull())
+      if (!_curveType->unit())
         return _curveType->textUnit();
 
       else
@@ -616,21 +614,19 @@ getBackgroundRole(int column) const
 }
 
 
-QVector<Geo::Domain::Unit::Shared>
+std::vector<Geo::Domain::Unit::Shared>
 CurveTypeEntry::
 getUnits() const
 {
-  QVector<Geo::Domain::Unit::Shared> result;
+  std::vector<Geo::Domain::Unit::Shared> result;
 
   if (!_connection)
     return result;
 
   using Geo::Domain::WellTrait;
 
-  auto dataAccessFactory =
-    _connection->dataAccessFactory();
-  auto unitAccess =
-    dataAccessFactory->unitAccess();
+  auto dataAccessFactory = _connection->dataAccessFactory();
+  auto unitAccess = dataAccessFactory->unitAccess();
   result = unitAccess->findAll();
 
   return result;

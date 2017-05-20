@@ -13,10 +13,10 @@ WellTrait()
 {}
 
 WellTrait::
-WellTrait(QString name) :
-  _name(name),
-  _type(WellTrait::Undefined),
-  _mandatory(false)
+WellTrait(QString name)
+  : _name(name)
+  , _type(WellTrait::Undefined)
+  , _mandatory(false)
 {
   //
 }

@@ -85,13 +85,13 @@ remove(unsigned int const& pk)
 }
 
 
-QVector<Geo::Domain::LogParameter::Shared>
+std::vector<Geo::Domain::LogParameter::Shared>
 LogParameterAccess::
 findAll()
 {
   using Geo::Domain::LogParameter;
 
-  QVector<LogParameter::Shared> vector;
+  std::vector<LogParameter::Shared> vector;
   try
   {
     transaction t(_db->begin());

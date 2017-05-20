@@ -1,31 +1,32 @@
-#ifndef Geo_Import_LasFile_hpp
-#define Geo_Import_LasFile_hpp
+#pragma once
 
 #include <QtCore/QDateTime>
 #include <QtCore/QMap>
 #include <QtCore/QPair>
-#include <QtCore/QSharedPointer>
 #include <QtCore/QString>
-#include <QtCore/QVector>
+#include <QtCore/QObject>
+
+#include <vector>
+#include <memory>
 
 namespace Geo {
 namespace Import {
+
 /**
  * Class contains all the information from a Las file split into special
  * structures
  */
-class LasFile: public QObject
+class LasFile : public QObject
 {
   Q_OBJECT
 
 public:
-  typedef QSharedPointer<LasFile> Shared;
+  using Shared = std::shared_ptr<LasFile>;
 
 public:
-  LasFile():
+  LasFile() :
     _valid(false)
-  {
-  }
+  {}
 
   LasFile(LasFile const& lasFile);
 
@@ -54,10 +55,10 @@ public:
 
   struct LogMetrics
   {
-    double  start;
-    double  stop;
-    double  step;
-    double  nullValue;
+    double start;
+    double stop;
+    double step;
+    double nullValue;
     QString units;
   };
 
@@ -79,13 +80,13 @@ public:
 public:
   QString fileName;
 
-  LasRequired                              lasRequired;
-  LogMetrics                               logMetrics;
-  QMap<QString, WellInformationEntry>      wellInformation;
+  LasRequired lasRequired;
+  LogMetrics logMetrics;
+  QMap<QString, WellInformationEntry> wellInformation;
   QMap<QString, ParameterInformationEntry> parameterInformation;
-  QMap<QString, LogInformationEntry>       logInformation;
+  QMap<QString, LogInformationEntry> logInformation;
 
-  QMap<QString, QVector<double> > data;
+  QMap<QString, std::vector<double> > data;
 
   bool _valid;
 
@@ -95,4 +96,3 @@ public:
 };
 }
 }
-#endif // Geo_Import_LasFile_hpp

@@ -108,7 +108,7 @@ setData(const QModelIndex& index,
         // we add one more empty trait
         WellTrait::Shared emptyTrait(new WellTrait());
 
-        _entries.append(new WellTraitEntry(emptyTrait));
+        _entries.push_back(new WellTraitEntry(emptyTrait));
       }
       endResetModel();
     }
@@ -268,15 +268,15 @@ reloadTraits()
 
     auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
 
-    QVector<WellTrait::Shared> traits = wellTraitAccess->findAll();
+    std::vector<WellTrait::Shared> traits = wellTraitAccess->findAll();
 
     for (WellTrait::Shared t : traits)
-      _entries.append(new WellTraitEntry(t));
+      _entries.push_back(new WellTraitEntry(t));
 
     // we add one more empty trait
     WellTrait::Shared emptyTrait(new WellTrait());
 
-    _entries.append(new WellTraitEntry(emptyTrait));
+    _entries.push_back(new WellTraitEntry(emptyTrait));
   }
   endResetModel();
 }

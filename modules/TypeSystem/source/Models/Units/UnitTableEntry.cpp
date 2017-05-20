@@ -8,20 +8,20 @@ using Geo::Domain::Dimensions;
 using Geo::Domain::Unit;
 
 UnitTableEntry::
-UnitTableEntry(Unit::Shared unit):
-  _unit(unit),
-  _state(Active),
-  _persisted(unit->isValid())
+UnitTableEntry(Unit::Shared unit)
+  : _unit(unit)
+  , _state(Active)
+  , _persisted(unit->isValid())
 {
   //
 }
 
 
 UnitTableEntry::
-UnitTableEntry():
-  _unit(new Unit()),
-  _state(Active),
-  _persisted(_unit->isValid())
+UnitTableEntry()
+  : _unit(new Unit())
+  , _state(Active)
+  , _persisted(_unit->isValid())
 {
   //
 }
@@ -53,6 +53,7 @@ getXmlDescription(QDomDocument& doc)
     [&](QString n, QString v)
     {
       QDomElement e = doc.createElement(n);
+
       tag.appendChild(e);
 
       QDomText t = doc.createTextNode(v);
@@ -93,6 +94,7 @@ addXmlData(QDomElement& data)
     [&](QString n)
     {
       bool ok;
+
       return getValue(n).toDouble(&ok);
     };
 
@@ -105,7 +107,8 @@ addXmlData(QDomElement& data)
 
       class Dimensions dim;
 
-      for (auto i = 0; i < list.size(); ++i) {
+      for (auto i = 0; i < list.size(); ++i)
+      {
         bool ok;
 
         dim[static_cast<Dimensions::Dimension>(i)] = list[i].toInt(&ok);
@@ -138,26 +141,27 @@ QVariant
 UnitTableEntry::
 data(int role, int column) const
 {
-  switch (role) {
-  case Qt::DisplayRole:
-    return getDisplayOrEditRole(column);
-    break;
+  switch (role)
+  {
+    case Qt::DisplayRole:
+      return getDisplayOrEditRole(column);
+      break;
 
-  case Qt::EditRole:
-    return getDisplayOrEditRole(column);
-    break;
+    case Qt::EditRole:
+      return getDisplayOrEditRole(column);
+      break;
 
-  case Qt::DecorationRole:
-    return getDecorationRole(column);
-    break;
+    case Qt::DecorationRole:
+      return getDecorationRole(column);
+      break;
 
-  case Qt::ForegroundRole:
-    return getForegroundRole(column);
-    break;
+    case Qt::ForegroundRole:
+      return getForegroundRole(column);
+      break;
 
-  default:
-    return QVariant();
-    break;
+    default:
+      return QVariant();
+      break;
   }
 
   return QVariant();
@@ -170,30 +174,31 @@ headerData(int column)
 {
   QString result;
 
-  switch (column) {
-  case UnitTableEntry::Name:
-    result = tr("Name");
-    break;
+  switch (column)
+  {
+    case UnitTableEntry::Name:
+      result = tr("Name");
+      break;
 
-  case UnitTableEntry::Symbol:
-    result = tr("Symbol");
-    break;
+    case UnitTableEntry::Symbol:
+      result = tr("Symbol");
+      break;
 
-  case UnitTableEntry::Offset:
-    result = tr("Offset");
-    break;
+    case UnitTableEntry::Offset:
+      result = tr("Offset");
+      break;
 
-  case UnitTableEntry::Scale:
-    result = tr("Scale");
-    break;
+    case UnitTableEntry::Scale:
+      result = tr("Scale");
+      break;
 
-  case UnitTableEntry::Dimensions:
-    result = tr("Dimensions");
-    break;
+    case UnitTableEntry::Dimensions:
+      result = tr("Dimensions");
+      break;
 
-  default:
-    result = QString();
-    break;
+    default:
+      result = QString();
+      break;
   }
 
   return result;
@@ -215,14 +220,15 @@ void
 UnitTableEntry::
 switchState()
 {
-  switch (_state) {
-  case Active:
-    _state = Deleted;
-    break;
+  switch (_state)
+  {
+    case Active:
+      _state = Deleted;
+      break;
 
-  case Deleted:
-    _state = Active;
-    break;
+    case Deleted:
+      _state = Active;
+      break;
   }
 }
 
@@ -244,29 +250,30 @@ getDisplayOrEditRole(int column) const
 {
   QVariant result;
 
-  switch (column) {
-  case UnitTableEntry::Name:
-    result = _unit->getName();
-    break;
+  switch (column)
+  {
+    case UnitTableEntry::Name:
+      result = _unit->getName();
+      break;
 
-  case UnitTableEntry::Symbol:
-    result = _unit->getSymbol();
-    break;
+    case UnitTableEntry::Symbol:
+      result = _unit->getSymbol();
+      break;
 
-  case UnitTableEntry::Scale:
-    result = _unit->getScale();
-    break;
+    case UnitTableEntry::Scale:
+      result = _unit->getScale();
+      break;
 
-  case UnitTableEntry::Offset:
-    result = _unit->getOffset();
-    break;
+    case UnitTableEntry::Offset:
+      result = _unit->getOffset();
+      break;
 
-  case UnitTableEntry::Dimensions:
-    result =
-      QString("[%1]").arg(_unit->getDimensions().getFundamentalAsString());
+    case UnitTableEntry::Dimensions:
+      result =
+        QString("[%1]").arg(_unit->getDimensions().getFundamentalAsString());
 
-  default:
-    break;
+    default:
+      break;
   }
 
   return result;
@@ -282,14 +289,15 @@ getDecorationRole(int column) const
 
   if (column == CloseAction)
 
-    switch (_state) {
-    case Active:
-      return QIcon(":/delete.png");
-      break;
+    switch (_state)
+    {
+      case Active:
+        return QIcon(":/delete.png");
+        break;
 
-    case Deleted:
-      return QIcon(":/revert.png");
-      break;
+      case Deleted:
+        return QIcon(":/revert.png");
+        break;
     }
 
   return QVariant();
@@ -304,16 +312,18 @@ getForegroundRole(int column) const
 
   QVariant result;
 
-  switch (_state) {
-  case Active: {
-    QPalette palette;
-    result =  QColor(palette.color(QPalette::WindowText));
-    break;
-  }
+  switch (_state)
+  {
+    case Active:
+    {
+      QPalette palette;
+      result = QColor(palette.color(QPalette::WindowText));
+      break;
+    }
 
-  case Deleted:
-    result = QColor(Qt::lightGray);
-    break;
+    case Deleted:
+      result = QColor(Qt::lightGray);
+      break;
   }
 
   return result;

@@ -1,24 +1,26 @@
-#ifndef Geo_Domain_WellTraitValue_hpp
-#define Geo_Domain_WellTraitValue_hpp
+#pragma once
 
-#include <QtCore/QSharedPointer>
-#include <QtCore/QWeakPointer>
+#include <memory>
+
+#include <QtCore/QString>
 
 #include <odb/core.hxx>
 
-namespace Geo {
-namespace Domain {
+namespace Geo
+{
+namespace Domain
+{
 //
 
 class Well;
 
 #ifdef ODB_COMPILER
-  #pragma db object polymorphic pointer(QSharedPointer)
+  #pragma db object polymorphic pointer(std::shared_ptr)
 #endif
 class WellTraitAbstractValue
 {
 public:
-  typedef QSharedPointer<WellTraitAbstractValue> Shared;
+  typedef std::shared_ptr<WellTraitAbstractValue> Shared;
 
 public:
   virtual QString
@@ -28,7 +30,7 @@ public:
   value(bool* ok) = 0;
 
   void
-  setWell(QSharedPointer<Well> well)
+  setWell(std::shared_ptr<Well> well)
   {
     _well = well;
   }
@@ -44,13 +46,13 @@ protected:
 #ifdef ODB_COMPILER
   #pragma db not_null
 #endif
-  QWeakPointer<Geo::Domain::Well> _well;
+  std::weak_ptr<Geo::Domain::Well> _well;
 };
 
 #ifdef ODB_COMPILER
   #pragma db object
 #endif
-class WellTraitDoubleValue: public WellTraitAbstractValue
+class WellTraitDoubleValue : public WellTraitAbstractValue
 {
 public:
   virtual QString
@@ -81,7 +83,7 @@ protected:
 #ifdef ODB_COMPILER
   #pragma db object
 #endif
-class WellTraitStringValue: public WellTraitAbstractValue
+class WellTraitStringValue : public WellTraitAbstractValue
 {
 public:
   virtual QString
@@ -113,5 +115,3 @@ protected:
 #ifdef ODB_COMPILER
   #include "Well.hpp"
 #endif
-
-#endif //  Geo_Domain_WellTraitValue_hpp

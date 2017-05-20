@@ -8,19 +8,23 @@
 
 #include "TreeEntry.hpp"
 
-namespace Geo {
-namespace Domain {
+namespace Geo
+{
+namespace Domain
+{
 class WellTrait;
 }
 
-namespace Import {
-namespace TreeWrapper {
+namespace Import
+{
+namespace TreeWrapper
+{
 //
 
 class WellInfoBase : public TreeEntry
 {
 public:
-  WellInfoBase(QSharedPointer<LasFile> lasFile,
+  WellInfoBase(std::shared_ptr<LasFile> lasFile,
                TreeEntry*              parent);
 
   virtual QWidget*
@@ -36,7 +40,7 @@ public:
   setDataFromWidget(QWidget* editor, QModelIndex const& index,
                     QAbstractItemModel* model) override;
 
-  virtual QVector<Geo::Domain::WellTrait::Shared>
+  virtual std::vector<Geo::Domain::WellTrait::Shared>
   getWellTraits() const;
 
 protected:
@@ -50,9 +54,9 @@ protected:
   setTraitValue(QVariant trait);
 
   void
-  setTrait(QSharedPointer<Geo::Domain::WellTrait> trait);
+  setTrait(std::shared_ptr<Geo::Domain::WellTrait> trait);
 
-  const QSharedPointer<Geo::Domain::WellTrait>
+  const std::shared_ptr<Geo::Domain::WellTrait>
   getTrait() const;
 
 protected slots:
@@ -60,7 +64,7 @@ protected slots:
   findAppropriateTrait();
 
 protected:
-  QSharedPointer<Geo::Domain::WellTrait> _trait;
+  std::shared_ptr<Geo::Domain::WellTrait> _trait;
 };
 
 // ------------------------------------------------------
@@ -68,7 +72,7 @@ protected:
 class WellInfo : public WellInfoBase
 {
 public:
-  WellInfo(QSharedPointer<LasFile> lasFile,
+  WellInfo(std::shared_ptr<LasFile> lasFile,
            TreeEntry*              parent,
            int position);
 
@@ -91,7 +95,7 @@ private:
 class WellInformationGroup : public TreeEntry
 {
 public:
-  WellInformationGroup(QSharedPointer<LasFile> lasFile,
+  WellInformationGroup(std::shared_ptr<LasFile> lasFile,
                        TreeEntry*              parent);
 
   QVariant

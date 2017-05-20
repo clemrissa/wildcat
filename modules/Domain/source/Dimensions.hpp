@@ -1,10 +1,10 @@
-#ifndef Geo_Domain_Dimensions_hpp
-#define Geo_Domain_Dimensions_hpp
-
-#include <QtCore/QSharedPointer>
+#pragma once
 
 #include <odb/core.hxx>
 
+#include <QtCore/QString>
+
+#include <memory>
 #include <array>
 
 namespace Geo {
@@ -17,7 +17,7 @@ namespace Domain {
 class Dimensions
 {
 public:
-  typedef QSharedPointer<Dimensions> Shared;
+  using Shared = std::shared_ptr<Dimensions>;
 
 public:
   /// Every dimention tag starts with "D" to prevent
@@ -144,4 +144,3 @@ private:
 //
 }
 }
-#endif //  Geo_Domain_Dimensions_hpp

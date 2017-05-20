@@ -6,13 +6,17 @@
 
 #include <Domain/CurveType>
 
-namespace Geo {
-namespace TypeSystem {
-namespace Models {
-namespace CurveTypes {
+namespace Geo
+{
+namespace TypeSystem
+{
+namespace Models
+{
+namespace CurveTypes
+{
 //
 
-class CurveTypeEntry: public TreeEntry
+class CurveTypeEntry : public TreeEntry
 {
 public:
   enum class XmlSourceType
@@ -25,7 +29,7 @@ public:
   CurveTypeEntry(Geo::Domain::CurveType::Shared curveType,
                  TreeEntry*                     parent);
 
-  CurveTypeEntry(QString    cureTypeName,
+  CurveTypeEntry(QString cureTypeName,
                  TreeEntry* parent);
 
   // CurveTypeEntry(QDomElement& de,
@@ -88,7 +92,7 @@ private:
   QVariant
   getBackgroundRole(int column) const;
 
-  QVector<Geo::Domain::Unit::Shared>
+  std::vector<Geo::Domain::Unit::Shared>
   getUnits() const;
 
   QStringList

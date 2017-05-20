@@ -87,13 +87,13 @@ remove(unsigned int const& pk)
 }
 
 
-QVector<Geo::Domain::Unit::Shared>
+std::vector<Geo::Domain::Unit::Shared>
 UnitAccess::
 findAll()
 {
   using Geo::Domain::Unit;
 
-  QVector<Unit::Shared> vector;
+  std::vector<Unit::Shared> vector;
   try
   {
     transaction t(_db->begin());

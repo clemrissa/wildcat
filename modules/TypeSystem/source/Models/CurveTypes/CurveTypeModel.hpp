@@ -1,12 +1,12 @@
-#ifndef Geo_TypeSystem_Models_CurveTypeModel_hpp
-#define Geo_TypeSystem_Models_CurveTypeModel_hpp
+#pragma once
 
 #include <QtCore/QAbstractItemModel>
-#include <QtCore/QPointer>
-#include <QtCore/QVector>
 
 #include <Database/Connections/Connection>
 #include <Database/Mixin/ConnectionAcceptor>
+
+#include <vector>
+#include <memory>
 
 namespace Geo {
 namespace TypeSystem {
@@ -116,11 +116,11 @@ private:
 private:
   Database::Connections::Connection::Shared _connection;
 
-  QVector<FamilyEntry*> _familyEntries;
+  std::vector<FamilyEntry*> _familyEntries;
 
   QMap<QString, FamilyEntry*> _familyEntryCacheMap;
 
-  QPointer<FamilyEntry> _emptyFamilyEntryStack;
+  std::unique_ptr<FamilyEntry> _emptyFamilyEntryStack;
 };
 
 //
@@ -128,4 +128,3 @@ private:
 }
 }
 }
-#endif // Geo_TypeSystem_Models_CurveTypeModel_hpp

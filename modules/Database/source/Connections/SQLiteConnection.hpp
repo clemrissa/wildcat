@@ -2,19 +2,24 @@
 
 #include "Connection.hpp"
 
+#include <memory>
+
 #include <QtCore/QObject>
-#include <QtCore/QSharedPointer>
 #include <QtCore/QString>
 
-namespace Geo {
-namespace Database {
-namespace Connections {
+namespace Geo
+{
+namespace Database
+{
+namespace Connections
+{
+
 class SQLiteConnection : public Connection
 {
   Q_OBJECT
 
 private:
-  typedef QSharedPointer<odb::database> DatabaseObject;
+  using DatabaseObject = std::shared_ptr<odb::database>;
 
 public:
   Q_INVOKABLE

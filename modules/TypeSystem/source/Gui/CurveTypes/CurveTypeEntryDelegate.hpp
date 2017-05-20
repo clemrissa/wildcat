@@ -2,9 +2,12 @@
 
 #include <QtWidgets/QStyledItemDelegate>
 
-namespace Geo {
-namespace TypeSystem {
-namespace Gui {
+namespace Geo
+{
+namespace TypeSystem
+{
+namespace Gui
+{
 //
 
 class CurveTypeEntryDelegate : public QStyledItemDelegate

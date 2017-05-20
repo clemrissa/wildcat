@@ -21,7 +21,7 @@ namespace TreeWrapper {
 class WellName : public WellInfoBase
 {
 public:
-  WellName(QSharedPointer<LasFile> lasFile,
+  WellName(std::shared_ptr<LasFile> lasFile,
            TreeEntry*              parent);
 
   QVariant
@@ -40,7 +40,7 @@ protected:
 class WellCompany : public WellInfoBase
 {
 public:
-  WellCompany(QSharedPointer<LasFile> lasFile,
+  WellCompany(std::shared_ptr<LasFile> lasFile,
               TreeEntry*              parent);
 
   QVariant
@@ -59,7 +59,7 @@ protected:
 class WellServiceCompany : public WellInfoBase
 {
 public:
-  WellServiceCompany(QSharedPointer<LasFile> lasFile,
+  WellServiceCompany(std::shared_ptr<LasFile> lasFile,
                      TreeEntry*              parent);
 
   QVariant
@@ -78,7 +78,7 @@ protected:
 class WellField : public WellInfoBase
 {
 public:
-  WellField(QSharedPointer<LasFile> lasFile,
+  WellField(std::shared_ptr<LasFile> lasFile,
             TreeEntry*              parent);
 
   QVariant
@@ -97,7 +97,7 @@ protected:
 class WellLocation : public WellInfoBase
 {
 public:
-  WellLocation(QSharedPointer<LasFile> lasFile,
+  WellLocation(std::shared_ptr<LasFile> lasFile,
                TreeEntry*              parent);
 
   QVariant
@@ -116,7 +116,7 @@ protected:
 class WellDate : public WellInfoBase
 {
 public:
-  WellDate(QSharedPointer<LasFile> lasFile,
+  WellDate(std::shared_ptr<LasFile> lasFile,
            TreeEntry*              parent);
 
   QVariant
@@ -135,7 +135,7 @@ protected:
 class WellCountry : public WellInfoBase
 {
 public:
-  WellCountry(QSharedPointer<LasFile> lasFile,
+  WellCountry(std::shared_ptr<LasFile> lasFile,
               TreeEntry*              parent);
 
   QVariant
@@ -154,7 +154,7 @@ protected:
 class WellState : public WellInfoBase
 {
 public:
-  WellState(QSharedPointer<LasFile> lasFile,
+  WellState(std::shared_ptr<LasFile> lasFile,
             TreeEntry*              parent);
 
   QVariant
@@ -173,7 +173,7 @@ protected:
 class WellCounty : public WellInfoBase
 {
 public:
-  WellCounty(QSharedPointer<LasFile> lasFile,
+  WellCounty(std::shared_ptr<LasFile> lasFile,
              TreeEntry*              parent);
 
   QVariant
@@ -192,7 +192,7 @@ protected:
 class WellProvince : public WellInfoBase
 {
 public:
-  WellProvince(QSharedPointer<LasFile> lasFile,
+  WellProvince(std::shared_ptr<LasFile> lasFile,
                TreeEntry*              parent);
 
   QVariant
@@ -211,7 +211,7 @@ protected:
 class WellAPI : public WellInfoBase
 {
 public:
-  WellAPI(QSharedPointer<LasFile> lasFile,
+  WellAPI(std::shared_ptr<LasFile> lasFile,
           TreeEntry*              parent);
 
   QVariant
@@ -230,7 +230,7 @@ protected:
 class WellUWI : public WellInfoBase
 {
 public:
-  WellUWI(QSharedPointer<LasFile> lasFile,
+  WellUWI(std::shared_ptr<LasFile> lasFile,
           TreeEntry*              parent);
 
   QVariant
@@ -249,7 +249,7 @@ protected:
 class LasRequiredGroup : public TreeEntry
 {
 public:
-  LasRequiredGroup(QSharedPointer<LasFile> lasFile,
+  LasRequiredGroup(std::shared_ptr<LasFile> lasFile,
                    TreeEntry*              parent);
 
   QVariant

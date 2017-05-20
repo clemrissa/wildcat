@@ -3,7 +3,7 @@
 using Geo::Import::TreeWrapper::WellName;
 
 WellName::
-WellName(QSharedPointer<LasFile> lasFile,
+WellName(std::shared_ptr<LasFile> lasFile,
          TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -35,7 +35,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -72,7 +72,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellCompany;
 
 WellCompany::
-WellCompany(QSharedPointer<LasFile> lasFile,
+WellCompany(std::shared_ptr<LasFile> lasFile,
             TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -104,7 +104,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -141,7 +141,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellServiceCompany;
 
 WellServiceCompany::
-WellServiceCompany(QSharedPointer<LasFile> lasFile,
+WellServiceCompany(std::shared_ptr<LasFile> lasFile,
                    TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -173,7 +173,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -210,7 +210,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellField;
 
 WellField::
-WellField(QSharedPointer<LasFile> lasFile,
+WellField(std::shared_ptr<LasFile> lasFile,
           TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -242,7 +242,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -279,7 +279,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellLocation;
 
 WellLocation::
-WellLocation(QSharedPointer<LasFile> lasFile,
+WellLocation(std::shared_ptr<LasFile> lasFile,
              TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -311,7 +311,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -348,7 +348,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellDate;
 
 WellDate::
-WellDate(QSharedPointer<LasFile> lasFile,
+WellDate(std::shared_ptr<LasFile> lasFile,
          TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -380,7 +380,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -415,7 +415,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellCountry;
 
 WellCountry::
-WellCountry(QSharedPointer<LasFile> lasFile,
+WellCountry(std::shared_ptr<LasFile> lasFile,
             TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -447,7 +447,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -482,7 +482,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellState;
 
 WellState::
-WellState(QSharedPointer<LasFile> lasFile,
+WellState(std::shared_ptr<LasFile> lasFile,
           TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -514,7 +514,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -549,7 +549,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellCounty;
 
 WellCounty::
-WellCounty(QSharedPointer<LasFile> lasFile,
+WellCounty(std::shared_ptr<LasFile> lasFile,
            TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -581,7 +581,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -616,7 +616,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellProvince;
 
 WellProvince::
-WellProvince(QSharedPointer<LasFile> lasFile,
+WellProvince(std::shared_ptr<LasFile> lasFile,
              TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -648,7 +648,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -683,7 +683,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellAPI;
 
 WellAPI::
-WellAPI(QSharedPointer<LasFile> lasFile,
+WellAPI(std::shared_ptr<LasFile> lasFile,
         TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -715,7 +715,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -750,7 +750,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellUWI;
 
 WellUWI::
-WellUWI(QSharedPointer<LasFile> lasFile,
+WellUWI(std::shared_ptr<LasFile> lasFile,
         TreeEntry*              parent) :
   WellInfoBase(lasFile, parent)
 {}
@@ -782,7 +782,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -817,7 +817,7 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::LasRequiredGroup;
 
 LasRequiredGroup::
-LasRequiredGroup(QSharedPointer<LasFile> lasFile,
+LasRequiredGroup(std::shared_ptr<LasFile> lasFile,
                  TreeEntry*              parent) :
   TreeEntry(lasFile, parent)
 {

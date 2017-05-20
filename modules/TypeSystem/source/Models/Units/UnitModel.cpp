@@ -260,7 +260,7 @@ saveXml(QString fileName)
   doc.appendChild(root);
 
   for (auto e : _unitEntries)
-    if (!e->unit().isNull())
+    if (e->unit())
       root.appendChild(e->getXmlDescription(doc));
 
   // -
@@ -334,7 +334,7 @@ reloadUnits()
 
     auto unitAccess = dataAccessFactory->unitAccess();
 
-    QVector<Unit::Shared> units = unitAccess->findAll();
+    std::vector<Unit::Shared> units = unitAccess->findAll();
 
     for (Unit::Shared t : units)
     {
@@ -345,13 +345,13 @@ reloadUnits()
       auto unitEntry = new UnitTableEntry(t);
 
       _unitEntriesCacheMap[unitName] = unitEntry;
-      _unitEntries.append(unitEntry);
+      _unitEntries.push_back(unitEntry);
     }
 
     // we add one more emptyunit
     Unit::Shared emptyUnit(new Unit());
 
-    _unitEntries.append(new UnitTableEntry(emptyUnit));
+    _unitEntries.push_back(new UnitTableEntry(emptyUnit));
   }
   endResetModel();
   //
@@ -381,11 +381,13 @@ UnitModel::
 pushEmptyUnitEntry()
 {
   if (_unitEntries.size() &&
-      !_unitEntries.last()->unit()->isValid())
+      !_unitEntries.back()->unit()->isValid())
   {
-    Q_ASSERT(_emptyUnitEntryStack.isNull());
+    Q_ASSERT(!_emptyUnitEntryStack);
 
-    _emptyUnitEntryStack = _unitEntries.takeLast();
+    _emptyUnitEntryStack.reset(_unitEntries.back());
+
+    _unitEntries.erase(_unitEntries.end() - 1);
   }
 }
 
@@ -394,10 +396,9 @@ void
 UnitModel::
 popEmptyUnitEntry()
 {
-  if (!_emptyUnitEntryStack.isNull())
+  if (_emptyUnitEntryStack)
   {
-    _unitEntries.append(_emptyUnitEntryStack.data());
-    _emptyUnitEntryStack.clear();
+    _unitEntries.push_back(_emptyUnitEntryStack.release());
   }
 }
 
@@ -417,7 +418,7 @@ getCachedUnitEntry(QString unitName)
 
     _unitEntriesCacheMap[unitName] = result;
 
-    _unitEntries.append(result);
+    _unitEntries.push_back(result);
   }
 
   return result;

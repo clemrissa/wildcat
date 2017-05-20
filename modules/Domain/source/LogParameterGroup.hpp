@@ -1,16 +1,18 @@
-#ifndef Geo_Domain_LogParameterGroup_hpp
-#define Geo_Domain_LogParameterGroup_hpp
+#pragma once
 
 #include "LogParameter.hpp"
 
 #include <QtCore/QDate>
-#include <QtCore/QSharedPointer>
-#include <QtCore/QVector>
+
+#include <memory>
+#include <vector>
 
 #include <odb/core.hxx>
 
-namespace Geo {
-namespace Domain {
+namespace Geo
+{
+namespace Domain
+{
 //
 
 class Well;
@@ -18,17 +20,15 @@ class Well;
 class LogParameterGroup
 {
 public:
-  typedef QSharedPointer<LogParameterGroup> Shared;
+  using Shared = std::shared_ptr<LogParameterGroup>;
 
 public:
   LogParameterGroup()
-  {
-  }
+  {}
 
   virtual
   ~LogParameterGroup()
-  {
-  }
+  {}
 
   QDate
   getDate() { return _date; }
@@ -37,7 +37,7 @@ public:
   setDate(QDate date) { _date = date; }
 
   void
-  setWell(QSharedPointer<Well> well)
+  setWell(std::shared_ptr<Well> well)
   {
     _well = well;
   }
@@ -47,22 +47,20 @@ private:
 
   unsigned int _id;
 
-  QWeakPointer<Geo::Domain::Well> _well;
+  std::weak_ptr<Geo::Domain::Well> _well;
 
   QDate _date;
 
-  QVector<LogParameter::Shared> _logParameters;
+  std::vector<LogParameter::Shared> _logParameters;
 };
 }
 }
 
 #ifdef ODB_COMPILER
-  #pragma db object(Geo::Domain::LogParameterGroup)
+  #pragma db object(Geo::Domain::LogParameterGroup) pointer (std::shared_ptr)
   #pragma db member(Geo::Domain::LogParameterGroup::_id) id auto
   #pragma db member(Geo::Domain::LogParameterGroup::_well) not_null
   #pragma db member(Geo::Domain::LogParameterGroup::_logParameters) value_not_null inverse(_logParameterGroup)
 
   #include "Well.hpp"
 #endif
-
-#endif // Geo_Domain_LogParameterGroup_hpp

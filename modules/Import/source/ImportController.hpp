@@ -1,11 +1,10 @@
-#ifndef Geo_Import_ImportController_hpp
-#define Geo_Import_ImportController_hpp
+#pragma once
 
 #include <QObject>
 
 namespace Geo {
 namespace Import {
-class ImportController: public QObject
+class ImportController : public QObject
 {
   Q_OBJECT
 
@@ -28,5 +27,3 @@ private:
 };
 }
 }
-
-#endif //  Geo_Import_ImportController_hpp

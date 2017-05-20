@@ -1,5 +1,7 @@
 #include "Dimensions.hpp"
 
+#include <QtCore/QObject>
+
 #include <algorithm>
 #include <iostream>
 
@@ -106,7 +108,7 @@ getFundamentalAsString() const
   QString result;
 
   for (int i = 0; i < Dimension::FundamentalUnitsSize; ++i)
-    result +=  QString("%1").arg(_dimensions[i], 2);
+    result += QString("%1").arg(_dimensions[i], 2);
 
   return result.trimmed();
 }
@@ -119,7 +121,7 @@ getAllUnitsAsString() const
   QString result;
 
   for (int i = 0; i < Dimension::AllUnitsSize; ++i)
-    result +=  QString("%1").arg(_dimensions[i], 2);
+    result += QString("%1").arg(_dimensions[i], 2);
 
   return result.trimmed();
 }
@@ -129,111 +131,112 @@ QString
 Dimensions::
 getDimensionName(const int d)
 {
-  switch (d) {
-  case DLength:
+  switch (d)
+  {
+    case DLength:
 
-    return QObject::tr("Length");
-    break;
+      return QObject::tr("Length");
+      break;
 
-  case DMass:
-    return QObject::tr("Mass");
-    break;
+    case DMass:
+      return QObject::tr("Mass");
+      break;
 
-  case DTime:
-    return QObject::tr("Time");
-    break;
+    case DTime:
+      return QObject::tr("Time");
+      break;
 
-  case  DCurrent:
-    return QObject::tr("Current");
-    break;
+    case  DCurrent:
+      return QObject::tr("Current");
+      break;
 
-  case DTemperature:
-    return QObject::tr("Temperature");
-    break;
+    case DTemperature:
+      return QObject::tr("Temperature");
+      break;
 
-  case DLuminousIntensity:
-    return QObject::tr("Luminous Intensity");
-    break;
+    case DLuminousIntensity:
+      return QObject::tr("Luminous Intensity");
+      break;
 
-  case DAmountOfSubstance:
-    return QObject::tr("Amount Of Substance");
-    break;
+    case DAmountOfSubstance:
+      return QObject::tr("Amount Of Substance");
+      break;
 
-  case DAngle:
-    return QObject::tr("Angle");
-    break;
+    case DAngle:
+      return QObject::tr("Angle");
+      break;
 
-  case DSolidAngle:
-    return QObject::tr("Solid Angle");
-    break;
+    case DSolidAngle:
+      return QObject::tr("Solid Angle");
+      break;
 
-  case DFrequency:
-    return QObject::tr("Frequency");
-    break;
+    case DFrequency:
+      return QObject::tr("Frequency");
+      break;
 
-  case DForce:
-    return QObject::tr("Force");
-    break;
+    case DForce:
+      return QObject::tr("Force");
+      break;
 
-  case DPressure:
-    return QObject::tr("Pressure");
-    break;
+    case DPressure:
+      return QObject::tr("Pressure");
+      break;
 
-  case DEnergy:
-    return QObject::tr("Energy");
-    break;
+    case DEnergy:
+      return QObject::tr("Energy");
+      break;
 
-  case DPower:
-    return QObject::tr("Power");
-    break;
+    case DPower:
+      return QObject::tr("Power");
+      break;
 
-  case DCharge:
-    return QObject::tr("Charge");
-    break;
+    case DCharge:
+      return QObject::tr("Charge");
+      break;
 
-  case DVoltage:
-    return QObject::tr("Voltage");
-    break;
+    case DVoltage:
+      return QObject::tr("Voltage");
+      break;
 
-  case DElectricCapacitance:
-    return QObject::tr("Electric Capacitance");
-    break;
+    case DElectricCapacitance:
+      return QObject::tr("Electric Capacitance");
+      break;
 
-  case DElectricResistance:
-    return QObject::tr("Electric Resistance");
-    break;
+    case DElectricResistance:
+      return QObject::tr("Electric Resistance");
+      break;
 
-  case DElectricalConductance:
-    return QObject::tr("Electric Conductance");
-    break;
+    case DElectricalConductance:
+      return QObject::tr("Electric Conductance");
+      break;
 
-  case DMagneticFlux:
-    return QObject::tr("Magnetic Flux");
-    break;
+    case DMagneticFlux:
+      return QObject::tr("Magnetic Flux");
+      break;
 
-  case DMagneticField:
-    return QObject::tr("Magnetic Field");
-    break;
+    case DMagneticField:
+      return QObject::tr("Magnetic Field");
+      break;
 
-  case DInductance:
-    return QObject::tr("Inductance");
-    break;
+    case DInductance:
+      return QObject::tr("Inductance");
+      break;
 
-  case DLuminousFlux:
-    return QObject::tr("Luminous Flux");
-    break;
+    case DLuminousFlux:
+      return QObject::tr("Luminous Flux");
+      break;
 
-  case DIlluminance:
-    return QObject::tr("Illuminance");
-    break;
+    case DIlluminance:
+      return QObject::tr("Illuminance");
+      break;
 
-  case DRadioactivity:
-    return QObject::tr("DRadioactivity");
-    break;
+    case DRadioactivity:
+      return QObject::tr("DRadioactivity");
+      break;
 
-  case DAbsorbedDose:
-    return QObject::tr("Absorbed Dose");
-    break;
+    case DAbsorbedDose:
+      return QObject::tr("Absorbed Dose");
+      break;
   }
 
   return QString();
@@ -247,115 +250,117 @@ updateFundamentalUnits()
   std::fill_n(_dimensions.begin(),
               FundamentalUnitsSize, 0);
 
-  for (int i = DAngle; i < AllUnitsSize; ++i) {
+  for (int i = DAngle; i < AllUnitsSize; ++i)
+  {
     int n = _dimensions[i];
 
-    switch (i) {
-    case DAngle:
-      break;
+    switch (i)
+    {
+      case DAngle:
+        break;
 
-    case DSolidAngle:
-      break;
+      case DSolidAngle:
+        break;
 
-    case DFrequency:
-      _dimensions[DTime] -= n;
-      break;
+      case DFrequency:
+        _dimensions[DTime] -= n;
+        break;
 
-    case DForce:
-      _dimensions[DMass]   += n;
-      _dimensions[DLength] += n;
-      _dimensions[DTime]   -= n * 2;
+      case DForce:
+        _dimensions[DMass]   += n;
+        _dimensions[DLength] += n;
+        _dimensions[DTime]   -= n * 2;
 
-    case DPressure:
-      _dimensions[DMass]   += n;
-      _dimensions[DLength] -= n;
-      _dimensions[DTime]   -= n * 2;
-      break;
+      case DPressure:
+        _dimensions[DMass]   += n;
+        _dimensions[DLength] -= n;
+        _dimensions[DTime]   -= n * 2;
+        break;
 
-    case DEnergy:
-      _dimensions[DMass]   += n;
-      _dimensions[DLength] += n * 2;
-      _dimensions[DTime]   -= n * 2;
-      break;
+      case DEnergy:
+        _dimensions[DMass]   += n;
+        _dimensions[DLength] += n * 2;
+        _dimensions[DTime]   -= n * 2;
+        break;
 
-    case DPower:
-      _dimensions[DMass]   += n;
-      _dimensions[DLength] += n * 2;
-      _dimensions[DTime]   -= n * 3;
-      break;
+      case DPower:
+        _dimensions[DMass]   += n;
+        _dimensions[DLength] += n * 2;
+        _dimensions[DTime]   -= n * 3;
+        break;
 
-    case DCharge:
-      _dimensions[DTime]    += n;
-      _dimensions[DCurrent] += n;
-      break;
+      case DCharge:
+        _dimensions[DTime]    += n;
+        _dimensions[DCurrent] += n;
+        break;
 
-    case DVoltage:
-      _dimensions[DMass]    += n;
-      _dimensions[DLength]  += n * 2;
-      _dimensions[DTime]    -= n * 3;
-      _dimensions[DCurrent] -= n;
-      break;
+      case DVoltage:
+        _dimensions[DMass]    += n;
+        _dimensions[DLength]  += n * 2;
+        _dimensions[DTime]    -= n * 3;
+        _dimensions[DCurrent] -= n;
+        break;
 
-    case DElectricCapacitance:
-      _dimensions[DMass]    -= n;
-      _dimensions[DLength]  -= n * 2;
-      _dimensions[DTime]    += n * 4;
-      _dimensions[DCurrent] += n * 2;
-      break;
+      case DElectricCapacitance:
+        _dimensions[DMass]    -= n;
+        _dimensions[DLength]  -= n * 2;
+        _dimensions[DTime]    += n * 4;
+        _dimensions[DCurrent] += n * 2;
+        break;
 
-    case DElectricResistance:
-      _dimensions[DMass]    += n;
-      _dimensions[DLength]  += n * 2;
-      _dimensions[DTime]    -= n * 3;
-      _dimensions[DCurrent] -= n * 2;
-      break;
+      case DElectricResistance:
+        _dimensions[DMass]    += n;
+        _dimensions[DLength]  += n * 2;
+        _dimensions[DTime]    -= n * 3;
+        _dimensions[DCurrent] -= n * 2;
+        break;
 
-    case DElectricalConductance:
-      _dimensions[DMass]    -= n;
-      _dimensions[DLength]  -= n * 2;
-      _dimensions[DTime]    += n * 3;
-      _dimensions[DCurrent] += n * 2;
-      break;
+      case DElectricalConductance:
+        _dimensions[DMass]    -= n;
+        _dimensions[DLength]  -= n * 2;
+        _dimensions[DTime]    += n * 3;
+        _dimensions[DCurrent] += n * 2;
+        break;
 
-    case DMagneticFlux:
-      _dimensions[DMass]    += n;
-      _dimensions[DLength]  += n * 2;
-      _dimensions[DTime]    -= n * 2;
-      _dimensions[DCurrent] -= n;
-      break;
+      case DMagneticFlux:
+        _dimensions[DMass]    += n;
+        _dimensions[DLength]  += n * 2;
+        _dimensions[DTime]    -= n * 2;
+        _dimensions[DCurrent] -= n;
+        break;
 
-    case DMagneticField:
-      _dimensions[DMass]    += n;
-      _dimensions[DTime]    -= n * 2;
-      _dimensions[DCurrent] -= n;
-      break;
+      case DMagneticField:
+        _dimensions[DMass]    += n;
+        _dimensions[DTime]    -= n * 2;
+        _dimensions[DCurrent] -= n;
+        break;
 
-    case DInductance:
-      _dimensions[DMass]    += n;
-      _dimensions[DLength]  += n * 2;
-      _dimensions[DTime]    -= n * 2;
-      _dimensions[DCurrent] -= n * 2;
-      break;
+      case DInductance:
+        _dimensions[DMass]    += n;
+        _dimensions[DLength]  += n * 2;
+        _dimensions[DTime]    -= n * 2;
+        _dimensions[DCurrent] -= n * 2;
+        break;
 
-    case DLuminousFlux:
-      _dimensions[DLuminousIntensity] += n;
-      break;
+      case DLuminousFlux:
+        _dimensions[DLuminousIntensity] += n;
+        break;
 
-    case DIlluminance:
-      _dimensions[DLength]            -= n * 2;
-      _dimensions[DLuminousIntensity] += n;
-      break;
+      case DIlluminance:
+        _dimensions[DLength] -= n * 2;
+        _dimensions[DLuminousIntensity] += n;
+        break;
 
-    case DRadioactivity:
-      _dimensions[DTime] -= n;
-      break;
+      case DRadioactivity:
+        _dimensions[DTime] -= n;
+        break;
 
-    case DAbsorbedDose:
-      _dimensions[DLength] += n * 2;
-      _dimensions[DTime]   -= n * 2;
-      break;
+      case DAbsorbedDose:
+        _dimensions[DLength] += n * 2;
+        _dimensions[DTime]   -= n * 2;
+        break;
 
-      // TODO: to be continued
+        // TODO: to be continued
     }
   }
 }

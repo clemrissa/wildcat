@@ -1,10 +1,9 @@
 #include "ImportController.hpp"
 
-#include <QAbstractItemModel>
-#include <QFileDialog>
-#include <QSharedPointer>
-#include <QTreeView>
-#include <QVector>
+#include <QtCore/QAbstractItemModel>
+#include <QtWidgets/QFileDialog>
+
+#include <QtWidgets/QTreeView>
 
 #include "ImportTreeModel.hpp"
 
@@ -64,13 +63,14 @@ selectFilesAndImport()
                                   "/home",
                                   "LAS files (*.las)");
 
-  LasFileParser            lasFileParser;
-  QVector<LasFile::Shared> lasFiles;
+  LasFileParser lasFileParser;
+  std::vector<LasFile::Shared> lasFiles;
 
   // collect a list of parsed las files
-  for (QString fileName : fileList) {
+  for (QString fileName : fileList)
+  {
     LasFile::Shared lasFile = lasFileParser.parse(fileName);
-    lasFiles.append(lasFile);
+    lasFiles.push_back(lasFile);
   }
 
   if (lasFiles.size() == 0)

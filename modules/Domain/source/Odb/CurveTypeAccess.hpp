@@ -1,22 +1,26 @@
-#ifndef Geo_Domain_Odb_CurveTypeAccess_hpp
-#define Geo_Domain_Odb_CurveTypeAccess_hpp
+#pragma once
 
 #include <Domain/CurveTypeAccess>
 
-#include <QSharedPointer>
+#include <memory>
 
 #include <odb/database.hxx>
 
-namespace Geo {
-namespace Domain {
-namespace Odb {
+namespace Geo
+{
+namespace Domain
+{
+namespace Odb
+{
 //
 
-class CurveTypeAccess: public Geo::Domain::CurveTypeAccess
+class CurveTypeAccess : public Geo::Domain::CurveTypeAccess
 {
 public:
-  typedef QSharedPointer<Geo::Domain::CurveType> Shared;
-  typedef QSharedPointer<odb::core::database>    Database;
+
+  using Shared = std::shared_ptr<Geo::Domain::CurveType>;
+
+  using Database = std::shared_ptr<odb::core::database>;
 
 public:
   CurveTypeAccess(Database db);
@@ -38,7 +42,7 @@ public:
   void
   remove(unsigned int const& pk);
 
-  QVector<CurveType::Shared>
+  std::vector<CurveType::Shared>
   findAll();
 
   Geo::Domain::CurveType::Shared
@@ -56,5 +60,3 @@ private:
 }
 }
 }
-
-#endif

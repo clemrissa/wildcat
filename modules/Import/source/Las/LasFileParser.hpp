@@ -1,49 +1,46 @@
 #pragma once
 
-#include <QtCore/QDateTime>
-#include <QtCore/QMap>
-#include <QtCore/QString>
 #include <QtCore/QStringList>
-
-#include <QSharedPointer>
+#include <QtCore/QString>
 
 #include "LasFile.hpp"
 
 namespace Geo {
 namespace Import {
+
 class LasFileParser : public QObject
 {
   Q_OBJECT
 
 public:
-  QSharedPointer<LasFile>
+  std::shared_ptr<LasFile>
   parse(const QString fileName);
 
 private:
   bool
-  parseVersionSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
+  parseVersionSection(std::shared_ptr<LasFile>& lasFile, int& lineNumber);
 
   void
-  parseWellInformationSection(QSharedPointer<LasFile>& lasFile,
+  parseWellInformationSection(std::shared_ptr<LasFile>& lasFile,
                               int&                     lineNumber);
 
   void
-  parseLogInformationSection(QSharedPointer<LasFile>& lasFile,
+  parseLogInformationSection(std::shared_ptr<LasFile>& lasFile,
                              int&                     lineNumber);
 
   void
-  parseParameterInformationSection(QSharedPointer<LasFile>& lasFile,
+  parseParameterInformationSection(std::shared_ptr<LasFile>& lasFile,
                                    int&                     lineNumber);
 
   void
-  parseOtherInformationSection(QSharedPointer<LasFile>& lasFile,
+  parseOtherInformationSection(std::shared_ptr<LasFile>& lasFile,
                                int&                     lineNumber);
 
   void
-  parseAsciiLogDataSection(QSharedPointer<LasFile>& lasFile, int& lineNumber);
+  parseAsciiLogDataSection(std::shared_ptr<LasFile>& lasFile, int& lineNumber);
 
   void
-  parseLines(QSharedPointer<LasFile>& lasFile);
+  parseLines(std::shared_ptr<LasFile>& lasFile);
 
 private:
   QStringList _lines;

@@ -1,36 +1,29 @@
-#ifndef Geo_Domain_Unit_hpp
-#define Geo_Domain_Unit_hpp
+#pragma once
 
-#include <QtCore/QSharedPointer>
+#include <memory>
+
+#include <QtCore/QString>
 
 #include <odb/core.hxx>
 
 #include "Dimensions.hpp"
 
-namespace Geo {
-namespace Domain {
+namespace Geo
+{
+namespace Domain
+{
 //
 
-#ifdef ODB_COMPILER
-  #pragma db object
-#endif
 class Unit
 {
 public:
-  typedef QSharedPointer<Unit> Shared;
-
-  // template <typename... Ts>
-  // static Shared
-  // create(Ts... args)
-  // {
-  // return Shared(new Unit(args...));
-  // }
+  using Shared = std::shared_ptr<Unit>;
 
   static Shared
-  create(QString const    name,
-         QString const    symbol,
-         double const     scale,
-         double const     offset,
+  create(QString const name,
+         QString const symbol,
+         double const scale,
+         double const offset,
          Dimensions const dimensions)
   {
     return Shared(new Unit(name,
@@ -43,16 +36,15 @@ public:
 public:
   Unit();
 
-  Unit(QString const    name,
-       QString const    symbol,
-       double const     scale,
-       double const     offset,
+  Unit(QString const name,
+       QString const symbol,
+       double const scale,
+       double const offset,
        Dimensions const dimensions);
 
   virtual
   ~Unit()
-  {
-  }
+  {}
 
   /// For example: Celsius -> Kelvin
   ///              Inch -> Meter
@@ -73,6 +65,7 @@ public:
   // getters
   QString
   getName() const { return _name;  }
+
   QString
   getSymbol() const { return _symbol; }
 
@@ -104,9 +97,6 @@ public:
 private:
   friend class odb::access;
 
-#ifdef ODB_COMPILER
-  #pragma db id auto
-#endif
   unsigned int _id;
 
   QString _name;
@@ -124,4 +114,13 @@ private:
 //
 }
 }
-#endif //  Geo_Domain_Unit_hpp
+
+#ifdef ODB_COMPILER
+  #pragma db object(Geo::Domain::Unit) pointer (std::shared_ptr)
+  #pragma db member(Geo::Domain::Unit::_id) id auto
+  #pragma db member(Geo::Domain::Unit::_name)
+  #pragma db member(Geo::Domain::Unit::_symbol)
+  #pragma db member(Geo::Domain::Unit::_scale)
+  #pragma db member(Geo::Domain::Unit::_offset)
+  #pragma db member(Geo::Domain::Unit::_dimensions)
+#endif

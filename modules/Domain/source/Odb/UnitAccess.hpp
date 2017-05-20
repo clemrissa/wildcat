@@ -1,24 +1,29 @@
-#ifndef Geo_Domain_Odb_UnitAccess_hpp
-#define Geo_Domain_Odb_UnitAccess_hpp
+#pragma once
 
 #include <Domain/UnitAccess>
 
-#include <QSharedPointer>
+#include <QtCore/QObject>
+
+#include <memory>
 
 #include <odb/database.hxx>
 
-namespace Geo {
-namespace Domain {
-namespace Odb {
+namespace Geo
+{
+namespace Domain
+{
+namespace Odb
+{
 //
 
-class UnitAccess:
-  public QObject,
-  public Geo::Domain::UnitAccess
+class UnitAccess
+  : public QObject
+  , public Geo::Domain::UnitAccess
 {
 public:
-  typedef typename Geo::Domain::UnitAccess::Shared Shared;
-  typedef QSharedPointer<odb::core::database>      Database;
+  using Shared = Geo::Domain::UnitAccess::Shared;
+
+  using Database = std::shared_ptr<odb::core::database>;
 
 public:
   UnitAccess(Database db);
@@ -40,7 +45,7 @@ public:
   void
   remove(unsigned int const& pk);
 
-  QVector<Unit::Shared>
+  std::vector<Unit::Shared>
   findAll();
 
   Geo::Domain::Unit::Shared
@@ -58,5 +63,3 @@ private:
 }
 }
 }
-
-#endif //  Geo_Domain_Odb_UnitAccess_hpp

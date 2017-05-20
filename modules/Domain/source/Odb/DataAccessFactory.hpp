@@ -1,5 +1,4 @@
-#ifndef Geo_Domain_Odb_DataAccessFactory_hpp
-#define Geo_Domain_Odb_DataAccessFactory_hpp
+#pragma once
 
 #include <Domain/Odb/CurveTypeAccess>
 #include <Domain/Odb/LogAccess>
@@ -11,28 +10,30 @@
 
 #include <Domain/DataAccessFactory>
 
-#include <QSharedPointer>
+#include <memory>
 
 #include <odb/database.hxx>
 
-namespace Geo {
-namespace Domain {
-namespace Odb {
+namespace Geo
+{
+namespace Domain
+{
+namespace Odb
+{
 //
 
-class DataAccessFactory: public Domain::DataAccessFactory
+class DataAccessFactory : public Domain::DataAccessFactory
 {
 private:
-  typedef Geo::Domain::DataAccessFactory Base;
+  using Base = Geo::Domain::DataAccessFactory;
 
 public:
-  typedef typename Base::Shared               Shared;
-  typedef QSharedPointer<odb::core::database> Database;
+  using Shared   = Base::Shared;
+  using Database = std::shared_ptr<odb::core::database>;
 
 public:
-  DataAccessFactory(Database const& db): _db(db)
-  {
-  }
+  DataAccessFactory(Database const& db) : _db(db)
+  {}
 
   DataAccessFactory(DataAccessFactory const&) = delete;
 
@@ -103,5 +104,3 @@ private:
 }
 }
 }
-
-#endif

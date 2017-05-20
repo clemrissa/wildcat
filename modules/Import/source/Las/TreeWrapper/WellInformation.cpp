@@ -5,7 +5,7 @@
 using Geo::Import::TreeWrapper::WellInfoBase;
 
 WellInfoBase::
-WellInfoBase(QSharedPointer<LasFile> lasFile,
+WellInfoBase(std::shared_ptr<LasFile> lasFile,
              TreeEntry*              parent)
   : TreeEntry(lasFile, parent)
 {
@@ -124,7 +124,7 @@ setDataFromWidget(QWidget*            editor,
 }
 
 
-QVector<Geo::Domain::WellTrait::Shared>
+std::vector<Geo::Domain::WellTrait::Shared>
 WellInfoBase::
 getWellTraits() const
 {
@@ -145,10 +145,10 @@ getWellTraitNames() const
 
   using Geo::Domain::WellTrait;
 
-  QVector<WellTrait::Shared> traits = getWellTraits();
+  std::vector<WellTrait::Shared> traits = getWellTraits();
 
   for (WellTrait::Shared t : traits)
-    result.append(t->name());
+    result.push_back(t->name());
 
   return result;
 }
@@ -160,7 +160,7 @@ setTraitValue(QVariant trait)
 {
   using Geo::Domain::WellTrait;
 
-  QVector<WellTrait::Shared> traits = getWellTraits();
+  std::vector<WellTrait::Shared> traits = getWellTraits();
 
   setTrait(traits[trait.toInt()]);
 }
@@ -168,13 +168,13 @@ setTraitValue(QVariant trait)
 
 void
 WellInfoBase::
-setTrait(QSharedPointer<Geo::Domain::WellTrait> trait)
+setTrait(std::shared_ptr<Geo::Domain::WellTrait> trait)
 {
   _trait = trait;
 }
 
 
-const QSharedPointer<Geo::Domain::WellTrait>
+const std::shared_ptr<Geo::Domain::WellTrait>
 WellInfoBase::
 getTrait() const
 {
@@ -193,7 +193,7 @@ findAppropriateTrait()
 
   QString name = data(Qt::DisplayRole, TreeEntry::Name).toString();
 
-  QVector<WellTrait::Shared> traits = getWellTraits();
+  std::vector<WellTrait::Shared> traits = getWellTraits();
 
   bool changed = false;
 
@@ -206,7 +206,7 @@ findAppropriateTrait()
     }
 
   if (!changed)
-    _trait.clear();
+    _trait.reset();
 }
 
 
@@ -215,7 +215,7 @@ findAppropriateTrait()
 using Geo::Import::TreeWrapper::WellInfo;
 
 WellInfo::
-WellInfo(QSharedPointer<LasFile> lasFile,
+WellInfo(std::shared_ptr<LasFile> lasFile,
          TreeEntry*              parent,
          int position) :
   WellInfoBase(lasFile, parent),
@@ -251,7 +251,7 @@ data(int role, int column) const
 
     case TreeEntry::Type:
 
-      if (!_trait.isNull())
+      if (_trait)
         return _trait->name();
       else
         return QVariant();
@@ -297,9 +297,9 @@ setImportValue(QVariant value)
 using Geo::Import::TreeWrapper::WellInformationGroup;
 
 WellInformationGroup::
-WellInformationGroup(QSharedPointer<LasFile> lasFile,
-                     TreeEntry*              parent) :
-  TreeEntry(lasFile, parent)
+WellInformationGroup(std::shared_ptr<LasFile> lasFile,
+                     TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
 {
   for (int i = 0; i < _lasFile->wellInformation.keys().size(); ++i)
     _entries.push_back(new WellInfo(_lasFile, this, i));

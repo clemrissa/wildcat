@@ -1,10 +1,9 @@
-#ifndef Geo_Domain_LogAccessObject_hpp
-#define Geo_Domain_LogAccessObject_hpp
+#pragma once
 
 #include "Log.hpp"
 
-#include <QSharedPointer>
-#include <QVector>
+#include <memory>
+#include <vector>
 
 namespace Geo {
 namespace Domain {
@@ -13,13 +12,12 @@ namespace Domain {
 class LogAccess
 {
 public:
-  typedef QSharedPointer<LogAccess> Shared;
+  using Shared = std::shared_ptr<LogAccess>;
 
 public:
   virtual
   ~LogAccess()
-  {
-  }
+  {}
 
   virtual void
   insert(Log::Shared log) = 0;
@@ -33,7 +31,7 @@ public:
   virtual void
   remove(unsigned int const& pk) = 0;
 
-  virtual QVector<Log::Shared>
+  virtual std::vector<Log::Shared>
   findAll() = 0;
 
   virtual Log::Shared
@@ -41,5 +39,3 @@ public:
 };
 }
 }
-
-#endif

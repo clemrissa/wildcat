@@ -1,10 +1,9 @@
-#ifndef Geo_Domain_LogParameterGroupAccess_hpp
-#define Geo_Domain_LogParameterGroupAccess_hpp
+#pragma once
 
 #include <Domain/LogParameterGroup>
 
-#include <QtCore/QSharedPointer>
-#include <QtCore/QVector>
+#include <vector>
+#include <memory>
 
 namespace Geo {
 namespace Domain {
@@ -13,7 +12,7 @@ namespace Domain {
 class LogParameterGroupAccess
 {
 public:
-  typedef QSharedPointer<LogParameterGroupAccess> Shared;
+  using Shared = std::shared_ptr<LogParameterGroupAccess>;
 
 public:
   virtual
@@ -33,7 +32,7 @@ public:
   virtual void
   remove(unsigned int const& pk) = 0;
 
-  virtual QVector<LogParameterGroup::Shared>
+  virtual std::vector<LogParameterGroup::Shared>
   findAll() = 0;
 
   virtual LogParameterGroup::Shared
@@ -41,5 +40,3 @@ public:
 };
 }
 }
-
-#endif

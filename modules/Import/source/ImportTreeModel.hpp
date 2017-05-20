@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QtCore/QAbstractItemModel>
-#include <QtCore/QVector>
 
 #include <Database/Connections/Connection>
 
@@ -17,12 +16,12 @@ class LasFileEntry;
 class ImportTreeModel : public QAbstractItemModel
 {
 public:
-  ImportTreeModel(QVector<LasFile::Shared> lasFiles);
+  ImportTreeModel(std::vector<LasFile::Shared> lasFiles);
 
   ~ImportTreeModel();
 
 public:
-  QVector<TreeWrapper::LasFileEntry*> const
+  std::vector<TreeWrapper::LasFileEntry*> const
   getLasFileEntries() const;
 
   void
@@ -65,8 +64,8 @@ public:
   flags(const QModelIndex& index) const override;
 
 private:
-  QVector<TreeWrapper::LasFileEntry*> _lasFileEntries;
-  QVector<LasFile::Shared> _lasFiles;
+  std::vector<TreeWrapper::LasFileEntry*> _lasFileEntries;
+  std::vector<LasFile::Shared> _lasFiles;
 
   Geo::Database::Connections::Connection::Shared _connection;
 

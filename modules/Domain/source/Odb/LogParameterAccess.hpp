@@ -1,20 +1,23 @@
-#ifndef Geo_Domain_Odb_LogParameterAccessObject_hpp
-#define Geo_Domain_Odb_LogParameterAccessObject_hpp
+#pragma once
 
 #include <Domain/LogParameterAccess>
 
-#include <QSharedPointer>
+#include <memory>
 
 #include <odb/database.hxx>
 
-namespace Geo {
-namespace Domain {
-namespace Odb {
-class LogParameterAccess: public Geo::Domain::LogParameterAccess
+namespace Geo
+{
+namespace Domain
+{
+namespace Odb
+{
+
+class LogParameterAccess : public Geo::Domain::LogParameterAccess
 {
 public:
-  typedef typename Geo::Domain::LogParameterAccess::Shared Shared;
-  typedef QSharedPointer<odb::core::database>              Database;
+  using Shared   = Geo::Domain::LogParameterAccess::Shared;
+  using Database = std::shared_ptr<odb::core::database>;
 
 public:
   LogParameterAccess(Database db);
@@ -36,7 +39,7 @@ public:
   void
   remove(unsigned int const& pk);
 
-  QVector<LogParameter::Shared>
+  std::vector<LogParameter::Shared>
   findAll();
 
   LogParameter::Shared
@@ -48,5 +51,3 @@ private:
 }
 }
 }
-
-#endif

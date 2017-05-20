@@ -1,16 +1,21 @@
 #pragma once
 
 #include <QtCore/QAbstractItemModel>
-#include <QtCore/QPointer>
-#include <QtCore/QVector>
 
 #include <Database/Connections/Connection>
 #include <Database/Mixin/ConnectionAcceptor>
 
-namespace Geo {
-namespace TypeSystem {
-namespace Models {
-namespace Units {
+#include <vector>
+#include <memory>
+
+namespace Geo
+{
+namespace TypeSystem
+{
+namespace Models
+{
+namespace Units
+{
 //
 
 class UnitTableEntry;
@@ -104,11 +109,11 @@ private:
 private:
   Database::Connections::Connection::Shared _connection;
 
-  QPointer<UnitTableEntry> _emptyUnitEntryStack;
+  std::unique_ptr<UnitTableEntry> _emptyUnitEntryStack;
 
   QMap<QString, UnitTableEntry*> _unitEntriesCacheMap;
 
-  QVector<UnitTableEntry*> _unitEntries;
+  std::vector<UnitTableEntry*> _unitEntries;
 };
 
 //

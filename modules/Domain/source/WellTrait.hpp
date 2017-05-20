@@ -1,19 +1,18 @@
-#ifndef Geo_Domain_WellTrait_hpp
-#define Geo_Domain_WellTrait_hpp
+#pragma once
 
 #include <QtCore/QList>
-#include <QtCore/QSharedPointer>
 
 #include <odb/core.hxx>
 
 #include <iostream>
+#include <memory>
 
 namespace Geo {
 namespace Domain {
 //
 
 #ifdef ODB_COMPILER
-  #pragma db object
+  #pragma db object pointer (std::shared_ptr)
 #endif
 class WellTrait
 {
@@ -29,7 +28,8 @@ public:
   };
 
 public:
-  typedef QSharedPointer<WellTrait> Shared;
+
+  using Shared = std::shared_ptr<WellTrait>;
 
 public:
   WellTrait();
@@ -90,5 +90,3 @@ private:
 //
 }
 }
-
-#endif //  Geo_Domain_WellTrait_hpp

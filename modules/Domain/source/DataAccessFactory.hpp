@@ -8,30 +8,30 @@
 #include <Domain/WellAccess>
 #include <Domain/WellTraitAccess>
 
-#include <QSharedPointer>
-
 #include <odb/database.hxx>
+
+#include <memory>
 
 namespace Geo {
 namespace Domain {
+
 /**
  * Class produces various objects for accesing ORM elements
  */
 class DataAccessFactory
 {
 public:
-  typedef QSharedPointer<DataAccessFactory> Shared;
+  using Shared = std::shared_ptr<DataAccessFactory>;
 
 public:
   virtual
   ~DataAccessFactory()
-  {
-  }
+  {}
 
   DataAccessFactory&
   operator=(DataAccessFactory const&) = delete;
 
-  virtual QSharedPointer<odb::core::database>
+  virtual std::shared_ptr<odb::core::database>
   database() const = 0;
 
   virtual LogAccess::Shared

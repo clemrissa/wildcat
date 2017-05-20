@@ -1,11 +1,14 @@
 #include "LasFileParser.hpp"
+
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
+#include <QtCore/QDateTime>
+#include <QtCore/QMap>
 
 // Everybody stand back! I know regular expressions
-#include <QSharedPointer>
+
 #include <QtCore/QRegExp>
 
 #include "LasFileParser.hpp"
@@ -13,7 +16,7 @@
 using Geo::Import::LasFile;
 using Geo::Import::LasFileParser;
 
-QSharedPointer<LasFile>
+std::shared_ptr<LasFile>
 LasFileParser::
 parse(const QString fileName)
 {
@@ -22,7 +25,7 @@ parse(const QString fileName)
   _version = 0;
 
   // result
-  QSharedPointer<LasFile> lasFile(new LasFile());
+  std::shared_ptr<LasFile> lasFile(new LasFile());
 
   if (!QFile::exists(fileName)) {
     return lasFile;
@@ -43,7 +46,7 @@ parse(const QString fileName)
 
       // filter comments
       if (!line.startsWith("#"))
-        _lines.append(line);
+        _lines.push_back(line);
     }
   }
 
@@ -58,7 +61,7 @@ parse(const QString fileName)
 
 void
 LasFileParser::
-parseLines(QSharedPointer<LasFile>& lasFile)
+parseLines(std::shared_ptr<LasFile>& lasFile)
 {
   int i = 0;
 
@@ -85,7 +88,7 @@ parseLines(QSharedPointer<LasFile>& lasFile)
 
 bool
 LasFileParser::
-parseVersionSection(QSharedPointer<LasFile>& lasFile,
+parseVersionSection(std::shared_ptr<LasFile>& lasFile,
                     int&                     lineNumber)
 {
   int& i = lineNumber;
@@ -141,7 +144,7 @@ parseVersionSection(QSharedPointer<LasFile>& lasFile,
 
 void
 LasFileParser::
-parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
+parseWellInformationSection(std::shared_ptr<LasFile>& lasFile, int& lineNumber)
 {
   int& i = lineNumber;
 
@@ -316,7 +319,7 @@ parseWellInformationSection(QSharedPointer<LasFile>& lasFile, int& lineNumber)
 
 void
 LasFileParser::
-parseLogInformationSection(QSharedPointer<LasFile>&
+parseLogInformationSection(std::shared_ptr<LasFile>&
                            lasFile, int& lineNumber)
 {
   int& i = lineNumber;
@@ -371,7 +374,7 @@ parseLogInformationSection(QSharedPointer<LasFile>&
 
 void
 LasFileParser::
-parseParameterInformationSection(QSharedPointer<
+parseParameterInformationSection(std::shared_ptr<
                                    LasFile>& lasFile,
                                  int&
                                  lineNumber)
@@ -427,7 +430,7 @@ parseParameterInformationSection(QSharedPointer<
 
 void
 LasFileParser::
-parseOtherInformationSection(QSharedPointer<LasFile>&
+parseOtherInformationSection(std::shared_ptr<LasFile>&
                              lasFile,
                              int& lineNumber)
 {
@@ -438,7 +441,7 @@ parseOtherInformationSection(QSharedPointer<LasFile>&
 
 void
 LasFileParser::
-parseAsciiLogDataSection(QSharedPointer<LasFile>&
+parseAsciiLogDataSection(std::shared_ptr<LasFile>&
                          lasFile, int& lineNumber)
 {
   int& i = lineNumber;
@@ -447,7 +450,7 @@ parseAsciiLogDataSection(QSharedPointer<LasFile>&
   lasFile->data.clear();
 
   for (auto entryKey : lasFile->logInformation.keys())
-    lasFile->data[entryKey] = QVector<double>();
+    lasFile->data[entryKey] = std::vector<double>();
 
   // corresponds to any number of form [-]333.566
   QRegExp reNumValue("(-?\\d+\\.\\d+)");
@@ -480,7 +483,7 @@ parseAsciiLogDataSection(QSharedPointer<LasFile>&
         double  valueDouble; bool ok;
         valueDouble = value.toDouble(&ok);
 
-        lasFile->data[key].append(valueDouble);
+        lasFile->data[key].push_back(valueDouble);
 
         currentMnemonicNum =
           (currentMnemonicNum +

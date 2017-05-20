@@ -1,16 +1,16 @@
-#ifndef Geo_Domain_WellAccessObject_hpp
-#define Geo_Domain_WellAccessObject_hpp
+#pragma once
 
 #include <Domain/Well>
 
-#include <QSharedPointer>
-#include <QVector>
+#include <memory>
+#include <vector>
 
 namespace Geo {
 namespace Domain {
-class WellAccess {
+class WellAccess
+{
 public:
-  typedef QSharedPointer<WellAccess> Shared;
+  using Shared = std::shared_ptr<WellAccess>;
 
 public:
   virtual
@@ -28,7 +28,7 @@ public:
   virtual void
   remove(unsigned int const& uuid) = 0;
 
-  virtual QVector<Well::Shared>
+  virtual std::vector<Well::Shared>
   findAll() = 0;
 
   virtual Well::Shared
@@ -36,5 +36,3 @@ public:
 };
 }
 }
-
-#endif // Geo_Domain_WellAccessObject_hpp

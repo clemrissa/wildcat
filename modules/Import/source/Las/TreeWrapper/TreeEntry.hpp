@@ -1,10 +1,9 @@
-#ifndef Geo_Import_TreeWrapper_TreeEntry_hpp
-#define Geo_Import_TreeWrapper_TreeEntry_hpp
+#pragma once
 
 #include <algorithm>
 #include <vector>
+#include <memory>
 
-#include <QSharedPointer>
 #include <QVariant>
 
 #include <Las/LasFile.hpp>
@@ -16,26 +15,28 @@ class QAbstractItemModel;
 namespace Geo {
 namespace Import {
 namespace TreeWrapper {
-//
 
 /// @brief Composite pattern. Used to represent LAS file strurcture as a tree.
 /// Every subclass works with sertain data from the LasFile class.
 /// The whole tree is employed then in AbstractItemMoodel for QTreeView
-class TreeEntry: public QObject
+class TreeEntry : public QObject
 {
 public:
-  enum Column { Name        = 0,
-                Description = 1,
-                Value       = 2,
-                ImportValue = 3,
-                Type        = 4,
-                Units       = 5,
-                ImportUnits = 6,
-                Size };
+  enum Column
+  {
+    Name        = 0,
+    Description = 1,
+    Value       = 2,
+    ImportValue = 3,
+    Type        = 4,
+    Units       = 5,
+    ImportUnits = 6,
+    Size
+  };
 
 public:
   TreeEntry(LasFile::Shared lasFile,
-            TreeEntry*      parent = nullptr):
+            TreeEntry*      parent = nullptr) :
     _parent(parent),
     _lasFile(lasFile)
   {
@@ -81,6 +82,7 @@ public:
   setLasFileToImport(LasFile::Shared lasFileToImport);
 
 protected:
+
   virtual void
   copyDataToLasToImport() {}
 
@@ -99,4 +101,3 @@ protected:
 }
 }
 }
-#endif // Geo_Import_TreeWrapper_TreeEntry_hpp

@@ -5,6 +5,7 @@
 #include <odb/result.hxx>
 #include <odb/transaction.hxx>
 
+#include <QtCore/QObject>
 #include <QtCore/QSet>
 #include <QtCore/QStringList>
 
@@ -93,11 +94,11 @@ remove(unsigned int const& pk)
 }
 
 
-QVector<WellTrait::Shared>
+std::vector<WellTrait::Shared>
 WellTraitAccess::
 findAll()
 {
-  QVector<WellTrait::Shared> vector;
+  std::vector<WellTrait::Shared> vector;
   try
   {
     transaction t(_db->begin());
@@ -134,17 +135,17 @@ void
 WellTraitAccess::
 createDefaultTraits()
 {
-  QStringList defaultTraits { tr("WELL"),
-                              tr("COMPANY"),
-                              tr("FIELD"),
-                              tr("COUNTRY"),
-                              tr("LOCATION"),
-                              tr("DATE"),
-                              tr("API"),
-                              tr("UWI") };
+  QStringList defaultTraits { QObject::tr("WELL"),
+                              QObject::tr("COMPANY"),
+                              QObject::tr("FIELD"),
+                              QObject::tr("COUNTRY"),
+                              QObject::tr("LOCATION"),
+                              QObject::tr("DATE"),
+                              QObject::tr("API"),
+                              QObject::tr("UWI") };
 
   // ------------------
-  // QVector<WellTrait::Shared> vector;
+  // std::vector<WellTrait::Shared> vector;
   // try {
   // transaction t(_db->begin());
 
@@ -164,7 +165,7 @@ createDefaultTraits()
 
   // ------------------
 
-  QVector<WellTrait::Shared> traits = findAll();
+  std::vector<WellTrait::Shared> traits = findAll();
 
   QSet<QString> existingTraits;
 

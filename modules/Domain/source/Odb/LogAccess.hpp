@@ -2,18 +2,22 @@
 
 #include <Domain/LogAccess>
 
-#include <QSharedPointer>
+#include <memory>
+#include <vector>
 
 #include <odb/database.hxx>
 
-namespace Geo {
-namespace Domain {
-namespace Odb {
-class LogAccess: public Geo::Domain::LogAccess
+namespace Geo
+{
+namespace Domain
+{
+namespace Odb
+{
+class LogAccess : public Geo::Domain::LogAccess
 {
 public:
   typedef typename Geo::Domain::LogAccess::Shared Shared;
-  typedef QSharedPointer<odb::core::database>     Database;
+  using Database = std::shared_ptr<odb::core::database>;
 
 public:
   LogAccess(Database db);
@@ -35,7 +39,7 @@ public:
   void
   remove(unsigned int const& pk);
 
-  QVector<Log::Shared>
+  std::vector<Log::Shared>
   findAll();
 
   Geo::Domain::Log::Shared
@@ -47,4 +51,3 @@ private:
 }
 }
 }
-

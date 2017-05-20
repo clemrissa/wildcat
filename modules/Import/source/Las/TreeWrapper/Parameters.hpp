@@ -1,5 +1,4 @@
-#ifndef Geo_Import_Parameters_hpp
-#define Geo_Import_Parameters_hpp
+#pragma once
 
 #include "TreeEntry.hpp"
 
@@ -8,17 +7,16 @@ namespace Import {
 namespace TreeWrapper {
 //
 
-class Parameter:
+class Parameter :
   public TreeEntry
 {
 public:
-  Parameter(QSharedPointer<LasFile> lasFile,
+  Parameter(std::shared_ptr<LasFile> lasFile,
             TreeEntry*              parent,
-            int                     position):
-    TreeEntry(lasFile, parent),
-    _position(position)
-  {
-  }
+            int position)
+    : TreeEntry(lasFile, parent)
+    , _position(position)
+  {}
 
   QVariant
   data(int role, int column) const override
@@ -28,30 +26,31 @@ public:
 
     QString key = _lasFile->parameterInformation.keys()[_position];
 
-    switch (column) {
-    case TreeEntry::Name:
-      return _lasFile->parameterInformation[key].name;
-      break;
+    switch (column)
+    {
+      case TreeEntry::Name:
+        return _lasFile->parameterInformation[key].name;
+        break;
 
-    case TreeEntry::Units:
-      return _lasFile->parameterInformation[key].units;
-      break;
+      case TreeEntry::Units:
+        return _lasFile->parameterInformation[key].units;
+        break;
 
-    case TreeEntry::Value:
-      return _lasFile->parameterInformation[key].value;
-      break;
+      case TreeEntry::Value:
+        return _lasFile->parameterInformation[key].value;
+        break;
 
-    case TreeEntry::ImportValue:
-      return _lasFileToImport->parameterInformation[key].value;
-      break;
+      case TreeEntry::ImportValue:
+        return _lasFileToImport->parameterInformation[key].value;
+        break;
 
-    case TreeEntry::Description:
-      return _lasFile->parameterInformation[key].description;
-      break;
+      case TreeEntry::Description:
+        return _lasFile->parameterInformation[key].description;
+        break;
 
-    default:
-      return QVariant();
-      break;
+      default:
+        return QVariant();
+        break;
     }
   }
 
@@ -68,11 +67,11 @@ private:
   int _position;
 };
 
-class ParameterGroup: public TreeEntry
+class ParameterGroup : public TreeEntry
 {
 public:
-  ParameterGroup(QSharedPointer<LasFile> lasFile,
-                 TreeEntry*              parent):
+  ParameterGroup(std::shared_ptr<LasFile> lasFile,
+                 TreeEntry*              parent) :
     TreeEntry(lasFile, parent)
   {
     for (int i = 0; i < _lasFile->parameterInformation.keys().size(); ++i)
@@ -85,19 +84,18 @@ public:
     if (role != Qt::DisplayRole)
       return QVariant();
 
-    switch (column) {
-    case 0:
-      return tr("Parameters (%1)").arg(_lasFile->parameterInformation.size());
-      break;
+    switch (column)
+    {
+      case 0:
+        return tr("Parameters (%1)").arg(_lasFile->parameterInformation.size());
+        break;
 
-    default:
-      return QVariant();
-      break;
+      default:
+        return QVariant();
+        break;
     }
   }
 };
 }
 }
 }
-
-#endif // Geo_Import_Parameters_hpp

@@ -1,24 +1,26 @@
-#ifndef Geo_Domain_CurveType_hpp
-#define Geo_Domain_CurveType_hpp
+#pragma once
 
 #include <QtCore/QList>
-#include <QtCore/QSharedPointer>
+
+#include <memory>
 
 #include <odb/core.hxx>
 
 #include "Unit.hpp"
 
-namespace Geo {
-namespace Domain {
+namespace Geo
+{
+namespace Domain
+{
 //
 
 #ifdef ODB_COMPILER
-  #pragma db object
+  #pragma db object pointer(std::shared_ptr)
 #endif
 class CurveType
 {
 public:
-  typedef QSharedPointer<CurveType> Shared;
+  using Shared = std::shared_ptr<CurveType>;
 
 public:
   enum Scale {
@@ -44,10 +46,13 @@ public:
 
   QString
   family() const { return _family; }
+
   QString
   name() const { return _name; }
+
   QString
   mnemonic() const { return _mnemonic; }
+
   QString
   textUnit() const { return _textUnit; }
 
@@ -56,8 +61,10 @@ public:
 
   double
   min() const { return _min; }
+
   double
   max() const { return _max; }
+
   Scale
   scale() const { return _scale; }
 
@@ -121,11 +128,11 @@ private:
 #endif
   unsigned int _id;
 
-  QString        _family;
-  QString        _name;
-  QString        _mnemonic;
+  QString _family;
+  QString _name;
+  QString _mnemonic;
   QList<QString> _synonyms;
-  QString        _textUnit;
+  QString _textUnit;
 
 #ifdef ODB
   #pragma db not_null
@@ -135,11 +142,10 @@ private:
   double _min;
   double _max;
 
-  Scale      _scale;
+  Scale _scale;
   Continuity _continuity;
 };
 
 //
 }
 }
-#endif //  Geo_Domain_CurveType_hpp

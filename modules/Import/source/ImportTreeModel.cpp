@@ -13,10 +13,10 @@ using Geo::Import::TreeWrapper::LasFileEntry;
 using Geo::Import::TreeWrapper::TreeEntry;
 
 ImportTreeModel::
-ImportTreeModel(QVector<LasFile::Shared> lasFiles)
+ImportTreeModel(std::vector<LasFile::Shared> lasFiles)
 {
   for (LasFile::Shared lasFile : lasFiles)
-    _lasFileEntries.append(new LasFileEntry(lasFile));
+    _lasFileEntries.push_back(new LasFileEntry(lasFile));
 }
 
 
@@ -30,7 +30,7 @@ ImportTreeModel::
 
 // -------------------------------------------
 
-QVector<LasFileEntry*> const
+std::vector<LasFileEntry*> const
 ImportTreeModel::
 getLasFileEntries() const
 {

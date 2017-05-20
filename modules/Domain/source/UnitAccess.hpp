@@ -1,25 +1,25 @@
-#ifndef Geo_Domain_UnitAccess_hpp
-#define Geo_Domain_UnitAccess_hpp
+#pragma once
 
 #include "Unit.hpp"
 
-#include <QSharedPointer>
-#include <QVector>
+#include <memory>
+#include <vector>
 
-namespace Geo {
-namespace Domain {
+namespace Geo
+{
+namespace Domain
+{
 //
 
 class UnitAccess
 {
 public:
-  typedef QSharedPointer<UnitAccess> Shared;
+  using Shared = std::shared_ptr<UnitAccess>;
 
 public:
   virtual
   ~UnitAccess()
-  {
-  }
+  {}
 
   virtual void
   insert(Unit::Shared log) = 0;
@@ -33,7 +33,7 @@ public:
   virtual void
   remove(unsigned int const& pk) = 0;
 
-  virtual QVector<Unit::Shared>
+  virtual std::vector<Unit::Shared>
   findAll() = 0;
 
   virtual Unit::Shared
@@ -47,5 +47,3 @@ public:
 //
 }
 }
-
-#endif
