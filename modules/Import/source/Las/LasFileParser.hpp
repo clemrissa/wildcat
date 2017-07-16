@@ -1,12 +1,15 @@
 #pragma once
 
-#include <QtCore/QStringList>
+#include <vector>
+
 #include <QtCore/QString>
 
 #include "LasFile.hpp"
 
-namespace Geo {
-namespace Import {
+namespace Geo
+{
+namespace Import
+{
 
 class LasFileParser : public QObject
 {
@@ -14,36 +17,36 @@ class LasFileParser : public QObject
 
 public:
   std::shared_ptr<LasFile>
-  parse(const QString fileName);
+  parse(QString const & fileName);
 
 private:
   bool
-  parseVersionSection(std::shared_ptr<LasFile>& lasFile, int& lineNumber);
+  parseVersionSection(std::shared_ptr<LasFile>& lasFile, std::size_t & lineNumber);
 
   void
   parseWellInformationSection(std::shared_ptr<LasFile>& lasFile,
-                              int&                     lineNumber);
+                              std::size_t & lineNumber);
 
   void
   parseLogInformationSection(std::shared_ptr<LasFile>& lasFile,
-                             int&                     lineNumber);
+                             std::size_t & lineNumber);
 
   void
   parseParameterInformationSection(std::shared_ptr<LasFile>& lasFile,
-                                   int&                     lineNumber);
+                                   std::size_t & lineNumber);
 
   void
   parseOtherInformationSection(std::shared_ptr<LasFile>& lasFile,
-                               int&                     lineNumber);
+                               std::size_t & lineNumber);
 
   void
-  parseAsciiLogDataSection(std::shared_ptr<LasFile>& lasFile, int& lineNumber);
+  parseAsciiLogDataSection(std::shared_ptr<LasFile>& lasFile, std::size_t & lineNumber);
 
   void
   parseLines(std::shared_ptr<LasFile>& lasFile);
 
 private:
-  QStringList _lines;
+  std::vector<QString> _lines;
 
   int _version;
   bool _wrap;

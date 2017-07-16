@@ -10,15 +10,19 @@
 // Everybody stand back! I know regular expressions
 
 #include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 
 #include "LasFileParser.hpp"
+
+#include <utility>
+#include <array>
 
 using Geo::Import::LasFile;
 using Geo::Import::LasFileParser;
 
 std::shared_ptr<LasFile>
 LasFileParser::
-parse(const QString fileName)
+parse(QString const & fileName)
 {
   _lines.clear();
   _wrap    = false;
@@ -27,7 +31,8 @@ parse(const QString fileName)
   // result
   std::shared_ptr<LasFile> lasFile(new LasFile());
 
-  if (!QFile::exists(fileName)) {
+  if (!QFile::exists(fileName))
+  {
     return lasFile;
     Q_ASSERT(false);
   }
@@ -38,15 +43,17 @@ parse(const QString fileName)
 
   QFile inputFile(fileName);
 
-  if (inputFile.open(QIODevice::ReadOnly)) {
+  if (inputFile.open(QIODevice::ReadOnly))
+  {
     QTextStream in(&inputFile);
 
-    while (!in.atEnd()) {
+    while (!in.atEnd())
+    {
       QString line = in.readLine().trimmed();
 
       // filter comments
       if (!line.startsWith("#"))
-        _lines.push_back(line);
+        _lines.push_back(std::move(line));
     }
   }
 
@@ -63,22 +70,23 @@ void
 LasFileParser::
 parseLines(std::shared_ptr<LasFile>& lasFile)
 {
-  int i = 0;
+  std::size_t i = 0;
 
-  while (i < _lines.size()) {
+  while (i < _lines.size())
+  {
     QString line = _lines[i];
 
-    if (line.startsWith(QString::fromUtf8("~V")))
+    if (line.startsWith(QStringLiteral("~V")))
       parseVersionSection(lasFile, i);
-    else if (line.startsWith(QString::fromUtf8("~W")))
+    else if (line.startsWith(QStringLiteral("~W")))
       parseWellInformationSection(lasFile, i);
-    else if (line.startsWith(QString::fromUtf8("~C")))
+    else if (line.startsWith(QStringLiteral("~C")))
       parseLogInformationSection(lasFile, i);
-    else if (line.startsWith(QString::fromUtf8("~P")))
+    else if (line.startsWith(QStringLiteral("~P")))
       parseParameterInformationSection(lasFile, i);
-    else if (line.startsWith(QString::fromUtf8("~O")))
+    else if (line.startsWith(QStringLiteral("~O")))
       parseOtherInformationSection(lasFile, i);
-    else if (line.startsWith(QString::fromUtf8("~A")))
+    else if (line.startsWith(QStringLiteral("~A")))
       parseAsciiLogDataSection(lasFile, i);
 
     ++i;
@@ -89,9 +97,9 @@ parseLines(std::shared_ptr<LasFile>& lasFile)
 bool
 LasFileParser::
 parseVersionSection(std::shared_ptr<LasFile>& lasFile,
-                    int&                     lineNumber)
+                    std::size_t & lineNumber)
 {
-  int& i = lineNumber;
+  std::size_t & i = lineNumber;
 
   /*
    *  this section must contain following information:
@@ -111,31 +119,39 @@ parseVersionSection(std::shared_ptr<LasFile>& lasFile,
   // next line
   QString line = _lines[++i];
 
-  // QRegExp reVersion("(\\d\\.\\d+)");
-  QRegExp reVersion("(1\\.2|2\\.0)");
+  // QRegularExpression reVersion("(\\d\\.\\d+)");
+  QRegularExpression regVersion("(1\\.2|2\\.0)");
 
   line = _lines[i];
 
-  if (reVersion.indexIn(line) >= 0) {
-    auto s = reVersion.cap(1).trimmed();
+  QRegularExpressionMatch m = regVersion.match(line);
+
+  if (m.hasMatch())
+  {
+    auto s = m.captured(1).trimmed();
 
     if (s == "1.2")
       _version = 12;
     else if (s == "2.0")
       _version = 20;
-  } else
+  }
+  else
     return false;
 
   // next line with WRAP parameter
   line = _lines[++i];
 
-  QRegExp reWrap("(YES|NO)");
+  QRegularExpression regWrap("(YES|NO)");
+
+  m = regWrap.match(line);
 
   // have information about warpping
-  if (reWrap.indexIn(line) >= 0) {
-    QString s = reWrap.cap(1);
+  if (m.hasMatch())
+  {
+    QString s = m.captured(1);
     _wrap = s == "YES" ? true : false;
-  } else
+  }
+  else
     return false;
 
   return true;
@@ -144,74 +160,74 @@ parseVersionSection(std::shared_ptr<LasFile>& lasFile,
 
 void
 LasFileParser::
-parseWellInformationSection(std::shared_ptr<LasFile>& lasFile, int& lineNumber)
+parseWellInformationSection(std::shared_ptr<LasFile>& lasFile, std::size_t & lineNumber)
 {
-  int& i = lineNumber;
+  std::size_t & i = lineNumber;
 
   // clear old values
   lasFile->wellInformation.clear();
 
   // %1 defines a number format or just any symbols before the last ":"
   // %2 defines the field name ("WELL", "START");
-  const QString baseField("(%2 *)(\\.[^ ]*)( %1)(:.*$)");
+  QString const baseField("(%2 *)(\\.[^ ]*)( %1)(:.*$)");
 
-  const QString numericWord("*-?\\d*\\.\\d+.*");
+  QString const numericWord("*-?\\d*\\.\\d+.*");
 
-  const QString nonNumericWord(".*");
+  QString const nonNumericWord(".*");
 
-  const QString numericalField(baseField.arg(numericWord));
+  QString const numericalField(baseField.arg(numericWord));
 
   // STRT.M        583.0:
-  QRegExp reStart(numericalField.arg("STRT"));
+  QRegularExpression reStart(numericalField.arg("STRT"));
 
-  QRegExp reStop(numericalField.arg("STOP"));
+  QRegularExpression reStop(numericalField.arg("STOP"));
 
-  QRegExp reStep(numericalField.arg("STEP"));
+  QRegularExpression reStep(numericalField.arg("STEP"));
 
-  QRegExp reNull(numericalField.arg("NULL"));
+  QRegularExpression reNull(numericalField.arg("NULL"));
 
   //  WELL.                WELL:   4832/116
-  const QString specificField(baseField.arg(nonNumericWord));
+  QString const specificField(baseField.arg(nonNumericWord));
 
-  QRegExp reWell(specificField.arg("WELL"));
+  QRegularExpression reWell(specificField.arg("WELL"));
 
-  QRegExp reComp(specificField.arg("COMP"));
+  QRegularExpression reComp(specificField.arg("COMP"));
 
-  QRegExp reServiceComp(specificField.arg("SRVC"));
+  QRegularExpression reServiceComp(specificField.arg("SRVC"));
 
-  QRegExp reField(specificField.arg("FLD"));
+  QRegularExpression reField(specificField.arg("FLD"));
 
-  QRegExp reLocation(specificField.arg("LOC"));
+  QRegularExpression reLocation(specificField.arg("LOC"));
 
-  QRegExp reDate(specificField.arg("DATE"));
+  QRegularExpression reDate(specificField.arg("DATE"));
 
-  QRegExp reCountry(specificField.arg("CTRY"));
+  QRegularExpression reCountry(specificField.arg("CTRY"));
 
-  QRegExp reState(specificField.arg("STAT"));
+  QRegularExpression reState(specificField.arg("STAT"));
 
-  QRegExp reCounty(specificField.arg("CNTY"));
+  QRegularExpression reCounty(specificField.arg("CNTY"));
 
-  QRegExp reProvince(specificField.arg("PROV"));
+  QRegularExpression reProvince(specificField.arg("PROV"));
 
-  QRegExp reAPI(specificField.arg("API"));
+  QRegularExpression reAPI(specificField.arg("API"));
 
-  QRegExp reUWI(specificField.arg("UWI"));
+  QRegularExpression reUWI(specificField.arg("UWI"));
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //  name .units   name:value
-  QRegExp reRestEntries(specificField.arg("^[^ ]+"));
+  QRegularExpression reRestEntries(specificField.arg("^[^ ]+"));
 
   // reRestEntries.setMinimal(true);
 
   // next line
   ++i;
 
-  // function for addressing results of RegExp matching
+  // function for addressing results of RegularExpression matching
   auto selectValue =
-    [&](QRegExp& re) {
-      QString s1 = re.cap(3).trimmed();
+    [&](QRegularExpressionMatch& m) {
+      QString s1 = m.captured(3).trimmed();
 
-      QString s2 = re.cap(4).trimmed().remove(0, 1).trimmed();
+      QString s2 = m.captured(4).trimmed().remove(0, 1).trimmed();
 
       QString result;
 
@@ -224,92 +240,147 @@ parseWellInformationSection(std::shared_ptr<LasFile>& lasFile, int& lineNumber)
     };
 
   // function for addressing results of "floating point"
-  // RegExp matching
+  // RegularExpression matching
   auto selectNumericalValue =
-    [](QRegExp& re) {
-      QString value = re.cap(3).trimmed();
+    [](QRegularExpressionMatch& m) {
+      QString value = m.captured(3).trimmed();
 
       bool ok;
+
       return value.toDouble(&ok);
     };
 
   auto selectNumericalUnits =
-    [](QRegExp& re) {
+    [](QRegularExpressionMatch& m) {
       QString units =
-        re.cap(2).trimmed().remove(0, 1);
+        m.captured(2).trimmed().remove(0, 1);
 
       return units;
     };
 
-  while (i < _lines.size()) {
-    QString line = _lines[i];
+  // for less typing
+  auto& lasRequired = lasFile->lasRequired;
+
+  auto& logMetrics = lasFile->logMetrics;
+
+  while (i < _lines.size())
+  {
+    QString const & line = _lines[i];
 
     // if next section has started
-    if (line.startsWith("~")) {
+    if (line.startsWith("~"))
+    {
       --i;
       return;
     }
 
-    // for less typing
-    auto& lasRequired = lasFile->lasRequired;
+    using Function = std::function<void(QRegularExpressionMatch &)>;
 
-    auto& logMetrics = lasFile->logMetrics;
+    using MatchingStruct = std::pair<QRegularExpression, Function>;
 
-    if (reStart.indexIn(line) >= 0)
-      logMetrics.start = selectNumericalValue(reStart);
-    else if (reStop.indexIn(line) >= 0)
-      logMetrics.stop = selectNumericalValue(reStop);
-    else if (reStep.indexIn(line) >= 0) {
-      logMetrics.step  = selectNumericalValue(reStep);
-      logMetrics.units = selectNumericalUnits(reStep);
-    } else if (reNull.indexIn(line) >= 0)
-      logMetrics.nullValue =
-        selectNumericalValue(reNull);
-    else if (reWell.indexIn(line) >= 0)
-      lasRequired.wellName = selectValue(reWell);
-    else if (reComp.indexIn(line) >= 0)
-      lasRequired.company = selectValue(reComp);
-    else if (reServiceComp.indexIn(line) >= 0)
-      lasRequired.serviceCompany =
-        selectValue(reServiceComp);
-    else if (reField.indexIn(line) >= 0)
-      lasRequired.field = selectValue(reField);
-    else if (reLocation.indexIn(line) >= 0)
-      lasRequired.location = selectValue(reLocation);
-    else if (reDate.indexIn(line) >= 0)
-      lasRequired.date = selectValue(reDate);
-    else if (reCountry.indexIn(line) >= 0)
-      lasRequired.country = selectValue(reCountry);
-    else if (reState.indexIn(line) >= 0)
-      lasRequired.state = selectValue(reState);
-    else if (reCounty.indexIn(line) >= 0)
-      lasRequired.county = selectValue(reCounty);
-    else if (reProvince.indexIn(line) >= 0)
-      lasRequired.province = selectValue(reProvince);
-    else if (reAPI.indexIn(line) >= 0)
-      lasRequired.api = selectValue(reAPI);
-    else if (reUWI.indexIn(line) >= 0)
-      lasRequired.uwi = selectValue(reUWI);
-    // all the rest fields
-    else if (reRestEntries.indexIn(line) >= 0) {
-      // name .units   description:value
-      LasFile::WellInformationEntry entry;
+    std::array<MatchingStruct, 17> matchingStructs
+    {
 
-      QString name = reRestEntries.cap(1).trimmed();
-      entry.units = reRestEntries.cap(2).trimmed().remove(0, 1);
+      std::make_pair(reStart, [&](QRegularExpressionMatch & m) {
+        logMetrics.start = selectNumericalValue(m);
+      }),
 
-      QString description = reRestEntries.cap(3).trimmed();
-      QString value = reRestEntries.cap(4).trimmed().remove(0, 1).trimmed();
+      std::make_pair(reStop, [&](QRegularExpressionMatch & m) {
+        logMetrics.stop = selectNumericalValue(m);
+      }),
 
-      if (_version == 12) {
-        entry.description = description;
-        entry.value       = value;
-      } else if (_version == 20) {
-        entry.description = value;
-        entry.value = description;
+      std::make_pair(reStep, [&](QRegularExpressionMatch & m) {
+        logMetrics.step = selectNumericalValue(m);
+        logMetrics.units = selectNumericalUnits(m);
+      }),
+
+      std::make_pair(reNull, [&](QRegularExpressionMatch & m) {
+        logMetrics.nullValue = selectNumericalValue(m);
+      }),
+
+      std::make_pair(reWell, [&](QRegularExpressionMatch & m) {
+        lasRequired.wellName = selectValue(m);
+      }),
+
+      std::make_pair(reComp, [&](QRegularExpressionMatch & m) {
+        lasRequired.company = selectValue(m);
+      }),
+
+      std::make_pair(reServiceComp, [&](QRegularExpressionMatch & m) {
+        lasRequired.serviceCompany = selectValue(m);
+      }),
+
+      std::make_pair(reField, [&](QRegularExpressionMatch & m) {
+        lasRequired.field = selectValue(m);
+      }),
+
+      std::make_pair(reLocation, [&](QRegularExpressionMatch & m) {
+        lasRequired.location = selectValue(m);
+      }),
+
+      std::make_pair(reDate, [&](QRegularExpressionMatch & m) {
+        lasRequired.date = selectValue(m);
+      }),
+
+      std::make_pair(reCountry, [&](QRegularExpressionMatch & m) {
+        lasRequired.country = selectValue(m);
+      }),
+
+      std::make_pair(reState, [&](QRegularExpressionMatch & m) {
+        lasRequired.state = selectValue(m);
+      }),
+
+      std::make_pair(reCounty, [&](QRegularExpressionMatch & m) {
+        lasRequired.county = selectValue(m);
+      }),
+
+      std::make_pair(reProvince, [&](QRegularExpressionMatch & m) {
+        lasRequired.province = selectValue(m);
+      }),
+
+      std::make_pair(reAPI, [&](QRegularExpressionMatch & m) {
+        lasRequired.api = selectValue(m);
+      }),
+
+      std::make_pair(reAPI, [&](QRegularExpressionMatch & m) {
+        lasRequired.uwi = selectValue(m);
+      }),
+
+      std::make_pair(reRestEntries, [&](QRegularExpressionMatch & m) {
+        // name .units   description:value
+        LasFile::WellInformationEntry entry;
+
+        QString name = m.captured(1).trimmed();
+        entry.units = m.captured(2).trimmed().remove(0, 1);
+
+        QString description = m.captured(3).trimmed();
+        QString value = m.captured(4).trimmed().remove(0, 1).trimmed();
+
+        if (_version == 12)
+        {
+          entry.description = description;
+          entry.value = value;
+        }
+        else if (_version == 20)
+        {
+          entry.description = value;
+          entry.value = description;
+        }
+
+        lasFile->wellInformation[name] = entry;
+      })
+    };
+
+    // Iterate over all regular expressions tryint to match something for the given line
+    for (auto const & e : matchingStructs)
+    {
+      QRegularExpressionMatch m = e.first.match(line);
+
+      if (m.hasMatch())
+      {
+        e.second(m);
+        break;
       }
-
-      lasFile->wellInformation[name] = entry;
     }
 
     ++i;
@@ -319,50 +390,51 @@ parseWellInformationSection(std::shared_ptr<LasFile>& lasFile, int& lineNumber)
 
 void
 LasFileParser::
-parseLogInformationSection(std::shared_ptr<LasFile>&
-                           lasFile, int& lineNumber)
+parseLogInformationSection(std::shared_ptr<LasFile> & lasFile,
+                           std::size_t & lineNumber)
 {
-  int& i = lineNumber;
+  std::size_t & i = lineNumber;
 
   // clear old values
   lasFile->logInformation.clear();
 
   //  UWI .      UNIQUE WELL ID:326R000K116_F0W4832_
   //                     name .units   :value
-  QRegExp reLogInfoEntries(
-    "(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  QRegularExpression reLogInfoEntries("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
 
-  // QRegExp reLogInfoEntries("(^.+)(\\.[^ ]*)(.+)(
-  // *:)( *.*$)");
+  // QRegularExpression reLogInfoEntries("(^.+)(\\.[^ ]*)(.+)( // *:)( *.*$)");
 
   // next line
   ++i;
 
-  while (i < _lines.size()) {
+  while (i < _lines.size())
+  {
     QString line = _lines[i];
 
-    if (line.startsWith("~")) {
+    if (line.startsWith("~"))
+    {
       --i;
       return;
     }
 
+    QRegularExpressionMatch m = reLogInfoEntries.match(line);
+
     // all the rest fields
-    if (reLogInfoEntries.indexIn(line) >= 0) {
+    if (m.hasMatch())
+    {
       // name .units   name:value
       LasFile::LogInformationEntry entry;
 
-      QString all = reLogInfoEntries.cap(0);
+      QString all = m.captured(0);
 
       QString mnem =
-        reLogInfoEntries.cap(1).trimmed();
+        m.captured(1).trimmed();
       entry.units =
-        reLogInfoEntries.cap(2).trimmed().remove(0,
-                                                 1);
+        m.captured(2).trimmed().remove(0, 1);
 
-      entry.code = reLogInfoEntries.cap(3).trimmed();
+      entry.code = m.captured(3).trimmed();
 
-      entry.description =
-        reLogInfoEntries.cap(4).trimmed();
+      entry.description = m.captured(4).trimmed();
 
       lasFile->logInformation[mnem] = entry;
     }
@@ -374,53 +446,49 @@ parseLogInformationSection(std::shared_ptr<LasFile>&
 
 void
 LasFileParser::
-parseParameterInformationSection(std::shared_ptr<
-                                   LasFile>& lasFile,
-                                 int&
-                                 lineNumber)
+parseParameterInformationSection(std::shared_ptr<LasFile>& lasFile,
+                                 std::size_t & lineNumber)
 {
-  int& i = lineNumber;
+  std::size_t & i = lineNumber;
 
   // clear old values
   lasFile->parameterInformation.clear();
 
-  QRegExp reParameterInformation(
-    "(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
+  QRegularExpression reParameterInformation("(^[^ ]+ *)(\\.[^ ]*)( *.* *:)( *.*$)");
 
   // next line
   ++i;
 
-  while (i < _lines.size()) {
+  while (i < _lines.size())
+  {
     QString line = _lines[i];
 
-    if (line.startsWith("~")) {
+    if (line.startsWith("~"))
+    {
       --i;
       return;
     }
 
+    QRegularExpressionMatch m = reParameterInformation.match(line);
+
     // all the rest fields
-    if (reParameterInformation.indexIn(line) >= 0) {
+    if (m.hasMatch())
+    {
       // name .units   name:value
       LasFile::ParameterInformationEntry entry;
 
-      QString all = reParameterInformation.cap(0);
+      QString all = m.captured(0);
 
-      entry.name =
-        reParameterInformation.cap(1).trimmed();
-      entry.units =
-        reParameterInformation.cap(2).trimmed().remove(
-          0, 1);
+      entry.name  = m.captured(1).trimmed();
+      entry.units = m.captured(2).trimmed().remove( 0, 1);
 
-      entry.value =
-        reParameterInformation.cap(3).trimmed();
+      entry.value = m.captured(3).trimmed();
       entry.value.chop(1);
       entry.value = entry.value.trimmed();
 
-      entry.description =
-        reParameterInformation.cap(4).trimmed();
+      entry.description = m.captured(4).trimmed();
 
-      lasFile->parameterInformation[entry.name] =
-        entry;
+      lasFile->parameterInformation[entry.name] = entry;
     }
 
     ++i;
@@ -430,21 +498,20 @@ parseParameterInformationSection(std::shared_ptr<
 
 void
 LasFileParser::
-parseOtherInformationSection(std::shared_ptr<LasFile>&
-                             lasFile,
-                             int& lineNumber)
+parseOtherInformationSection(std::shared_ptr<LasFile>& lasFile,
+                             std::size_t & lineNumber)
 {
-  //
+  Q_UNUSED(lasFile);
   Q_UNUSED(lineNumber);
 }
 
 
 void
 LasFileParser::
-parseAsciiLogDataSection(std::shared_ptr<LasFile>&
-                         lasFile, int& lineNumber)
+parseAsciiLogDataSection(std::shared_ptr<LasFile>& lasFile,
+                         std::size_t & lineNumber)
 {
-  int& i = lineNumber;
+  std::size_t & i = lineNumber;
 
   // clear old values
   lasFile->data.clear();
@@ -453,44 +520,43 @@ parseAsciiLogDataSection(std::shared_ptr<LasFile>&
     lasFile->data[entryKey] = std::vector<double>();
 
   // corresponds to any number of form [-]333.566
-  QRegExp reNumValue("(-?\\d+\\.\\d+)");
+  QRegularExpression reNumValue("(-?\\d+\\.\\d+)");
 
-  const int numberOfMnemonics  = lasFile->data.size();
-  int       currentMnemonicNum = 0;
+  const int numberOfMnemonics = lasFile->data.size();
+  int currentMnemonicNum      = 0;
 
   // next line
   ++i;
 
-  while (i < _lines.size()) {
+  while (i < _lines.size())
+  {
     QString line = _lines[i];
 
-    if (line.startsWith("~")) {
+    if (line.startsWith("~"))
+    {
       --i;
       return;
     }
 
     // parse array
-    int pos = 0;
 
-    while ((pos =
-              reNumValue.indexIn(line, pos)) != -1) {
+    QRegularExpressionMatchIterator mi = reNumValue.globalMatch(line);
+
+    while (mi.hasNext())
+    {
       {
+        QRegularExpressionMatch m = mi.next();
         // select next key
-        QString key =
-          lasFile->data.keys()[currentMnemonicNum];
+        QString key = lasFile->data.keys()[currentMnemonicNum];
 
-        QString value = reNumValue.cap(1);
-        double  valueDouble; bool ok;
-        valueDouble = value.toDouble(&ok);
+        QString value = m.captured(1);
+        bool ok;
+        double valueDouble = value.toDouble(&ok);
 
         lasFile->data[key].push_back(valueDouble);
 
-        currentMnemonicNum =
-          (currentMnemonicNum +
-           1) % numberOfMnemonics;
+        currentMnemonicNum = (currentMnemonicNum + 1) % numberOfMnemonics;
       }
-
-      pos += reNumValue.matchedLength();
     }
 
     ++i;

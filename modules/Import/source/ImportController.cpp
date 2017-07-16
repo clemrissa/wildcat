@@ -17,6 +17,8 @@
 
 #include <Core/MainWindow>
 
+#include <vector>
+
 using Geo::Import::TreeWrapper::LasFileEntry;
 
 namespace Geo {
@@ -57,20 +59,31 @@ selectFilesAndImport()
   using       Geo::Core::MainWindow;
   MainWindow* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
-  QStringList fileList =
+  std::vector<QString> fileList =
     QFileDialog::getOpenFileNames(mainWindow,
                                   "Select one or more files to import",
                                   "/home",
-                                  "LAS files (*.las)");
+                                  "LAS files (*.las)").toVector().toStdVector();
 
-  LasFileParser lasFileParser;
   std::vector<LasFile::Shared> lasFiles;
 
   // collect a list of parsed las files
-  for (QString fileName : fileList)
+  #pragma omp parallel
   {
-    LasFile::Shared lasFile = lasFileParser.parse(fileName);
-    lasFiles.push_back(lasFile);
+    #pragma omp single
+    for (std::size_t i = 0; i < fileList.size(); ++i)
+    {
+      #pragma omp task shared(lasFiles)
+      {
+        QString & fileName = fileList[i];
+
+        LasFileParser lasFileParser;
+        auto lasFile = lasFileParser.parse(fileName);
+
+        #pragma omp critical
+        lasFiles.push_back(lasFile);
+      }
+    }
   }
 
   if (lasFiles.size() == 0)
