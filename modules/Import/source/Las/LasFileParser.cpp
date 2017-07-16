@@ -280,7 +280,6 @@ parseWellInformationSection(std::shared_ptr<LasFile>& lasFile, std::size_t & lin
 
     std::array<MatchingStruct, 17> matchingStructs
     {
-
       std::make_pair(reStart, [&](QRegularExpressionMatch & m) {
         logMetrics.start = selectNumericalValue(m);
       }),
@@ -342,7 +341,7 @@ parseWellInformationSection(std::shared_ptr<LasFile>& lasFile, std::size_t & lin
         lasRequired.api = selectValue(m);
       }),
 
-      std::make_pair(reAPI, [&](QRegularExpressionMatch & m) {
+      std::make_pair(reUWI, [&](QRegularExpressionMatch & m) {
         lasRequired.uwi = selectValue(m);
       }),
 
