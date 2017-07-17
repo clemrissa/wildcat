@@ -28,7 +28,7 @@ public:
   };
 
 public:
-  ConnectionEntry(Connections::Connection::Shared connection) :
+  ConnectionEntry(Connection::Shared connection) :
     _connection(connection)
   {}
 
@@ -38,7 +38,7 @@ public:
   QVariant
   data(int role, int column) override;
 
-  Connections::Connection::Shared
+  Connection::Shared
   connection()
   {
     return _connection;
@@ -60,7 +60,7 @@ private:
 
 private:
 
-  Connections::Connection::Shared _connection;
+  Connection::Shared _connection;
 };
 
 //

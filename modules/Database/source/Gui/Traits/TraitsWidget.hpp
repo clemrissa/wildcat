@@ -2,19 +2,23 @@
 
 #include <Mixin/ConnectionAcceptor.hpp>
 
-namespace Geo {
-namespace Database {
-namespace Gui {
+namespace Geo
+{
+namespace Database
+{
+namespace Gui
+{
 //
 
 class ConnectionPropertiesWiget;
 
-namespace Traits {
+namespace Traits
+{
 //
 
-class TraitsWidget :
-  public QWidget,
-  public Mixin::ConnectionAcceptor
+class TraitsWidget
+  : public QWidget
+  , public Mixin::ConnectionAcceptor
 {
   Q_OBJECT
 
@@ -25,8 +29,9 @@ public:
   ~TraitsWidget();
 
 public slots:
+
   void
-  setConnection(Database::Connections::Connection::Shared connection) override;
+  setConnection(Database::Connection::Shared connection) override;
 
 private:
   void

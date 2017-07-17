@@ -35,11 +35,10 @@ using Geo::Import::Gui::LasWidget;
 
 struct LasWidget::Private
 {
-  Private():
+  Private() :
     treeView(nullptr),
     importTreeModel(nullptr)
-  {
-  }
+  {}
 
   QTreeView* treeView;
 
@@ -47,7 +46,7 @@ struct LasWidget::Private
 };
 
 LasWidget::
-LasWidget():
+LasWidget() :
   _p(new Private)
 {
   setupUi();
@@ -77,7 +76,7 @@ setModel(ImportTreeModel* importModel)
 
 void
 LasWidget::
-setConnection(Database::Connections::Connection::Shared connection)
+setConnection(Database::Connection::Shared connection)
 {
   if (_p->importTreeModel)
     _p->importTreeModel->setConnection(connection);
@@ -109,8 +108,8 @@ void
 LasWidget::
 connectSignals()
 {
-  connect(_p->treeView, SIGNAL(customContextMenuRequested(const QPoint &)),
-          this, SLOT(onTableViewMenuRequested(const QPoint &)));
+  connect(_p->treeView, SIGNAL(customContextMenuRequested(const QPoint&)),
+          this, SLOT(onTableViewMenuRequested(const QPoint&)));
 
   // -------- main window notification
   using       Geo::Core::MainWindow;
@@ -148,7 +147,7 @@ connectSignals()
 // LasWidget::
 // onConnectionSelected(int index)
 // {
-// using CM = Database::Connections::ConnectionManager;
+// using CM = Database::ConnectionManager;
 
 // auto cm = AC::create<CM>("Database.ConnectionManager");
 
@@ -178,7 +177,8 @@ onTableViewMenuRequested(const QPoint& pos)
   WellInfoBase* wellInfo =
     dynamic_cast<WellInfoBase*>(treeEntry);
 
-  if (wellInfo) {
+  if (wellInfo)
+  {
     QSharedPointer<QMenu> menu(MenuFactory::getWellInformationBaseMenu(
                                  wellInfo,
                                  index.column()));

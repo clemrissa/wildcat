@@ -26,46 +26,50 @@ createEditor(QWidget*                    parent,
 
   QWidget* result = nullptr;
 
-  switch (index.column()) {
-  case UnitTableEntry::Name:
-  case UnitTableEntry::Symbol: {
-    result = new QLineEdit();
+  switch (index.column())
+  {
+    case UnitTableEntry::Name:
+    case UnitTableEntry::Symbol:
+    {
+      result = new QLineEdit();
 
-    result->setParent(parent);
+      result->setParent(parent);
 
-    break;
-  }
+      break;
+    }
 
-  case UnitTableEntry::Scale:
-  case UnitTableEntry::Offset: {
-    auto l = new QLineEdit();
+    case UnitTableEntry::Scale:
+    case UnitTableEntry::Offset:
+    {
+      auto l = new QLineEdit();
 
-    l->setParent(parent);
-    l->setValidator(new QDoubleValidator());
+      l->setParent(parent);
+      l->setValidator(new QDoubleValidator());
 
-    result = l;
+      result = l;
 
-    break;
-  }
+      break;
+    }
 
-  case UnitTableEntry::Dimensions: {
-    auto unitEntry = static_cast<UnitTableEntry*>(index.internalPointer());
+    case UnitTableEntry::Dimensions:
+    {
+      auto unitEntry = static_cast<UnitTableEntry*>(index.internalPointer());
 
-    if (!unitEntry)
-      return nullptr;
+      if (!unitEntry)
+        return nullptr;
 
-    using Geo::TypeSystem::Gui::DimensionsDelegate;
+      using Geo::TypeSystem::Gui::DimensionsDelegate;
 
-    auto c =
-      new DimensionsDelegate(unitEntry->unit()->getDimensions());
+      auto c =
+        new DimensionsDelegate(unitEntry->unit()->getDimensions());
 
-    c->setParent(parent);
+      c->setParent(parent);
 
-    result = c;
-  }
+      result = c;
+    }
 
-  default:
-    break;
+    default:
+      break;
   }
 
   return result;
@@ -92,27 +96,29 @@ setEditorData(QWidget*           editor,
 {
   Q_UNUSED(index);
 
-  switch (index.column()) {
-  case UnitTableEntry::Name:
-  case UnitTableEntry::Symbol:
-  case UnitTableEntry::Scale:
-  case UnitTableEntry::Offset: {
-    auto unitEntry =
-      static_cast<UnitTableEntry*>(index.internalPointer());
+  switch (index.column())
+  {
+    case UnitTableEntry::Name:
+    case UnitTableEntry::Symbol:
+    case UnitTableEntry::Scale:
+    case UnitTableEntry::Offset:
+    {
+      auto unitEntry =
+        static_cast<UnitTableEntry*>(index.internalPointer());
 
-    if (!unitEntry)
-      return;
+      if (!unitEntry)
+        return;
 
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+      auto lineEdit = static_cast<QLineEdit*>(editor);
 
-    lineEdit->setText(unitEntry->data(Qt::DisplayRole,
-                                      index.column()).toString());
+      lineEdit->setText(unitEntry->data(Qt::DisplayRole,
+                                        index.column()).toString());
 
-    break;
-  }
+      break;
+    }
 
-  default:
-    break;
+    default:
+      break;
   }
 }
 
@@ -123,27 +129,29 @@ setModelData(QWidget*            editor,
              QAbstractItemModel* model,
              const QModelIndex&  index) const
 {
-  switch (index.column()) {
-  case UnitTableEntry::Name:
-  case UnitTableEntry::Symbol:
-  case UnitTableEntry::Scale:
-  case UnitTableEntry::Offset: {
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+  switch (index.column())
+  {
+    case UnitTableEntry::Name:
+    case UnitTableEntry::Symbol:
+    case UnitTableEntry::Scale:
+    case UnitTableEntry::Offset:
+    {
+      auto lineEdit = static_cast<QLineEdit*>(editor);
 
-    model->setData(index, lineEdit->text(),
-                   Qt::EditRole);
+      model->setData(index, lineEdit->text(),
+                     Qt::EditRole);
 
-    break;
-  }
+      break;
+    }
 
-  /// fake "set data" to trigger save procedure
-  case UnitTableEntry::Dimensions:
-    model->setData(index, QString("Set Dimensions"),
-                   Qt::EditRole);
+    /// fake "set data" to trigger save procedure
+    case UnitTableEntry::Dimensions:
+      model->setData(index, QString("Set Dimensions"),
+                     Qt::EditRole);
 
-    break;
+      break;
 
-  default:
-    break;
+    default:
+      break;
   }
 }

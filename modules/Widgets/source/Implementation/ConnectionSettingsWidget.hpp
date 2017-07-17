@@ -2,9 +2,12 @@
 
 #include <ConnectionSettingsWidget.hpp>
 
-namespace Geo {
-namespace Widgets {
-namespace Implementation {
+namespace Geo
+{
+namespace Widgets
+{
+namespace Implementation
+{
 //
 
 class ConnectionSettingsWidget :
@@ -31,7 +34,7 @@ private slots:
 
 signals:
 
-  void connectionChanged(Database::Connections::Connection::Shared) override;
+  void connectionChanged(Database::Connection::Shared) override;
 
 private:
   void

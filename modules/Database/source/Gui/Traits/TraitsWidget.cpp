@@ -10,7 +10,7 @@
 #include <Models/Traits/TraitsWidgetModel.hpp>
 #include <Models/Traits/WellTraitEntry.hpp>
 
-using Geo::Database::Connections::Connection;
+using Geo::Database::Connection;
 using Geo::Database::Gui::Traits::TraitsWidget;
 using Geo::Database::Models::Traits::TraitsWidgetModel;
 
@@ -50,7 +50,7 @@ TraitsWidget::
 
 void
 TraitsWidget::
-setConnection(Connections::Connection::Shared connection)
+setConnection(Connection::Shared connection)
 {
   _p->traitsWidgetModel->setConnection(connection);
 }

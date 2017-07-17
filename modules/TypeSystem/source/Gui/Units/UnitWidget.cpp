@@ -43,8 +43,8 @@ struct UnitWidget::Private
 };
 
 UnitWidget::
-UnitWidget():
-  _p(new Private)
+UnitWidget()
+  : _p(new Private)
 {
   setupUi();
 
@@ -150,8 +150,8 @@ connectSignals()
           this, SLOT(onSaveXmlClicked()));
 
   // for deleting rows
-  connect(_p->unitsTable, SIGNAL(clicked(const QModelIndex &)),
-          _p->unitsModel,   SLOT(onClicked(const QModelIndex &)));
+  connect(_p->unitsTable, SIGNAL(clicked(const QModelIndex&)),
+          _p->unitsModel,   SLOT(onClicked(const QModelIndex&)));
 
   // -------- main window notification
   using Geo::Core::MainWindow;
@@ -236,7 +236,7 @@ onSaveXmlClicked()
 
 void
 UnitWidget::
-setConnection(Database::Connections::Connection::Shared connection)
+setConnection(Database::Connection::Shared connection)
 {
   _p->unitsModel->setConnection(connection);
 }

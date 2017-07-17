@@ -14,8 +14,8 @@
 
 #include <Widgets/KeywordWidget>
 
-using Geo::Database::Connections::Connection;
-using Geo::Database::Connections::SQLiteConnection;
+using Geo::Database::Connection;
+using Geo::Database::SQLiteConnection;
 using Geo::Database::Gui::SQLiteConnectionPropertiesWidget;
 
 struct SQLiteConnectionPropertiesWidget::Private

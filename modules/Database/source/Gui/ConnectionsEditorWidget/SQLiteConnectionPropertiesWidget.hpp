@@ -24,7 +24,7 @@ public:
   ~SQLiteConnectionPropertiesWidget();
 
   void
-  setConnection(Connections::Connection::Shared connection) override;
+  setConnection(Connection::Shared connection) override;
 
 private:
   void

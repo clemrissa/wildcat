@@ -12,9 +12,8 @@
 #include <odb/sqlite/exceptions.hxx>
 #include <odb/sqlite/transaction.hxx>
 
-using Geo::Database::Connections::DatabaseType;
-using Geo::Database::Connections::SQLiteConnection;
-using Geo::Database::Connections::Status;
+using Geo::Database::Connection;
+using Geo::Database::SQLiteConnection;
 
 SQLiteConnection::
 SQLiteConnection()
@@ -70,7 +69,7 @@ setDatabase(QString const& database)
 }
 
 
-Status const&
+Connection::Status const&
 SQLiteConnection::
 status() const
 {
@@ -86,7 +85,7 @@ lastError() const
 }
 
 
-DatabaseType const&
+Connection::DatabaseType const&
 SQLiteConnection::
 databaseType() const
 {

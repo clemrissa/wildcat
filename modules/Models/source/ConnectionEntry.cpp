@@ -51,7 +51,7 @@ getDisplayRole(int column)
   {
     case Type:
       // TODO: change to non-static function
-      return Database::Connections::Connection::connectionTypeName(_connection->databaseType());
+      return Database::Connection::connectionTypeName(_connection->databaseType());
       break;
 
     case Database:
@@ -72,7 +72,7 @@ getBackgroundRole(int column)
   if (!_connection)
     return QVariant();
 
-  if (_connection->status() != Database::Connections::Status::Connected)
+  if (_connection->status() != Database::Connection::Status::Connected)
     return QVariant(QColor(0xFF, 0xBB, 0xBB));
 
   return QVariant();

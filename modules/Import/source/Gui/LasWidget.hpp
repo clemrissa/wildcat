@@ -30,7 +30,7 @@ public:
   setModel(ImportTreeModel* importModel);
 
   void
-  setConnection(Database::Connections::Connection::Shared connection) override;
+  setConnection(Database::Connection::Shared connection) override;
 
 private slots:
   void

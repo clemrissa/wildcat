@@ -13,7 +13,7 @@ using Geo::Models::ConnectionListModel;
 ConnectionListModel::
 ConnectionListModel()
 {
-  using Database::Connections::ConnectionManager;
+  using Database::ConnectionManager;
 
   // defined as Singleton in Database.json
   _connectionsManager =

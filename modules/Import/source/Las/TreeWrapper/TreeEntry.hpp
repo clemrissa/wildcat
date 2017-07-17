@@ -12,9 +12,12 @@
 
 class QAbstractItemModel;
 
-namespace Geo {
-namespace Import {
-namespace TreeWrapper {
+namespace Geo
+{
+namespace Import
+{
+namespace TreeWrapper
+{
 
 /// @brief Composite pattern. Used to represent LAS file strurcture as a tree.
 /// Every subclass works with sertain data from the LasFile class.
@@ -76,7 +79,7 @@ public:
                     QAbstractItemModel* model) {}
 
   virtual void
-  setConnection(Geo::Database::Connections::Connection::Shared connection);
+  setConnection(Geo::Database::Connection::Shared connection);
 
   void
   setLasFileToImport(LasFile::Shared lasFileToImport);
@@ -94,7 +97,7 @@ protected:
   // contains processed/modified information
   LasFile::Shared _lasFileToImport;
 
-  Geo::Database::Connections::Connection::Shared _connection;
+  Geo::Database::Connection::Shared _connection;
 
   std::vector<TreeEntry*> _entries;
 };

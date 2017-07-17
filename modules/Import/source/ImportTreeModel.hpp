@@ -25,7 +25,7 @@ public:
   getLasFileEntries() const;
 
   void
-  setConnection(Geo::Database::Connections::Connection::Shared connection);
+  setConnection(Geo::Database::Connection::Shared connection);
 
 public:
   virtual
@@ -67,7 +67,7 @@ private:
   std::vector<TreeWrapper::LasFileEntry*> _lasFileEntries;
   std::vector<LasFile::Shared> _lasFiles;
 
-  Geo::Database::Connections::Connection::Shared _connection;
+  Geo::Database::Connection::Shared _connection;
 
   int
   getEntryPosition(TreeWrapper::TreeEntry* const entry) const;

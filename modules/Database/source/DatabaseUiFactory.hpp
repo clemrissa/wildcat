@@ -15,6 +15,7 @@ namespace Database
 {
 
 /// Creates some UI elements, links them to Core.MainWindow
+
 /**
  * The class is described in Database component's json document.
  * The class functions `createDatabaseMenu` and `createDatabaseToolBar`

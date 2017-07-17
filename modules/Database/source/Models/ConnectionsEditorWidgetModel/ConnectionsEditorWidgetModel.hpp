@@ -10,10 +10,7 @@ namespace Geo
 {
 namespace Database
 {
-namespace Connections
-{
 class ConnectionManager;
-}
 
 namespace Models
 {
@@ -71,13 +68,13 @@ public:
 public slots:
 
   void
-  addConnection(Connections::DatabaseType databaseType);
+  addConnection(Connection::DatabaseType databaseType);
 
   void
   onClicked(const QModelIndex& index);
 
 private:
-  Connections::ConnectionManager* _connectionsManager;
+  ConnectionManager* _connectionsManager;
 
   QVector<Entry*> _entries;
 

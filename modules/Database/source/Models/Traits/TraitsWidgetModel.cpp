@@ -130,8 +130,9 @@ index(int row, int column, const QModelIndex& parent) const
 
   if (!parent.isValid())
   {
-    WellTraitEntry* entry =
-      (row == _entries.size()) ? nullptr : _entries[row];
+    WellTraitEntry* entry = ((unsigned)row == _entries.size()) ?
+                            nullptr :
+                            _entries[row];
 
     return QAbstractItemModel::createIndex(row, column, entry);
   }
@@ -223,7 +224,7 @@ flags(const QModelIndex& index) const
 
 void
 TraitsWidgetModel::
-setConnection(Database::Connections::Connection::Shared connection)
+setConnection(Database::Connection::Shared connection)
 {
   _connection = connection;
 
@@ -237,7 +238,7 @@ onClicked(const QModelIndex& index)
 {
   if (!index.parent().isValid() &&
       index.column() == WellTraitEntry::CloseAction &&
-      index.row() != _entries.size() - 1)
+      (unsigned)index.row() != _entries.size() - 1)
   {
     auto wellTraitEntry = _entries[index.row()];
 

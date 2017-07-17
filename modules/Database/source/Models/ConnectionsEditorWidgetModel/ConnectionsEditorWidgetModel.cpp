@@ -9,7 +9,7 @@
 
 #include <algorithm>
 
-using Geo::Database::Connections::ConnectionManager;
+using Geo::Database::ConnectionManager;
 using Geo::Database::Models::ConnectionEntry;
 using Geo::Database::Models::ConnectionsEditorWidgetModel;
 using Geo::Database::Models::Entry;
@@ -147,7 +147,7 @@ flags(const QModelIndex& index) const
 
 void
 ConnectionsEditorWidgetModel::
-addConnection(Connections::DatabaseType databaseType)
+addConnection(Connection::DatabaseType databaseType)
 {
   Q_UNUSED(databaseType);
 

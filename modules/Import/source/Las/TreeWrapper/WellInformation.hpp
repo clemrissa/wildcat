@@ -31,7 +31,7 @@ public:
   delegateWidget(int column) const override;
 
   void
-  setConnection(Geo::Database::Connections::Connection::Shared connection);
+  setConnection(Geo::Database::Connection::Shared connection);
 
   bool
   setData(int role, int column, QVariant value) override;

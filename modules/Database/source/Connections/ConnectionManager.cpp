@@ -11,8 +11,8 @@
 #include <QtXml/QDomElement>
 #include <QtXml/QDomText>
 
-using Geo::Database::Connections::Connection;
-using Geo::Database::Connections::ConnectionManager;
+using Geo::Database::Connection;
+using Geo::Database::ConnectionManager;
 
 ConnectionManager::
 ConnectionManager()

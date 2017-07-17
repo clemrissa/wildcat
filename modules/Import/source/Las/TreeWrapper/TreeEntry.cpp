@@ -1,6 +1,6 @@
 #include "TreeEntry.hpp"
 
-using Geo::Database::Connections::Connection;
+using Geo::Database::Connection;
 using Geo::Import::TreeWrapper::TreeEntry;
 
 TreeEntry::

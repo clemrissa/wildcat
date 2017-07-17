@@ -278,7 +278,7 @@ saveXml(QString fileName)
 
 void
 UnitModel::
-setConnection(Database::Connections::Connection::Shared connection)
+setConnection(Database::Connection::Shared connection)
 {
   _connection = connection;
 
@@ -292,7 +292,7 @@ onClicked(const QModelIndex& index)
 {
   if (!index.parent().isValid() &&
       index.column() == UnitTableEntry::CloseAction &&
-      index.row() != _unitEntries.size() - 1)
+      (unsigned)index.row() != _unitEntries.size() - 1)
   {
     auto unitEntry = _unitEntries[(index.row())];
 

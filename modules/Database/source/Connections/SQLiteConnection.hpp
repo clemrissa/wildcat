@@ -11,14 +11,13 @@ namespace Geo
 {
 namespace Database
 {
-namespace Connections
-{
 
 class SQLiteConnection : public Connection
 {
   Q_OBJECT
 
 private:
+
   using DatabaseObject = std::shared_ptr<odb::database>;
 
 public:
@@ -51,7 +50,7 @@ public:
   QString const&
   lastError() const override;
 
-  DatabaseType const&
+  Connection::DatabaseType const&
   databaseType() const override;
 
 public:
@@ -87,7 +86,7 @@ protected:
   }
 
   void
-  setDatabaseType(DatabaseType const& databaseType)
+  setDatabaseType(Connection::DatabaseType const& databaseType)
   {
     _databaseType = databaseType;
     emit databaseTypeChanged(_databaseType);
@@ -96,12 +95,11 @@ protected:
 private:
   QString _lastError;
 
-  DatabaseType _databaseType;
+  Connection::DatabaseType _databaseType;
 
-  Status _status;
+  Connection::Status _status;
 
   QString _database;
 };
-}
 }
 }

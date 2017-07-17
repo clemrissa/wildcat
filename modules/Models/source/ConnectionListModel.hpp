@@ -7,17 +7,18 @@
 #include <vector>
 #include <memory>
 
-namespace Geo {
+namespace Geo
+{
 //
-namespace Database {
-namespace Connections {
+namespace Database
+{
 class ConnectionManager;
 class Connection;
 }
-}
 
 //
-namespace Models {
+namespace Models
+{
 
 class ConnectionEntry;
 
@@ -60,12 +61,12 @@ public:
 
 signals:
 
-  void connectionChanged(Database::Connections::Connection::Shared);
+  void connectionChanged(Database::Connection::Shared);
 
 protected:
-  Database::Connections::ConnectionManager* _connectionsManager;
+  Database::ConnectionManager* _connectionsManager;
 
-  std::vector<std::unique_ptr<ConnectionEntry>> _entries;
+  std::vector<std::unique_ptr<ConnectionEntry> > _entries;
 
   int
   getEntryPosition(ConnectionEntry* entry) const;

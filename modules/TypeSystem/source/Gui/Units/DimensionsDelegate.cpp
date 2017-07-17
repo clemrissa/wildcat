@@ -10,7 +10,7 @@ using Geo::TypeSystem::Gui::DimensionsDelegate;
 
 DimensionsDelegate::
 DimensionsDelegate(Geo::Domain::Dimensions& dimensions,
-                   QWidget*                 parent):
+                   QWidget*                 parent) :
   QWidget(parent),
   _dimensions(dimensions)
 {
@@ -33,7 +33,8 @@ setupUi()
   l->setContentsMargins(1, 1, 1, 1);
   l->setSpacing(1);
 
-  for (int i = Dimensions::DLength; i < Dimensions::AllUnitsSize; ++i) {
+  for (int i = Dimensions::DLength; i < Dimensions::AllUnitsSize; ++i)
+  {
     auto sb = new QSpinBox();
 
     sb->setRange(-100, 100);
@@ -56,7 +57,8 @@ void
 DimensionsDelegate::
 setValues()
 {
-  for (auto sb : _spinBoxMap.keys()) {
+  for (auto sb : _spinBoxMap.keys())
+  {
     int d = _spinBoxMap[sb];
     sb->setValue(_dimensions[d]);
   }

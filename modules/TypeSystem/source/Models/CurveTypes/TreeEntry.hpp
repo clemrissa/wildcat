@@ -1,5 +1,4 @@
-#ifndef Geo_TypeSystem_TreeWrapper_TreeEntry_hpp
-#define Geo_TypeSystem_TreeWrapper_TreeEntry_hpp
+#pragma once
 
 #include <algorithm>
 #include <vector>
@@ -18,16 +17,20 @@
 
 class QAbstractItemModel;
 
-namespace Geo {
-namespace TypeSystem {
-namespace Models {
-namespace CurveTypes {
+namespace Geo
+{
+namespace TypeSystem
+{
+namespace Models
+{
+namespace CurveTypes
+{
 //
 
 /// @brief Composite pattern. Used to represent CurveType structure as a tree.
 /// Every subclass works with sertain data from the CurveType class.
 /// The whole tree is employed then in AbstractItemMoodel for QTreeView
-class TreeEntry:
+class TreeEntry :
   public QObject,
   public Database::Mixin::ConnectionAcceptor
 {
@@ -83,7 +86,7 @@ public:
 
 public slots:
   virtual void
-  setConnection(Geo::Database::Connections::Connection::
+  setConnection(Geo::Database::Connection::
                 Shared connection)
   override;
 
@@ -108,7 +111,7 @@ protected:
 protected:
   TreeEntry* _parent;
 
-  Geo::Database::Connections::Connection::Shared _connection;
+  Geo::Database::Connection::Shared _connection;
 
   QVector<TreeEntry*> _entries;
 
@@ -120,4 +123,3 @@ protected:
 }
 }
 }
-#endif // Geo_TypeSystem_TreeWrapper_TreeEntry_hpp

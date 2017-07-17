@@ -400,7 +400,7 @@ saveXml(QString fileName)
 
 void
 CurveTypeModel::
-setConnection(Database::Connections::Connection::Shared connection)
+setConnection(Database::Connection::Shared connection)
 {
   _connection = connection;
 

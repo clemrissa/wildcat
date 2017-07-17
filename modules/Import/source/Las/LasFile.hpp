@@ -9,8 +9,10 @@
 #include <vector>
 #include <memory>
 
-namespace Geo {
-namespace Import {
+namespace Geo
+{
+namespace Import
+{
 
 /**
  * Class contains all the information from a Las file split into special

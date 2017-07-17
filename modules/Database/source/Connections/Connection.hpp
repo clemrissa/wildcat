@@ -7,20 +7,23 @@
 
 #include <memory>
 
-namespace Geo {
-namespace Database {
-namespace Connections {
-//
-
-enum DatabaseType { UnknownDB, SQLite, MongoDB };
-
-enum Status { Unknown, Connected, Failed };
+namespace Geo
+{
+namespace Database
+{
 
 class Connection : public QObject
 {
 public:
   using DataAccessFactory = Domain::DataAccessFactory;
+
   using Shared = std::shared_ptr<Connection>;
+
+public:
+
+  enum DatabaseType { UnknownDB, SQLite, MongoDB };
+
+  enum Status { Unknown, Connected, Failed };
 
 public:
   virtual
@@ -66,6 +69,5 @@ public:
 
   DataAccessFactory::Shared _dataAccessFactory;
 };
-}
 }
 }

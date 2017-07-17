@@ -45,6 +45,8 @@ setupUi(ConnectionsEditorWidgetModel* treeModel)
   setWindowTitle(tr("Connections Settings"));
   setMinimumSize(800, 400);
 
+  //-----------
+
   p->connectionsTable = new QTableView();
 
   p->connectionsTable->setMaximumWidth(400);
@@ -71,16 +73,18 @@ setupUi(ConnectionsEditorWidgetModel* treeModel)
 
   p->connectionsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
 
+  //---
+
   p->stackedWidget = new QStackedWidget();
 
   QLabel* label = new QLabel("<h5>Create or select database</h5>");
 
   label->setAlignment(Qt::AlignCenter);
 
-  p->stackedWidget->insertWidget((int)Connections::DatabaseType::UnknownDB,
+  p->stackedWidget->insertWidget((int)Connection::DatabaseType::UnknownDB,
                                  label);
 
-  p->stackedWidget->insertWidget((int)Connections::DatabaseType::SQLite,
+  p->stackedWidget->insertWidget((int)Connection::DatabaseType::SQLite,
                                  new SQLiteConnectionPropertiesWidget);
 
   QHBoxLayout* l = new QHBoxLayout();
@@ -120,12 +124,12 @@ onConnectionClicked(const QModelIndex& index)
     ConnectionEntry* c = invalidRow ? nullptr : static_cast<ConnectionEntry*>(
       index.internalPointer());
 
-    Connections::DatabaseType type =
-      c ? c->connection()->databaseType() : Connections::UnknownDB;
+    Connection::DatabaseType type =
+      c ? c->connection()->databaseType() : Connection::DatabaseType::UnknownDB;
 
     p->stackedWidget->setCurrentIndex((int)type);
 
-    if (c && type != Connections::UnknownDB)
+    if (c && type != Connection::DatabaseType::UnknownDB)
     {
       QWidget* w = p->stackedWidget->widget(type);
 

@@ -3,9 +3,12 @@
 #include <Database/Mixin/ConnectionAcceptor>
 #include <QWidget>
 
-namespace Geo {
-namespace TypeSystem {
-namespace Gui {
+namespace Geo
+{
+namespace TypeSystem
+{
+namespace Gui
+{
 //
 
 class UnitWidget :
@@ -32,7 +35,7 @@ private slots:
 
 public slots:
   void
-  setConnection(Database::Connections::Connection::Shared connection) override;
+  setConnection(Database::Connection::Shared connection) override;
 
 signals:
   void notifyMainWindow(QString);

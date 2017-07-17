@@ -3,8 +3,11 @@
 #include "Export.hpp"
 
 #include <QtWidgets/QMenu>
+
 #include "DatabaseUiFactory.hpp"
+
 #include "Connections/ConnectionManager.hpp"
+
 #include "Connections/SQLiteConnection.hpp"
 
 #include <QtCore/QDebug>
@@ -17,8 +20,8 @@ registerComponent()
 {
   //REGISTER_TYPE(QMenu);
 
-  using Geo::Database::Connections::SQLiteConnection;
-  using Geo::Database::Connections::ConnectionManager;
+  using Geo::Database::SQLiteConnection;
+  using Geo::Database::ConnectionManager;
   using Geo::Database::DatabaseUiFactory;
 
   REGISTER_TYPE(SQLiteConnection);

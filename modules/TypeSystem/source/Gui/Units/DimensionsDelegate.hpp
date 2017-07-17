@@ -1,5 +1,4 @@
-#ifndef Geo_TypeSystem_Gui_Dimensions_DimensionsDelegate_hpp
-#define Geo_TypeSystem_Gui_Dimensions_DimensionsDelegate_hpp
+#pragma once
 
 #include <QtCore/QMap>
 #include <QtWidgets/QSpinBox>
@@ -7,12 +6,15 @@
 
 #include <Domain/Dimensions>
 
-namespace Geo {
-namespace TypeSystem {
-namespace Gui {
+namespace Geo
+{
+namespace TypeSystem
+{
+namespace Gui
+{
 //
 
-class DimensionsDelegate: public QWidget
+class DimensionsDelegate : public QWidget
 {
   Q_OBJECT
 
@@ -41,5 +43,3 @@ private:
 } // namespace Gui
 } // namespace TypeSystem
 } // namespace Geo
-
-#endif // Geo_TypeSystem_Gui_Dimensions_DimensionsDelegate_hpp

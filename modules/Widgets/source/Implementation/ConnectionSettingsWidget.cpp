@@ -77,7 +77,7 @@ setEditorWidget(QWidget* editorWidget)
   connectSignals();
 
   // select first connection
-  using Database::Connections::ConnectionManager;
+  using Database::ConnectionManager;
 
   auto cm = ComponentManager::create<ConnectionManager*>("Database.ConnectionManager");
 
@@ -144,9 +144,9 @@ connectSignals()
 
   if (p->editorWidget)
     connect(this,
-            SIGNAL(connectionChanged(Database::Connections::Connection::Shared)),
+            SIGNAL(connectionChanged(Database::Connection::Shared)),
             p->editorWidget,
-            SLOT(setConnection(Database::Connections::Connection::Shared)));
+            SLOT(setConnection(Database::Connection::Shared)));
 }
 
 
@@ -163,7 +163,7 @@ void
 ConnectionSettingsWidget::
 onConnectionActivated(int index)
 {
-  using CM = Database::Connections::ConnectionManager;
+  using CM = Database::ConnectionManager;
 
   auto cm = ComponentManager::create<CM*>("Database.ConnectionManager");
 

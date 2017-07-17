@@ -4,13 +4,16 @@
 
 #include <Database/Mixin/ConnectionAcceptor>
 
-namespace Geo {
-namespace Import {
+namespace Geo
+{
+namespace Import
+{
 //
 
 class ImportTreeModel;
 
-namespace Gui {
+namespace Gui
+{
 //
 
 class ImportWidget : public QWidget

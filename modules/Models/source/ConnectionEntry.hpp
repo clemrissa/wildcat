@@ -18,7 +18,7 @@ public:
   };
 
 public:
-  ConnectionEntry(Database::Connections::Connection::Shared connection)
+  ConnectionEntry(Database::Connection::Shared connection)
     : _connection(connection)
   {}
 
@@ -28,14 +28,14 @@ public:
   QVariant
   data();
 
-  Database::Connections::Connection::Shared
+  Database::Connection::Shared
   connection()
   {
     return _connection;
   }
 
 private:
-  Database::Connections::Connection::Shared _connection;
+  Database::Connection::Shared _connection;
 
   QVariant
   getDisplayRole();

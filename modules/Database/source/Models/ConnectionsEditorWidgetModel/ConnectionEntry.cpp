@@ -129,7 +129,7 @@ getBackgroundRole(int column)
   if (!_connection)
     return QVariant();
 
-  if (_connection->status() != Connections::Status::Connected)
+  if (_connection->status() != Connection::Status::Connected)
     return QVariant(QColor(0xFF, 0xBB, 0xBB));
 
   return QVariant();

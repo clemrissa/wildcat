@@ -8,17 +8,21 @@
 #include <vector>
 #include <memory>
 
-namespace Geo {
-namespace TypeSystem {
-namespace Models {
-namespace CurveTypes {
+namespace Geo
+{
+namespace TypeSystem
+{
+namespace Models
+{
+namespace CurveTypes
+{
 //
 
 class TreeEntry;
 class FamilyEntry;
 //
 
-class CurveTypeModel:
+class CurveTypeModel :
   public QAbstractItemModel,
   public Database::Mixin::ConnectionAcceptor
 {
@@ -42,7 +46,7 @@ public:
   bool
   setData(const QModelIndex& index,
           const QVariant&    value,
-          int                role = Qt::EditRole) override;
+          int role = Qt::EditRole) override;
 
   virtual
   QModelIndex
@@ -59,9 +63,9 @@ public:
   //
 
   QVariant
-  headerData(int             section,
+  headerData(int section,
              Qt::Orientation orientation,
-             int             role = Qt::DisplayRole) const override;
+             int role = Qt::DisplayRole) const override;
 
   Qt::ItemFlags
   flags(const QModelIndex& index) const override;
@@ -76,7 +80,7 @@ public slots:
   saveXml(QString fileName);
 
   void
-  setConnection(Database::Connections::Connection::Shared connection)
+  setConnection(Database::Connection::Shared connection)
   override;
 
   void
@@ -96,7 +100,7 @@ private:
 
   void
   updateCacheWithNewFamilyName(FamilyEntry* fe,
-                               QString      newFamilyName);
+                               QString newFamilyName);
 
   void
   reloadCurveTypes();
@@ -114,7 +118,7 @@ private:
   popEmptyFamilyEntry();
 
 private:
-  Database::Connections::Connection::Shared _connection;
+  Database::Connection::Shared _connection;
 
   std::vector<FamilyEntry*> _familyEntries;
 

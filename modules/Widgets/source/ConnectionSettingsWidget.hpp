@@ -4,8 +4,10 @@
 
 #include <Database/Connections/Connection>
 
-namespace Geo {
-namespace Widgets {
+namespace Geo
+{
+namespace Widgets
+{
 //
 
 class ConnectionSettingsWidget : public QWidget
@@ -21,8 +23,9 @@ public:
   setEditorWidget(QWidget* editorWidget) = 0;
 
 signals:
+
   virtual
-  void connectionChanged(Database::Connections::Connection::Shared) = 0;
+  void connectionChanged(Database::Connection::Shared) = 0;
 };
 
 //

@@ -64,10 +64,9 @@ setEditorData(QWidget* editor, const QModelIndex& index) const
 
   QComboBox* c = static_cast<QComboBox*>(editor);
 
-  c->addItem(Connections::Connection::connectionTypeName(Connections::
-                                                         DatabaseType::SQLite));
-  c->addItem(Connections::Connection::connectionTypeName(Connections::
-                                                         DatabaseType::MongoDB));
+  c->addItem(Connection::connectionTypeName(Connection::DatabaseType::SQLite));
+
+  c->addItem(Connection::connectionTypeName(Connection::DatabaseType::MongoDB));
 
   c->showPopup();
 }
@@ -84,10 +83,12 @@ setModelData(QWidget*            editor,
   if (!index.parent().isValid())
   {
     QComboBox* c = static_cast<QComboBox*>(editor);
-    ConnectionsEditorWidgetModel* m =
-      static_cast<ConnectionsEditorWidgetModel*>(model);
 
-    m->addConnection((Connections::DatabaseType)c->currentIndex());
+    ConnectionsEditorWidgetModel* m = static_cast<ConnectionsEditorWidgetModel*>(model);
+
+    Connection::DatabaseType databaseType = static_cast<Connection::DatabaseType>(c->currentIndex());
+
+    m->addConnection(databaseType);
   }
 }
 

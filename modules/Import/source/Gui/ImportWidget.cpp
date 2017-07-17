@@ -134,7 +134,7 @@ setModel(ImportTreeModel* importModel)
 {
   p->treeView->setModel(importModel);
 
-  using Geo::Database::Connections::ConnectionManager;
+  using Geo::Database::ConnectionManager;
 
   auto connectionManager =
     ComponentManager::create<ConnectionManager*>("Database.ConnectionManager");
@@ -175,7 +175,7 @@ void
 ImportWidget::
 onConnectionSelected(int index)
 {
-  using CM = Database::Connections::ConnectionManager;
+  using CM = Database::ConnectionManager;
 
   auto cm = ComponentManager::create<CM*>("Database.ConnectionManager");
 

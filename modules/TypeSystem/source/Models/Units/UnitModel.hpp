@@ -78,7 +78,7 @@ public slots:
   saveXml(QString fileName);
 
   void
-  setConnection(Database::Connections::Connection::Shared connection) override;
+  setConnection(Database::Connection::Shared connection) override;
 
   void
   onClicked(const QModelIndex& index);
@@ -107,7 +107,7 @@ private:
                              QString newName);
 
 private:
-  Database::Connections::Connection::Shared _connection;
+  Database::Connection::Shared _connection;
 
   std::unique_ptr<UnitTableEntry> _emptyUnitEntryStack;
 

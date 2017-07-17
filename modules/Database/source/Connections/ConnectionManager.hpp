@@ -9,9 +9,6 @@ namespace Geo
 {
 namespace Database
 {
-namespace Connections
-{
-//
 
 class Connection;
 
@@ -60,6 +57,5 @@ private slots:
   QString
   getDefaultConfigFile() const;
 };
-}
 }
 }

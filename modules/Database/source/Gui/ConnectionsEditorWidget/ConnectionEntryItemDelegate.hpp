@@ -4,10 +4,14 @@
 
 class QWidget;
 
-namespace Geo {
-namespace Database {
-namespace Gui {
-namespace ConnectionsEditorWidget {
+namespace Geo
+{
+namespace Database
+{
+namespace Gui
+{
+namespace ConnectionsEditorWidget
+{
 //
 
 class ConnectionEntryItemDelegate : public QStyledItemDelegate
@@ -35,6 +39,7 @@ public:
                const QModelIndex&  index) const override;
 
 private slots:
+
   void
   comboBoxActivated(int index);
 };

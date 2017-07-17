@@ -54,7 +54,7 @@ delegateWidget(int column) const
 
 void
 WellInfoBase::
-setConnection(Geo::Database::Connections::Connection::Shared connection)
+setConnection(Geo::Database::Connection::Shared connection)
 {
   TreeEntry::setConnection(connection);
 
@@ -66,6 +66,8 @@ bool
 WellInfoBase::
 setData(int role, int column, QVariant value)
 {
+  Q_UNUSED(role);
+
   bool result = false;
 
   switch (column)

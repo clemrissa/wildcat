@@ -8,12 +8,16 @@
 
 #include <vector>
 
-using Geo::Database::Connections::Connection;
+using Geo::Database::Connection;
 
-namespace Geo {
-namespace Database {
-namespace Models {
-namespace Traits {
+namespace Geo
+{
+namespace Database
+{
+namespace Models
+{
+namespace Traits
+{
 //
 
 class WellTraitEntry;
@@ -64,7 +68,7 @@ public:
 
 public slots:
   void
-  setConnection(Database::Connections::Connection::Shared connection) override;
+  setConnection(Database::Connection::Shared connection) override;
 
   void
   onClicked(const QModelIndex& index);
@@ -78,7 +82,7 @@ private:
 
 private:
   // database traits
-  Connections::Connection::Shared _connection;
+  Connection::Shared _connection;
 
   std::vector<WellTraitEntry*> _entries;
 };
