@@ -3,18 +3,23 @@
 #include <Connections/Connection.hpp>
 #include <Models/ConnectionsEditorWidgetModel/Entry.hpp>
 
-namespace Geo {
-namespace Database {
-namespace Models {
-namespace ConnectionsEditorWidgetModel {
-//
+namespace Geo
+{
+namespace Database
+{
+namespace Models
+{
 
-/// Class wraps Connection entity and provides information for
-/// table model
+/// Class wraps Connection entity and provides information for table model.
+
+/**
+ * If the internal _connection is empty then the Entry works as a drop-down
+ * list for adding new connections.
+ */
 class ConnectionEntry : public Entry
 {
 public:
-  enum Column
+  enum Column : int
   {
     Type        = 0,
     Database    = 1,
@@ -40,7 +45,6 @@ public:
   }
 
 private:
-  Connections::Connection::Shared _connection;
 
   QVariant
   getForegroundRole(int column);
@@ -53,8 +57,13 @@ private:
 
   QVariant
   getBackgroundRole(int column);
+
+private:
+
+  Connections::Connection::Shared _connection;
 };
-}
+
+//
 }
 }
 }

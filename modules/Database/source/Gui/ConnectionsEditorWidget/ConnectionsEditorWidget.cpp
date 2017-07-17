@@ -14,8 +14,7 @@
 
 using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionsEditorWidget;
 
-using Geo::Database::Models::ConnectionsEditorWidgetModel::
-      ConnectionsEditorWidgetModel;
+using Geo::Database::Models::ConnectionsEditorWidgetModel;
 
 struct ConnectionsEditorWidget::Private
 {
@@ -98,12 +97,12 @@ ConnectionsEditorWidget::
 connectSignals(ConnectionsEditorWidgetModel* treeModel)
 {
   // for deleting rows
-  connect(p->connectionsTable, SIGNAL(clicked(const QModelIndex &)),
-          treeModel,   SLOT(onClicked(const QModelIndex &)));
+  connect(p->connectionsTable, SIGNAL(clicked(const QModelIndex&)),
+          treeModel,   SLOT(onClicked(const QModelIndex&)));
 
   // for assgning connection to widget
-  connect(p->connectionsTable, SIGNAL(clicked(const QModelIndex &)),
-          this,        SLOT(onConnectionClicked(const QModelIndex &)));
+  connect(p->connectionsTable, SIGNAL(clicked(const QModelIndex&)),
+          this,        SLOT(onConnectionClicked(const QModelIndex&)));
 }
 
 
@@ -111,9 +110,10 @@ void
 ConnectionsEditorWidget::
 onConnectionClicked(const QModelIndex& index)
 {
-  using Geo::Database::Models::ConnectionsEditorWidgetModel::ConnectionEntry;
+  using Geo::Database::Models::ConnectionEntry;
 
-  if (!index.parent().isValid()) {
+  if (!index.parent().isValid())
+  {
     bool invalidRow =
       (index.row() == p->connectionsTable->model()->rowCount() - 1);
 
@@ -125,8 +125,9 @@ onConnectionClicked(const QModelIndex& index)
 
     p->stackedWidget->setCurrentIndex((int)type);
 
-    if (c && type != Connections::UnknownDB) {
-      QWidget* w =  p->stackedWidget->widget(type);
+    if (c && type != Connections::UnknownDB)
+    {
+      QWidget* w = p->stackedWidget->widget(type);
 
       Mixin::ConnectionAcceptor* cpw =
         dynamic_cast<Mixin::ConnectionAcceptor*>(w);

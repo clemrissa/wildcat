@@ -5,7 +5,7 @@
 #include <QtGui/QIcon>
 #include <QtGui/QPalette>
 
-using Geo::Database::Models::ConnectionsEditorWidgetModel::ConnectionEntry;
+using Geo::Database::Models::ConnectionEntry;
 
 QVariant
 ConnectionEntry::
@@ -44,7 +44,7 @@ getForegroundRole(int column)
 {
   switch (column)
   {
-    case Database:
+    case Column::Database:
 
       if (!_connection)
         return QColor(Qt::lightGray);
@@ -56,7 +56,7 @@ getForegroundRole(int column)
 
       break;
 
-    case CloseAction:
+    case Column::CloseAction:
       return QVariant();
       break;
   }
@@ -71,14 +71,14 @@ getDisplayRole(int column)
 {
   switch (column)
   {
-    case Type:
+    case Column::Type:
 
       if (_connection)
         return _connection->connectionTypeName(_connection->databaseType());
 
       break;
 
-    case Database:
+    case Column::Database:
 
       if (!_connection)
         return QString("Select DB type to add a connection");
@@ -87,7 +87,7 @@ getDisplayRole(int column)
 
       break;
 
-    case CloseAction:
+    case Column::CloseAction:
       return QVariant();
       break;
   }
@@ -102,11 +102,11 @@ getDecorationRole(int column)
 {
   switch (column)
   {
-    case Database:
+    case Column::Database:
       return QVariant();
       break;
 
-    case CloseAction:
+    case Column::CloseAction:
 
       if (_connection)
         return QIcon(":/delete.png");

@@ -6,15 +6,17 @@
 
 #include <Connections/Connection.hpp>
 
-namespace Geo {
-namespace Database {
-namespace Connections {
+namespace Geo
+{
+namespace Database
+{
+namespace Connections
+{
 class ConnectionManager;
 }
 
-namespace Models {
-namespace ConnectionsEditorWidgetModel {
-//
+namespace Models
+{
 
 class Entry;
 
@@ -67,6 +69,7 @@ public:
   flags(const QModelIndex& index) const override;
 
 public slots:
+
   void
   addConnection(Connections::DatabaseType databaseType);
 
@@ -81,7 +84,8 @@ private:
   int
   getEntryPosition(Entry* entry) const;
 };
-}
+
+//
 }
 }
 }

@@ -52,36 +52,37 @@ createDatabaseToolBar()
 }
 
 
-QList<QAction*>
+std::vector<QAction*>
 DatabaseUiFactory::
 createActionList() const
 {
   using Geo::Core::MainWindow;
 
-  MainWindow* mainWindow =
-    ComponentManager::create<MainWindow*>("Core.MainWindow");
+  MainWindow* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
-  DatabaseController* in = DatabaseController::instance();
+  DatabaseController& in = DatabaseController::instance();
 
-  QList<QAction*> actionList;
-
-  // ---------------
-
-  QAction* action = new QAction(QIcon(), QString("Connections"), mainWindow);
-
-  connect(action, &QAction::triggered,
-          in, &DatabaseController::showConnectionsWidget);
-
-  actionList.append(action);
+  std::vector<QAction*> actionList;
 
   // ---------------
 
-  action = new QAction(QIcon(), tr("Well Traits"), mainWindow);
+  {
+    QAction* action = new QAction(QIcon(), QString("Connections"), mainWindow);
 
-  connect(action, &QAction::triggered,
-          in, &DatabaseController::showSettingsWidget);
+    connect(action, &QAction::triggered,
+            &in, &DatabaseController::showConnectionsWidget);
 
-  actionList.append(action);
+    actionList.push_back(action);
+  }
+
+  {
+    QAction* action = new QAction(QIcon(), tr("Well Traits"), mainWindow);
+
+    connect(action, &QAction::triggered,
+            &in, &DatabaseController::showSettingsWidget);
+
+    actionList.push_back(action);
+  }
 
   // ---------------
 

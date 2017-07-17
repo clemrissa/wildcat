@@ -62,23 +62,39 @@ LAS format
 ```
 
 LAS Import
-==========
+===================================================================================================
 
-Importing the LAS data is a complex process despite the apparent simplicity of the LAS format.
+Importing the LAS data is a complex process despite the apparent simplicity of the file format.
 
 ## Parsing
 
-The parsing is trivial. It is enought to verify the completness of the LAS file.
+The parsing comprises:
+ - Finding all sections of the LAS file
+ - Finding all fields in each section
+ - Splitting the fields into name-value-unit structures
+
+The pasing is built with using regular expressions.
+
+## Codepages
+
+LAS files can potentially use different ASCII-compatible codepages. For example, in Russia the code page CP-866 and WIN-1251 are popular.
+
 
 ## Data Validation and Mapping
+
+- Mandatory LAS-sections must not be empty.
+
+- Mandatory fields must not be empty.
 
 - Error correction (typos, number formats, date field recognition)
 
 - Units of measurement mapping
-  Unit must be recognized and matched with available in database.
+  Unit must be recognized and matched with those in database.
 
-- Mandatory fields must not be empty.
+- Data arrays must be consistent.
 
-- Mandatory fields must be 
+## Field classification
+
+Required fields:
 
 

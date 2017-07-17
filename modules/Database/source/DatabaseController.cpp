@@ -13,16 +13,17 @@
 
 #include <Widgets/ConnectionSettingsWidget>
 
-namespace Geo {
-namespace  Database {
+namespace Geo
+{
+namespace  Database
+{
 DatabaseController* DatabaseController::_instance = nullptr;
 
-DatabaseController*
+DatabaseController &
 DatabaseController::
 instance()
 {
-  if (!_instance)
-    _instance = new DatabaseController();
+  static DatabaseController _instance;
 
   return _instance;
 }
@@ -48,8 +49,7 @@ showConnectionsWidget()
 {
   using Geo::Core::MainWindow;
   using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionsEditorWidget;
-  using Model = Geo::Database::Models::ConnectionsEditorWidgetModel::
-                ConnectionsEditorWidgetModel;
+  using Model = Geo::Database::Models::ConnectionsEditorWidgetModel;
 
   MainWindow* mainWindow =
     ComponentManager::create<MainWindow*>("Core.MainWindow");
@@ -57,8 +57,7 @@ showConnectionsWidget()
   // TODO remove model
   auto databaseConnectionsTreeModel = new Model();
 
-  auto databaseConnectionsWidget = new ConnectionsEditorWidget(
-    databaseConnectionsTreeModel);
+  auto databaseConnectionsWidget = new ConnectionsEditorWidget(databaseConnectionsTreeModel);
 
   mainWindow->toCentralWidget(databaseConnectionsWidget);
 }

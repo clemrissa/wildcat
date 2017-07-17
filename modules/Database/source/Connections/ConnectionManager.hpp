@@ -5,9 +5,12 @@
 
 #include <QtCore/QObject>
 
-namespace Geo {
-namespace Database {
-namespace Connections {
+namespace Geo
+{
+namespace Database
+{
+namespace Connections
+{
 //
 
 class Connection;

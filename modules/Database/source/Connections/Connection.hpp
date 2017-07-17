@@ -12,7 +12,7 @@ namespace Database {
 namespace Connections {
 //
 
-enum DatabaseType { UnknownDB, SQLite, MySql };
+enum DatabaseType { UnknownDB, SQLite, MongoDB };
 
 enum Status { Unknown, Connected, Failed };
 

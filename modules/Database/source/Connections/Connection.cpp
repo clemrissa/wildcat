@@ -17,8 +17,8 @@ connectionTypeName(DatabaseType type)
       return tr("SQLite");
       break;
 
-    case DatabaseType::MySql:
-      return tr("MySQL");
+    case DatabaseType::MongoDB:
+      return tr("MongoDB");
       break;
 
     default:

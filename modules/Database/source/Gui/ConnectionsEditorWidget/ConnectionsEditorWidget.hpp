@@ -1,18 +1,20 @@
-#ifndef Geo_Database_ConnectionsEditorWidget_hpp
-#define Geo_Database_ConnectionsEditorWidget_hpp
+#pragma once
 
 #include <QWidget>
 
-namespace Geo {
-namespace Database {
-namespace Models {
-namespace ConnectionsEditorWidgetModel {
+namespace Geo
+{
+namespace Database
+{
+namespace Models
+{
 class ConnectionsEditorWidgetModel;
 }
-}
 
-namespace Gui {
-namespace ConnectionsEditorWidget {
+namespace Gui
+{
+namespace ConnectionsEditorWidget
+{
 //
 
 // Shows dialog for editing connections
@@ -21,7 +23,7 @@ class ConnectionsEditorWidget : public QWidget
   Q_OBJECT
 
 public:
-  ConnectionsEditorWidget(Models::ConnectionsEditorWidgetModel::ConnectionsEditorWidgetModel* treeModel);
+  ConnectionsEditorWidget(Models::ConnectionsEditorWidgetModel* treeModel);
 
   ~ConnectionsEditorWidget();
 
@@ -31,12 +33,10 @@ public slots:
 
 private:
   void
-  setupUi(
-    Models::ConnectionsEditorWidgetModel::ConnectionsEditorWidgetModel* treeModel);
+  setupUi(Models::ConnectionsEditorWidgetModel* treeModel);
 
   void
-  connectSignals(
-    Models::ConnectionsEditorWidgetModel::ConnectionsEditorWidgetModel* treeModel);
+  connectSignals(Models::ConnectionsEditorWidgetModel* treeModel);
 
 private:
   struct Private;
@@ -49,5 +49,3 @@ private:
 }
 }
 }
-
-#endif //  Geo_Database_ConnectionsEditorWidget_hpp

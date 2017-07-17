@@ -20,15 +20,16 @@ createEditor(QWidget*                    parent,
 {
   Q_UNUSED(option);
 
-  using Geo::Database::Models::ConnectionsEditorWidgetModel::ConnectionEntry;
+  using Geo::Database::Models::ConnectionEntry;
 
   if (index.parent().isValid())
-    return 0;
+    return nullptr;
 
   ConnectionEntry* connection =
     static_cast<ConnectionEntry*>(index.internalPointer());
 
-  if (connection) {
+  if (connection)
+  {
     QComboBox* cb = new QComboBox(parent);
 
     connect(cb,
@@ -39,7 +40,7 @@ createEditor(QWidget*                    parent,
     return cb;
   }
 
-  return 0;
+  return nullptr;
 }
 
 
@@ -64,9 +65,9 @@ setEditorData(QWidget* editor, const QModelIndex& index) const
   QComboBox* c = static_cast<QComboBox*>(editor);
 
   c->addItem(Connections::Connection::connectionTypeName(Connections::
-                                                         DatabaseType::MySql));
-  c->addItem(Connections::Connection::connectionTypeName(Connections::
                                                          DatabaseType::SQLite));
+  c->addItem(Connections::Connection::connectionTypeName(Connections::
+                                                         DatabaseType::MongoDB));
 
   c->showPopup();
 }
@@ -78,11 +79,11 @@ setModelData(QWidget*            editor,
              QAbstractItemModel* model,
              const QModelIndex&  index) const
 {
-  using Geo::Database::Models::ConnectionsEditorWidgetModel::
-        ConnectionsEditorWidgetModel;
+  using Geo::Database::Models::ConnectionsEditorWidgetModel;
 
-  if (!index.parent().isValid()) {
-    QComboBox*                    c = static_cast<QComboBox*>(editor);
+  if (!index.parent().isValid())
+  {
+    QComboBox* c = static_cast<QComboBox*>(editor);
     ConnectionsEditorWidgetModel* m =
       static_cast<ConnectionsEditorWidgetModel*>(model);
 

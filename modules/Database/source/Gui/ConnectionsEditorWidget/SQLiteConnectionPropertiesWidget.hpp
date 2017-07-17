@@ -1,18 +1,19 @@
-#ifndef Geo_Database_SQLiteConnectionPropertiesWidget_hpp
-#define Geo_Database_SQLiteConnectionPropertiesWidget_hpp
+#pragma once
 
 #include <Mixin/ConnectionAcceptor.hpp>
 
 #include <Connections/SQLiteConnection.hpp>
 
-namespace Geo {
-namespace Database {
-namespace Gui {
-//
+namespace Geo
+{
+namespace Database
+{
+namespace Gui
+{
 
-class SQLiteConnectionPropertiesWidget:
-  public QWidget,
-  public Mixin::ConnectionAcceptor
+class SQLiteConnectionPropertiesWidget
+  : public QWidget
+  , public Mixin::ConnectionAcceptor
 {
   Q_OBJECT
 
@@ -47,5 +48,3 @@ private:
 }
 }
 }
-
-#endif // Geo_Database_SQLiteConnectionPropertiesWidget_hpp

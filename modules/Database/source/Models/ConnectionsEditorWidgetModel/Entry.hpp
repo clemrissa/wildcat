@@ -1,21 +1,22 @@
-#ifndef Geo_Database_Connections_ConnectionsEditorWidgetModel_Entry_hpp
-#define Geo_Database_Connections_ConnectionsEditorWidgetModel_Entry_hpp
+#pragma once
 
 #include <QVariant>
 
 #include <algorithm>
 #include <vector>
 
-namespace Geo {
-namespace Database {
-namespace Models {
-namespace ConnectionsEditorWidgetModel {
+namespace Geo
+{
+namespace Database
+{
+namespace Models
+{
 //
 
-class Entry: public QObject
+class Entry : public QObject
 {
 public:
-  Entry(Entry* parent = nullptr):
+  Entry(Entry* parent = nullptr) :
     _parent(parent)
   {
     //
@@ -52,12 +53,13 @@ public:
   data(int role, int column) = 0;
 
 protected:
+
   Entry* _parent;
 
   std::vector<Entry*> _entries;
 };
+
+//
 }
 }
 }
-}
-#endif // Geo_Database_Connections_ConnectionsEditorWidgetModel_Entry_hpp

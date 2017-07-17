@@ -10,10 +10,9 @@
 #include <algorithm>
 
 using Geo::Database::Connections::ConnectionManager;
-using Geo::Database::Models::ConnectionsEditorWidgetModel::ConnectionEntry;
-using Geo::Database::Models::ConnectionsEditorWidgetModel::
-      ConnectionsEditorWidgetModel;
-using Geo::Database::Models::ConnectionsEditorWidgetModel::Entry;
+using Geo::Database::Models::ConnectionEntry;
+using Geo::Database::Models::ConnectionsEditorWidgetModel;
+using Geo::Database::Models::Entry;
 
 ConnectionsEditorWidgetModel::
 ConnectionsEditorWidgetModel()
@@ -40,8 +39,9 @@ QVariant
 ConnectionsEditorWidgetModel::
 data(const QModelIndex& index, int role) const
 {
-  Entry* entry =
-    static_cast<Entry*>(index.internalPointer());
+  Q_UNUSED(role);
+
+  Entry* entry = static_cast<Entry*>(index.internalPointer());
 
   return entry->data(role, index.column());
 }
@@ -51,6 +51,8 @@ QModelIndex
 ConnectionsEditorWidgetModel::
 index(int row, int column, const QModelIndex& parent) const
 {
+  Q_UNUSED(parent);
+
   return QAbstractItemModel::createIndex(row, column, _entries[row]);
 }
 
@@ -79,6 +81,8 @@ int
 ConnectionsEditorWidgetModel::
 rowCount(const QModelIndex& parent) const
 {
+  Q_UNUSED(parent);
+
   return _connectionsManager->size() + 1;
 }
 
@@ -145,6 +149,8 @@ void
 ConnectionsEditorWidgetModel::
 addConnection(Connections::DatabaseType databaseType)
 {
+  Q_UNUSED(databaseType);
+
   int size = _connectionsManager->size();
 
   beginInsertRows(QModelIndex(), size, size);
@@ -156,8 +162,8 @@ addConnection(Connections::DatabaseType databaseType)
   // case DatabaseType::SQLite:
   // break;
   // }
-  _entries.insert(size,
-                  new ConnectionEntry(_connectionsManager->operator[](size)));
+
+  _entries.insert(size, new ConnectionEntry(_connectionsManager->operator[](size)));
 
   endInsertRows();
 }

@@ -1,16 +1,17 @@
-#ifndef Geo_Database_DatabaseController_hpp
-#define Geo_Database_DatabaseController_hpp
+#pragma once
 
 #include <QObject>
 
-namespace Geo {
-namespace  Database {
-class DatabaseController: public QObject
+namespace Geo
+{
+namespace  Database
+{
+class DatabaseController : public QObject
 {
   Q_OBJECT
 
 public:
-  static DatabaseController*
+  static DatabaseController &
   instance();
 
   virtual
@@ -31,5 +32,3 @@ private:
 };
 }
 }
-
-#endif //  Geo_Database_DatabaseController_hpp
