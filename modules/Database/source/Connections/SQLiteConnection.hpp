@@ -1,18 +1,20 @@
 #pragma once
 
-#include "Connection.hpp"
+#include "IConnection.hpp"
 
 #include <memory>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
+#include <Database/Connections/DatabaseType>
+
 namespace Geo
 {
 namespace Database
 {
 
-class SQLiteConnection : public Connection
+class SQLiteConnection : public IConnection
 {
   Q_OBJECT
 
@@ -39,6 +41,9 @@ public:
   textDescription() const override;
 
   QString const
+  textType() const override;
+
+  QString const
   databasePath() const override;
 
   QDomElement
@@ -50,14 +55,16 @@ public:
   QString const&
   lastError() const override;
 
-  Connection::DatabaseType const&
+  DatabaseType const&
   databaseType() const override;
 
 public:
+
   Q_INVOKABLE void
   connect() override;
 
 signals:
+
   void
   databaseTypeChanged(DatabaseType const& databaseType);
 
@@ -71,33 +78,23 @@ signals:
   lastErrorChanged(QString const& lastError);
 
 protected:
-  void
-  setLastError(QString const& lastError)
-  {
-    _lastError = lastError;
-    emit lastErrorChanged(lastError);
-  }
 
   void
-  setStatus(Status const& status)
-  {
-    _status = status;
-    emit statusChanged(status);
-  }
+  setLastError(QString const& lastError);
 
   void
-  setDatabaseType(Connection::DatabaseType const& databaseType)
-  {
-    _databaseType = databaseType;
-    emit databaseTypeChanged(_databaseType);
-  }
+  setStatus(Status const& status);
+
+  void
+  setDatabaseType(DatabaseType databaseType);
 
 private:
+
   QString _lastError;
 
-  Connection::DatabaseType _databaseType;
+  DatabaseType _databaseType;
 
-  Connection::Status _status;
+  IConnection::Status _status;
 
   QString _database;
 };

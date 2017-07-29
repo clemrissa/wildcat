@@ -6,15 +6,16 @@
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableView>
 
-#include <Gui/ConnectionsEditorWidget/ConnectionEntryItemDelegate.hpp>
-#include <Gui/ConnectionsEditorWidget/SQLiteConnectionPropertiesWidget.hpp>
+#include "ConnectionEntryItemDelegate.hpp"
 
-#include <Models/ConnectionsEditorWidgetModel/ConnectionEntry.hpp>
-#include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
+#include "SQLiteConnectionPropertiesWidget.hpp"
+
+#include "ConnectionEntry.hpp"
+#include "ConnectionsEditorWidgetModel.hpp"
 
 using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionsEditorWidget;
 
-using Geo::Database::Models::ConnectionsEditorWidgetModel;
+using Geo::Database::Gui::ConnectionsEditorWidgetModel;
 
 struct ConnectionsEditorWidget::Private
 {
@@ -33,10 +34,7 @@ ConnectionsEditorWidget(ConnectionsEditorWidgetModel* treeModel)
 
 ConnectionsEditorWidget::
 ~ConnectionsEditorWidget()
-{
-  delete p;
-}
-
+{}
 
 void
 ConnectionsEditorWidget::
@@ -81,10 +79,13 @@ setupUi(ConnectionsEditorWidgetModel* treeModel)
 
   label->setAlignment(Qt::AlignCenter);
 
-  p->stackedWidget->insertWidget((int)Connection::DatabaseType::UnknownDB,
+  p->stackedWidget->insertWidget((int)DatabaseType::UnknownDB,
                                  label);
 
-  p->stackedWidget->insertWidget((int)Connection::DatabaseType::SQLite,
+  p->stackedWidget->insertWidget((int)DatabaseType::SQLite,
+                                 new SQLiteConnectionPropertiesWidget);
+
+  p->stackedWidget->insertWidget((int)DatabaseType::MongoDB,
                                  new SQLiteConnectionPropertiesWidget);
 
   QHBoxLayout* l = new QHBoxLayout();
@@ -114,7 +115,7 @@ void
 ConnectionsEditorWidget::
 onConnectionClicked(const QModelIndex& index)
 {
-  using Geo::Database::Models::ConnectionEntry;
+  using Geo::Database::Gui::ConnectionEntry;
 
   if (!index.parent().isValid())
   {
@@ -124,14 +125,14 @@ onConnectionClicked(const QModelIndex& index)
     ConnectionEntry* c = invalidRow ? nullptr : static_cast<ConnectionEntry*>(
       index.internalPointer());
 
-    Connection::DatabaseType type =
-      c ? c->connection()->databaseType() : Connection::DatabaseType::UnknownDB;
+    DatabaseType type =
+      c ? c->connection()->databaseType() : DatabaseType::UnknownDB;
 
-    p->stackedWidget->setCurrentIndex((int)type);
+    p->stackedWidget->setCurrentIndex(static_cast<int>(type));
 
-    if (c && type != Connection::DatabaseType::UnknownDB)
+    if (c && type != DatabaseType::UnknownDB)
     {
-      QWidget* w = p->stackedWidget->widget(type);
+      QWidget* w = p->stackedWidget->widget(static_cast<int>(type));
 
       Mixin::ConnectionAcceptor* cpw =
         dynamic_cast<Mixin::ConnectionAcceptor*>(w);

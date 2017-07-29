@@ -1,19 +1,22 @@
 #pragma once
 
 #include <Database/Mixin/ConnectionAcceptor>
-#include <QWidget>
+
+#include <QtWidgets/QWidget>
 
 namespace Geo
 {
+
+using Database::IConnection;
+
 namespace TypeSystem
 {
 namespace Gui
 {
 //
 
-class UnitWidget :
-  public QWidget,
-  public Database::Mixin::ConnectionAcceptor
+class UnitWidget
+  : public QWidget
 {
   Q_OBJECT
 
@@ -34,8 +37,9 @@ private slots:
   onSaveXmlClicked();
 
 public slots:
+
   void
-  setConnection(Database::Connection::Shared connection) override;
+  setConnection(std::shared_ptr<Database::IConnection> connection);
 
 signals:
   void notifyMainWindow(QString);

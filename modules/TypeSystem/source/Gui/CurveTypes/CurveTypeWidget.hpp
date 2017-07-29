@@ -1,16 +1,22 @@
 #pragma once
 
-#include <Database/Mixin/ConnectionAcceptor>
-#include <QWidget>
+#include <QtWidgets/QWidget>
 
-namespace Geo {
-namespace TypeSystem {
-namespace Gui {
+#include <Database/Mixin/ConnectionAcceptor>
+
+namespace Geo
+{
+
+using Database::IConnection;
+
+namespace TypeSystem
+{
+namespace Gui
+{
 //
 
-class CurveTypeWidget :
-  public QWidget,
-  public Database::Mixin::ConnectionAcceptor
+class CurveTypeWidget
+  : public QWidget
 {
   Q_OBJECT
 
@@ -21,8 +27,9 @@ public:
   ~CurveTypeWidget();
 
 public slots:
+
   void
-  setConnection(Database::Connection::Shared connection) override;
+  setConnection(std::shared_ptr<Database::IConnection> connection);
 
 private slots:
   void

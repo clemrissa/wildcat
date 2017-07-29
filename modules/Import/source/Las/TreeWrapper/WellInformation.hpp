@@ -3,13 +3,16 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLineEdit>
 
-#include <Database/Connections/Connection>
+#include <Database/Connections/IConnection>
 #include <Domain/WellTrait>
 
 #include "TreeEntry.hpp"
 
 namespace Geo
 {
+
+using Database::IConnection;
+
 namespace Domain
 {
 class WellTrait;
@@ -31,7 +34,7 @@ public:
   delegateWidget(int column) const override;
 
   void
-  setConnection(Geo::Database::Connection::Shared connection);
+  setConnection(std::shared_ptr<IConnection> connection);
 
   bool
   setData(int role, int column, QVariant value) override;

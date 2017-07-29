@@ -5,10 +5,11 @@
 #include <QModelIndex>
 #include <QWidget>
 
-#include <Models/ConnectionsEditorWidgetModel/ConnectionEntry.hpp>
-#include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
+#include "ConnectionEntry.hpp"
+#include "ConnectionsEditorWidgetModel.hpp"
 
-#include <Connections/Connection.hpp>
+#include "Connections/IConnection.hpp"
+#include "Connections/ConnectionUtils.hpp"
 
 using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionEntryItemDelegate;
 
@@ -20,7 +21,7 @@ createEditor(QWidget*                    parent,
 {
   Q_UNUSED(option);
 
-  using Geo::Database::Models::ConnectionEntry;
+  using Geo::Database::Gui::ConnectionEntry;
 
   if (index.parent().isValid())
     return nullptr;
@@ -64,9 +65,9 @@ setEditorData(QWidget* editor, const QModelIndex& index) const
 
   QComboBox* c = static_cast<QComboBox*>(editor);
 
-  c->addItem(Connection::connectionTypeName(Connection::DatabaseType::SQLite));
+  c->addItem(ConnectionUtils::connectionTypeName(DatabaseType::SQLite));
 
-  c->addItem(Connection::connectionTypeName(Connection::DatabaseType::MongoDB));
+  c->addItem(ConnectionUtils::connectionTypeName(DatabaseType::MongoDB));
 
   c->showPopup();
 }
@@ -78,7 +79,7 @@ setModelData(QWidget*            editor,
              QAbstractItemModel* model,
              const QModelIndex&  index) const
 {
-  using Geo::Database::Models::ConnectionsEditorWidgetModel;
+  using Geo::Database::Gui::ConnectionsEditorWidgetModel;
 
   if (!index.parent().isValid())
   {
@@ -86,7 +87,7 @@ setModelData(QWidget*            editor,
 
     ConnectionsEditorWidgetModel* m = static_cast<ConnectionsEditorWidgetModel*>(model);
 
-    Connection::DatabaseType databaseType = static_cast<Connection::DatabaseType>(c->currentIndex());
+    DatabaseType databaseType = static_cast<DatabaseType>(c->currentIndex());
 
     m->addConnection(databaseType);
   }

@@ -2,7 +2,7 @@
 
 #include <QtWidgets/QWidget>
 
-#include <Database/Connections/Connection>
+#include <Database/Connections/IConnection>
 
 namespace Geo
 {
@@ -10,20 +10,18 @@ namespace Database
 {
 namespace Mixin
 {
-//
 
 // some widget which takes Connection to process
 class ConnectionAcceptor
 {
 public:
   virtual
-  ~ConnectionAcceptor()
-  {}
+  ~ConnectionAcceptor() = default;
 
 public slots:
 
   virtual void
-  setConnection(Connection::Shared connection) = 0;
+  setConnection(std::shared_ptr<IConnection> connection) = 0;
 };
 
 //

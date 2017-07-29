@@ -2,10 +2,15 @@
 
 #include <QtCore/QVariant>
 
-#include <Database/Connections/Connection>
+#include <Database/Connections/IConnection>
 
-namespace Geo {
-namespace Models {
+namespace Geo
+{
+
+using Database::IConnection;
+
+namespace Models
+{
 
 class ConnectionEntry
 {
@@ -18,7 +23,7 @@ public:
   };
 
 public:
-  ConnectionEntry(Database::Connection::Shared connection)
+  ConnectionEntry(std::shared_ptr<IConnection> connection)
     : _connection(connection)
   {}
 
@@ -28,14 +33,14 @@ public:
   QVariant
   data();
 
-  Database::Connection::Shared
+  std::shared_ptr<IConnection>
   connection()
   {
     return _connection;
   }
 
 private:
-  Database::Connection::Shared _connection;
+  std::shared_ptr<IConnection> _connection;
 
   QVariant
   getDisplayRole();

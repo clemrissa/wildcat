@@ -12,8 +12,12 @@
 #include <odb/sqlite/exceptions.hxx>
 #include <odb/sqlite/transaction.hxx>
 
-using Geo::Database::Connection;
-using Geo::Database::SQLiteConnection;
+#include "ConnectionUtils.hpp"
+
+namespace Geo
+{
+namespace Database
+{
 
 SQLiteConnection::
 SQLiteConnection()
@@ -69,7 +73,7 @@ setDatabase(QString const& database)
 }
 
 
-Connection::Status const&
+IConnection::Status const&
 SQLiteConnection::
 status() const
 {
@@ -85,7 +89,7 @@ lastError() const
 }
 
 
-Connection::DatabaseType const&
+DatabaseType const&
 SQLiteConnection::
 databaseType() const
 {
@@ -97,9 +101,17 @@ QString const
 SQLiteConnection::
 textDescription() const
 {
-  return Connection::connectionTypeName(_databaseType) +
+  return ConnectionUtils::connectionTypeName(_databaseType) +
          ": " +
          databasePath();
+}
+
+
+QString const
+SQLiteConnection::
+textType() const
+{
+  return ConnectionUtils::connectionTypeName(_databaseType);
 }
 
 
@@ -118,7 +130,7 @@ xmlDescription(QDomDocument& doc) const
   QDomElement tag = doc.createElement("Connection");
 
   tag.setAttribute("Type",
-                   Connection::connectionTypeName(DatabaseType::SQLite));
+                   ConnectionUtils::connectionTypeName(DatabaseType::SQLite));
 
   QDomElement e = doc.createElement("Path");
   tag.appendChild(e);
@@ -183,4 +195,36 @@ connect()
 
     _dataAccessFactory->afterDBConnected();
   }
+}
+
+
+void
+SQLiteConnection::
+setLastError(QString const& lastError)
+{
+  _lastError = lastError;
+  emit lastErrorChanged(lastError);
+}
+
+
+void
+SQLiteConnection::
+setStatus(Status const& status)
+{
+  _status = status;
+  emit statusChanged(status);
+}
+
+
+void
+SQLiteConnection::
+setDatabaseType(DatabaseType databaseType)
+{
+  _databaseType = databaseType;
+  emit databaseTypeChanged(_databaseType);
+}
+
+
+//
+}
 }

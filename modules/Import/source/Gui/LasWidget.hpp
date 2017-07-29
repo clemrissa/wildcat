@@ -4,13 +4,19 @@
 
 #include <Database/Mixin/ConnectionAcceptor>
 
-namespace Geo {
-namespace Import {
+namespace Geo
+{
+
+using Database::IConnection;
+
+namespace Import
+{
 //
 
 class ImportTreeModel;
 
-namespace Gui {
+namespace Gui
+{
 //
 
 class LasWidget
@@ -30,7 +36,7 @@ public:
   setModel(ImportTreeModel* importModel);
 
   void
-  setConnection(Database::Connection::Shared connection) override;
+  setConnection(std::shared_ptr<IConnection> connection) override;
 
 private slots:
   void

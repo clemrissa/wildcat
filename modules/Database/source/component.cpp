@@ -1,6 +1,6 @@
 #include <ComponentManager/ComponentRegistry>
 
-#include "Export.hpp"
+#include "DatabaseExport.hpp"
 
 #include <QtWidgets/QMenu>
 

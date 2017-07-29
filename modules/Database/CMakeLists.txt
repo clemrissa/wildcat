@@ -14,13 +14,11 @@ set(TARGET_NAME ${PROJECT_NAME})
 
 file(GLOB_RECURSE CPP_FILES source/*.cpp)
 
-#file(GLOB_RECURSE CPP_TEST_FILES tests/*.cpp)
 file(GLOB_RECURSE RESOURCES resource/*.qrc)
 
 qt5_add_resources(RESOURCE_SOURCES ${RESOURCES})
 
 add_library(${TARGET_NAME} SHARED ${CPP_FILES}
-  #${CPP_TEST_FILES} 
   ${RESOURCE_SOURCES}
   )
 

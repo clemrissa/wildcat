@@ -2,13 +2,19 @@
 
 #include <QtCore/QAbstractItemModel>
 
-#include <Database/Connections/Connection>
+#include <Database/Connections/IConnection>
 
 #include "Las/LasFile.hpp"
 
-namespace Geo {
-namespace Import {
-namespace TreeWrapper {
+namespace Geo
+{
+
+using Database::IConnection;
+
+namespace Import
+{
+namespace TreeWrapper
+{
 class TreeEntry;
 class LasFileEntry;
 }
@@ -25,7 +31,7 @@ public:
   getLasFileEntries() const;
 
   void
-  setConnection(Geo::Database::Connection::Shared connection);
+  setConnection(std::shared_ptr<IConnection> connection);
 
 public:
   virtual
@@ -67,7 +73,7 @@ private:
   std::vector<TreeWrapper::LasFileEntry*> _lasFileEntries;
   std::vector<LasFile::Shared> _lasFiles;
 
-  Geo::Database::Connection::Shared _connection;
+  std::shared_ptr<IConnection> _connection;
 
   int
   getEntryPosition(TreeWrapper::TreeEntry* const entry) const;

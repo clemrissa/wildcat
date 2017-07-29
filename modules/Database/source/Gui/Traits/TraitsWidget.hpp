@@ -18,7 +18,6 @@ namespace Traits
 
 class TraitsWidget
   : public QWidget
-  , public Mixin::ConnectionAcceptor
 {
   Q_OBJECT
 
@@ -31,7 +30,7 @@ public:
 public slots:
 
   void
-  setConnection(Database::Connection::Shared connection) override;
+  setConnection(std::shared_ptr<Database::IConnection> connection);
 
 private:
   void

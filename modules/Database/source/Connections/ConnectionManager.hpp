@@ -3,16 +3,31 @@
 #include <memory>
 #include <vector>
 
-#include <QtCore/QObject>
+#include <Database/Connections/DatabaseType>
+#include <Database/Connections/IConnection>
+#include <Database/Connections/IConnectionManager>
+
+#include <DatabaseExport.hpp>
 
 namespace Geo
 {
 namespace Database
 {
 
-class Connection;
+class IConnection;
 
-class ConnectionManager : public QObject
+/// The class stores a list of connections
+/**
+   The class is created as a singleton in terms of ComponentManager.
+   The instance could be accessed as follows:
+
+   @code{.cpp}
+     auto connectionsManager =
+       ComponentManager::create<ConnectionManager*>("Database.ConnectionManager");
+   @endcode
+ */
+class Database_PUBLIC ConnectionManager
+  : public IConnectionManager
 {
   Q_OBJECT
 
@@ -20,34 +35,26 @@ public:
   Q_INVOKABLE
   ConnectionManager();
 
-  int
-  size() { return _connections.size(); }
+  std::size_t
+  size() const override;
 
-  std::shared_ptr<Connection>
-  at(const int i) const { return _connections[i]; }
+  std::shared_ptr<IConnection>
+  operator[](std::size_t i) const override;
 
-  std::shared_ptr<Connection>
-  operator[](const int i) const { return _connections[i]; }
-
-  std::shared_ptr<Connection>
-  createConnection();
+  std::shared_ptr<IConnection>
+  createConnection(DatabaseType databaseType) override;
 
   void
-  appendConnection(std::shared_ptr<Connection> c);
+  appendConnection(std::shared_ptr<IConnection> c) override;
 
   void
-  removeConnection(int i);
+  removeConnection(std::size_t i) override;
 
-  std::vector<std::shared_ptr<Connection> > const &
-  connections() const
-  {
-    return _connections;
-  }
-
-private:
-  std::vector<std::shared_ptr<Connection> > _connections;
+  std::vector<std::shared_ptr<IConnection> > const &
+  connections() const override;
 
 private slots:
+
   void
   loadFromXml();
 
@@ -56,6 +63,10 @@ private slots:
 
   QString
   getDefaultConfigFile() const;
+
+private:
+
+  std::vector<std::shared_ptr<IConnection> > _connections;
 };
 }
 }

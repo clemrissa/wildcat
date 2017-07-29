@@ -1,38 +1,62 @@
-#ifndef Geo_Widgets_KeywordWidget_hpp
-#define Geo_Widgets_KeywordWidget_hpp
+#pragma once
 
 #include <QtCore/QStringList>
 #include <QtWidgets/QWidget>
 
+#include "IKeywordWidget.hpp"
+
+#include "FlowLayout.hpp"
+
 class QLineEdit;
 
-namespace Geo {
-namespace Widgets {
+namespace Geo
+{
+namespace Widgets
+{
 //
 
-class KeywordWidget: public QWidget
+class KeywordWidget : public Geo::Widgets::IKeywordWidget
 {
-  //Q_OBJECT
+  Q_OBJECT
+
 public:
-  virtual
-  ~KeywordWidget() {}
+  Q_INVOKABLE
+  KeywordWidget(QWidget* parent = nullptr);
 
-  virtual void
-  setKeywords(QStringList keywordList) = 0;
+  void
+  setKeywords(QStringList keywordList) override;
 
-  virtual QStringList
-  keywords() const = 0;
+  QStringList
+  keywords() const override;
+
+protected:
+  bool
+  eventFilter(QObject* obj, QEvent* event) override;
+
+private:
+  void
+  connectSignals() const;
+
+  void
+  addKeyword(QString keyword);
 
 signals:
-  virtual void
-  keywordAdded() = 0;
+
+  void
+  keywordAdded() override;
 
 private slots:
-  virtual void
-  onTextChanged(QString const& text) =  0;
+  void
+  onTextChanged(QString const& text) override;
+
+private:
+  QStringList _keywords;
+
+  QLineEdit* _lineEdit;
+
+  FlowLayout* _flowLayout;
 };
 
 //
 }
 }
-#endif //  Geo_Widgets_KeywordWidget_hpp

@@ -14,7 +14,7 @@
 
 #include <Widgets/KeywordWidget>
 
-using Geo::Database::Connection;
+using Geo::Database::IConnection;
 using Geo::Database::SQLiteConnection;
 using Geo::Database::Gui::SQLiteConnectionPropertiesWidget;
 
@@ -45,7 +45,7 @@ SQLiteConnectionPropertiesWidget::
 
 void
 SQLiteConnectionPropertiesWidget::
-setConnection(Connection::Shared connection)
+setConnection(std::shared_ptr<IConnection> connection)
 {
   p->c = std::static_pointer_cast<SQLiteConnection>(connection);
 

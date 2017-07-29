@@ -24,7 +24,7 @@ public:
   ~SQLiteConnectionPropertiesWidget();
 
   void
-  setConnection(Connection::Shared connection) override;
+  setConnection(std::shared_ptr<IConnection> connection) override;
 
 private:
   void

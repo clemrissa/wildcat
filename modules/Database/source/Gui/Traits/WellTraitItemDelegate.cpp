@@ -1,19 +1,19 @@
 #include "WellTraitItemDelegate.hpp"
 
-#include <ComponentManager/Creator>
-
-#include <Widgets/KeywordWidget>
-
-#include <Models/Traits/WellTraitEntry.hpp>
-
-#include <Domain/WellTrait>
-
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QTableView>
 
+#include <ComponentManager/Creator>
+
+#include <Widgets/KeywordWidget>
+#include <Domain/WellTrait>
+
+#include "Gui/Traits/WellTraitEntry.hpp"
+
+
 using Geo::Database::Gui::Traits::WellTraitItemDelegate;
-using Geo::Database::Models::Traits::WellTraitEntry;
+using Geo::Database::Gui::Traits::WellTraitEntry;
 
 QWidget*
 WellTraitItemDelegate::
@@ -28,35 +28,38 @@ createEditor(QWidget*                    parent,
 
   QWidget* result = nullptr;
 
-  switch (index.column()) {
-  case WellTraitEntry::Trait:
-  case WellTraitEntry::Synonyms: {
-    // using AC = DependencyManager::ApplicationContext;
-    // using Geo::Widgets::KeywordWidget;
+  switch (index.column())
+  {
+    case WellTraitEntry::Trait:
+    case WellTraitEntry::Synonyms:
+    {
+      // using AC = DependencyManager::ApplicationContext;
+      // using Geo::Widgets::KeywordWidget;
 
-    // result = AC::create<KeywordWidget>("Widgets.KeywordWidget");
+      // result = AC::create<KeywordWidget>("Widgets.KeywordWidget");
 
-    result = new QLineEdit();
+      result = new QLineEdit();
 
-    result->setParent(parent);
+      result->setParent(parent);
 
-    // QTableView* t = static_cast<QTableView*>(parent);
+      // QTableView* t = static_cast<QTableView*>(parent);
 
-    // connect(result, SIGNAL(keywordAdded()),
-    // t->horizontalHeader(), SLOT(HHH));
+      // connect(result, SIGNAL(keywordAdded()),
+      // t->horizontalHeader(), SLOT(HHH));
 
-    break;
-  }
+      break;
+    }
 
-  case WellTraitEntry::Type: {
-    auto cbox = new QComboBox(parent);
+    case WellTraitEntry::Type:
+    {
+      auto cbox = new QComboBox(parent);
 
-    for (int i = 0; i < WellTrait::Type::Size; ++i)
-      cbox->addItem(WellTrait::typeAsString((WellTrait::Type)i));
+      for (int i = 0; i < WellTrait::Type::Size; ++i)
+        cbox->addItem(WellTrait::typeAsString((WellTrait::Type)i));
 
-    result = cbox;
-    break;
-  }
+      result = cbox;
+      break;
+    }
   }
 
   return result;
@@ -88,44 +91,47 @@ setEditorData(QWidget*           editor,
 {
   Q_UNUSED(index);
 
-  switch (index.column()) {
-  case WellTraitEntry::Trait:
-  case WellTraitEntry::Synonyms: {
-    using Geo::Widgets::KeywordWidget;
+  switch (index.column())
+  {
+    case WellTraitEntry::Trait:
+    case WellTraitEntry::Synonyms:
+    {
+      using Geo::Widgets::KeywordWidget;
 
-    // auto w = static_cast<KeywordWidget*>(editor);
+      // auto w = static_cast<KeywordWidget*>(editor);
 
-    auto traitEntry =
-      static_cast<WellTraitEntry*>(index.internalPointer());
+      auto traitEntry =
+        static_cast<WellTraitEntry*>(index.internalPointer());
 
-    if (!traitEntry)
-      return;
+      if (!traitEntry)
+        return;
 
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+      auto lineEdit = static_cast<QLineEdit*>(editor);
 
-    lineEdit->setText(traitEntry->data(Qt::DisplayRole,
-                                       index.column()).toString());
+      lineEdit->setText(traitEntry->data(Qt::DisplayRole,
+                                         index.column()).toString());
 
-    // auto trait = traitEntry->trait();
+      // auto trait = traitEntry->trait();
 
-    // w->setKeywords(trait->synonyms());
+      // w->setKeywords(trait->synonyms());
 
-    break;
-  }
+      break;
+    }
 
-  case WellTraitEntry::Type: {
-    auto traitEntry =
-      static_cast<WellTraitEntry*>(index.internalPointer());
+    case WellTraitEntry::Type:
+    {
+      auto traitEntry =
+        static_cast<WellTraitEntry*>(index.internalPointer());
 
-    if (!traitEntry)
-      return;
+      if (!traitEntry)
+        return;
 
-    auto cbox = static_cast<QComboBox*>(editor);
+      auto cbox = static_cast<QComboBox*>(editor);
 
-    cbox->setCurrentIndex(traitEntry->trait()->type());
+      cbox->setCurrentIndex(traitEntry->trait()->type());
 
-    break;
-  }
+      break;
+    }
   }
 }
 
@@ -136,26 +142,29 @@ setModelData(QWidget*            editor,
              QAbstractItemModel* model,
              const QModelIndex&  index) const
 {
-  switch (index.column()) {
-  case WellTraitEntry::Trait:
-  // fall through
-  case WellTraitEntry::Synonyms: {
-    using Geo::Widgets::KeywordWidget;
+  switch (index.column())
+  {
+    case WellTraitEntry::Trait:
+    // fall through
+    case WellTraitEntry::Synonyms:
+    {
+      using Geo::Widgets::KeywordWidget;
 
-    auto lineEdit = static_cast<QLineEdit*>(editor);
+      auto lineEdit = static_cast<QLineEdit*>(editor);
 
-    model->setData(index, lineEdit->text(),
-                   Qt::EditRole);
+      model->setData(index, lineEdit->text(),
+                     Qt::EditRole);
 
-    break;
-  }
+      break;
+    }
 
-  case WellTraitEntry::Type: {
-    auto cbox = static_cast<QComboBox*>(editor);
-    model->setData(index,
-                   cbox->currentIndex(),
-                   Qt::EditRole);
-    break;
-  }
+    case WellTraitEntry::Type:
+    {
+      auto cbox = static_cast<QComboBox*>(editor);
+      model->setData(index,
+                     cbox->currentIndex(),
+                     Qt::EditRole);
+      break;
+    }
   }
 }

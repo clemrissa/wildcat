@@ -21,6 +21,7 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       ComponentManager
                       Import
                       ImportTests
+                      Database
                       Qt5::Core
                       Qt5::Widgets
                       Qt5::Qml

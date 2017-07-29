@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QtWidgets/QWidget>
+#include "IConnectionSettingsWidget.hpp"
 
-#include <Database/Connections/Connection>
+#include "WidgetsExport.hpp"
 
 namespace Geo
 {
@@ -10,22 +10,43 @@ namespace Widgets
 {
 //
 
-class ConnectionSettingsWidget : public QWidget
+class Widgets_PUBLIC ConnectionSettingsWidget : public IConnectionSettingsWidget
 {
-  // Q_OBJECT
+  Q_OBJECT
 
 public:
+  Q_INVOKABLE
+  ConnectionSettingsWidget();
+
   virtual
-  ~ConnectionSettingsWidget()
-  {}
+  ~ConnectionSettingsWidget();
 
   virtual void
-  setEditorWidget(QWidget* editorWidget) = 0;
+  setEditorWidget(QWidget* editorWidget) override;
+
+private slots:
+
+  void
+  onOkClicked();
+
+  void
+  onConnectionActivated(int index);
 
 signals:
 
-  virtual
-  void connectionChanged(Database::Connection::Shared) = 0;
+  void connectionChanged(std::shared_ptr<Database::IConnection>) override;
+
+private:
+  void
+  setupUi();
+
+  void
+  connectSignals();
+
+private:
+  struct Private;
+
+  Private* p;
 };
 
 //

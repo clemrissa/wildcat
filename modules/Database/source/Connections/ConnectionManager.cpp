@@ -1,7 +1,5 @@
 #include "ConnectionManager.hpp"
 
-#include "SQLiteConnection.hpp"
-
 #include <QtCore/QTextStream>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -11,8 +9,15 @@
 #include <QtXml/QDomElement>
 #include <QtXml/QDomText>
 
-using Geo::Database::Connection;
-using Geo::Database::ConnectionManager;
+#include "SQLiteConnection.hpp"
+//#include "MongoDBConnection.hpp"
+
+#include "ConnectionUtils.hpp"
+
+namespace Geo
+{
+namespace Database
+{
 
 ConnectionManager::
 ConnectionManager()
@@ -21,13 +26,59 @@ ConnectionManager()
 }
 
 
-std::shared_ptr<Connection>
+std::size_t
 ConnectionManager::
-createConnection()
+size() const
 {
-  auto sqliteConnection = new SQLiteConnection();
+  return _connections.size();
+}
 
-  std::shared_ptr<Connection> c(sqliteConnection);
+
+//std::shared_ptr<Connection>
+//ConnectionManager::
+//at(std::size_t i) const
+//{
+  //return _connections[i];
+//}
+
+
+std::shared_ptr<IConnection>
+ConnectionManager::
+operator[](std::size_t i) const
+{
+  return _connections[i];
+}
+
+
+std::vector<std::shared_ptr<IConnection> > const &
+ConnectionManager::
+connections() const
+{
+  return _connections;
+}
+
+
+std::shared_ptr<IConnection>
+ConnectionManager::
+createConnection(DatabaseType databaseType)
+{
+  std::shared_ptr<IConnection> c;
+
+  switch (databaseType)
+  {
+    case DatabaseType::SQLite:
+      c = std::make_shared<SQLiteConnection>();
+      break;
+
+    case DatabaseType::MongoDB:
+      //c = std::make_shared<MongoDBConnection>();
+      c = std::make_shared<SQLiteConnection>();
+      break;
+
+    default:
+      c = std::make_shared<SQLiteConnection>();
+      break;
+  }
 
   appendConnection(c);
 
@@ -37,7 +88,7 @@ createConnection()
 
 void
 ConnectionManager::
-appendConnection(std::shared_ptr<Connection> c)
+appendConnection(std::shared_ptr<IConnection> c)
 {
   connect(c.get(), SIGNAL(databaseChanged(QString)),
           this, SLOT(saveToXml()));
@@ -49,7 +100,7 @@ appendConnection(std::shared_ptr<Connection> c)
 
 void
 ConnectionManager::
-removeConnection(int i)
+removeConnection(std::size_t i)
 {
   _connections.erase(_connections.begin() + i);
 
@@ -91,8 +142,8 @@ loadFromXml()
 
     if (!e.isNull())
     {
-      Connection::Shared connection =
-        Connection::restoreConnectionFromXml(e);
+      std::shared_ptr<IConnection> connection =
+        ConnectionUtils::restoreConnectionFromXml(e);
 
       if (connection)
         appendConnection(connection);
@@ -142,4 +193,9 @@ getDefaultConfigFile() const
     QDir(configLocation).absoluteFilePath("geo.xml");
 
   return fileName;
+}
+
+
+//
+}
 }

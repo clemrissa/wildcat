@@ -4,42 +4,26 @@
 
 #include <Core/MainWindow>
 
-#include <Models/ConnectionsEditorWidgetModel/ConnectionsEditorWidgetModel.hpp>
-
-#include <Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp>
-#include <Gui/Traits/TraitsWidget.hpp>
+#include "Gui/ConnectionsEditorWidget/ConnectionsEditorWidgetModel.hpp"
+#include "Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp"
+#include "Gui/Traits/TraitsWidget.hpp"
 
 #include <ComponentManager/Creator>
 
-#include <Widgets/ConnectionSettingsWidget>
+#include <Widgets/IConnectionSettingsWidget>
 
 namespace Geo
 {
 namespace  Database
 {
-DatabaseController* DatabaseController::_instance = nullptr;
 
 DatabaseController &
 DatabaseController::
 instance()
 {
-  static DatabaseController _instance;
+  static DatabaseController instance;
 
-  return _instance;
-}
-
-
-DatabaseController::
-DatabaseController()
-{
-  //
-}
-
-
-DatabaseController::
-~DatabaseController()
-{
-  //
+  return instance;
 }
 
 
@@ -49,7 +33,7 @@ showConnectionsWidget()
 {
   using Geo::Core::MainWindow;
   using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionsEditorWidget;
-  using Model = Geo::Database::Models::ConnectionsEditorWidgetModel;
+  using Model = Geo::Database::Gui::ConnectionsEditorWidgetModel;
 
   MainWindow* mainWindow =
     ComponentManager::create<MainWindow*>("Core.MainWindow");
@@ -57,7 +41,8 @@ showConnectionsWidget()
   // TODO remove model
   auto databaseConnectionsTreeModel = new Model();
 
-  auto databaseConnectionsWidget = new ConnectionsEditorWidget(databaseConnectionsTreeModel);
+  auto databaseConnectionsWidget =
+    new ConnectionsEditorWidget(databaseConnectionsTreeModel);
 
   mainWindow->toCentralWidget(databaseConnectionsWidget);
 }
@@ -72,7 +57,7 @@ showSettingsWidget()
   auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   auto settingsWidget =
-    ComponentManager::create<Geo::Widgets::ConnectionSettingsWidget*>("Widgets.ConnectionSettingsWidget");
+    ComponentManager::create<Geo::Widgets::IConnectionSettingsWidget*>("Widgets.ConnectionSettingsWidget");
 
   using Geo::Database::Gui::Traits::TraitsWidget;
   auto traitsWidget = new TraitsWidget();

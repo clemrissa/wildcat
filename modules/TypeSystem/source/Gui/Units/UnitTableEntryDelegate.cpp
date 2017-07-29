@@ -6,12 +6,12 @@
 #include <QtWidgets/QListView>
 #include <QtWidgets/QTableView>
 
-#include <Models/Units/UnitTableEntry.hpp>
+#include <Gui/Units/UnitTableEntry.hpp>
 
 #include "DimensionsDelegate.hpp"
 
 using Geo::TypeSystem::Gui::UnitTableEntryDelegate;
-using Geo::TypeSystem::Models::Units::UnitTableEntry;
+using Geo::TypeSystem::Gui::Units::UnitTableEntry;
 
 QWidget*
 UnitTableEntryDelegate::

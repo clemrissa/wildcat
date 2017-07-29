@@ -1,18 +1,18 @@
 #pragma once
 
+#include <memory>
+
 #include <QWidget>
 
 namespace Geo
 {
 namespace Database
 {
-namespace Models
-{
-class ConnectionsEditorWidgetModel;
-}
-
 namespace Gui
 {
+
+class ConnectionsEditorWidgetModel;
+
 namespace ConnectionsEditorWidget
 {
 //
@@ -23,25 +23,26 @@ class ConnectionsEditorWidget : public QWidget
   Q_OBJECT
 
 public:
-  ConnectionsEditorWidget(Models::ConnectionsEditorWidgetModel* treeModel);
+  ConnectionsEditorWidget(Gui::ConnectionsEditorWidgetModel* treeModel);
 
   ~ConnectionsEditorWidget();
 
 public slots:
+
   void
   onConnectionClicked(const QModelIndex& index);
 
 private:
   void
-  setupUi(Models::ConnectionsEditorWidgetModel* treeModel);
+  setupUi(Gui::ConnectionsEditorWidgetModel* treeModel);
 
   void
-  connectSignals(Models::ConnectionsEditorWidgetModel* treeModel);
+  connectSignals(Gui::ConnectionsEditorWidgetModel* treeModel);
 
 private:
   struct Private;
 
-  Private* p;
+  std::unique_ptr<Private> p;
 };
 
 //

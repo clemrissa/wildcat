@@ -3,19 +3,22 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLineEdit>
 
-#include <Database/Connections/Connection>
 #include <Domain/WellTrait>
 
 #include "TreeEntry.hpp"
 #include "WellInformation.hpp"
 
-namespace Geo {
-namespace Domain {
+namespace Geo
+{
+namespace Domain
+{
 class WellTrait;
 }
 
-namespace Import {
-namespace TreeWrapper {
+namespace Import
+{
+namespace TreeWrapper
+{
 //
 
 class WellName : public WellInfoBase

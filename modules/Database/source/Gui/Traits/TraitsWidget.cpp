@@ -7,14 +7,21 @@
 #include <QtWidgets/QVBoxLayout>
 
 #include <Gui/Traits/WellTraitItemDelegate.hpp>
-#include <Models/Traits/TraitsWidgetModel.hpp>
-#include <Models/Traits/WellTraitEntry.hpp>
+#include <Gui/Traits/TraitsWidgetModel.hpp>
+#include <Gui/Traits/WellTraitEntry.hpp>
 
-using Geo::Database::Connection;
+using Geo::Database::IConnection;
 using Geo::Database::Gui::Traits::TraitsWidget;
-using Geo::Database::Models::Traits::TraitsWidgetModel;
+using Geo::Database::Gui::Traits::TraitsWidgetModel;
 
 using Geo::Database::Gui::Traits::WellTraitItemDelegate;
+
+namespace Geo
+{
+namespace Database
+{
+namespace Gui
+{
 
 struct TraitsWidget::Private
 {
@@ -29,8 +36,8 @@ struct TraitsWidget::Private
 };
 
 TraitsWidget::
-TraitsWidget() :
-  _p(new Private)
+TraitsWidget()
+  : _p(new Private)
 {
   createUi();
   connectSignals();
@@ -50,7 +57,7 @@ TraitsWidget::
 
 void
 TraitsWidget::
-setConnection(Connection::Shared connection)
+setConnection(std::shared_ptr<IConnection> connection)
 {
   _p->traitsWidgetModel->setConnection(connection);
 }
@@ -77,7 +84,7 @@ createUi()
 
   auto headerView = _p->traitsTable->horizontalHeader();
 
-  using Models::Traits::WellTraitEntry;
+  using Gui::Traits::WellTraitEntry;
   headerView->setStretchLastSection(false);
   headerView->setSectionResizeMode(WellTraitEntry::Trait,
                                    QHeaderView::ResizeToContents);
@@ -115,4 +122,10 @@ connectSignals()
   // for deleting rows
   connect(_p->traitsTable, SIGNAL(clicked(const QModelIndex&)),
           _p->traitsWidgetModel,   SLOT(onClicked(const QModelIndex&)));
+}
+
+
+//
+}
+}
 }

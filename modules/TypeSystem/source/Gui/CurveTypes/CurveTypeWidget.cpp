@@ -18,18 +18,18 @@
 
 #include <Core/MainWindow>
 
-#include <Gui/CurveTypes/CurveTypeEntryDelegate.hpp>
-
 #include <Models/ConnectionListModel>
-#include <Models/CurveTypes/CurveTypeModel.hpp>
-#include <Models/CurveTypes/TreeEntry.hpp>
+
+#include <Gui/CurveTypes/CurveTypeEntryDelegate.hpp>
+#include <Gui/CurveTypes/CurveTypeModel.hpp>
+#include <Gui/CurveTypes/TreeEntry.hpp>
 
 #include <ComponentManager/Creator>
 
 using Geo::TypeSystem::Gui::CurveTypeEntryDelegate;
 using Geo::TypeSystem::Gui::CurveTypeWidget;
-using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
-using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
+using Geo::TypeSystem::Gui::CurveTypes::CurveTypeModel;
+using Geo::TypeSystem::Gui::CurveTypes::TreeEntry;
 
 struct CurveTypeWidget::Private
 {
@@ -217,7 +217,7 @@ onLoadSlbXmlClicked()
   if (fileName.isEmpty())
     return;
 
-  using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
+  using Geo::TypeSystem::Gui::CurveTypes::CurveTypeModel;
 
   auto curveTypeModel = static_cast<CurveTypeModel*>(_p->treeView->model());
 
@@ -239,7 +239,7 @@ onLoadGeoXmlClicked()
   if (fileName.isEmpty())
     return;
 
-  using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
+  using Geo::TypeSystem::Gui::CurveTypes::CurveTypeModel;
 
   auto curveTypeModel = static_cast<CurveTypeModel*>(_p->treeView->model());
 
@@ -261,7 +261,7 @@ onSaveGeoXmlClicked()
   if (fileName.isEmpty())
     return;
 
-  using Geo::TypeSystem::Models::CurveTypes::CurveTypeModel;
+  using Geo::TypeSystem::Gui::CurveTypes::CurveTypeModel;
 
   auto curveTypeModel =
     static_cast<CurveTypeModel*>(_p->treeView->model());
@@ -273,7 +273,7 @@ onSaveGeoXmlClicked()
 
 void
 CurveTypeWidget::
-setConnection(Database::Connection::Shared connection)
+setConnection(std::shared_ptr<IConnection> connection)
 {
   _p->curveTypeModel->setConnection(connection);
 }

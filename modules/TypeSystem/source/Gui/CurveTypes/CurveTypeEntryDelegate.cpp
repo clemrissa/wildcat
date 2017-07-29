@@ -6,14 +6,14 @@
 #include <QtWidgets/QListView>
 #include <QtWidgets/QTableView>
 
-#include <Models/CurveTypes/CurveTypeEntry.hpp>
-#include <Models/CurveTypes/FamilyEntry.hpp>
-#include <Models/Units/UnitTableEntry.hpp>
+#include <Gui/CurveTypes/CurveTypeEntry.hpp>
+#include <Gui/CurveTypes/FamilyEntry.hpp>
+#include <Gui/Units/UnitTableEntry.hpp>
 
 using Geo::TypeSystem::Gui::CurveTypeEntryDelegate;
-using Geo::TypeSystem::Models::CurveTypes::CurveTypeEntry;
-using Geo::TypeSystem::Models::CurveTypes::FamilyEntry;
-using Geo::TypeSystem::Models::CurveTypes::TreeEntry;
+using Geo::TypeSystem::Gui::CurveTypes::CurveTypeEntry;
+using Geo::TypeSystem::Gui::CurveTypes::FamilyEntry;
+using Geo::TypeSystem::Gui::CurveTypes::TreeEntry;
 
 QWidget*
 CurveTypeEntryDelegate::

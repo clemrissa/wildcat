@@ -8,12 +8,15 @@
 
 #include <Las/LasFile.hpp>
 
-#include <Database/Connections/Connection>
+#include <Database/Connections/IConnection>
 
 class QAbstractItemModel;
 
 namespace Geo
 {
+
+using Database::IConnection;
+
 namespace Import
 {
 namespace TreeWrapper
@@ -79,7 +82,7 @@ public:
                     QAbstractItemModel* model) {}
 
   virtual void
-  setConnection(Geo::Database::Connection::Shared connection);
+  setConnection(std::shared_ptr<IConnection> connection);
 
   void
   setLasFileToImport(LasFile::Shared lasFileToImport);
@@ -97,7 +100,7 @@ protected:
   // contains processed/modified information
   LasFile::Shared _lasFileToImport;
 
-  Geo::Database::Connection::Shared _connection;
+  std::shared_ptr<IConnection> _connection;
 
   std::vector<TreeEntry*> _entries;
 };

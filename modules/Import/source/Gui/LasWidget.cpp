@@ -12,8 +12,8 @@
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 
-#include <Database/Connections/Connection>
-#include <Database/Connections/ConnectionManager>
+#include <Database/Connections/IConnection>
+#include <Database/Connections/IConnectionManager>
 
 #include <Core/MainWindow>
 
@@ -76,7 +76,7 @@ setModel(ImportTreeModel* importModel)
 
 void
 LasWidget::
-setConnection(Database::Connection::Shared connection)
+setConnection(std::shared_ptr<IConnection> connection)
 {
   if (_p->importTreeModel)
     _p->importTreeModel->setConnection(connection);

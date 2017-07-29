@@ -8,7 +8,7 @@
       {
         "name" : "Widgets.KeywordWidget",
 
-        "class" : "Geo::Widgets::Implementation::KeywordWidget",
+        "class" : "Geo::Widgets::KeywordWidget",
 
         "construction" : "prototype"
       },
@@ -16,7 +16,7 @@
       {
         "name" : "Widgets.ConnectionSettingsWidget",
 
-        "class" : "Geo::Widgets::Implementation::ConnectionSettingsWidget",
+        "class" : "Geo::Widgets::ConnectionSettingsWidget",
 
         "construction" : "prototype"
       }

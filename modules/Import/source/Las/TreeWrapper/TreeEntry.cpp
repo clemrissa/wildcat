@@ -1,6 +1,6 @@
 #include "TreeEntry.hpp"
 
-using Geo::Database::Connection;
+using Geo::Database::IConnection;
 using Geo::Import::TreeWrapper::TreeEntry;
 
 TreeEntry::
@@ -25,7 +25,7 @@ positionOfChildEntry(TreeEntry* const childEntry) const
 
 void
 TreeEntry::
-setConnection(Connection::Shared connection)
+setConnection(std::shared_ptr<IConnection> connection)
 {
   _connection = connection;
 

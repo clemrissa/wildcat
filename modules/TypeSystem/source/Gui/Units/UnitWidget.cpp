@@ -22,13 +22,13 @@
 #include <Models/ConnectionListModel>
 
 #include <Gui/Units/UnitTableEntryDelegate.hpp>
-#include <Models/Units/UnitModel.hpp>
-#include <Models/Units/UnitTableEntry.hpp>
+#include <Gui/Units/UnitModel.hpp>
+#include <Gui/Units/UnitTableEntry.hpp>
 
 using Geo::TypeSystem::Gui::UnitTableEntryDelegate;
 using Geo::TypeSystem::Gui::UnitWidget;
-using Geo::TypeSystem::Models::Units::UnitModel;
-using Geo::TypeSystem::Models::Units::UnitTableEntry;
+using Geo::TypeSystem::Gui::Units::UnitModel;
+using Geo::TypeSystem::Gui::Units::UnitTableEntry;
 
 struct UnitWidget::Private
 {
@@ -236,7 +236,7 @@ onSaveXmlClicked()
 
 void
 UnitWidget::
-setConnection(Database::Connection::Shared connection)
+setConnection(std::shared_ptr<IConnection> connection)
 {
   _p->unitsModel->setConnection(connection);
 }

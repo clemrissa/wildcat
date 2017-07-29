@@ -54,7 +54,7 @@ delegateWidget(int column) const
 
 void
 WellInfoBase::
-setConnection(Geo::Database::Connection::Shared connection)
+setConnection(std::shared_ptr<IConnection> connection)
 {
   TreeEntry::setConnection(connection);
 

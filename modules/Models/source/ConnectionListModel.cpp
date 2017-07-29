@@ -1,7 +1,7 @@
 #include "ConnectionListModel.hpp"
 
-#include <Database/Connections/Connection>
-#include <Database/Connections/ConnectionManager>
+#include <Database/Connections/IConnection>
+#include <Database/Connections/IConnectionManager>
 
 #include <ComponentManager/Creator>
 
@@ -13,11 +13,11 @@ using Geo::Models::ConnectionListModel;
 ConnectionListModel::
 ConnectionListModel()
 {
-  using Database::ConnectionManager;
+  using CM = Database::IConnectionManager;
 
   // defined as Singleton in Database.json
   _connectionsManager =
-    ComponentManager::create<ConnectionManager*>("Database.ConnectionManager");
+    ComponentManager::create<CM*>("Database.ConnectionManager");
 
   for (auto connection : _connectionsManager->connections())
     _entries.push_back(std::make_unique<ConnectionEntry>(connection));
@@ -27,6 +27,7 @@ ConnectionListModel()
 ConnectionListModel::
 ~ConnectionListModel()
 {}
+
 
 QVariant
 ConnectionListModel::

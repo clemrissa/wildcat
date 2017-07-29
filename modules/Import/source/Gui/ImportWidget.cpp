@@ -12,8 +12,8 @@
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 
-#include <Database/Connections/Connection>
-#include <Database/Connections/ConnectionManager>
+#include <Database/Connections/IConnection>
+#include <Database/Connections/IConnectionManager>
 
 #include <Core/MainWindow>
 
@@ -43,8 +43,8 @@ struct ImportWidget::Private
 };
 
 ImportWidget::
-ImportWidget() :
-  p(new Private)
+ImportWidget()
+  : p(new Private)
 {
   setWindowTitle("Import Data");
   setMinimumSize(QSize(800, 400));
@@ -134,14 +134,14 @@ setModel(ImportTreeModel* importModel)
 {
   p->treeView->setModel(importModel);
 
-  using Geo::Database::ConnectionManager;
+  using Geo::Database::IConnectionManager;
 
   auto connectionManager =
-    ComponentManager::create<ConnectionManager*>("Database.ConnectionManager");
+    ComponentManager::create<IConnectionManager*>("Database.ConnectionManager");
 
   if (connectionManager->size())
   {
-    importModel->setConnection(connectionManager->at(0));
+    importModel->setConnection((*connectionManager)[0]);
     p->treeView->expandAll();
   }
 }
@@ -175,7 +175,7 @@ void
 ImportWidget::
 onConnectionSelected(int index)
 {
-  using CM = Database::ConnectionManager;
+  using CM = Database::IConnectionManager;
 
   auto cm = ComponentManager::create<CM*>("Database.ConnectionManager");
 

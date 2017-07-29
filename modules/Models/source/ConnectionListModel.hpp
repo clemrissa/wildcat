@@ -2,7 +2,7 @@
 
 #include <QtCore/QAbstractItemModel>
 
-#include <Database/Connections/Connection>
+#include <Database/Connections/IConnection>
 
 #include <vector>
 #include <memory>
@@ -12,7 +12,7 @@ namespace Geo
 //
 namespace Database
 {
-class ConnectionManager;
+class IConnectionManager;
 class Connection;
 }
 
@@ -61,10 +61,11 @@ public:
 
 signals:
 
-  void connectionChanged(Database::Connection::Shared);
+  void
+  connectionChanged(std::shared_ptr<Database::IConnection>);
 
 protected:
-  Database::ConnectionManager* _connectionsManager;
+  Database::IConnectionManager* _connectionsManager;
 
   std::vector<std::unique_ptr<ConnectionEntry> > _entries;
 

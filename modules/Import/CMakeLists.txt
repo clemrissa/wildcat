@@ -49,6 +49,8 @@ target_compile_definitions(${TARGET_NAME} PRIVATE ${TARGET_NAME}_EXPORTS)
 
 # ==============================================================================
 
+# test library
+
 file(GLOB_RECURSE CPP_TEST_FILES tests/*.cpp)
 
 set(TARGET_TESTS_NAME ${PROJECT_NAME}Tests)

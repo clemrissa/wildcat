@@ -40,7 +40,7 @@ getLasFileEntries() const
 
 void
 ImportTreeModel::
-setConnection(Geo::Database::Connection::Shared connection)
+setConnection(std::shared_ptr<IConnection> connection)
 {
   beginResetModel();
 
