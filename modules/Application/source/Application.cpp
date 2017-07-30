@@ -2,9 +2,8 @@
 
 #include <ComponentManager/Creator>
 
-// --
-
-using namespace Geo;
+namespace Geo
+{
 
 Application::
 Application(int& argc, char** argv)
@@ -28,6 +27,10 @@ createMainWindow()
   MainWindow* mainWindow =
     ComponentManager::create<MainWindow*>("Core.MainWindow");
 
-  _mainWindow = SharedMainWindow(mainWindow);
+  _mainWindow = std::shared_ptr<MainWindow>(mainWindow);
   _mainWindow->showMaximized();
+}
+
+
+//
 }

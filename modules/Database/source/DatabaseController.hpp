@@ -1,10 +1,10 @@
 #pragma once
 
-#include <QObject>
+#include <QtCore/QObject>
 
 namespace Geo
 {
-namespace  Database
+namespace Database
 {
 
 /// Class is responsible for constructing database-related widgets
@@ -27,7 +27,9 @@ public slots:
   showConnectionsWidget();
 
   void
-  showSettingsWidget();
+  showTraitsWidget();
 };
+
+//
 }
 }

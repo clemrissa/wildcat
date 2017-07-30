@@ -5,9 +5,10 @@
 #include <QtCore/QFile>
 #include <QtCore/QStandardPaths>
 
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
-#include <QtXml/QDomText>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
+#include <QtCore/QJsonValue>
+#include <QtCore/QJsonArray>
 
 #include "SQLiteConnection.hpp"
 //#include "MongoDBConnection.hpp"
@@ -22,7 +23,7 @@ namespace Database
 ConnectionManager::
 ConnectionManager()
 {
-  loadFromXml();
+  loadFromJson();
 }
 
 
@@ -32,14 +33,6 @@ size() const
 {
   return _connections.size();
 }
-
-
-//std::shared_ptr<Connection>
-//ConnectionManager::
-//at(std::size_t i) const
-//{
-  //return _connections[i];
-//}
 
 
 std::shared_ptr<IConnection>
@@ -91,10 +84,11 @@ ConnectionManager::
 appendConnection(std::shared_ptr<IConnection> c)
 {
   connect(c.get(), SIGNAL(databaseChanged(QString)),
-          this, SLOT(saveToXml()));
+          this, SLOT(saveToJson()));
 
   _connections.push_back(c);
-  saveToXml();
+
+  saveToJson();
 }
 
 
@@ -104,7 +98,7 @@ removeConnection(std::size_t i)
 {
   _connections.erase(_connections.begin() + i);
 
-  saveToXml();
+  saveToJson();
 }
 
 
@@ -112,73 +106,59 @@ removeConnection(std::size_t i)
 
 void
 ConnectionManager::
-loadFromXml()
+loadFromJson()
 {
-  QDomDocument doc("Connections");
-
   QFile file(getDefaultConfigFile());
 
-  if (!file.open(QIODevice::ReadOnly))
-    return;
-
-  if (!doc.setContent(&file))
+  if (file.open(QIODevice::ReadOnly))
   {
-    file.close();
-    return;
-  }
+    QByteArray fileContent = file.readAll();
 
-  file.close();
+    QJsonObject jsonSettings = QJsonDocument::fromJson(fileContent).object();
 
-  // ------
+    QJsonArray jsonConnections = jsonSettings["connections"].toArray();
 
-  QDomElement docElem = doc.documentElement();
-
-  QDomNode n = docElem.firstChild();
-
-  while (!n.isNull())
-  {
-    // try to convert the node to an element.
-    QDomElement e = n.toElement();
-
-    if (!e.isNull())
+    for (int i = 0; i < jsonConnections.size(); ++i)
     {
+      QJsonObject jsonConnection = jsonConnections[i].toObject();
+
       std::shared_ptr<IConnection> connection =
-        ConnectionUtils::restoreConnectionFromXml(e);
+        ConnectionUtils::restoreConnectionFromJson(jsonConnection);
 
       if (connection)
         appendConnection(connection);
     }
-
-    n = n.nextSibling();
   }
 }
 
 
 void
 ConnectionManager::
-saveToXml()
+saveToJson()
 {
-  QDomDocument doc("Connections");
+  QJsonObject jsonObject;
 
-  QDomElement root = doc.createElement("Connections");
-
-  doc.appendChild(root);
+  QJsonArray connectionJsonArray;
 
   for (auto connection : _connections)
-    root.appendChild(connection->xmlDescription(doc));
+    connectionJsonArray.append(connection->jsonDescription());
 
-  // -
+  jsonObject["connections"] = connectionJsonArray;
+
+  QJsonDocument document(jsonObject);
+
+  QByteArray jsonData = document.toJson();
+
+  //--------------
 
   QString fileName = getDefaultConfigFile();
 
   QFile file(fileName);
 
-  if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-    return;
-
-  QTextStream out(&file);
-
-  out << doc.toString();
+  if (file.open(QIODevice::WriteOnly))
+  {
+    file.write(jsonData);
+  }
 }
 
 
@@ -190,7 +170,7 @@ getDefaultConfigFile() const
     QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
 
   QString fileName =
-    QDir(configLocation).absoluteFilePath("geo.xml");
+    QDir(configLocation).absoluteFilePath("geo.json");
 
   return fileName;
 }

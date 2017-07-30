@@ -3,9 +3,7 @@
 #include <memory>
 
 #include <QtCore/QString>
-
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
+#include <QtCore/QJsonObject>
 
 #include "IConnection.hpp"
 #include "DatabaseType.hpp"
@@ -21,7 +19,7 @@ QString
 connectionTypeName(DatabaseType type);
 
 std::shared_ptr<IConnection>
-restoreConnectionFromXml(QDomElement& domElement);
+restoreConnectionFromJson(QJsonObject & jsonConnection);
 
 //
 }

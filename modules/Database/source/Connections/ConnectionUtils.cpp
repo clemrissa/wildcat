@@ -1,6 +1,7 @@
 #include "ConnectionUtils.hpp"
 
 #include "SQLiteConnection.hpp"
+#include "MongoDBConnection.hpp"
 
 namespace Geo
 {
@@ -33,12 +34,18 @@ connectionTypeName(DatabaseType type)
 
 
 std::shared_ptr<IConnection>
-restoreConnectionFromXml(QDomElement& domElement)
+restoreConnectionFromJson(QJsonObject & jsonConnection)
 {
-  QString connectionType = domElement.attribute("Type");
+  QString type = jsonConnection["type"].toString();
 
-  if (connectionType == "SQLite")
-    return std::make_shared<SQLiteConnection>(domElement);
+  if (type == "SQLite")
+  {
+    return std::make_shared<SQLiteConnection>(jsonConnection);
+  }
+  else if (type == "MongoDB")
+  {
+    return std::make_shared<SQLiteConnection>(jsonConnection);
+  }
 
   return std::shared_ptr<IConnection>();
 }

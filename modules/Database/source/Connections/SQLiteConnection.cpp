@@ -29,24 +29,14 @@ SQLiteConnection()
 
 
 SQLiteConnection::
-SQLiteConnection(QDomElement& domElement)
+SQLiteConnection(QJsonObject & jsonConnection)
 {
   setDatabaseType(DatabaseType::SQLite);
   setStatus(Status::Unknown);
 
-  QDomNodeList nodeList = domElement.elementsByTagName("Path");
+  QString path = jsonConnection["path"].toString();
 
-  if (nodeList.size() > 0)
-  {
-    QDomNode node = nodeList.at(0);
-
-    if (!node.isNull())
-    {
-      QDomElement e = node.toElement();
-
-      setDatabase(e.text());
-    }
-  }
+  setDatabase(path);
 }
 
 
@@ -123,22 +113,17 @@ databasePath() const
 }
 
 
-QDomElement
+QJsonObject
 SQLiteConnection::
-xmlDescription(QDomDocument& doc) const
+jsonDescription() const
 {
-  QDomElement tag = doc.createElement("Connection");
+  QJsonObject json;
 
-  tag.setAttribute("Type",
-                   ConnectionUtils::connectionTypeName(DatabaseType::SQLite));
+  json["type"] = ConnectionUtils::connectionTypeName(DatabaseType::SQLite);
 
-  QDomElement e = doc.createElement("Path");
-  tag.appendChild(e);
+  json["path"] = _database;
 
-  QDomText t = doc.createTextNode(_database);
-  e.appendChild(t);
-
-  return tag;
+  return json;
 }
 
 

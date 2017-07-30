@@ -32,6 +32,7 @@ class Database_PUBLIC ConnectionManager
   Q_OBJECT
 
 public:
+
   Q_INVOKABLE
   ConnectionManager();
 
@@ -56,10 +57,10 @@ public:
 private slots:
 
   void
-  loadFromXml();
+  loadFromJson();
 
   void
-  saveToXml();
+  saveToJson();
 
   QString
   getDefaultConfigFile() const;

@@ -35,26 +35,22 @@ showConnectionsWidget()
   using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionsEditorWidget;
   using Model = Geo::Database::Gui::ConnectionsEditorWidgetModel;
 
-  MainWindow* mainWindow =
-    ComponentManager::create<MainWindow*>("Core.MainWindow");
-
   // TODO remove model
   auto databaseConnectionsTreeModel = new Model();
 
   auto databaseConnectionsWidget =
     new ConnectionsEditorWidget(databaseConnectionsTreeModel);
 
+  auto* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
   mainWindow->toCentralWidget(databaseConnectionsWidget);
 }
 
 
 void
 DatabaseController::
-showSettingsWidget()
+showTraitsWidget()
 {
   using Geo::Core::MainWindow;
-
-  auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   auto settingsWidget =
     ComponentManager::create<Geo::Widgets::IConnectionSettingsWidget*>("Widgets.ConnectionSettingsWidget");
@@ -64,6 +60,7 @@ showSettingsWidget()
 
   settingsWidget->setEditorWidget(traitsWidget);
 
+  auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
   mainWindow->toCentralWidget(settingsWidget);
 }
 

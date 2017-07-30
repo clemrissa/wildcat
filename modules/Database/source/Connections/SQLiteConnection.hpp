@@ -26,7 +26,7 @@ public:
   Q_INVOKABLE
   SQLiteConnection();
 
-  SQLiteConnection(QDomElement& domElement);
+  SQLiteConnection(QJsonObject & jsonConnection);
 
   SQLiteConnection const&
   operator=(SQLiteConnection const& other);
@@ -46,8 +46,8 @@ public:
   QString const
   databasePath() const override;
 
-  QDomElement
-  xmlDescription(QDomDocument& doc) const override;
+  QJsonObject
+  jsonDescription() const override;
 
   Status const&
   status() const override;

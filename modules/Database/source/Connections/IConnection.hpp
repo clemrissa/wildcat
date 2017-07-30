@@ -4,7 +4,7 @@
 
 #include <Domain/DataAccessFactory>
 
-#include <QtXml/QDomElement>
+#include <QtCore/QJsonObject>
 
 #include "DatabaseType.hpp"
 
@@ -52,8 +52,8 @@ public:
   virtual QString const
   textType() const = 0;
 
-  virtual QDomElement
-  xmlDescription(QDomDocument& doc) const = 0;
+  virtual QJsonObject
+  jsonDescription() const = 0;
 
 public:
 

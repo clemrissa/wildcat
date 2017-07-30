@@ -14,8 +14,8 @@ class Application : public QApplication
   Q_OBJECT
 
 private:
+
   using MainWindow = Core::MainWindow;
-  using SharedMainWindow = std::shared_ptr<MainWindow>;
 
 public:
   Application(int& argc, char** argv);
@@ -27,6 +27,7 @@ public:
   createMainWindow();
 
 private:
-  SharedMainWindow _mainWindow;
+
+  std::shared_ptr<MainWindow> _mainWindow;
 };
 }

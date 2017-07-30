@@ -31,7 +31,6 @@ target_link_libraries(${TARGET_NAME} PRIVATE
                       Qt5::Widgets
                       Qt5::Qml
                       Qt5::Quick
-                      Qt5::Xml
                       )
 
 target_link_libraries(${TARGET_NAME} PUBLIC
@@ -72,5 +71,4 @@ install(TARGETS ${TARGET_NAME}
 #install(FILES ${jsFiles} DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
 #install(DIRECTORY resource/imgs DESTINATION "${INSTALL_COMPONENT_DIR}/${PROJECT_NAME}")
 
-#install(FILES resource/${TARGET_NAME}.xml DESTINATION "${INSTALL_COMPONENT_DIR}")
 install(FILES resource/${TARGET_NAME}.json DESTINATION "${INSTALL_COMPONENT_DIR}")

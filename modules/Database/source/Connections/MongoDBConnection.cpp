@@ -29,24 +29,9 @@ MongoDBConnection()
 
 
 MongoDBConnection::
-MongoDBConnection(QDomElement& domElement)
+MongoDBConnection(QJsonObject & jsonConnection)
 {
-  setDatabaseType(DatabaseType::MongoDB);
-  setStatus(Status::Unknown);
-
-  QDomNodeList nodeList = domElement.elementsByTagName("Path");
-
-  if (nodeList.size() > 0)
-  {
-    QDomNode node = nodeList.at(0);
-
-    if (!node.isNull())
-    {
-      QDomElement e = node.toElement();
-
-      setDatabase(e.text());
-    }
-  }
+  //
 }
 
 
@@ -123,22 +108,13 @@ databasePath() const
 }
 
 
-QDomElement
+QJsonObject
 MongoDBConnection::
-xmlDescription(QDomDocument& doc) const
+jsonDescription() const
 {
-  QDomElement tag = doc.createElement("Connection");
+  QJsonObject json;
 
-  tag.setAttribute("Type",
-                   ConnectionUtils::connectionTypeName(DatabaseType::MongoDB));
-
-  QDomElement e = doc.createElement("Path");
-  tag.appendChild(e);
-
-  QDomText t = doc.createTextNode(_database);
-  e.appendChild(t);
-
-  return tag;
+  return json;
 }
 
 

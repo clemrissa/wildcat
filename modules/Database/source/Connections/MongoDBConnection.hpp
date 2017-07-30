@@ -24,7 +24,7 @@ public:
   Q_INVOKABLE
   MongoDBConnection();
 
-  MongoDBConnection(QDomElement& domElement);
+  MongoDBConnection(QJsonObject & jsonConnection);
 
   MongoDBConnection const&
   operator=(MongoDBConnection const& other);
@@ -44,8 +44,8 @@ public:
   QString const
   databasePath() const override;
 
-  QDomElement
-  xmlDescription(QDomDocument& doc) const override;
+  QJsonObject
+  jsonDescription() const override;
 
   Status const&
   status() const override;

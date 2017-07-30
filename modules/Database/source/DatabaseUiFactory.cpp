@@ -79,7 +79,7 @@ createActionList() const
     QAction* action = new QAction(QIcon(), tr("Well Traits"), mainWindow);
 
     connect(action, &QAction::triggered,
-            &in, &DatabaseController::showSettingsWidget);
+            &in, &DatabaseController::showTraitsWidget);
 
     actionList.push_back(action);
   }
