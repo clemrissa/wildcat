@@ -19,8 +19,8 @@ file(GLOB_RECURSE RESOURCES resource/*.qrc)
 qt5_add_resources(RESOURCE_SOURCES ${RESOURCES})
 
 add_library(${TARGET_NAME} SHARED ${CPP_FILES}
-  ${RESOURCE_SOURCES}
-  )
+            ${RESOURCE_SOURCES}
+           )
 
 set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "")
 
@@ -38,13 +38,21 @@ target_link_libraries(${TARGET_NAME} PUBLIC
                       ${ODB_LIBRARY}
                       ${ODB_SQLITE_LIBRARY}
                       ${ODB_QT_LIBRARY}
+                      ${LIBMONGOCXX_LIBRARIES}
+                      ${LIBBSONCXX_LIBRARIES}
                       )
 
 
 target_include_directories(${TARGET_NAME} PUBLIC "${SQLITE3_INCLUDE_DIR}")
+
 target_include_directories(${TARGET_NAME} PUBLIC "${ODB_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "${ODB_SQLITE_INCLUDE_DIR}")
 target_include_directories(${TARGET_NAME} PUBLIC "${ODB_QT_INCLUDE_DIR}")
+
+
+target_include_directories(${TARGET_NAME} PUBLIC "${LIBMONGOCXX_INCLUDE_DIRS}")
+target_include_directories(${TARGET_NAME} PUBLIC "${LIBBSONCXX_INCLUDE_DIRS}")
+
 
 target_include_directories(${TARGET_NAME} PUBLIC "include")
 target_include_directories(${TARGET_NAME} PRIVATE "source")
