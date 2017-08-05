@@ -17,9 +17,9 @@ using Geo::Import::ImportUiFactory;
 class ImportUiFactory::Private
 {
 public:
-  Private() :
-    _menu(new QMenu(tr("Import"))),
-    _toolBar(new QToolBar())
+  Private()
+    : _menu(new QMenu(tr("Import")))
+    , _toolBar(new QToolBar())
   {}
 
   void
@@ -36,7 +36,7 @@ public:
 
     connect(action,
             &QAction::triggered,
-            ImportController::instance(),
+            &ImportController::instance(),
             &ImportController::selectFilesAndImport);
 
     _actionList.append(action);
@@ -77,10 +77,7 @@ ImportUiFactory() :
 
 ImportUiFactory::
 ~ImportUiFactory()
-{
-  delete _p;
-}
-
+{ }
 
 QObject*
 ImportUiFactory::

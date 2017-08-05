@@ -1,12 +1,17 @@
 #pragma once
 
-#include <QObject>
+#include <memory>
+
+#include <QtCore/QObject>
 
 class QMenu;
 class QToolBar;
 
-namespace Geo {
-namespace Import {
+namespace Geo
+{
+namespace Import
+{
+
 // Creates menu and tool bar for using import component
 class ImportUiFactory : public QObject
 {
@@ -20,6 +25,7 @@ public:
   ~ImportUiFactory();
 
 public:
+
   Q_INVOKABLE
   QObject*
   getImportMenu();
@@ -30,7 +36,10 @@ public:
 
 private:
   class Private;
-  Private* _p;
+
+  std::unique_ptr<Private> _p;
 };
+
+//
 }
 }

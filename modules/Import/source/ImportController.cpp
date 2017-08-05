@@ -21,34 +21,20 @@
 
 using Geo::Import::TreeWrapper::LasFileEntry;
 
-namespace Geo {
-namespace Import {
+namespace Geo
+{
+namespace Import
+{
 //
 
-ImportController* ImportController::_instance = nullptr;
 
-ImportController::
-ImportController()
-{
-  //
-}
-
-
-ImportController::
-~ImportController()
-{
-  //
-}
-
-
-ImportController*
+ImportController&
 ImportController::
 instance()
 {
-  if (!_instance)
-    _instance = new ImportController();
+  static ImportController instance;
 
-  return _instance;
+  return instance;
 }
 
 
