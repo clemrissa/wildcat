@@ -35,6 +35,19 @@ public:
   QString const
   database() const { return _database; }
 
+  void
+  setHost(QString const & host);
+
+  QString const
+  host() const { return _host; }
+
+  void
+  setPort(unsigned int port);
+
+  unsigned int
+  port() const { return _port; }
+
+
   QString const
   textDescription() const override;
 
@@ -67,7 +80,7 @@ signals:
   databaseTypeChanged(DatabaseType const& databaseType);
 
   void
-  databaseChanged(QString const& database);
+  databaseChanged(QString);
 
   void
   statusChanged(Status const& staus);
@@ -95,6 +108,10 @@ private:
   IConnection::Status _status;
 
   QString _database;
+
+  QString _host;
+
+  unsigned int _port;
 };
 }
 }

@@ -7,9 +7,9 @@ namespace Database
 
 enum class DatabaseType : int
 {
-  UnknownDB,
-  SQLite,
-  MongoDB
+  UnknownDB = -1,
+  SQLite    = 0,
+  MongoDB   = 1
 };
 
 //

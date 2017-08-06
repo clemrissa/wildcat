@@ -4,13 +4,13 @@
 
 #include <Domain/Odb/DataAccessFactory>
 
-#include <odb/database.hxx>
-#include <odb/schema-catalog.hxx>
-#include <odb/transaction.hxx>
+#include <bsoncxx/json.hpp>
+#include <mongocxx/client.hpp>
+#include <mongocxx/stdx.hpp>
+#include <mongocxx/exception/exception.hpp>
+#include <mongocxx/uri.hpp>
 
-#include <odb/sqlite/database.hxx>
-#include <odb/sqlite/exceptions.hxx>
-#include <odb/sqlite/transaction.hxx>
+#include "MongoDBInstance.hpp"
 
 #include "ConnectionUtils.hpp"
 
@@ -21,17 +21,23 @@ namespace Database
 
 MongoDBConnection::
 MongoDBConnection()
+  : _database("")
+  , _host("localhost")
+  , _port(27017)
 {
+  MongoDBInstance::instance();
+
   setStatus(Status::Unknown);
   setDatabaseType(DatabaseType::MongoDB);
-  setDatabase("");
+
+  connect();
 }
 
 
 MongoDBConnection::
 MongoDBConnection(QJsonObject & jsonConnection)
 {
-  //
+  MongoDBInstance::instance();
 }
 
 
@@ -54,7 +60,31 @@ setDatabase(QString const& database)
 
   connect();
 
-  emit databaseChanged(database);
+  emit databaseChanged(_database);
+}
+
+
+void
+MongoDBConnection::
+setHost(QString const& host)
+{
+  _host = host;
+
+  connect();
+
+  emit databaseChanged(_database);
+}
+
+
+void
+MongoDBConnection::
+setPort(unsigned int port)
+{
+  _port = port;
+
+  connect();
+
+  emit databaseChanged(_database);
 }
 
 
@@ -122,55 +152,89 @@ void
 MongoDBConnection::
 connect()
 {
-  // TODO sofar no exception if db file is emply
+  QString uriString = QString("mongodb://%1:%2").arg(_host).arg(_port);
 
-  if (_database.isEmpty())
+  mongocxx::uri uri(uriString.toStdString());
+  //mongocxx::uri uri{};
+
+  qDebug() << "URI:  " << uriString;
+
+  mongocxx::client client(uri);
+
+  if (client)
   {
-    setStatus(Status::Failed);
-    return;
+    qDebug() << "Connection";
+  }
+  else
+  {
+    qDebug() << "No Connection";
   }
 
   try
   {
-    Domain::Odb::DataAccessFactory::Database db(
-      new odb::sqlite::database(_database.toUtf8().constData(),
-                                SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE));
+    bsoncxx::builder::stream::document ping;
+    ping << "ping" << 1;
+    auto db     = client["admin"];
+    auto result = db.run_command(ping.view());
 
-    _dataAccessFactory = DataAccessFactory::Shared(
-      new Domain::Odb::DataAccessFactory(db));
-
-    setStatus(Status::Connected);
-  }
-  catch (odb::sqlite::database_exception const& exc)
-  {
-    setStatus(Status::Failed);
-    setLastError(QString(exc.message().c_str()));
-  }
-
-  // create Sqlite db scheme
-  if (_status == Status::Connected)
-  {
-    try
+    if (result.view()["ok"].get_double() != 1)
     {
-      auto odb_database = _dataAccessFactory->database();
-
-      odb::connection_ptr c(odb_database->connection());
-
-      c->execute("PRAGMA foreign_keys=OFF");
-      odb::transaction t(c->begin());
-
-      bool dropDB = false;
-      odb::schema_catalog::create_schema(*odb_database, "", dropDB);
-      t.commit();
-      c->execute("PRAGMA foreign_keys=ON");
+      qDebug() << "Ping to database failed: " << uriString;
     }
-    catch (odb::sqlite::database_exception const& exc)
-    {
-      setLastError(QString(exc.message().c_str()));
-    }
-
-    _dataAccessFactory->afterDBConnected();
   }
+  catch (const mongocxx::exception & e)
+  {
+
+    qDebug() << "Run command failed: " << uriString;
+  }
+
+  //if (_database.isEmpty())
+  //{
+  //setStatus(Status::Failed);
+  //return;
+  //}
+
+  //try
+  //{
+  //Domain::Odb::DataAccessFactory::Database db(
+  //new odb::sqlite::database(_database.toUtf8().constData(),
+  //SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE));
+
+  //_dataAccessFactory = DataAccessFactory::Shared(
+  //new Domain::Odb::DataAccessFactory(db));
+
+  //setStatus(Status::Connected);
+  //}
+  //catch (odb::sqlite::database_exception const& exc)
+  //{
+  //setStatus(Status::Failed);
+  //setLastError(QString(exc.message().c_str()));
+  //}
+
+  //create Sqlite db scheme
+  //if (_status == Status::Connected)
+  //{
+  //try
+  //{
+  //auto odb_database = _dataAccessFactory->database();
+
+  //odb::connection_ptr c(odb_database->connection());
+
+  //c->execute("PRAGMA foreign_keys=OFF");
+  //odb::transaction t(c->begin());
+
+  //bool dropDB = false;
+  //odb::schema_catalog::create_schema(*odb_database, "", dropDB);
+  //t.commit();
+  //c->execute("PRAGMA foreign_keys=ON");
+  //}
+  //catch (odb::sqlite::database_exception const& exc)
+  //{
+  //setLastError(QString(exc.message().c_str()));
+  //}
+
+  //_dataAccessFactory->afterDBConnected();
+  //}
 }
 
 
@@ -188,6 +252,7 @@ MongoDBConnection::
 setStatus(Status const& status)
 {
   _status = status;
+
   emit statusChanged(status);
 }
 
@@ -197,6 +262,7 @@ MongoDBConnection::
 setDatabaseType(DatabaseType databaseType)
 {
   _databaseType = databaseType;
+
   emit databaseTypeChanged(_databaseType);
 }
 

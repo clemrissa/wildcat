@@ -4,6 +4,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QStandardPaths>
+#include <QtCore/QDebug>
 
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
@@ -11,7 +12,7 @@
 #include <QtCore/QJsonArray>
 
 #include "SQLiteConnection.hpp"
-//#include "MongoDBConnection.hpp"
+#include "MongoDBConnection.hpp"
 
 #include "ConnectionUtils.hpp"
 
@@ -64,8 +65,7 @@ createConnection(DatabaseType databaseType)
       break;
 
     case DatabaseType::MongoDB:
-      //c = std::make_shared<MongoDBConnection>();
-      c = std::make_shared<SQLiteConnection>();
+      c = std::make_shared<MongoDBConnection>();
       break;
 
     default:
