@@ -13,12 +13,12 @@ namespace Widgets
 {
 //
 
-class IConnectionSettingsWidget : public QWidget
+class IConnectionDrivenWidget : public QWidget
 {
 
 public:
   virtual
-  ~IConnectionSettingsWidget() = default;
+  ~IConnectionDrivenWidget() = default;
 
   virtual void
   setEditorWidget(QWidget* editorWidget) = 0;

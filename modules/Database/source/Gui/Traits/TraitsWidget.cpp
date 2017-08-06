@@ -25,19 +25,14 @@ namespace Gui
 
 struct TraitsWidget::Private
 {
-  Private()
-    : traitsTable(nullptr)
-    , traitsWidgetModel(nullptr)
-  {}
+  QTableView* traitsTable = nullptr;
 
-  QTableView* traitsTable;
-
-  TraitsWidgetModel* traitsWidgetModel;
+  std::unique_ptr<TraitsWidgetModel> traitsWidgetModel;
 };
 
 TraitsWidget::
 TraitsWidget()
-  : _p(new Private)
+  : _p(std::make_unique<Private>())
 {
   createUi();
   connectSignals();
@@ -46,13 +41,7 @@ TraitsWidget()
 
 TraitsWidget::
 ~TraitsWidget()
-{
-  // TODO: check delete models everywhere
-  if (_p->traitsWidgetModel)
-    delete _p->traitsWidgetModel;
-
-  delete _p;
-}
+{}
 
 
 void
@@ -69,13 +58,14 @@ createUi()
 {
   setWindowTitle(tr("Well Traits Settings"));
 
-  _p->traitsWidgetModel = new TraitsWidgetModel();
+  _p->traitsWidgetModel = std::make_unique<TraitsWidgetModel>();
 
   // --------------
 
   _p->traitsTable = new QTableView();
 
-  _p->traitsTable->setModel(_p->traitsWidgetModel);
+  // View does not tak ownership of the Model;
+  _p->traitsTable->setModel(_p->traitsWidgetModel.get());
 
   // temporarily use standard edit tool
   _p->traitsTable->setItemDelegate(new WellTraitItemDelegate());
@@ -121,7 +111,7 @@ connectSignals()
 {
   // for deleting rows
   connect(_p->traitsTable, SIGNAL(clicked(const QModelIndex&)),
-          _p->traitsWidgetModel,   SLOT(onClicked(const QModelIndex&)));
+          _p->traitsWidgetModel.get(),   SLOT(onClicked(const QModelIndex&)));
 }
 
 

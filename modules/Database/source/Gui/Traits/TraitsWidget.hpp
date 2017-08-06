@@ -1,6 +1,10 @@
 #pragma once
 
-#include <Mixin/ConnectionAcceptor.hpp>
+#include <memory>
+
+#include "Connections/IConnection.hpp"
+
+#include <QtWidgets/QWidget>
 
 namespace Geo
 {
@@ -42,7 +46,7 @@ private:
 private:
   struct Private;
 
-  Private* _p;
+  std::unique_ptr<Private> _p;
 };
 }
 

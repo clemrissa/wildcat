@@ -1,4 +1,4 @@
-#include "ConnectionSettingsWidget.hpp"
+#include "ConnectionDrivenWidget.hpp"
 #include "KeywordWidget.hpp"
 
 #include "WidgetsExport.hpp"
@@ -10,6 +10,6 @@ Widgets_PUBLIC void
 registerComponent()
 {
   REGISTER_TYPE(Geo::Widgets::KeywordWidget);
-  REGISTER_TYPE(Geo::Widgets::ConnectionSettingsWidget);
+  REGISTER_TYPE(Geo::Widgets::ConnectionDrivenWidget);
 }
 }

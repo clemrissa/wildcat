@@ -10,7 +10,7 @@
 
 #include <ComponentManager/Creator>
 
-#include <Widgets/IConnectionSettingsWidget>
+#include <Widgets/IConnectionDrivenWidget>
 
 namespace Geo
 {
@@ -51,9 +51,10 @@ DatabaseController::
 showTraitsWidget()
 {
   using Geo::Core::MainWindow;
+  using Geo::Widgets::IConnectionDrivenWidget;
 
   auto settingsWidget =
-    ComponentManager::create<Geo::Widgets::IConnectionSettingsWidget*>("Widgets.ConnectionSettingsWidget");
+    ComponentManager::create<IConnectionDrivenWidget*>("Widgets.ConnectionDrivenWidget");
 
   using Geo::Database::Gui::Traits::TraitsWidget;
   auto traitsWidget = new TraitsWidget();

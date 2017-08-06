@@ -1,4 +1,4 @@
-#include "ConnectionSettingsWidget.hpp"
+#include "ConnectionDrivenWidget.hpp"
 
 #include <QtCore/QAbstractItemModel>
 
@@ -14,49 +14,36 @@
 
 #include <Database/Connections/IConnectionManager>
 
-using Geo::Widgets::ConnectionSettingsWidget;
+using Geo::Widgets::ConnectionDrivenWidget;
 
-struct ConnectionSettingsWidget::Private
+struct ConnectionDrivenWidget::Private
 {
-  Private() :
-    connectionsComboBox(nullptr),
-    editorWidget(nullptr),
-    dialogButton(nullptr),
-    model(nullptr)
-  {}
+  QComboBox* connectionsComboBox = nullptr;
 
-  QComboBox* connectionsComboBox;
+  QGroupBox* groupBox = nullptr;
 
-  QGroupBox* groupBox;
+  QWidget* editorWidget = nullptr;
 
-  QWidget* editorWidget;
+  QDialogButtonBox* dialogButton = nullptr;
 
-  QDialogButtonBox* dialogButton;
-
-  QAbstractItemModel* model;
+  std::unique_ptr<QAbstractItemModel> model;
 };
 
-ConnectionSettingsWidget::
-ConnectionSettingsWidget()
-  : p(new Private())
+ConnectionDrivenWidget::
+ConnectionDrivenWidget()
+  : p(std::make_unique<Private>())
 {
   setupUi();
   connectSignals();
 }
 
 
-ConnectionSettingsWidget::
-~ConnectionSettingsWidget()
-{
-  if (p->model != nullptr)
-    delete p->model;
-
-  delete p;
-}
-
+ConnectionDrivenWidget::
+~ConnectionDrivenWidget()
+{}
 
 void
-ConnectionSettingsWidget::
+ConnectionDrivenWidget::
 setEditorWidget(QWidget* editorWidget)
 {
   // set GUI
@@ -88,7 +75,7 @@ setEditorWidget(QWidget* editorWidget)
 
 
 void
-ConnectionSettingsWidget::
+ConnectionDrivenWidget::
 setupUi()
 {
   setWindowTitle(tr("Editor Widget"));
@@ -100,7 +87,7 @@ setupUi()
   using CLM = Geo::Models::ConnectionListModel;
 
   auto m = ComponentManager::create<CLM*>("Models.ConnectionListModel");
-  p->model = m;
+  p->model.reset(m);
 
   p->connectionsComboBox->setModel(m);
   // ---
@@ -134,7 +121,7 @@ setupUi()
 
 
 void
-ConnectionSettingsWidget::
+ConnectionDrivenWidget::
 connectSignals()
 {
   connect(p->connectionsComboBox, SIGNAL(activated(int)),
@@ -152,7 +139,7 @@ connectSignals()
 
 
 void
-ConnectionSettingsWidget::
+ConnectionDrivenWidget::
 onOkClicked()
 {
   // close import window
@@ -161,7 +148,7 @@ onOkClicked()
 
 
 void
-ConnectionSettingsWidget::
+ConnectionDrivenWidget::
 onConnectionActivated(int index)
 {
   using CM = Database::IConnectionManager;

@@ -60,7 +60,7 @@ createActionList() const
 
   MainWindow* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
-  TypeSystemController* in = TypeSystemController::instance();
+  TypeSystemController & typeSystemController = TypeSystemController::instance();
 
   QList<QAction*> actionList;
 
@@ -69,7 +69,7 @@ createActionList() const
   auto action = new QAction(QIcon(), tr("Curve Types"), mainWindow);
 
   connect(action, &QAction::triggered,
-          in, &TypeSystemController::showCurveTypeWidget);
+          &typeSystemController, &TypeSystemController::showCurveTypeWidget);
 
   actionList.append(action);
 
@@ -78,7 +78,7 @@ createActionList() const
   action = new QAction(QIcon(), tr("Units"), mainWindow);
 
   connect(action, &QAction::triggered,
-          in, &TypeSystemController::showUnitsWidget);
+          &typeSystemController, &TypeSystemController::showUnitsWidget);
 
   actionList.append(action);
 

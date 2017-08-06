@@ -5,7 +5,7 @@
 #include <Core/MainWindow>
 #include <ComponentManager/Creator>
 
-#include <Widgets/IConnectionSettingsWidget>
+#include <Widgets/IConnectionDrivenWidget>
 
 #include "Gui/CurveTypes/CurveTypeWidget.hpp"
 #include "Gui/Units/UnitWidget.hpp"
@@ -16,16 +16,13 @@ namespace TypeSystem
 {
 //
 
-TypeSystemController* TypeSystemController::_instance = nullptr;
-
-TypeSystemController*
+TypeSystemController &
 TypeSystemController::
 instance()
 {
-  if (!_instance)
-    _instance = new TypeSystemController();
+  static TypeSystemController instance;
 
-  return _instance;
+  return instance;
 }
 
 
@@ -48,13 +45,13 @@ TypeSystemController::
 showCurveTypeWidget()
 {
   using Geo::Core::MainWindow;
-  using Geo::Widgets::IConnectionSettingsWidget;
+  using Geo::Widgets::IConnectionDrivenWidget;
   using TypeSystem::Gui::CurveTypeWidget;
 
   auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   auto settingsWidget =
-    ComponentManager::create<IConnectionSettingsWidget*>("Widgets.ConnectionSettingsWidget");
+    ComponentManager::create<IConnectionDrivenWidget*>("Widgets.ConnectionDrivenWidget");
 
   auto curveTypeWidget = new CurveTypeWidget();
 
@@ -69,13 +66,13 @@ TypeSystemController::
 showUnitsWidget()
 {
   using Geo::Core::MainWindow;
-  using Geo::Widgets::IConnectionSettingsWidget;
+  using Geo::Widgets::IConnectionDrivenWidget;
   using TypeSystem::Gui::UnitWidget;
 
   auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
 
   auto settingsWidget =
-    ComponentManager::create<IConnectionSettingsWidget*>("Widgets.ConnectionSettingsWidget");
+    ComponentManager::create<IConnectionDrivenWidget*>("Widgets.ConnectionDrivenWidget");
 
   // inject widget here
   auto unitWidget = new UnitWidget();

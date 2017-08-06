@@ -1,5 +1,4 @@
-#ifndef Geo_Database_TypeSystemUiFactory_hpp
-#define Geo_Database_TypeSystemUiFactory_hpp
+#pragma once
 
 #include <QObject>
 #include <QWidget>
@@ -7,12 +6,14 @@
 class QMenu;
 class QToolBar;
 
-namespace Geo {
-namespace TypeSystem {
+namespace Geo
+{
+namespace TypeSystem
+{
 //
 
 /// Creates some UI elements, links them to
-class TypeSystemUiFactory: public QObject
+class TypeSystemUiFactory : public QObject
 {
   Q_OBJECT
 
@@ -34,7 +35,7 @@ private:
   QList<QAction*>
   createActionList() const;
 };
-}
-}
 
-#endif
+//
+}
+}
