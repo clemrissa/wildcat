@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include <algorithm>
@@ -41,7 +42,7 @@ public:
   };
 
 public:
-  TreeEntry(LasFile::Shared lasFile,
+  TreeEntry(std::shared_ptr<LasFile> lasFile,
             TreeEntry*      parent = nullptr) :
     _parent(parent),
     _lasFile(lasFile)
@@ -50,21 +51,21 @@ public:
   }
 
   virtual
-  ~TreeEntry();
+  ~TreeEntry() = default;
 
   TreeEntry*
   parent() { return _parent; }
 
-  std::vector<TreeEntry*> const
+  std::vector<std::unique_ptr<TreeEntry>> const &
   entries() const { return _entries; }
 
   int
   positionOfChildEntry(TreeEntry* const childEntry) const;
 
-  LasFile::Shared const
+  std::shared_ptr<LasFile> const
   lasFile() const { return _lasFile; }
 
-  LasFile::Shared const
+  std::shared_ptr<LasFile> const
   lasFileToImport() const { return _lasFileToImport; }
 
   virtual QVariant
@@ -85,7 +86,7 @@ public:
   setConnection(std::shared_ptr<IConnection> connection);
 
   void
-  setLasFileToImport(LasFile::Shared lasFileToImport);
+  setLasFileToImport(std::shared_ptr<LasFile> lasFileToImport);
 
 protected:
 
@@ -95,14 +96,14 @@ protected:
 protected:
   TreeEntry* _parent;
 
-  LasFile::Shared _lasFile;
+  std::shared_ptr<LasFile> _lasFile;
 
   // contains processed/modified information
-  LasFile::Shared _lasFileToImport;
+  std::shared_ptr<LasFile> _lasFileToImport;
 
   std::shared_ptr<IConnection> _connection;
 
-  std::vector<TreeEntry*> _entries;
+  std::vector<std::unique_ptr<TreeEntry>> _entries;
 };
 }
 }

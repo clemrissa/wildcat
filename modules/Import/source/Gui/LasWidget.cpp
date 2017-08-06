@@ -25,7 +25,6 @@
 #include "ImportTreeItemDelegate.hpp"
 #include "ImportTreeModel.hpp"
 
-#include "Las/LasImporter.hpp"
 #include "Las/TreeWrapper/LasFileEntry.hpp"
 #include "MenuFactory.hpp"
 

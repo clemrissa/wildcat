@@ -227,13 +227,13 @@ LogMetricsGroup(std::shared_ptr<LasFile> lasFile,
                 TreeEntry*              parent) :
   TreeEntry(lasFile, parent)
 {
-  _entries.push_back(new Start(_lasFile, this));
+  _entries.push_back(std::make_unique<Start>(_lasFile, this));
 
-  _entries.push_back(new Stop(_lasFile, this));
+  _entries.push_back(std::make_unique<Stop>(_lasFile, this));
 
-  _entries.push_back(new Step(_lasFile, this));
+  _entries.push_back(std::make_unique<Step>(_lasFile, this));
 
-  _entries.push_back(new Null(_lasFile, this));
+  _entries.push_back(std::make_unique<Null>(_lasFile, this));
 }
 
 

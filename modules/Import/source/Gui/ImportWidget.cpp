@@ -25,7 +25,6 @@
 #include "ImportTreeItemDelegate.hpp"
 #include "ImportTreeModel.hpp"
 
-#include "Las/LasImporter.hpp"
 #include "Las/TreeWrapper/LasFileEntry.hpp"
 #include "MenuFactory.hpp"
 
@@ -155,16 +154,18 @@ onImportClicked()
 
   auto importTreeModel =
     static_cast<ImportTreeModel*>(p->treeView->model());
-  auto lasFileEntries = importTreeModel->getLasFileEntries();
+  auto const & lasFileEntries = importTreeModel->getLasFileEntries();
 
-  QVector<LasFile::Shared> lasFiles;
+  QVector<std::shared_ptr<LasFile>> lasFiles;
 
-  for (auto lasFileEntry : lasFileEntries)
+  for (auto & lasFileEntry : lasFileEntries)
     lasFiles.append(lasFileEntry->lasFile());
 
   int databaseIndex = p->connectionsComboBox->currentIndex();
 
-  LasImporter(databaseIndex).import(lasFiles);
+  Q_UNUSED(databaseIndex);
+
+  //
 
   // close import window
   static_cast<QWidget*>(parent())->close();

@@ -23,14 +23,9 @@ class LasFile : public QObject
   Q_OBJECT
 
 public:
-  using Shared = std::shared_ptr<LasFile>;
 
-public:
-  LasFile() :
-    _valid(false)
-  {}
-
-  LasFile(LasFile const& lasFile);
+  LasFile() = default;
+  LasFile(LasFile const& lasFile) = default;
 
   struct WellInformationEntry
   {
@@ -80,6 +75,7 @@ public:
   };
 
 public:
+
   QString fileName;
 
   LasRequired lasRequired;
@@ -90,11 +86,14 @@ public:
 
   QMap<QString, std::vector<double> > data;
 
-  bool _valid;
-
 public:
+
   QString
   getText() const;
+
+private:
+
+  bool _valid = false;
 };
 }
 }

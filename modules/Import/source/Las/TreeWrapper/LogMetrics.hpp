@@ -2,9 +2,12 @@
 
 #include "TreeEntry.hpp"
 
-namespace Geo {
-namespace Import {
-namespace TreeWrapper {
+namespace Geo
+{
+namespace Import
+{
+namespace TreeWrapper
+{
 
 class Start : public TreeEntry
 {

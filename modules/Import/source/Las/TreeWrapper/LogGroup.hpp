@@ -57,7 +57,7 @@ public:
     : TreeEntry(lasFile, parent)
   {
     for (int i = 0; i < _lasFile->logInformation.keys().size(); ++i)
-      _entries.push_back(new LogWrapper(_lasFile, this, i));
+      _entries.push_back(std::make_unique<LogWrapper>(_lasFile, this, i));
   }
 
   QVariant

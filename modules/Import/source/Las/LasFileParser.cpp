@@ -29,7 +29,7 @@ parse(QString const & fileName)
   _version = 0;
 
   // result
-  std::shared_ptr<LasFile> lasFile(new LasFile());
+  std::shared_ptr<LasFile> lasFile = std::make_shared<LasFile>();
 
   if (!QFile::exists(fileName))
   {

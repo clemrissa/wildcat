@@ -2,9 +2,12 @@
 
 #include "TreeEntry.hpp"
 
-namespace Geo {
-namespace Import {
-namespace TreeWrapper {
+namespace Geo
+{
+namespace Import
+{
+namespace TreeWrapper
+{
 //
 
 class Parameter :
@@ -75,7 +78,7 @@ public:
     TreeEntry(lasFile, parent)
   {
     for (int i = 0; i < _lasFile->parameterInformation.keys().size(); ++i)
-      _entries.push_back(new Parameter(_lasFile, this, i));
+      _entries.push_back(std::make_unique<Parameter>(_lasFile, this, i));
   }
 
   QVariant

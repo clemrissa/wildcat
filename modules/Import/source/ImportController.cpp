@@ -51,7 +51,7 @@ selectFilesAndImport()
                                   "/home",
                                   "LAS files (*.las)").toVector().toStdVector();
 
-  std::vector<LasFile::Shared> lasFiles;
+  std::vector<std::shared_ptr<LasFile>> lasFiles;
 
   // collect a list of parsed las files
   #pragma omp parallel

@@ -13,24 +13,23 @@ using Geo::Import::TreeWrapper::LasFileEntry;
 using Geo::Import::TreeWrapper::TreeEntry;
 
 ImportTreeModel::
-ImportTreeModel(std::vector<LasFile::Shared> lasFiles)
+ImportTreeModel(std::vector<std::shared_ptr<LasFile> > lasFiles)
 {
-  for (LasFile::Shared lasFile : lasFiles)
-    _lasFileEntries.push_back(new LasFileEntry(lasFile));
+  for (std::shared_ptr<LasFile> lasFile : lasFiles)
+    _lasFileEntries.push_back(std::make_unique<LasFileEntry>(lasFile));
 }
 
 
 ImportTreeModel::
 ~ImportTreeModel()
 {
-  for (LasFileEntry* entry : _lasFileEntries)
-    delete entry;
 }
 
 
 // -------------------------------------------
 
-std::vector<LasFileEntry*> const
+//std::vector<std::unique_ptr<LasFileEntry>> const &
+std::vector<std::unique_ptr<TreeEntry>> const &
 ImportTreeModel::
 getLasFileEntries() const
 {
@@ -46,7 +45,7 @@ setConnection(std::shared_ptr<IConnection> connection)
 
   _connection = connection;
 
-  for (TreeWrapper::TreeEntry* e : _lasFileEntries)
+  for (std::unique_ptr<TreeWrapper::TreeEntry> & e : _lasFileEntries)
     e->setConnection(connection);
 
   endResetModel();
@@ -95,7 +94,7 @@ ImportTreeModel::
 index(int row, int column, const QModelIndex& parent) const
 {
   if (!parent.isValid())
-    return QAbstractItemModel::createIndex(row, column, _lasFileEntries[row]);
+    return QAbstractItemModel::createIndex(row, column, _lasFileEntries[row].get());
 
   TreeEntry* entry =
     static_cast<TreeEntry*>(parent.internalPointer());
@@ -103,7 +102,7 @@ index(int row, int column, const QModelIndex& parent) const
   if (entry->entries().size() == 0)
     return QModelIndex();
 
-  return QAbstractItemModel::createIndex(row, column, entry->entries()[row]);
+  return QAbstractItemModel::createIndex(row, column, entry->entries()[row].get());
 }
 
 
@@ -223,9 +222,9 @@ int
 ImportTreeModel::
 getEntryPosition(TreeWrapper::TreeEntry* const entry) const
 {
-  auto it = std::find(_lasFileEntries.begin(),
-                      _lasFileEntries.end(), entry);
+  auto it = std::find_if(_lasFileEntries.begin(),
+                         _lasFileEntries.end(), 
+                         [&](std::unique_ptr<TreeEntry> const & p) { return (p.get() == entry); });
 
   return it - _lasFileEntries.begin();
-  //
 }

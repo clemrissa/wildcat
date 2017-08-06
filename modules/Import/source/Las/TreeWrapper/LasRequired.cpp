@@ -4,8 +4,8 @@ using Geo::Import::TreeWrapper::WellName;
 
 WellName::
 WellName(std::shared_ptr<LasFile> lasFile,
-         TreeEntry*              parent) :
-  WellInfoBase(lasFile, parent)
+         TreeEntry*              parent)
+  : WellInfoBase(lasFile, parent)
 {}
 
 QVariant
@@ -818,22 +818,21 @@ using Geo::Import::TreeWrapper::LasRequiredGroup;
 
 LasRequiredGroup::
 LasRequiredGroup(std::shared_ptr<LasFile> lasFile,
-                 TreeEntry*              parent) :
-  TreeEntry(lasFile, parent)
+                 TreeEntry*              parent)
+  : TreeEntry(lasFile, parent)
 {
-  _entries.push_back(new WellName(_lasFile, this));
-  _entries.push_back(new WellCompany(_lasFile, this));
-  _entries.push_back(new WellServiceCompany(_lasFile,
-                                            this));
-  _entries.push_back(new WellField(_lasFile, this));
-  _entries.push_back(new WellLocation(_lasFile, this));
-  _entries.push_back(new WellDate(_lasFile, this));
-  _entries.push_back(new WellCountry(_lasFile, this));
-  _entries.push_back(new WellState(_lasFile, this));
-  _entries.push_back(new WellCounty(_lasFile, this));
-  _entries.push_back(new WellProvince(_lasFile, this));
-  _entries.push_back(new WellAPI(_lasFile, this));
-  _entries.push_back(new WellUWI(_lasFile, this));
+  _entries.push_back(std::make_unique<WellName>(_lasFile, this));
+  _entries.push_back(std::make_unique<WellCompany>(_lasFile, this));
+  _entries.push_back(std::make_unique<WellServiceCompany>(_lasFile, this));
+  _entries.push_back(std::make_unique<WellField>(_lasFile, this));
+  _entries.push_back(std::make_unique<WellLocation>(_lasFile, this));
+  _entries.push_back(std::make_unique<WellDate>(_lasFile, this));
+  _entries.push_back(std::make_unique<WellCountry>(_lasFile, this));
+  _entries.push_back(std::make_unique<WellState>(_lasFile, this));
+  _entries.push_back(std::make_unique<WellCounty>(_lasFile, this));
+  _entries.push_back(std::make_unique<WellProvince>(_lasFile, this));
+  _entries.push_back(std::make_unique<WellAPI>(_lasFile, this));
+  _entries.push_back(std::make_unique<WellUWI>(_lasFile, this));
 }
 
 

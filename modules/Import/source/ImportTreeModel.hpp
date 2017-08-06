@@ -22,12 +22,13 @@ class LasFileEntry;
 class ImportTreeModel : public QAbstractItemModel
 {
 public:
-  ImportTreeModel(std::vector<LasFile::Shared> lasFiles);
+  ImportTreeModel(std::vector<std::shared_ptr<LasFile> > lasFiles);
 
   ~ImportTreeModel();
 
 public:
-  std::vector<TreeWrapper::LasFileEntry*> const
+
+  std::vector<std::unique_ptr<TreeWrapper::TreeEntry>> const &
   getLasFileEntries() const;
 
   void
@@ -70,13 +71,16 @@ public:
   flags(const QModelIndex& index) const override;
 
 private:
-  std::vector<TreeWrapper::LasFileEntry*> _lasFileEntries;
-  std::vector<LasFile::Shared> _lasFiles;
+
+  std::vector<std::unique_ptr<TreeWrapper::TreeEntry>> _lasFileEntries;
+  std::vector<std::shared_ptr<LasFile> > _lasFiles;
 
   std::shared_ptr<IConnection> _connection;
 
   int
   getEntryPosition(TreeWrapper::TreeEntry* const entry) const;
 };
+
+//
 }
 }

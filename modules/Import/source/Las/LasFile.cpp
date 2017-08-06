@@ -2,32 +2,11 @@
 
 #include <QtCore/QStringList>
 
-namespace Geo {
-namespace Import {
-//
-
-LasFile::
-LasFile(LasFile const& lasFile)
+namespace Geo
 {
-  logMetrics.start     = lasFile.logMetrics.start;
-  logMetrics.stop      = lasFile.logMetrics.stop;
-  logMetrics.step      = lasFile.logMetrics.step;
-  logMetrics.nullValue = lasFile.logMetrics.nullValue;
-  logMetrics.units     = lasFile.logMetrics.units;
-
-  for (auto key : lasFile.wellInformation.keys())
-    wellInformation[key] = lasFile.wellInformation[key];
-
-  for (auto key : lasFile.parameterInformation.keys())
-    parameterInformation[key] = lasFile.parameterInformation[key];
-
-  for (auto key : lasFile.logInformation.keys())
-    logInformation[key] = lasFile.logInformation[key];
-
-  for (auto key : lasFile.data.keys())
-    data[key] = lasFile.data[key];
-}
-
+namespace Import
+{
+//
 
 QString
 LasFile::
@@ -58,5 +37,7 @@ getText() const
 
   return list.join("\n");
 }
+
+//
 }
 }

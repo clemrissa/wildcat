@@ -3,21 +3,13 @@
 using Geo::Database::IConnection;
 using Geo::Import::TreeWrapper::TreeEntry;
 
-TreeEntry::
-~TreeEntry()
-{
-  for (TreeEntry* entry : _entries)
-    delete entry;
-}
-
-
 int
 TreeEntry::
 positionOfChildEntry(TreeEntry* const childEntry) const
 {
-  auto it = std::find(_entries.begin(),
-                      _entries.end(),
-                      childEntry);
+  auto it = std::find_if(_entries.begin(),
+                         _entries.end(),
+                         [&](std::unique_ptr<TreeEntry> const & e) { return (e.get() == childEntry); } );
 
   return it - _entries.begin();
 }
@@ -29,21 +21,21 @@ setConnection(std::shared_ptr<IConnection> connection)
 {
   _connection = connection;
 
-  for (TreeEntry* e : _entries)
+  for (std::unique_ptr<TreeEntry> & e : _entries)
     e->setConnection(connection);
 }
 
 
 void
 TreeEntry::
-setLasFileToImport(LasFile::Shared lasFileToImport)
+setLasFileToImport(std::shared_ptr<LasFile> lasFileToImport)
 {
   _lasFileToImport = lasFileToImport;
 
   // copy some default values for las_to_import
   copyDataToLasToImport();
 
-  for (TreeEntry* e : _entries)
+  for (std::unique_ptr<TreeEntry> & e : _entries)
     e->setLasFileToImport(lasFileToImport);
 }
 

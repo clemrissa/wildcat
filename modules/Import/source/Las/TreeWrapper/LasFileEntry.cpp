@@ -13,28 +13,28 @@ using Geo::Import::TreeWrapper::LasFileEntry;
 /// Composite pattern. Used to represent LAS file strurcture as a tree
 
 LasFileEntry::
-LasFileEntry(LasFile::Shared lasFile) :
+LasFileEntry(std::shared_ptr<LasFile> lasFile) :
   TreeEntry(lasFile)
 {
   createEntries(lasFile);
 
-  setLasFileToImport(LasFile::Shared(new LasFile()));
+  setLasFileToImport(std::shared_ptr<LasFile>(new LasFile()));
 }
 
 
 void
 LasFileEntry::
-createEntries(LasFile::Shared lasFile)
+createEntries(std::shared_ptr<LasFile> lasFile)
 {
-  _entries.push_back(new LasRequiredGroup(lasFile, this));
+  _entries.push_back(std::make_unique<LasRequiredGroup>(lasFile, this));
 
-  _entries.push_back(new WellInformationGroup(lasFile,  this));
+  _entries.push_back(std::make_unique<WellInformationGroup>(lasFile,  this));
 
-  _entries.push_back(new LogMetricsGroup(lasFile, this));
+  _entries.push_back(std::make_unique<LogMetricsGroup>(lasFile, this));
 
-  _entries.push_back(new LogGroup(_lasFile, this));
+  _entries.push_back(std::make_unique<LogGroup>(_lasFile, this));
 
-  _entries.push_back(new ParameterGroup(_lasFile, this));
+  _entries.push_back(std::make_unique<ParameterGroup>(_lasFile, this));
 }
 
 

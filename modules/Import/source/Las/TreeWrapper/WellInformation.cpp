@@ -304,7 +304,7 @@ WellInformationGroup(std::shared_ptr<LasFile> lasFile,
   : TreeEntry(lasFile, parent)
 {
   for (int i = 0; i < _lasFile->wellInformation.keys().size(); ++i)
-    _entries.push_back(new WellInfo(_lasFile, this, i));
+    _entries.push_back(std::make_unique<WellInfo>(_lasFile, this, i));
 }
 
 
