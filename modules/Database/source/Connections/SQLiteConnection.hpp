@@ -1,20 +1,21 @@
 #pragma once
 
-#include "IConnection.hpp"
-
 #include <memory>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
-#include <Database/Connections/DatabaseType>
+#include "DatabaseExport.hpp"
+
+#include "IConnection.hpp"
+#include "DatabaseType.hpp"
 
 namespace Geo
 {
 namespace Database
 {
 
-class SQLiteConnection : public IConnection
+class Database_PUBLIC SQLiteConnection : public IConnection
 {
   Q_OBJECT
 
@@ -98,5 +99,7 @@ private:
 
   QString _database;
 };
+
+//
 }
 }

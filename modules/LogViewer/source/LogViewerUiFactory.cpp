@@ -5,7 +5,7 @@
 #include <QToolBar>
 #include <QWidget>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 
 #include <ComponentManager/Creator>
 
@@ -24,17 +24,17 @@ public:
   void
   fillActionList()
   {
-    using Geo::Core::MainWindow;
+    using Geo::Core::IMainWindow;
 
-    MainWindow* mainWindow =
-      ComponentManager::create<MainWindow*>("Core.MainWindow");
+    IMainWindow* mainWindow =
+      ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
     QAction* action = nullptr;
 
     action = new QAction(QIcon(), QString("Create"), mainWindow);
 
     connect(action, &QAction::triggered,
-            LogViewerController::instance(),
+            &LogViewerController::instance(),
             &LogViewerController::createLogViewer);
 
     _actionList.append(action);
@@ -64,8 +64,8 @@ public:
 // --------------------------
 
 LogViewerUiFactory::
-LogViewerUiFactory() :
-  _p(new Private())
+LogViewerUiFactory()
+  : _p(std::make_unique<Private>())
 {
   _p->fillActionList();
   _p->constructMenu();
@@ -74,9 +74,7 @@ LogViewerUiFactory() :
 
 LogViewerUiFactory::
 ~LogViewerUiFactory()
-{
-  delete _p;
-}
+{}
 
 
 QObject*

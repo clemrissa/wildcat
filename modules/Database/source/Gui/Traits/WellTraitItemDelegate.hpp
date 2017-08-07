@@ -7,11 +7,12 @@
 
 class QWidget;
 
-namespace Geo {
-namespace Database {
-namespace Gui {
-namespace Traits {
-//
+namespace Geo
+{
+namespace Database
+{
+namespace Gui
+{
 
 class WellTraitItemDelegate : public QStyledItemDelegate
 {
@@ -42,7 +43,6 @@ public:
 };
 
 //
-}
 }
 }
 }

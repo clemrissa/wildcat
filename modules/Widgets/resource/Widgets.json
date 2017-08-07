@@ -14,9 +14,9 @@
       },
 
       {
-        "name" : "Widgets.ConnectionSettingsWidget",
+        "name" : "Widgets.ConnectionDrivenWidget",
 
-        "class" : "Geo::Widgets::ConnectionSettingsWidget",
+        "class" : "Geo::Widgets::ConnectionDrivenWidget",
 
         "construction" : "prototype"
       }

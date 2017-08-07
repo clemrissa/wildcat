@@ -15,7 +15,7 @@
 #include <Database/Connections/IConnection>
 #include <Database/Connections/IConnectionManager>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 
 #include <Models/ConnectionListModel>
 
@@ -34,16 +34,16 @@ using Geo::Import::Gui::ImportWidget;
 
 struct ImportWidget::Private
 {
-  QComboBox* connectionsComboBox;
+  QComboBox* connectionsComboBox = nullptr;
 
-  QTreeView* treeView;
+  QTreeView* treeView = nullptr;
 
-  QDialogButtonBox* dialogButton;
+  QDialogButtonBox* dialogButton = nullptr;
 };
 
 ImportWidget::
 ImportWidget()
-  : p(new Private)
+  : p(std::make_unique<Private>())
 {
   setWindowTitle("Import Data");
   setMinimumSize(QSize(800, 400));
@@ -58,9 +58,7 @@ ImportWidget()
 
 ImportWidget::
 ~ImportWidget()
-{
-  delete p;
-}
+{}
 
 
 void
@@ -119,8 +117,9 @@ connectSignals()
           this, SLOT(onTableViewMenuRequested(const QPoint&)));
 
   // -------- main window notification
-  using       Geo::Core::MainWindow;
-  MainWindow* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
+  using Geo::Core::IMainWindow;
+
+  IMainWindow* mainWindow = ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
   connect(this, SIGNAL(notifyMainWindow(QString)),
           mainWindow, SLOT(setStatus(QString)));
@@ -156,7 +155,7 @@ onImportClicked()
     static_cast<ImportTreeModel*>(p->treeView->model());
   auto const & lasFileEntries = importTreeModel->getLasFileEntries();
 
-  QVector<std::shared_ptr<LasFile>> lasFiles;
+  QVector<std::shared_ptr<LasFile> > lasFiles;
 
   for (auto & lasFileEntry : lasFileEntries)
     lasFiles.append(lasFileEntry->lasFile());

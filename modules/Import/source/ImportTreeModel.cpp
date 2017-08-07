@@ -137,6 +137,7 @@ int
 ImportTreeModel::
 columnCount(const QModelIndex& parent) const
 {
+  Q_UNUSED(parent);
   return TreeEntry::Column::Size;
 }
 
@@ -224,7 +225,8 @@ getEntryPosition(TreeWrapper::TreeEntry* const entry) const
 {
   auto it = std::find_if(_lasFileEntries.begin(),
                          _lasFileEntries.end(), 
-                         [&](std::unique_ptr<TreeEntry> const & p) { return (p.get() == entry); });
+                         [&](std::unique_ptr<TreeEntry> const & p)
+                         { return (p.get() == entry); });
 
   return it - _lasFileEntries.begin();
 }

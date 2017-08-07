@@ -16,7 +16,7 @@ Application(int& argc, char** argv)
 Application::
 ~Application()
 {
-  // INFO << "Application was finished";
+  qInfo("Application was finished");
 }
 
 
@@ -24,10 +24,10 @@ void
 Application::
 createMainWindow()
 {
-  MainWindow* mainWindow =
-    ComponentManager::create<MainWindow*>("Core.MainWindow");
+  IMainWindow* mainWindow =
+    ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
-  _mainWindow = std::shared_ptr<MainWindow>(mainWindow);
+  _mainWindow = std::shared_ptr<IMainWindow>(mainWindow);
   _mainWindow->showMaximized();
 }
 

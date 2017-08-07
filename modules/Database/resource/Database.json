@@ -18,7 +18,7 @@
 
         "factory" : "DatabaseUiFactory",
 
-        "function" : "createDatabaseMenu"
+        "function" : "databaseMenu"
       },
 
       {
@@ -28,7 +28,7 @@
 
         "functions" : [
           {
-            "name" : "createDatabaseMenu"
+            "name" : "databaseMenu"
           }
         ]
       },
@@ -39,6 +39,14 @@
         "class" : "ConnectionManager",
 
         "construction" : "singleton"
+      },
+
+      {
+        "name" : "Database.ExplorerWidget",
+
+        "class" : "ExplorerWidget",
+
+        "construction" : "prototype"
       }
 
     ],
@@ -51,6 +59,16 @@
 
         "parameters" : [
           { "component" : "Database.Menu" }
+        ]
+      },
+
+      {
+        "component" : "Core.MainWindow",
+
+        "function" : "toLeftDock",
+
+        "parameters" : [
+          { "component" : "Database.ExplorerWidget" }
         ]
       }
     ]

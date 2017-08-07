@@ -3,7 +3,7 @@
 #include <Domain/WellTrait>
 
 #include "Connections/IConnection.hpp"
-#include "Entry.hpp"
+#include "TraitEntry.hpp"
 
 namespace Geo
 {
@@ -11,11 +11,8 @@ namespace Database
 {
 namespace Gui
 {
-namespace Traits
-{
-//
 
-class WellTraitEntry : public Entry
+class WellTraitEntry : public TraitEntry
 {
 public:
   enum Column { Trait,
@@ -71,7 +68,6 @@ private:
 };
 
 //
-}
 }
 }
 }

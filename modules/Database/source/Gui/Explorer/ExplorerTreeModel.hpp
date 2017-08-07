@@ -1,38 +1,29 @@
 #pragma once
 
+#include <vector>
+#include <memory>
+
 #include <QtCore/QAbstractItemModel>
-
-#include <Database/Connections/IConnection>
-
-#include "Las/LasFile.hpp"
 
 namespace Geo
 {
-
-using Database::IConnection;
-
-namespace Import
+namespace Database
 {
-namespace TreeWrapper
+namespace Gui
 {
-class TreeEntry;
-class LasFileEntry;
-}
 
-class ImportTreeModel : public QAbstractItemModel
+class ExplorerEntry;
+
+class ExplorerTreeModel final : public QAbstractItemModel
 {
-public:
-  ImportTreeModel(std::vector<std::shared_ptr<LasFile> > lasFiles);
 
-  ~ImportTreeModel();
+  Q_OBJECT
 
 public:
 
-  std::vector<std::unique_ptr<TreeWrapper::TreeEntry>> const &
-  getLasFileEntries() const;
+  ExplorerTreeModel();
 
-  void
-  setConnection(std::shared_ptr<IConnection> connection);
+  ~ExplorerTreeModel();
 
 public:
 
@@ -74,16 +65,14 @@ public:
 private:
 
   int
-  getEntryPosition(TreeWrapper::TreeEntry* const entry) const;
-
+  getEntryPosition(ExplorerEntry const * entry) const;
 
 private:
-  std::vector<std::unique_ptr<TreeWrapper::TreeEntry>> _lasFileEntries;
-  std::vector<std::shared_ptr<LasFile> > _lasFiles;
 
-  std::shared_ptr<IConnection> _connection;
+  std::vector<std::unique_ptr<ExplorerEntry> > _explorerEntries;
 };
 
 //
+}
 }
 }

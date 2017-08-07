@@ -3,7 +3,7 @@
 #include <QtGui/QIcon>
 #include <QtGui/QPalette>
 
-using Geo::Database::Gui::Traits::WellTraitEntry;
+using Geo::Database::Gui::WellTraitEntry;
 
 WellTraitEntry::
 WellTraitEntry(Geo::Domain::WellTrait::Shared trait)

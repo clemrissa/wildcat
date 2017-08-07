@@ -1,11 +1,12 @@
 #pragma once
 
-#include <QObject>
+#include <QtCore/QObject>
 
 namespace Geo
 {
 namespace  TypeSystem
 {
+
 class TypeSystemController : public QObject
 {
   Q_OBJECT

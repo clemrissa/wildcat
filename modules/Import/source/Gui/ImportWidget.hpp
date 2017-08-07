@@ -1,5 +1,6 @@
-
 #pragma once
+
+#include <memory>
 
 #include <QtWidgets/QWidget>
 
@@ -28,10 +29,13 @@ public:
   ~ImportWidget();
 
 public:
+
+  /// Model is set in ImportController
   void
   setModel(ImportTreeModel* importModel);
 
 private slots:
+
   void
   onImportClicked();
 
@@ -42,9 +46,11 @@ private slots:
   onTableViewMenuRequested(const QPoint&);
 
 signals:
+
   void notifyMainWindow(QString);
 
 private:
+
   void
   setupUi();
 
@@ -52,9 +58,10 @@ private:
   connectSignals();
 
 private:
+
   struct Private;
 
-  Private* p;
+  std::unique_ptr<Private> p;
 };
 
 //

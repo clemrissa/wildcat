@@ -1,10 +1,10 @@
 #pragma once
 
+#include <memory>
+
 #include <QtWidgets/QApplication>
 
-#include <Core/MainWindow>
-
-#include <memory>
+#include <Core/IMainWindow>
 
 namespace Geo
 {
@@ -13,11 +13,8 @@ class Application : public QApplication
 {
   Q_OBJECT
 
-private:
-
-  using MainWindow = Core::MainWindow;
-
 public:
+
   Application(int& argc, char** argv);
 
   virtual
@@ -28,6 +25,8 @@ public:
 
 private:
 
-  std::shared_ptr<MainWindow> _mainWindow;
+  using IMainWindow = Core::IMainWindow;
+
+  std::shared_ptr<IMainWindow> _mainWindow;
 };
 }

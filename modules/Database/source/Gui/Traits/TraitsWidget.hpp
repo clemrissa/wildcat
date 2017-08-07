@@ -12,16 +12,11 @@ namespace Database
 {
 namespace Gui
 {
-//
 
 class ConnectionPropertiesWiget;
 
-namespace Traits
-{
-//
 
-class TraitsWidget
-  : public QWidget
+class TraitsWidget : public QWidget
 {
   Q_OBJECT
 
@@ -51,6 +46,5 @@ private:
 }
 
 //
-}
 }
 }

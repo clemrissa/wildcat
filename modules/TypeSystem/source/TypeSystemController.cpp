@@ -2,7 +2,7 @@
 
 #include <QtWidgets/QLabel>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 #include <ComponentManager/Creator>
 
 #include <Widgets/IConnectionDrivenWidget>
@@ -44,11 +44,11 @@ void
 TypeSystemController::
 showCurveTypeWidget()
 {
-  using Geo::Core::MainWindow;
+  using Geo::Core::IMainWindow;
   using Geo::Widgets::IConnectionDrivenWidget;
   using TypeSystem::Gui::CurveTypeWidget;
 
-  auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
+  auto mainWindow = ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
   auto settingsWidget =
     ComponentManager::create<IConnectionDrivenWidget*>("Widgets.ConnectionDrivenWidget");
@@ -65,11 +65,11 @@ void
 TypeSystemController::
 showUnitsWidget()
 {
-  using Geo::Core::MainWindow;
+  using Geo::Core::IMainWindow;
   using Geo::Widgets::IConnectionDrivenWidget;
   using TypeSystem::Gui::UnitWidget;
 
-  auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
+  auto mainWindow = ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
   auto settingsWidget =
     ComponentManager::create<IConnectionDrivenWidget*>("Widgets.ConnectionDrivenWidget");

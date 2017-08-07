@@ -6,7 +6,7 @@
 #include <QMenu>
 #include <QToolBar>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 
 #include <ComponentManager/Creator>
 
@@ -25,10 +25,10 @@ public:
   void
   fillActionList()
   {
-    using Geo::Core::MainWindow;
+    using Geo::Core::IMainWindow;
 
-    MainWindow* mainWindow =
-      ComponentManager::create<MainWindow*>("Core.MainWindow");
+    IMainWindow* mainWindow =
+      ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
     QAction* action = nullptr;
 

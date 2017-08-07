@@ -2,14 +2,17 @@
 
 #include <QtCore/QObject>
 
-namespace Geo {
-namespace LogViewer {
+namespace Geo
+{
+namespace LogViewer
+{
+
 class LogViewerController : public QObject
 {
   Q_OBJECT
 
 public:
-  static LogViewerController*
+  static LogViewerController&
   instance();
 
   virtual
@@ -25,5 +28,7 @@ private:
 private:
   static LogViewerController* _instance;
 };
+
+//
 }
 }

@@ -11,10 +11,9 @@
 using Geo::Import::TreeWrapper::LasFileEntry;
 
 /// Composite pattern. Used to represent LAS file strurcture as a tree
-
 LasFileEntry::
-LasFileEntry(std::shared_ptr<LasFile> lasFile) :
-  TreeEntry(lasFile)
+LasFileEntry(std::shared_ptr<LasFile> lasFile)
+  : TreeEntry(lasFile)
 {
   createEntries(lasFile);
 

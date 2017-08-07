@@ -1,7 +1,7 @@
 #pragma once
 
-#include <QObject>
-#include <QWidget>
+#include <QtCore/QObject>
+#include <QtWidgets/QWidget>
 
 class QMenu;
 class QToolBar;
@@ -32,6 +32,7 @@ public:
   createTypeSystemToolBar();
 
 private:
+
   QList<QAction*>
   createActionList() const;
 };

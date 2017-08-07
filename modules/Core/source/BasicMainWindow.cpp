@@ -9,9 +9,13 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
-// --
 
-using Geo::Core::Private::BasicMainWindow;
+#include <ComponentManager/Creator>
+
+namespace Geo
+{
+namespace Core
+{
 
 BasicMainWindow::
 BasicMainWindow()
@@ -41,9 +45,25 @@ toBottomDock(QDockWidget* dockWidget)
 
 Q_INVOKABLE void
 BasicMainWindow::
-toLeftDock(QDockWidget* dockWidget)
+toLeftDock(QWidget* widget)
 {
+  widget->setMinimumSize(QSize(200,200));
+
+  QDockWidget * dockWidget = new QDockWidget(widget->windowTitle(), this);
+
+  dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+
+  dockWidget->setWidget(widget);
+
+
   addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+
+  QMenu *m = ComponentManager::create<QMenu*>("Database.Menu");
+
+  m->addAction(dockWidget->toggleViewAction());
+
+  // TODO: required?
+  widget->show();
 }
 
 
@@ -88,4 +108,9 @@ BasicMainWindow::
 setStatus(QString status)
 {
   _statusBar->showMessage(status, 4000);
+}
+
+
+//
+}
 }

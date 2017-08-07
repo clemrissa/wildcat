@@ -7,7 +7,7 @@
 
 #include <QtCore/QList>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 #include <ComponentManager/Creator>
 
 #include "TypeSystemController.hpp"
@@ -56,9 +56,9 @@ QList<QAction*>
 TypeSystemUiFactory::
 createActionList() const
 {
-  using Geo::Core::MainWindow;
+  using Geo::Core::IMainWindow;
 
-  MainWindow* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
+  IMainWindow* mainWindow = ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
   TypeSystemController & typeSystemController = TypeSystemController::instance();
 

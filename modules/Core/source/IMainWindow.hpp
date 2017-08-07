@@ -7,11 +7,14 @@ namespace Geo {
 namespace Core {
 //
 
-class MainWindow : public QMainWindow
+class IMainWindow : public QMainWindow
 {
 public:
   virtual void
   toCentralWidget(QWidget* widget) = 0;
+
+  virtual void
+  toLeftDock(QWidget* dockWidget) = 0;
 
 public slots:
   virtual void

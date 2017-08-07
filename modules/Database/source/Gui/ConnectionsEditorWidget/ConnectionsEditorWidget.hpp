@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 
 namespace Geo
 {
@@ -18,12 +18,12 @@ namespace ConnectionsEditorWidget
 //
 
 // Shows dialog for editing connections
-class ConnectionsEditorWidget : public QWidget
+class ConnectionsEditorWidget final : public QWidget
 {
   Q_OBJECT
 
 public:
-  ConnectionsEditorWidget(Gui::ConnectionsEditorWidgetModel* treeModel);
+  ConnectionsEditorWidget(ConnectionsEditorWidgetModel* treeModel);
 
   ~ConnectionsEditorWidget();
 
@@ -33,6 +33,7 @@ public slots:
   onConnectionClicked(const QModelIndex& index);
 
 private:
+
   void
   setupUi(Gui::ConnectionsEditorWidgetModel* treeModel);
 

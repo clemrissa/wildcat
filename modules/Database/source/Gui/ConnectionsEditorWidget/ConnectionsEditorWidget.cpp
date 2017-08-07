@@ -19,13 +19,13 @@ using Geo::Database::Gui::ConnectionsEditorWidgetModel;
 
 struct ConnectionsEditorWidget::Private
 {
-  QTableView*     connectionsTable;
-  QStackedWidget* stackedWidget;
+  QTableView*     connectionsTable = nullptr;
+  QStackedWidget* stackedWidget    = nullptr;
 };
 
 ConnectionsEditorWidget::
 ConnectionsEditorWidget(ConnectionsEditorWidgetModel* treeModel)
-  : p(new ConnectionsEditorWidget::Private())
+  : p(std::make_unique<Private>())
 {
   setupUi(treeModel);
   connectSignals(treeModel);

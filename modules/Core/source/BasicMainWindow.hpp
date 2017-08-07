@@ -1,6 +1,8 @@
 #pragma once
 
-#include <MainWindow.hpp>
+#include "IMainWindow.hpp"
+
+#include "CoreExport.hpp"
 
 class QDockWidget;
 class QMdiArea;
@@ -8,12 +10,12 @@ class QToolBar;
 class QMenu;
 class QStatusBar;
 
-namespace Geo {
-namespace Core {
-namespace Private {
-//
+namespace Geo
+{
+namespace Core
+{
 
-class BasicMainWindow : public Geo::Core::MainWindow
+class Core_PUBLIC BasicMainWindow final : public IMainWindow
 {
   Q_OBJECT
 
@@ -28,7 +30,7 @@ public:
   toBottomDock(QDockWidget* dockWidget);
 
   Q_INVOKABLE void
-  toLeftDock(QDockWidget* dockWidget);
+  toLeftDock(QWidget* widget) override;
 
   Q_INVOKABLE void
   toRightDock(QDockWidget* dockWidget);
@@ -43,6 +45,7 @@ public:
   addToolBar(QToolBar* toolBar);
 
 public slots:
+
   virtual void
   setStatus(QString status) override;
 
@@ -51,6 +54,7 @@ private:
 
   QStatusBar* _statusBar;
 };
-}
+
+//
 }
 }

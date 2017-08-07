@@ -15,7 +15,7 @@
 #include <Database/Connections/IConnection>
 #include <Database/Connections/IConnectionManager>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 
 #include <Models/ConnectionListModel>
 
@@ -111,8 +111,9 @@ connectSignals()
           this, SLOT(onTableViewMenuRequested(const QPoint&)));
 
   // -------- main window notification
-  using       Geo::Core::MainWindow;
-  MainWindow* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
+  using Geo::Core::IMainWindow;
+
+  IMainWindow* mainWindow = ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
   connect(this, SIGNAL(notifyMainWindow(QString)),
           mainWindow, SLOT(setStatus(QString)));

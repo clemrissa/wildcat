@@ -1,12 +1,17 @@
 #pragma once
 
+#include <memory>
+
 #include <QtCore/QObject>
 
 class QWidget;
 class QMenu;
 
-namespace Geo {
-namespace LogViewer {
+namespace Geo
+{
+namespace LogViewer
+{
+
 class LogViewerUiFactory : public QObject
 {
   Q_OBJECT
@@ -24,8 +29,12 @@ public:
   getLogViewerMenu();
 
 private:
+
   class Private;
-  Private* _p;
+
+  std::unique_ptr<Private> _p;
 };
+
+//
 }
 }

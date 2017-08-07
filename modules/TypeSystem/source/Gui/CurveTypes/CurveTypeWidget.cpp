@@ -16,7 +16,7 @@
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 
 #include <Models/ConnectionListModel>
 
@@ -161,8 +161,8 @@ connectSignals()
           _p->curveTypeModel,   SLOT(onClicked(const QModelIndex&)));
 
   // -------- main window notification
-  using Geo::Core::MainWindow;
-  auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
+  using Geo::Core::IMainWindow;
+  auto mainWindow = ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
   connect(this, SIGNAL(notifyMainWindow(QString)),
           mainWindow, SLOT(setStatus(QString)));

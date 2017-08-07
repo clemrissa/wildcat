@@ -9,12 +9,11 @@
 
 #include <ComponentManager/Creator>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 
 using Geo::LogViewer::LogViewerController;
 using Geo::LogViewer::LogViewerWidget;
 
-LogViewerController* LogViewerController::_instance = nullptr;
 
 LogViewerController::
 LogViewerController()
@@ -30,14 +29,13 @@ LogViewerController::
 }
 
 
-LogViewerController*
+LogViewerController&
 LogViewerController::
 instance()
 {
-  if (!_instance)
-    _instance = new LogViewerController();
+  static LogViewerController instance;
 
-  return _instance;
+  return instance;
 }
 
 
@@ -45,10 +43,10 @@ void
 LogViewerController::
 createLogViewer()
 {
-  using Geo::Core::MainWindow;
+  using Geo::Core::IMainWindow;
 
-  MainWindow* mainWindow =
-    ComponentManager::create<MainWindow*>("Core.MainWindow");
+  IMainWindow* mainWindow =
+    ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
   LogViewerWidget* logviewerWidget = new LogViewerWidget();
 

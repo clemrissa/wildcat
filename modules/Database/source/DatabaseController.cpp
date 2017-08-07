@@ -2,15 +2,15 @@
 
 #include <QtWidgets/QLabel>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 
 #include "Gui/ConnectionsEditorWidget/ConnectionsEditorWidgetModel.hpp"
 #include "Gui/ConnectionsEditorWidget/ConnectionsEditorWidget.hpp"
 #include "Gui/Traits/TraitsWidget.hpp"
 
-#include <ComponentManager/Creator>
-
 #include <Widgets/IConnectionDrivenWidget>
+
+#include <ComponentManager/Creator>
 
 namespace Geo
 {
@@ -31,7 +31,7 @@ void
 DatabaseController::
 showConnectionsWidget()
 {
-  using Geo::Core::MainWindow;
+  using Geo::Core::IMainWindow;
   using Geo::Database::Gui::ConnectionsEditorWidget::ConnectionsEditorWidget;
   using Model = Geo::Database::Gui::ConnectionsEditorWidgetModel;
 
@@ -41,7 +41,7 @@ showConnectionsWidget()
   auto databaseConnectionsWidget =
     new ConnectionsEditorWidget(databaseConnectionsTreeModel);
 
-  auto* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
+  auto* mainWindow = ComponentManager::create<IMainWindow*>("Core.MainWindow");
   mainWindow->toCentralWidget(databaseConnectionsWidget);
 }
 
@@ -50,18 +50,18 @@ void
 DatabaseController::
 showTraitsWidget()
 {
-  using Geo::Core::MainWindow;
+  using Geo::Core::IMainWindow;
   using Geo::Widgets::IConnectionDrivenWidget;
 
   auto settingsWidget =
     ComponentManager::create<IConnectionDrivenWidget*>("Widgets.ConnectionDrivenWidget");
 
-  using Geo::Database::Gui::Traits::TraitsWidget;
+  using Geo::Database::Gui::TraitsWidget;
   auto traitsWidget = new TraitsWidget();
 
   settingsWidget->setEditorWidget(traitsWidget);
 
-  auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
+  auto mainWindow = ComponentManager::create<IMainWindow*>("Core.MainWindow");
   mainWindow->toCentralWidget(settingsWidget);
 }
 

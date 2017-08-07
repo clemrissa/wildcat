@@ -11,10 +11,6 @@
 #include <Gui/Traits/WellTraitEntry.hpp>
 
 using Geo::Database::IConnection;
-using Geo::Database::Gui::Traits::TraitsWidget;
-using Geo::Database::Gui::Traits::TraitsWidgetModel;
-
-using Geo::Database::Gui::Traits::WellTraitItemDelegate;
 
 namespace Geo
 {
@@ -74,7 +70,7 @@ createUi()
 
   auto headerView = _p->traitsTable->horizontalHeader();
 
-  using Gui::Traits::WellTraitEntry;
+  using Gui::WellTraitEntry;
   headerView->setStretchLastSection(false);
   headerView->setSectionResizeMode(WellTraitEntry::Trait,
                                    QHeaderView::ResizeToContents);

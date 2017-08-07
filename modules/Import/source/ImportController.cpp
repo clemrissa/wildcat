@@ -15,7 +15,7 @@
 
 #include <ComponentManager/Creator>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 
 #include <vector>
 
@@ -42,8 +42,9 @@ void
 ImportController::
 selectFilesAndImport()
 {
-  using       Geo::Core::MainWindow;
-  MainWindow* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
+  using Geo::Core::IMainWindow;
+
+  IMainWindow* mainWindow = ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
   std::vector<QString> fileList =
     QFileDialog::getOpenFileNames(mainWindow,

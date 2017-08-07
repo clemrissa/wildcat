@@ -12,8 +12,8 @@
 #include "Gui/Traits/WellTraitEntry.hpp"
 
 
-using Geo::Database::Gui::Traits::WellTraitItemDelegate;
-using Geo::Database::Gui::Traits::WellTraitEntry;
+using Geo::Database::Gui::WellTraitItemDelegate;
+using Geo::Database::Gui::WellTraitEntry;
 
 QWidget*
 WellTraitItemDelegate::

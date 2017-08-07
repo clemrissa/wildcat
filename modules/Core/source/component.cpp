@@ -1,6 +1,6 @@
 #include <ComponentManager/ComponentRegistry>
 
-#include "Export.hpp"
+#include "CoreExport.hpp"
 
 #include "BasicMainWindow.hpp"
 
@@ -8,7 +8,8 @@ extern "C" {
 Core_PUBLIC void
 registerComponent()
 {
-  using Geo::Core::Private::BasicMainWindow;
+  using Geo::Core::BasicMainWindow;
+
   REGISTER_TYPE(BasicMainWindow);
 }
 }

@@ -2,7 +2,7 @@
 
 #include "WellTraitEntry.hpp"
 
-using Geo::Database::Gui::Traits::TraitsWidgetModel;
+using Geo::Database::Gui::TraitsWidgetModel;
 
 TraitsWidgetModel::
 TraitsWidgetModel()
@@ -15,8 +15,6 @@ TraitsWidgetModel::
 ~TraitsWidgetModel()
 {
   deleteMarkedEntries();
-
-  qDeleteAll(_entries);
 }
 
 
@@ -108,7 +106,7 @@ setData(const QModelIndex& index,
         // we add one more empty trait
         WellTrait::Shared emptyTrait(new WellTrait());
 
-        _entries.push_back(new WellTraitEntry(emptyTrait));
+        _entries.push_back(std::make_unique<WellTraitEntry>(emptyTrait));
       }
       endResetModel();
     }
@@ -132,7 +130,7 @@ index(int row, int column, const QModelIndex& parent) const
   {
     WellTraitEntry* entry = ((unsigned)row == _entries.size()) ?
                             nullptr :
-                            _entries[row];
+                            _entries[row].get();
 
     return QAbstractItemModel::createIndex(row, column, entry);
   }
@@ -240,7 +238,7 @@ onClicked(const QModelIndex& index)
       index.column() == WellTraitEntry::CloseAction &&
       (unsigned)index.row() != _entries.size() - 1)
   {
-    auto wellTraitEntry = _entries[index.row()];
+    auto const & wellTraitEntry = _entries[index.row()];
 
     wellTraitEntry->switchState();
 
@@ -260,8 +258,7 @@ reloadTraits()
 
   beginResetModel();
   {
-    qDeleteAll(_entries);
-    _entries.resize(0);
+    _entries.clear();
 
     using Geo::Domain::WellTrait;
 
@@ -272,12 +269,12 @@ reloadTraits()
     std::vector<WellTrait::Shared> traits = wellTraitAccess->findAll();
 
     for (WellTrait::Shared t : traits)
-      _entries.push_back(new WellTraitEntry(t));
+      _entries.push_back(std::make_unique<WellTraitEntry>(t));
 
     // we add one more empty trait
     WellTrait::Shared emptyTrait(new WellTrait());
 
-    _entries.push_back(new WellTraitEntry(emptyTrait));
+    _entries.push_back(std::make_unique<WellTraitEntry>(emptyTrait));
   }
   endResetModel();
 }
@@ -294,7 +291,7 @@ deleteMarkedEntries()
 
   auto wellTraitAccess = dataAccessFactory->wellTraitAccess();
 
-  for (WellTraitEntry* entry : _entries)
+  for (std::unique_ptr<WellTraitEntry> const & entry : _entries)
     if (entry->getPersisted() &&
         entry->getState() == WellTraitEntry::Deleted)
       wellTraitAccess->remove(entry->trait());

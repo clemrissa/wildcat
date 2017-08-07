@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
 #include <QtCore/QAbstractItemModel>
@@ -8,24 +9,20 @@
 #include "Connections/IConnection.hpp"
 #include "Mixin/ConnectionAcceptor.hpp"
 
-
 namespace Geo
 {
 namespace Database
 {
 namespace Gui
 {
-namespace Traits
-{
-//
 
 class WellTraitEntry;
 
 //
 
-class TraitsWidgetModel :
-  public QAbstractItemModel,
-  public Database::Mixin::ConnectionAcceptor
+class TraitsWidgetModel
+  : public QAbstractItemModel
+  , public Database::Mixin::ConnectionAcceptor
 {
   Q_OBJECT
 
@@ -85,11 +82,10 @@ private:
   // database traits
   std::shared_ptr<IConnection> _connection;
 
-  std::vector<WellTraitEntry*> _entries;
+  std::vector<std::unique_ptr<WellTraitEntry> > _entries;
 };
 
 //
-}
 }
 }
 }

@@ -7,7 +7,7 @@
 
 #include <QtCore/QList>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 
 #include <ComponentManager/Creator>
 
@@ -18,7 +18,7 @@ using Geo::Database::DatabaseUiFactory;
 DatabaseUiFactory::
 DatabaseUiFactory()
 {
-  //
+  createDatabaseMenu();
 }
 
 
@@ -31,16 +31,9 @@ DatabaseUiFactory::
 
 QMenu*
 DatabaseUiFactory::
-createDatabaseMenu()
+databaseMenu() const
 {
-  QMenu* menu = new QMenu(tr("Database"));
-
-  auto actionList = createActionList();
-
-  for (QAction* action : actionList)
-    menu->addAction(action);
-
-  return menu;
+  return _databaseMenu;
 }
 
 
@@ -52,13 +45,26 @@ createDatabaseToolBar()
 }
 
 
+void
+DatabaseUiFactory::
+createDatabaseMenu()
+{
+  _databaseMenu = new QMenu(tr("Database"));
+
+  auto actionList = createActionList();
+
+  for (QAction* action : actionList)
+    _databaseMenu->addAction(action);
+}
+
+
 std::vector<QAction*>
 DatabaseUiFactory::
 createActionList() const
 {
-  using Geo::Core::MainWindow;
+  using Geo::Core::IMainWindow;
 
-  MainWindow* mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
+  IMainWindow* mainWindow = ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
   DatabaseController& in = DatabaseController::instance();
 

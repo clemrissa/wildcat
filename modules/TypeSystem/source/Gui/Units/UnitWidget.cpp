@@ -16,7 +16,7 @@
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
 
-#include <Core/MainWindow>
+#include <Core/IMainWindow>
 
 #include <ComponentManager/Creator>
 #include <Models/ConnectionListModel>
@@ -154,8 +154,8 @@ connectSignals()
           _p->unitsModel,   SLOT(onClicked(const QModelIndex&)));
 
   // -------- main window notification
-  using Geo::Core::MainWindow;
-  auto mainWindow = ComponentManager::create<MainWindow*>("Core.MainWindow");
+  using Geo::Core::IMainWindow;
+  auto mainWindow = ComponentManager::create<IMainWindow*>("Core.MainWindow");
 
   connect(this, SIGNAL(notifyMainWindow(QString)),
           mainWindow, SLOT(setStatus(QString)));

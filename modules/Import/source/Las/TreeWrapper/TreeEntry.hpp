@@ -43,9 +43,9 @@ public:
 
 public:
   TreeEntry(std::shared_ptr<LasFile> lasFile,
-            TreeEntry*      parent = nullptr) :
-    _parent(parent),
-    _lasFile(lasFile)
+            TreeEntry*      parent = nullptr)
+    : _parent(parent)
+    , _lasFile(lasFile)
   {
     //
   }
@@ -56,7 +56,7 @@ public:
   TreeEntry*
   parent() { return _parent; }
 
-  std::vector<std::unique_ptr<TreeEntry>> const &
+  std::vector<std::unique_ptr<TreeEntry> > const &
   entries() const { return _entries; }
 
   int
@@ -103,7 +103,7 @@ protected:
 
   std::shared_ptr<IConnection> _connection;
 
-  std::vector<std::unique_ptr<TreeEntry>> _entries;
+  std::vector<std::unique_ptr<TreeEntry> > _entries;
 };
 }
 }

@@ -3,8 +3,9 @@
 #include <vector>
 
 #include <QtCore/QObject>
-
 #include <QtWidgets/QWidget>
+
+#include "DatabaseExport.hpp"
 
 class QMenu;
 class QToolBar;
@@ -21,7 +22,7 @@ namespace Database
  * The class functions `createDatabaseMenu` and `createDatabaseToolBar`
  * are called automatically after json processing.
  */
-class DatabaseUiFactory : public QObject
+class Database_PUBLIC DatabaseUiFactory : public QObject
 {
   Q_OBJECT
 
@@ -32,10 +33,10 @@ public:
   virtual
   ~DatabaseUiFactory();
 
-  /// Called from json
+  /// Factory method called from json
   Q_INVOKABLE
   QMenu*
-  createDatabaseMenu();
+  databaseMenu() const;
 
   /// Called from json
   Q_INVOKABLE
@@ -44,8 +45,15 @@ public:
 
 private:
 
+  void
+  createDatabaseMenu();
+
   std::vector<QAction*>
   createActionList() const;
+
+private:
+
+  QMenu *_databaseMenu = nullptr;
 };
 }
 }
