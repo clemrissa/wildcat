@@ -47,6 +47,8 @@ ConnectionListModel::
 index(int row, int column, const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
+
+  Q_ASSERT_X(row < _entries.size(), "ConnectionListModel", "Incorrect number of connections");
   return QAbstractItemModel::createIndex(row, column, _entries[row].get());
 }
 
@@ -76,6 +78,7 @@ ConnectionListModel::
 rowCount(QModelIndex const & parent) const
 {
   Q_UNUSED(parent);
+
   return _connectionsManager->size();
 }
 
